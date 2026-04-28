@@ -498,15 +498,15 @@ body {
       <p class="sec-label" id="lbl-appearance">Apariencia</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl" id="lbl-darkmode">Modo Oscuro</span>
+          <span class="set-lbl" data-i18n="darkMode">Modo Oscuro</span>
           <label class="toggle">
             <input type="checkbox" id="dark-toggle" onchange="toggleDark(this.checked)">
             <div class="toggle-track"></div>
           </label>
         </div>
         <div class="set-row">
-          <span class="set-lbl" id="lbl-theme">Tema</span>
-          <div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl" id="lbl-lang">Idioma</span>
+          <span class="set-lbl" data-i18n="theme">Tema</span>
+          <div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl" data-i18n="language">Idioma</span>
           <div style="display:flex;gap:6px">
             <button id="lang-en" onclick="setIdioma('en')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
@@ -520,24 +520,24 @@ body {
         </div>
       </div>
 
-      <p class="sec-label" id="sec-vst">Conexión VST</p>
+      <p class="sec-label" id="sec-vst" data-i18n="connection">Conexión VST</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl" id="lbl-vst">Plugin VST3</span>
+          <span class="set-lbl" data-i18n="vst">Plugin VST3</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-vst"></div><span class="slbl" id="slbl-vst">Disconnected</span></div>
         </div>
         <div class="set-row">
-          <span class="set-lbl" id="lbl-ws">WebSocket Bridge</span>
+          <span class="set-lbl" data-i18n="vstBridge">WebSocket Bridge</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-ws"></div><span class="slbl" id="slbl-ws">No connection</span></div>
         </div>
-        <div class="set-row"><span class="set-lbl" id="lbl-port">Puerto UDP</span><span class="set-val">8765</span></div>
+        <div class="set-row"><span class="set-lbl" data-i18n="vstPort">Puerto UDP</span><span class="set-val">8765</span></div>
       </div>
 
-      <p class="sec-label" id="sec-metrics">Métricas en Vivo</p>
+      <p class="sec-label" id="sec-metrics" data-i18n="liveMetrics">Métricas en Vivo</p>
       <div class="set-group">
         <div class="set-row"><span class="set-lbl">RMS</span><span class="set-val" id="s-rms">—</span></div>
         <div class="set-row"><span class="set-lbl">Peak</span><span class="set-val" id="s-peak">—</span></div>
-        <div class="set-row"><span class="set-lbl" id="lbl-received">Muestras recibidas</span><span class="set-val" id="s-cnt">0</span></div>
+        <div class="set-row"><span class="set-lbl" data-i18n="received">Muestras recibidas</span><span class="set-val" id="s-cnt">0</span></div>
       </div>
 
       <p class="sec-label">Account</p>
@@ -556,7 +556,7 @@ body {
         </div>
       </div>
 
-      <p class="sec-label" id="sec-projlogs">Registros de Proyecto</p>
+      <p class="sec-label" id="sec-projlogs" data-i18n="projectLogs">Registros de Proyecto</p>
       <div class="set-group">
         <div class="set-row" id="clear-logs-row" style="cursor:pointer;display:block;padding:0">
           <div style="padding:14px 16px">
@@ -568,7 +568,7 @@ body {
           </div>
         </div>
         <div class="set-row" style="padding:14px 16px;border-top:1px solid var(--border)">
-          <button id="reset-all-btn" onclick="resetAllProjects()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Resetear Todos los Proyectos</button>
+          <button id="reset-all-btn" onclick="resetAllProjects()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer" data-i18n="resetAll">Resetear Todos los Proyectos</button>
         </div>
       </div>
       <div class="spacer"></div>
@@ -649,9 +649,9 @@ body {
         <div id="inner-notes" style="display:none">
           <p class="sec-label">Add Note</p>
           <textarea id="note-input" class="notes-area"
-            placeholder="Escribe tu nota aquí..."
+            data-i18n="writeNote" placeholder="Escribe tu nota aquí..."
             style="width:100%;min-height:100px;margin-bottom:8px"></textarea>
-          <button onclick="addNote()" class="btn-primary" style="margin-bottom:20px">+ Agregar Nota</button>
+          <button onclick="addNote()" class="btn-primary" style="margin-bottom:20px" data-i18n="addNote">+ Agregar Nota</button>
           <p class="sec-label">Your Notes</p>
           <div id="notes-list"></div>
           <div class="spacer"></div>
@@ -673,7 +673,7 @@ body {
           <rect x="12" y="12" width="8" height="8" rx="2.5" fill="currentColor" opacity="0.7"/>
         </svg>
       </div>
-      Projects
+      <span data-i18n="projects">Projects</span>
     </button>
     <button class="tab-btn" data-tab="charts" onclick="switchTab('charts')">
       <div class="tab-icon">
@@ -683,7 +683,7 @@ body {
           <rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor" opacity="0.5"/>
         </svg>
       </div>
-      Charts
+      <span data-i18n="charts">Charts</span>
     </button>
     <button class="tab-btn" data-tab="logs" onclick="switchTab('logs')">
       <div class="tab-icon">
@@ -716,9 +716,9 @@ body {
 <div class="modal-overlay" id="modal-proj" onclick="void(0)">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Nuevo Proyecto</div>
+    <div class="modal-title" data-i18n="newProject">Nuevo Proyecto</div>
     <div class="form-group">
-      <label class="form-label">Nombre del Proyecto</label>
+      <label class="form-label" data-i18n="projectName">Nombre del Proyecto</label>
       <input type="text" class="form-input" id="f-name" placeholder="e.g. Midnight Sessions Vol.1">
     </div>
     <div class="form-row">
@@ -761,7 +761,7 @@ body {
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">Artista / Compositor</label>
+      <label class="form-label" data-i18n="artist">Artista / Compositor</label>
       <input type="text" class="form-input" id="f-artist" placeholder="Artist name">
     </div>
 
@@ -781,8 +781,8 @@ body {
     </div>
 
     <div id="proj-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
-    <button class="btn-primary" onclick="createProject()">Crear Proyecto</button>
-    <button class="btn-ghost"    onclick="closeModal('modal-proj')">Cancelar</button>
+    <button class="btn-primary" onclick="createProject()" data-i18n="create">Crear Proyecto</button>
+    <button class="btn-ghost"    onclick="closeModal('modal-proj')" data-i18n="cancel">Cancelar</button>
   </div>
 </div>
 
@@ -790,7 +790,7 @@ body {
 <div class="modal-overlay" id="modal-stage">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">¿En qué etapa trabajas hoy?</div>
+    <div class="modal-title"><span data-i18n="stageQuestion">¿En qué etapa trabajas hoy?</span></div>
     <div class="stage-opt" onclick="selectStage('production')">
       <div class="stage-ico ico-prod">🎹</div>
       <div class="stage-info"><h3>Production</h3><p>Estructura del beat, arreglos, diseño de sonido</p></div>
@@ -803,7 +803,7 @@ body {
       <div class="stage-ico ico-mast">💿</div>
       <div class="stage-info"><h3>Mastering</h3><p>Limitación, LUFS, exportación final</p></div>
     </div>
-    <button class="btn-ghost" onclick="closeModal('modal-stage')">Cancelar</button>
+    <button class="btn-ghost" onclick="closeModal('modal-stage')" data-i18n="cancel">Cancelar</button>
   </div>
 </div>
 
@@ -923,6 +923,7 @@ const LANG = {
     vstLive:'VST LIVE', vstOffline:'VST OFFLINE', noConnection:'No connection',
     duplicateName:'A project with that name already exists.',
     enterName:'Please enter a project name.', selectStage:'Select at least one stage.',
+    stageQuestion:'What stage are you working on?',
     spectrumRef:'Spectrum References', tapToggle:'Tap card to toggle EQ / Pan',
   },
   es: {
@@ -950,6 +951,7 @@ const LANG = {
     vstLive:'VST EN VIVO', vstOffline:'VST SIN CONEXIÓN', noConnection:'Sin conexión',
     duplicateName:'Ya existe un proyecto con ese nombre.',
     enterName:'Escribe el nombre del proyecto.', selectStage:'Selecciona al menos una etapa.',
+    stageQuestion:'¿En qué etapa trabajas hoy?',
     spectrumRef:'Referencias de Espectro', tapToggle:'Toca la tarjeta para cambiar EQ / Pan',
   }
 };
@@ -969,70 +971,28 @@ function setIdioma(lang) {
 }
 
 function applyIdioma() {
-  // ── Tab bar ───────────────────────────────────────
-  [{tab:'projects',key:'projects'},{tab:'charts',key:'charts'},{tab:'logs',key:'logs'},{tab:'settings',key:'settings'}].forEach(({tab,key}) => {
-    const btn = document.querySelector('[data-tab="' + tab + '"]');
-    if (!btn) return;
-    // Tab buttons have text node as last child
-    const nodes = Array.from(btn.childNodes);
-    const textNode = nodes.find(n => n.nodeType === 3 && n.textContent.trim());
-    if (textNode) textNode.textContent = ' ' + t(key).toUpperCase();
+  // Update every element that has data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = val;
+    } else {
+      el.textContent = val;
+    }
   });
-
-  // ── Header badge ──────────────────────────────────
+  // Update data-i18n-html (for elements with inner HTML)
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    el.title = t(el.getAttribute('data-i18n-title'));
+  });
+  // VST live status (dynamic — override with current state)
   const hdrLbl = document.getElementById('hdr-lbl');
   if (hdrLbl) hdrLbl.textContent = state.vstOn ? t('vstLive') : t('vstOffline');
-
-  // ── VST status in settings ────────────────────────
   const slblVst = document.getElementById('slbl-vst');
   const slblWs  = document.getElementById('slbl-ws');
   if (slblVst) slblVst.textContent = state.vstOn ? t('vstConnected') : t('vstDisconnected');
   if (slblWs)  slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
-
-  // ── Settings section labels ───────────────────────
-  const labelMap = {
-    'sec-appearance':'appearance', 'sec-vst':'connection',
-    'sec-metrics':'liveMetrics',   'sec-account':'account',
-    'sec-projlogs':'projectLogs',
-  };
-  Object.entries(labelMap).forEach(([id,key]) => {
-    const el = document.getElementById(id); if(el) el.textContent = t(key);
-  });
-
-  // ── Settings row labels ───────────────────────────
-  const rowMap = {
-    'lbl-darkmode':'darkMode', 'lbl-lang':'language', 'lbl-theme':'theme',
-    'lbl-vst':'vst',           'lbl-ws':'vstBridge',  'lbl-port':'vstPort',
-    'lbl-received':'received', 'lbl-signout':'signOut',
-    'lbl-clearall':'resetAll', 'lbl-projlogs-lbl':'projectLogs',
-  };
-  Object.entries(rowMap).forEach(([id,key]) => {
-    const el = document.getElementById(id); if(el) el.textContent = t(key);
-  });
-
-  // ── Settings buttons ──────────────────────────────
-  const clearBtn = document.getElementById('btn-clear-logs');
-  const resetBtn = document.getElementById('reset-all-btn');
-  const addNoteBtn = document.getElementById('add-note-btn');
-  const noteInp    = document.getElementById('note-input');
-  if (clearBtn)    clearBtn.textContent    = t('clearLogs');
-  if (resetBtn)    resetBtn.textContent    = t('resetAll');
-  if (addNoteBtn)  addNoteBtn.textContent  = t('addNote');
-  if (noteInp)     noteInp.placeholder     = t('writeNote');
-
-  // ── Inner workspace tabs ──────────────────────────
-  const itabSteps = document.getElementById('itab-steps');
-  const itabAi    = document.getElementById('itab-ai');
-  const itabNotes = document.getElementById('itab-notes');
-  if (itabSteps) itabSteps.textContent = t('steps');
-  if (itabAi)    itabAi.textContent    = t('aiNotes');
-  if (itabNotes) itabNotes.textContent = t('otherNotes');
-
-  // ── FAB tooltip (new project button) ─────────────
-  const fab = document.getElementById('fab');
-  if (fab) fab.title = t('newProject');
-
-  // ── Re-render dynamic content ─────────────────────
+  // Re-render dynamic lists
   renderProjects();
   renderLogs();
   if (state.active) {
@@ -1042,6 +1002,7 @@ function applyIdioma() {
     renderManualNotes();
   }
 }
+
 
 function getProjectPct(p) {
   const stages = Array.isArray(p.stages) && p.stages.length ? p.stages : ['mix'];
@@ -2333,10 +2294,10 @@ connectWS();
 <div class="modal-overlay" id="modal-edit-proj">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Editar Proyecto</div>
+    <div class="modal-title" data-i18n="editProject">Editar Proyecto</div>
     <input type="hidden" id="ep-id">
     <div class="form-group">
-      <label class="form-label">Nombre del Proyecto</label>
+      <label class="form-label" data-i18n="projectName">Nombre del Proyecto</label>
       <input type="text" class="form-input" id="ep-name">
     </div>
     <div class="form-row">
@@ -2368,14 +2329,14 @@ connectWS();
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">Artista / Compositor</label>
+      <label class="form-label" data-i18n="artist">Artista / Compositor</label>
       <input type="text" class="form-input" id="ep-artist">
     </div>
     <div id="ep-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
-    <button class="btn-primary" onclick="saveEditProject()">Guardar Cambios</button>
+    <button class="btn-primary" onclick="saveEditProject()" data-i18n="save">Guardar Cambios</button>
     <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px"
-      onclick="deleteProject(document.getElementById('ep-id').value)">Eliminar Proyecto</button>
-    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancelar</button>
+      onclick="deleteProject(document.getElementById('ep-id').value)" data-i18n="delete">Eliminar Proyecto</button>
+    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')" data-i18n="cancel">Cancelar</button>
   </div>
 </div>
 
@@ -2409,7 +2370,7 @@ connectWS();
       </label>
     </div>
     <button class="btn-primary" onclick="saveEditStages()">Guardar</button>
-    <button class="btn-ghost"   onclick="closeModal('modal-edit-stages')">Cancelar</button>
+    <button class="btn-ghost"   onclick="closeModal('modal-edit-stages')" data-i18n="cancel">Cancelar</button>
   </div>
 </div>
 
@@ -2500,7 +2461,7 @@ connectWS();
     </div>
 
     <div style="text-align:right;margin-bottom:12px">
-      <span id="forgot-btn" onclick="forgotPassword()" style="font-size:12px;color:var(--accent);cursor:pointer">¿Olvidaste tu contraseña?</span>
+      <span id="forgot-btn" onclick="forgotPassword()" style="font-size:12px;color:var(--accent);cursor:pointer" data-i18n="forgotPassword">¿Olvidaste tu contraseña?</span>
     </div>
 
     <div id="login-error" style="font-size:12px;min-height:16px;margin-bottom:10px;text-align:center;color:var(--danger)"></div>
