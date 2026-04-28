@@ -1154,6 +1154,10 @@ function applyIdioma() {
     renderSteps();
     renderAINotes();
     renderManualNotes();
+    // Refresh inner tab labels
+    const activeInner = document.querySelector('#inner-steps[style*="block"]') ? 'steps'
+      : document.querySelector('#inner-ai[style*="block"]') ? 'ai' : 'notes';
+    switchInnerTab(activeInner);
   }
   // Also update workspace stage label in header
   const wsStageEl = document.getElementById('ws-stage');
@@ -1788,12 +1792,14 @@ function switchInnerTab(tab) {
     const el = document.getElementById('inner-' + t);
     if (el) el.style.display = t === tab ? 'block' : 'none';
   });
-  ['itab-steps','itab-ai','itab-notes'].forEach(id => {
-    const btn = document.getElementById(id);
+  const tabLabels = { steps: t('steps'), ai: t('aiNotes'), notes: t('otherNotes') };
+  ['steps','ai','notes'].forEach(id => {
+    const btn = document.getElementById('itab-' + id);
     if (!btn) return;
-    const active = id === 'itab-' + tab;
-    btn.style.background  = active ? 'var(--accent)' : 'transparent';
-    btn.style.color       = active ? '#fff'           : 'var(--text3)';
+    const active = id === tab;
+    btn.style.background = active ? 'var(--accent)' : 'transparent';
+    btn.style.color      = active ? '#fff'           : 'var(--text3)';
+    btn.textContent      = tabLabels[id];
   });
   if (tab === 'ai')    renderAINotes();
   if (tab === 'notes') renderManualNotes();
