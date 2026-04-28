@@ -1926,9 +1926,9 @@ function openDetail(stepId) {
   const det = STEP_DETAILS[stepId];
   if (!det) return;
 
-  // Find the step object
+  // Find the step object — use getSTEPS() since STEPS is a Proxy
   let step = null;
-  for (const stage of Object.values(STEPS)) {
+  for (const stage of Object.values(getSTEPS())) {
     step = stage.find(s => s.id === stepId);
     if (step) break;
   }
