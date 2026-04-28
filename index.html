@@ -504,10 +504,6 @@ body {
             <div class="toggle-track"></div>
           </label>
         </div>
-        <div class="set-row">
-          <span class="set-lbl">Language</span>
-          <div style="display:flex;gap:6px"><button id="lang-en" onclick="setLanguage('en')" style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff">EN</button><button id="lang-es" onclick="setLanguage('es')" style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;background:var(--panel3);color:var(--text2)">ES</button></div>
-        </div>
       </div>
 
       <p class="sec-label">VST Connection</p>
@@ -862,9 +858,6 @@ if (auth) {
 </script>
 
 <script>
-let currentLang=localStorage.getItem('tew_lang')||'en';
-function setLanguage(lang){currentLang=lang;localStorage.setItem('tew_lang',lang);const e=document.getElementById('lang-en'),s=document.getElementById('lang-es');if(e){e.style.background=lang==='en'?'var(--accent)':'var(--panel3)';e.style.color=lang==='en'?'#fff':'var(--text2)';}if(s){s.style.background=lang==='es'?'var(--accent)':'var(--panel3)';s.style.color=lang==='es'?'#fff':'var(--text2)';}}
-
 function getProjectPct(p) {
   const stages = Array.isArray(p.stages) && p.stages.length ? p.stages : ['mix'];
   let total = 0, done = 0;
@@ -2031,7 +2024,7 @@ function openInstrumentDetail(key) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function connectWS() {
   let ws;
-  try { const wsUrl = location.hostname === 'localhost' || location.hostname.match(/^192\./) ? 'ws://' + location.hostname + ':8766' : 'wss://tew-bridge.onrender.com'; ws = new WebSocket(wsUrl); } catch(e) { return; }
+  try { ws = new WebSocket('ws://' + location.hostname + ':8766'); } catch(e) { return; }
 
   ws.onopen = () => {
     state.wsOn = true;
