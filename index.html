@@ -505,8 +505,8 @@ body {
           </label>
         </div>
         <div class="set-row">
-          <span class="set-lbl">Tema</span>
-          <div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl">Idioma</span>
+          <span class="set-lbl" id="lbl-theme">Tema</span>
+          <div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl" id="lbl-lang">Idioma</span>
           <div style="display:flex;gap:6px">
             <button id="lang-en" onclick="setIdioma('en')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
@@ -520,24 +520,24 @@ body {
         </div>
       </div>
 
-      <p class="sec-label">Conexión VST</p>
+      <p class="sec-label" id="sec-vst">Conexión VST</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl">Plugin VST3</span>
+          <span class="set-lbl" id="lbl-vst">Plugin VST3</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-vst"></div><span class="slbl" id="slbl-vst">Disconnected</span></div>
         </div>
         <div class="set-row">
-          <span class="set-lbl">WebSocket Bridge</span>
+          <span class="set-lbl" id="lbl-ws">WebSocket Bridge</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-ws"></div><span class="slbl" id="slbl-ws">No connection</span></div>
         </div>
-        <div class="set-row"><span class="set-lbl">Puerto UDP</span><span class="set-val">8765</span></div>
+        <div class="set-row"><span class="set-lbl" id="lbl-port">Puerto UDP</span><span class="set-val">8765</span></div>
       </div>
 
-      <p class="sec-label">Métricas en Vivo</p>
+      <p class="sec-label" id="sec-metrics">Métricas en Vivo</p>
       <div class="set-group">
         <div class="set-row"><span class="set-lbl">RMS</span><span class="set-val" id="s-rms">—</span></div>
         <div class="set-row"><span class="set-lbl">Peak</span><span class="set-val" id="s-peak">—</span></div>
-        <div class="set-row"><span class="set-lbl">Muestras recibidas</span><span class="set-val" id="s-cnt">0</span></div>
+        <div class="set-row"><span class="set-lbl" id="lbl-received">Muestras recibidas</span><span class="set-val" id="s-cnt">0</span></div>
       </div>
 
       <p class="sec-label">Account</p>
@@ -556,7 +556,7 @@ body {
         </div>
       </div>
 
-      <p class="sec-label">Registros de Proyecto</p>
+      <p class="sec-label" id="sec-projlogs">Registros de Proyecto</p>
       <div class="set-group">
         <div class="set-row" id="clear-logs-row" style="cursor:pointer;display:block;padding:0">
           <div style="padding:14px 16px">
@@ -974,21 +974,73 @@ function setIdioma(lang) {
 }
 
 function applyIdioma() {
-  // Tab bar
-  const tabLabels = ['projects','charts','logs','settings'];
-  tabLabels.forEach(tab => {
+  // ── Tab bar ───────────────────────────────────────
+  [{tab:'projects',key:'projects'},{tab:'charts',key:'charts'},{tab:'logs',key:'logs'},{tab:'settings',key:'settings'}].forEach(({tab,key}) => {
     const btn = document.querySelector('[data-tab="' + tab + '"]');
-    if (btn) btn.lastChild.textContent = ' ' + t(tab).toUpperCase();
+    if (!btn) return;
+    // Tab buttons have text node as last child
+    const nodes = Array.from(btn.childNodes);
+    const textNode = nodes.find(n => n.nodeType === 3 && n.textContent.trim());
+    if (textNode) textNode.textContent = ' ' + t(key).toUpperCase();
   });
-  // Header
+
+  // ── Header badge ──────────────────────────────────
   const hdrLbl = document.getElementById('hdr-lbl');
-  if (hdrLbl && !hdrLbl.classList.contains('live')) hdrLbl.textContent = 'VST OFFLINE';
-  // Re-render current screen
+  if (hdrLbl) hdrLbl.textContent = state.vstOn ? t('vstLive') : t('vstOffline');
+
+  // ── VST status in settings ────────────────────────
+  const slblVst = document.getElementById('slbl-vst');
+  const slblWs  = document.getElementById('slbl-ws');
+  if (slblVst) slblVst.textContent = state.vstOn ? t('vstConnected') : t('vstDisconnected');
+  if (slblWs)  slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
+
+  // ── Settings section labels ───────────────────────
+  const labelMap = {
+    'sec-appearance':'appearance', 'sec-vst':'connection',
+    'sec-metrics':'liveMetrics',   'sec-account':'account',
+    'sec-projlogs':'projectLogs',
+  };
+  Object.entries(labelMap).forEach(([id,key]) => {
+    const el = document.getElementById(id); if(el) el.textContent = t(key);
+  });
+
+  // ── Settings row labels ───────────────────────────
+  const rowMap = {
+    'lbl-darkmode':'darkMode', 'lbl-lang':'language', 'lbl-theme':'theme',
+    'lbl-vst':'vst',           'lbl-ws':'vstBridge',  'lbl-port':'vstPort',
+    'lbl-received':'received', 'lbl-signout':'signOut',
+    'lbl-clearall':'resetAll', 'lbl-projlogs-lbl':'projectLogs',
+  };
+  Object.entries(rowMap).forEach(([id,key]) => {
+    const el = document.getElementById(id); if(el) el.textContent = t(key);
+  });
+
+  // ── Settings buttons ──────────────────────────────
+  const clearBtn = document.getElementById('btn-clear-logs');
+  const resetBtn = document.getElementById('reset-all-btn');
+  const addNoteBtn = document.getElementById('add-note-btn');
+  const noteInp    = document.getElementById('note-input');
+  if (clearBtn)    clearBtn.textContent    = t('clearLogs');
+  if (resetBtn)    resetBtn.textContent    = t('resetAll');
+  if (addNoteBtn)  addNoteBtn.textContent  = t('addNote');
+  if (noteInp)     noteInp.placeholder     = t('writeNote');
+
+  // ── Inner workspace tabs ──────────────────────────
+  const itabSteps = document.getElementById('itab-steps');
+  const itabAi    = document.getElementById('itab-ai');
+  const itabNotes = document.getElementById('itab-notes');
+  if (itabSteps) itabSteps.textContent = t('steps');
+  if (itabAi)    itabAi.textContent    = t('aiNotes');
+  if (itabNotes) itabNotes.textContent = t('otherNotes');
+
+  // ── FAB tooltip (new project button) ─────────────
+  const fab = document.getElementById('fab');
+  if (fab) fab.title = t('newProject');
+
+  // ── Re-render dynamic content ─────────────────────
   renderProjects();
   renderLogs();
-  // Inner tabs if workspace open
-  const ws = document.getElementById('workspace');
-  if (ws && ws.style.display === 'block') {
+  if (state.active) {
     renderStageTabs();
     renderSteps();
     renderAINotes();
