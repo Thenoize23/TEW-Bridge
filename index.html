@@ -14,6 +14,8 @@
 /* ── Theme variables ─────────────────────────── */
 :root {
   --tab-bg:      #0f1f3d;
+  --gold:        transparent;
+  --gold-border: none;
   --tab-active:  #4a9eff;
   --tab-inactive:#5a7ab0;
   --panel:       #ffffff;
@@ -495,14 +497,41 @@ body {
 
     <!-- SETTINGS -->
     <div id="screen-settings" class="screen">
-      <p class="sec-label">Appearance</p>
+      <p class="sec-label" id="lbl-appearance">Appearance</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl">Dark Mode</span>
+          <span class="set-lbl" id="lbl-darkmode">Dark Mode</span>
           <label class="toggle">
             <input type="checkbox" id="dark-toggle" onchange="toggleDark(this.checked)">
             <div class="toggle-track"></div>
           </label>
+        </div>
+        <div class="set-row">
+          <span class="set-lbl">Language</span>
+          <div style="display:flex;gap:6px">
+            <button id="lang-en" onclick="setLanguage('en')"
+              style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
+                     font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
+                     background:var(--accent);color:#fff">EN</button>
+            <button id="lang-es" onclick="setLanguage('es')"
+              style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
+                     font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
+                     background:var(--panel3);color:var(--text2)">ES</button>
+          </div>
+        </div>
+        <div class="set-row">
+          <span class="set-lbl">Theme</span>
+          <div style="display:flex;gap:6px">
+            <button id="skin-tew" onclick="setSkin('tew')"
+              style="border:1px solid var(--border);border-radius:8px;padding:6px 10px;
+                     font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;
+                     transition:all 0.2s;background:var(--accent);color:#fff">TEW</button>
+            <button id="skin-dnoiz3" onclick="setSkin('dnoiz3')"
+              style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;
+                     font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;
+                     transition:all 0.2s;background:var(--panel3);color:var(--text2);
+                     background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button>
+          </div>
         </div>
       </div>
 
@@ -696,7 +725,7 @@ body {
 </div>
 
 <!-- FAB -->
-<button class="fab" id="fab" onclick="openNewProject();setTimeout(()=>updateSubgenre('f'),50)">+</button>
+<button class="fab" id="fab" onclick="openNewProject()">+</button>
 
 <!-- Modal: New Project -->
 <div class="modal-overlay" id="modal-proj" onclick="void(0)">
@@ -709,23 +738,23 @@ body {
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
-          Genre
-          <label style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--text2);cursor:pointer">
-            <input type="checkbox" id="f-genre-check" onchange="toggleCustomGenre('f')" style="accent-color:var(--accent)">
-            Custom
-          </label>
-        </label>
-        <select class="form-input" id="f-genre" onchange="updateSubgenre('f')">
-          <option>Electronic</option><option>Urban</option><option>Pop</option>
-          <option>Rock</option><option>Latin</option><option>Jazz &amp; Soul</option><option>Other</option>
-        </select>
-        <input type="text" class="form-input" id="f-genre-custom"
-          placeholder="Type your genre..." style="display:none;margin-top:6px">
+        <label class="form-label">Genre</label>
+        <input type="text" class="form-input" id="f-genre"
+          placeholder="e.g. Electronic, Trap, Progressive House..."
+          oninput="updateSubgenre('f')"
+          autocomplete="off"
+          list="f-genre-list">
+        <datalist id="f-genre-list">
+          <option value="Electronic"><option value="Trap"><option value="Hip-Hop"><option value="R&B"><option value="Pop"><option value="Rock"><option value="Latin"><option value="Jazz"><option value="Soul"><option value="Urban"><option value="House"><option value="Afrobeats"><option value="Reggaeton"><option value="Other">
+        </datalist>
       </div>
-      <div class="form-group" id="f-subgenre-wrap">
-        <label class="form-label">Subgenre</label>
-        <select class="form-input" id="f-subgenre"></select>
+      <div class="form-group">
+        <label class="form-label">Subgenre <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+        <input type="text" class="form-input" id="f-subgenre"
+          placeholder="e.g. Progressive House, Melodic Trap..."
+          autocomplete="off"
+          list="f-subgenre-list">
+        <datalist id="f-subgenre-list"></datalist>
       </div>
       <div class="form-group">
         <label class="form-label">BPM</label>
@@ -766,6 +795,7 @@ body {
       </div>
     </div>
 
+    <div id="proj-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
     <button class="btn-primary" onclick="createProject()">Create Project</button>
     <button class="btn-ghost"    onclick="closeModal('modal-proj')">Cancel</button>
   </div>
@@ -858,6 +888,174 @@ if (auth) {
 </script>
 
 <script>
+// ── Translations ─────────────────────────────────────
+// ── Skins ────────────────────────────────────────────
+const SKINS = {
+  tew: {
+    name: 'TEW',
+    vars: {
+      '--tab-bg':      '#0f1f3d',
+      '--tab-active':  '#1586ec',
+      '--tab-inactive':'#5a7ab0',
+      '--accent':      '#1586ec',
+      '--accent2':     '#0ea5e9',
+      '--header-bg':   '#0f1f3d',
+      '--panel':       '#ffffff',
+      '--panel2':      '#f4f6fb',
+      '--panel3':      '#e8edf5',
+      '--border':      '#dde3ef',
+      '--border2':     '#c8d3e8',
+      '--card-bg':     '#ffffff',
+      '--input-bg':    '#f4f6fb',
+      '--text':        '#0f1f3d',
+      '--text2':       '#6b7a99',
+      '--text3':       '#a0adc4',
+      '--success':     '#10b981',
+      '--warning':     '#f59e0b',
+      '--danger':      '#ef4444',
+      '--gold':        'transparent',
+      '--gold-border': 'none',
+    }
+  },
+  dnoiz3: {
+    name: "D'NOIZ3",
+    vars: {
+      '--tab-bg':      '#5f0001',
+      '--tab-active':  '#c78a18',
+      '--tab-inactive':'rgba(199,138,24,0.45)',
+      '--accent':      '#c78a18',
+      '--accent2':     '#e6a820',
+      '--header-bg':   '#5f0001',
+      '--panel':       '#7d0d0e',
+      '--panel2':      '#6a0a0b',
+      '--panel3':      '#5f0001',
+      '--border':      'rgba(199,138,24,0.25)',
+      '--border2':     'rgba(199,138,24,0.5)',
+      '--card-bg':     '#7d0d0e',
+      '--input-bg':    '#5f0001',
+      '--text':        '#f5e6c0',
+      '--text2':       '#d4a843',
+      '--text3':       'rgba(199,138,24,0.6)',
+      '--success':     '#c78a18',
+      '--warning':     '#e6a820',
+      '--danger':      '#ff6b6b',
+      '--gold':        '#c78a18',
+      '--gold-border': '1px solid #c78a18',
+    }
+  }
+};
+
+let currentSkin = localStorage.getItem('tew_skin') || 'tew';
+
+function setSkin(skinKey) {
+  const skin = SKINS[skinKey];
+  if (!skin) return;
+  currentSkin = skinKey;
+  localStorage.setItem('tew_skin', skinKey);
+  const root = document.documentElement.style;
+  Object.entries(skin.vars).forEach(([k, v]) => root.setProperty(k, v));
+  // Update skin buttons
+  Object.keys(SKINS).forEach(k => {
+    const btn = document.getElementById('skin-' + k);
+    if (btn) {
+      btn.style.background = k === skinKey ? 'var(--accent)' : 'var(--panel3)';
+      btn.style.color      = k === skinKey ? (skinKey==='dnoiz3'?'#000':'#fff') : 'var(--text2)';
+      btn.style.border     = k === 'dnoiz3' ? '1px solid var(--gold)' : '1px solid var(--border)';
+    }
+  });
+  // Gold borders for Dnoiz3
+  document.querySelectorAll('.card, .modal, .set-group, .log-card, .step-row, .meter-card, .chart-card').forEach(el => {
+    el.style.border = skinKey === 'dnoiz3' ? '1px solid rgba(199,138,24,0.3)' : '';
+    if (skinKey === 'dnoiz3') el.style.boxShadow = '0 0 0 0.5px rgba(199,138,24,0.15)';
+    else el.style.boxShadow = '';
+  });
+  // Gold tab bar text
+  document.querySelectorAll('.tab-btn.active').forEach(b => {
+    b.style.color = skinKey === 'dnoiz3' ? '#c78a18' : '';
+  });
+  // Dark mode auto-apply for Dnoiz3
+  if (skinKey === 'dnoiz3') {
+    document.documentElement.removeAttribute('data-theme');
+  }
+}
+
+// ── Translations ──────────────────────────────────────
+const LANG = {
+  en: {
+    projects:'Projects', charts:'Charts', logs:'Logs', settings:'Settings',
+    noProjects:'No projects yet', noProjectsSub:'Tap + to create your first project',
+    noLogs:'No logs yet', noLogsSub:'Check off steps to start logging',
+    duplicateName:'A project with that name already exists.',
+    enterName:'Please enter a project name.', selectStage:'Select at least one stage.',
+    steps:'Steps', aiNotes:'AI Notes', otherNotes:'Other Notes',
+    production:'Production', mix:'Mix', mastering:'Mastering',
+    addNote:'+ Add Note', writeNote:'Write your note here...',
+    signIn:'Sign In', signUp:'Sign Up', continueGoogle:'Continue with Google',
+    forgotPassword:'Forgot password?', email:'Email', password:'Password',
+    darkMode:'Dark Mode', language:'Language', skin:'Theme',
+    signOut:'Sign Out', clearLogs:'Clear Logs & Reset Steps',
+    resetAll:'Reset All Projects', selectProject:'— Select project —',
+    create:'Create Project', cancel:'Cancel', save:'Save Changes',
+    delete:'Delete Project', editProject:'Edit Project', stages:'Stages',
+    overall:'overall', achieved:'achieved',
+  },
+  es: {
+    projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
+    noProjects:'Sin proyectos todavía', noProjectsSub:'Toca + para crear tu primer proyecto',
+    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos para comenzar',
+    duplicateName:'Ya existe un proyecto con ese nombre.',
+    enterName:'Escribe el nombre del proyecto.', selectStage:'Selecciona al menos una etapa.',
+    steps:'Pasos', aiNotes:'Notas IA', otherNotes:'Otras Notas',
+    production:'Producción', mix:'Mezcla', mastering:'Mastering',
+    addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...',
+    signIn:'Iniciar Sesión', signUp:'Registrarse', continueGoogle:'Continuar con Google',
+    forgotPassword:'¿Olvidaste tu contraseña?', email:'Correo', password:'Contraseña',
+    darkMode:'Modo Oscuro', language:'Idioma', skin:'Tema',
+    signOut:'Cerrar Sesión', clearLogs:'Limpiar Registros y Resetear',
+    resetAll:'Resetear Todos los Proyectos', selectProject:'— Selecciona proyecto —',
+    create:'Crear Proyecto', cancel:'Cancelar', save:'Guardar Cambios',
+    delete:'Eliminar Proyecto', editProject:'Editar Proyecto', stages:'Etapas',
+    overall:'total', achieved:'logrado',
+  }
+};
+
+let currentLang = localStorage.getItem('tew_lang') || 'en';
+function t(key) { return LANG[currentLang][key] || LANG.en[key] || key; }
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('tew_lang', lang);
+  // Update button styles
+  const enBtn = document.getElementById('lang-en');
+  const esBtn = document.getElementById('lang-es');
+  if (enBtn) { enBtn.style.background = lang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = lang==='en' ? '#fff' : 'var(--text2)'; }
+  if (esBtn) { esBtn.style.background = lang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = lang==='es' ? '#fff' : 'var(--text2)'; }
+  applyLanguage();
+}
+
+function applyLanguage() {
+  // Tab bar
+  const tabLabels = ['projects','charts','logs','settings'];
+  tabLabels.forEach(tab => {
+    const btn = document.querySelector('[data-tab="' + tab + '"]');
+    if (btn) btn.lastChild.textContent = ' ' + t(tab).toUpperCase();
+  });
+  // Header
+  const hdrLbl = document.getElementById('hdr-lbl');
+  if (hdrLbl && !hdrLbl.classList.contains('live')) hdrLbl.textContent = 'VST OFFLINE';
+  // Re-render current screen
+  renderProjects();
+  renderLogs();
+  // Inner tabs if workspace open
+  const ws = document.getElementById('workspace');
+  if (ws && ws.style.display === 'block') {
+    renderStageTabs();
+    renderSteps();
+    renderAINotes();
+    renderManualNotes();
+  }
+}
+
 function getProjectPct(p) {
   const stages = Array.isArray(p.stages) && p.stages.length ? p.stages : ['mix'];
   let total = 0, done = 0;
@@ -1168,7 +1366,7 @@ function saveEditStages() {
     const cb = document.getElementById('es-' + s);
     return cb && cb.checked;
   });
-  if (!chosen.length) { alert('Select at least one stage.'); return; }
+  if (!chosen.length) { showFormError('ep-error', 'Select at least one stage.'); return; }
 
   // Add new stages (preserve existing stepsDone)
   chosen.forEach(s => {
@@ -1262,93 +1460,85 @@ function clearProjectLogs(projectId) {
   }
 }
 
-// Genre → Subgenre map
-const GENRE_MAP = {
-  'Electronic':  ['Progressive House','Electro House','Tech House','Deep House','Future Bass','Trance','Techno','Drum & Bass','Ambient','EDM'],
-  'Urban':       ['Trap','Hip-Hop','R&B','Drill','Afrobeats','Reggaeton','Lo-Fi Hip-Hop','Boom Bap','Cloud Rap'],
-  'Pop':         ['Pop','Dance Pop','Indie Pop','Electro Pop','K-Pop','Synth Pop','Dark Pop'],
-  'Rock':        ['Rock','Alternative','Indie Rock','Metal','Post-Rock','Punk','Grunge'],
-  'Latin':       ['Reggaeton','Bachata','Salsa','Cumbia','Latin Pop','Dembow','Perreo'],
-  'Jazz & Soul': ['Jazz','Soul','Neo-Soul','Blues','Funk','Gospel','R&B Soul'],
-  'Other':       [],
+// Genre suggestions for autocomplete
+const GENRE_SUGGESTIONS = [
+  'Electronic','Progressive House','Electro House','Tech House','Deep House',
+  'Future Bass','Trance','Techno','Drum & Bass','Ambient','EDM',
+  'Trap','Hip-Hop','R&B','Drill','Afrobeats','Reggaeton','Lo-Fi Hip-Hop','Boom Bap','Cloud Rap',
+  'Pop','Dance Pop','Indie Pop','Electro Pop','K-Pop','Synth Pop','Dark Pop',
+  'Rock','Alternative','Indie Rock','Metal','Post-Rock','Punk','Grunge',
+  'Latin','Bachata','Salsa','Cumbia','Latin Pop','Dembow','Perreo',
+  'Jazz','Soul','Neo-Soul','Blues','Funk','Gospel',
+  'Urban','Classical','Gospel','Country','Folk','Indie','House','Garage',
+];
+
+const SUBGENRE_SUGGESTIONS = {
+  'Electronic':       ['Progressive House','Electro House','Tech House','Deep House','Future Bass','Trance','Techno','Drum & Bass','Ambient','EDM','Melodic Techno','Minimal'],
+  'Progressive House':['Vocal Progressive','Melodic Progressive','Big Room Progressive'],
+  'Trap':             ['Melodic Trap','Dark Trap','Phonk','Hard Trap','Cloud Trap','Rage'],
+  'Hip-Hop':          ['Boom Bap','Lo-Fi Hip-Hop','Conscious Hip-Hop','Drill','Mumble Rap'],
+  'R&B':              ['Contemporary R&B','Neo-Soul','Alternative R&B','PBR&B'],
+  'Pop':              ['Dance Pop','Indie Pop','Electro Pop','K-Pop','Synth Pop','Dark Pop','Art Pop'],
+  'Rock':             ['Alternative','Indie Rock','Metal','Post-Rock','Punk','Grunge','Shoegaze'],
+  'Latin':            ['Reggaeton','Bachata','Salsa','Cumbia','Latin Pop','Dembow','Perreo','Corridos'],
+  'Jazz':             ['Smooth Jazz','Bebop','Fusion','Contemporary Jazz','Latin Jazz'],
+  'Soul':             ['Neo-Soul','Gospel','Funk','R&B Soul'],
+  'House':            ['Deep House','Tech House','Afro House','Progressive House','Jackin House'],
+  'Afrobeats':        ['Afropop','Amapiano','Afro-fusion','Afro-soul'],
 };
 
+function getSubgenreSuggestions(genre) {
+  // Direct match first
+  if (SUBGENRE_SUGGESTIONS[genre]) return SUBGENRE_SUGGESTIONS[genre];
+  // Partial match
+  const key = Object.keys(SUBGENRE_SUGGESTIONS).find(k =>
+    genre.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(genre.toLowerCase())
+  );
+  return key ? SUBGENRE_SUGGESTIONS[key] : [];
+}
+
+// Keep GENRE_MAP for backward compat
+const GENRE_MAP = {};
+
 function updateSubgenre(prefix) {
-  const genreSel  = document.getElementById(prefix + '-genre');
-  const subSel    = document.getElementById(prefix + '-subgenre');
-  const subWrap   = document.getElementById(prefix + '-subgenre-wrap');
-  const customCb  = document.getElementById(prefix + '-genre-check');
-  if (!genreSel || !subSel || !subWrap) return;
-
-  // If custom genre checked, hide subgenre
-  if (customCb && customCb.checked) {
-    subWrap.style.display = 'none';
-    return;
-  }
-
-  const genre = genreSel.value;
-  const subs  = GENRE_MAP[genre] || [];
-  subWrap.style.display = subs.length > 0 ? 'block' : 'none';
-  subSel.innerHTML = subs.map(s => `<option>${s}</option>`).join('');
+  // With free text fields, subgenre is always visible
+  // Just update its suggestions based on current genre value
+  const genreInp = document.getElementById(prefix + '-genre');
+  const subInp   = document.getElementById(prefix + '-subgenre');
+  if (!genreInp || !subInp) return;
+  const subs = getSubgenreSuggestions(genreInp.value);
+  const listId = prefix + '-subgenre-list';
+  const dl = document.getElementById(listId);
+  if (dl) dl.innerHTML = subs.map(s => `<option value="${s}">`).join('');
 }
 
-function toggleCustomGenre(prefix) {
-  const cb     = document.getElementById(prefix + '-genre-check');
-  const sel    = document.getElementById(prefix + '-genre');
-  const inp    = document.getElementById(prefix + '-genre-custom');
-  const subWrap= document.getElementById(prefix + '-subgenre-wrap');
-  if (!cb || !sel || !inp) return;
-  if (cb.checked) {
-    sel.style.display  = 'none';
-    inp.style.display  = 'block';
-    if (subWrap) subWrap.style.display = 'none';
-    inp.focus();
-  } else {
-    sel.style.display  = 'block';
-    inp.style.display  = 'none';
-    inp.value = '';
-    updateSubgenre(prefix);
-  }
+function showFormError(elId, msg) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 3000);
 }
+
+function toggleCustomGenre(prefix) { /* no-op, kept for compat */ }
 
 function getGenreValue(prefix) {
-  const cb = document.getElementById(prefix + '-genre-check');
-  if (cb && cb.checked) {
-    return document.getElementById(prefix + '-genre-custom').value.trim() || 'Other';
-  }
-  return document.getElementById(prefix + '-genre').value;
+  return (document.getElementById(prefix + '-genre') || {}).value || '';
 }
 
 function getSubgenreValue(prefix) {
-  const cb     = document.getElementById(prefix + '-genre-check');
-  const subWrap= document.getElementById(prefix + '-subgenre-wrap');
-  if ((cb && cb.checked) || !subWrap || subWrap.style.display === 'none') return '';
-  return document.getElementById(prefix + '-subgenre').value || '';
+  return (document.getElementById(prefix + '-subgenre') || {}).value || '';
 }
 
 function openEditProject(projectId) {
   const p = state.projects.find(x => x.id === projectId);
   if (!p) return;
   document.getElementById('ep-name').value   = p.name   || '';
-  const knownGenres = Object.keys(GENRE_MAP);
-  const isCustom    = p.genre && !knownGenres.includes(p.genre);
-  const epGenreCb   = document.getElementById('ep-genre-check');
-  const epGenreSel  = document.getElementById('ep-genre');
-  const epGenreInp  = document.getElementById('ep-genre-custom');
-  if (isCustom) {
-    if (epGenreCb)  epGenreCb.checked = true;
-    if (epGenreSel) epGenreSel.style.display = 'none';
-    if (epGenreInp) { epGenreInp.style.display = 'block'; epGenreInp.value = p.genre; }
-  } else {
-    if (epGenreCb)  epGenreCb.checked = false;
-    if (epGenreSel) { epGenreSel.style.display = 'block'; epGenreSel.value = p.genre || 'Electronic'; }
-    if (epGenreInp) { epGenreInp.style.display = 'none';  epGenreInp.value = ''; }
-    setTimeout(() => {
-      updateSubgenre('ep');
-      const epSub = document.getElementById('ep-subgenre');
-      if (epSub && p.subgenre) epSub.value = p.subgenre;
-    }, 50);
-  }
+  const epGenreInp = document.getElementById('ep-genre');
+  const epSubInp   = document.getElementById('ep-subgenre');
+  if (epGenreInp) epGenreInp.value = p.genre    || '';
+  if (epSubInp)   epSubInp.value   = p.subgenre || '';
+  setTimeout(() => updateSubgenre('ep'), 50);
   document.getElementById('ep-bpm').value    = p.bpm    || '';
   document.getElementById('ep-artist').value = p.artist || '';
   // Set key/mode
@@ -1364,9 +1554,9 @@ function saveEditProject() {
   const p  = state.projects.find(x => x.id === id);
   if (!p) return;
   const name = document.getElementById('ep-name').value.trim();
-  if (!name) { alert('Enter a project name'); return; }
+  if (!name) { showFormError('proj-error', t('enterName')); return; }
   if (state.projects.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-    alert('A project with that name already exists. Please choose a different name.');
+    showFormError('proj-error', t('duplicateName'));
     return;
   }
   p.name   = name;
@@ -1439,9 +1629,9 @@ function closeModal(id) {
 
 function createProject() {
   const name = document.getElementById('f-name').value.trim();
-  if (!name) { alert('Enter a project name'); return; }
+  if (!name) { showFormError('proj-error', t('enterName')); return; }
   if (state.projects.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-    alert('A project with that name already exists. Please choose a different name.');
+    showFormError('proj-error', t('duplicateName'));
     return;
   }
 
@@ -1449,7 +1639,7 @@ function createProject() {
     document.getElementById('stage-cb-' + s) &&
     document.getElementById('stage-cb-' + s).checked
   );
-  if (!checked.length) { alert('Select at least one stage'); return; }
+  if (!checked.length) { showFormError('proj-error', 'Select at least one stage.'); return; }
 
   const project = {
     id:          'p' + Date.now(),
@@ -1480,7 +1670,7 @@ function createProject() {
 function renderProjects() {
   const list = document.getElementById('proj-list');
   if (!state.projects.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-ico">🎚</div><div class="empty-ttl">No projects yet</div><div class="empty-sub">Tap + to create your first project</div></div>`;
+    list.innerHTML = `<div class="empty"><div class="empty-ico">🎚</div><div class="empty-ttl">${t('noProjects')}</div><div class="empty-sub">${t('noProjectsSub')}</div></div>`;
     return;
   }
   list.innerHTML = state.projects.map(p => {
@@ -1566,7 +1756,13 @@ function showWorkspace(project) {
   var _fb = document.getElementById('fab');       if(_fb) _fb.style.display = 'none';
   var _wn = document.getElementById('ws-name');   if(_wn) _wn.textContent  = project.name;
   renderStageTabs();
-  switchInnerTab('steps');
+  // Use rAF to ensure DOM is painted before rendering steps
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      switchInnerTab('steps');
+      renderSteps();
+    });
+  });
 }
 
 function switchInnerTab(tab) {
@@ -1795,7 +1991,7 @@ function renderLogs() {
   const all = state.projects.filter(p => p.stage);
 
   if (!all.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-ico">📋</div><div class="empty-ttl">No logs yet</div><div class="empty-sub">Check off steps in a project to start logging</div></div>`;
+    list.innerHTML = `<div class="empty"><div class="empty-ico">📋</div><div class="empty-ttl">${t('noLogs')}</div><div class="empty-sub">${t('noLogsSub')}</div></div>`;
     return;
   }
 
@@ -2024,7 +2220,13 @@ function openInstrumentDetail(key) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function connectWS() {
   let ws;
-  try { ws = new WebSocket('ws://' + location.hostname + ':8766'); } catch(e) { return; }
+  try {
+    // Use Render in production, local bridge in development
+    const wsUrl = location.hostname === 'localhost' || location.hostname.match(/^192\./)
+      ? 'ws://' + location.hostname + ':8766'
+      : 'wss://tew-bridge.onrender.com';
+    ws = new WebSocket(wsUrl);
+  } catch(e) { return; }
 
   ws.onopen = () => {
     state.wsOn = true;
@@ -2181,6 +2383,7 @@ connectWS();
       <label class="form-label">Artist / Composer</label>
       <input type="text" class="form-input" id="ep-artist">
     </div>
+    <div id="ep-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
     <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
     <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px"
       onclick="deleteProject(document.getElementById('ep-id').value)">Delete Project</button>
