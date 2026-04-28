@@ -1204,91 +1204,93 @@ const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-m
 // pan: stereo position. center=0, left=-1, right=1, wide=2
 // panWidth: how wide the instrument spreads (0=mono, 1=full stereo)
 const INSTRUMENTS = {
-  kick:    {
+  kick: {
     name:'Bombo', icon:'🥁', range:'40–200 Hz', color:'#1586ec',
-    note:'The kick drum is the anchor of your low end. Keep it mono and centered at all times.',
-    spectrum:[95,92,82,62,42,28,18,12,8,5,3,2],
-    hotspots:[[0,'Sub 40Hz'],[2,'Punch 80Hz'],[3,'Body 160Hz'],[5,'Click 600Hz']],
-    pan:0, panWidth:0.05, panLabel:'Centro — siempre mono'
+    note:'El bombo es el ancla del extremo bajo. Mantenlo en mono y centrado siempre.',
+    panLabel:'Centro — siempre mono',
+    // EQ curve: gains in dB at [20,40,80,160,315,630,1k,2k,4k,8k,16k,20k]
+    eq:[-3, 6, 8, 4, -2, -6, -8, -4, -2, -8, -10, -10],
+    eqTips:['','Sub punch','Punch','Body','','HPF','','Click transient','','Cut mud','',''],
   },
-  snare:   {
-    name:'Caja', icon:'🪘', range:'150 Hz–8 kHz', color:'#7c3aed',
-    note:'The snare defines the backbeat. Its crack cuts through a dense mix with presence around 2–5 kHz.',
-    spectrum:[10,22,52,82,62,48,72,92,88,72,42,18],
-    hotspots:[[3,'Body 160Hz'],[6,'Crack 1kHz'],[7,'Snap 2kHz'],[9,'Air 8kHz']],
-    pan:0, panWidth:0.08, panLabel:'Centro — ligera variación aceptable'
+  snare: {
+    name:'Caja', icon:'🥁', range:'200 Hz – 8 kHz', color:'#f59e0b',
+    note:'La caja define el backbeat. El cuerpo está alrededor de 200 Hz, el crack a 2–5 kHz.',
+    panLabel:'Centro — ligera variación aceptable',
+    eq:[-8, -8, -6, 4, 6, 2, -2, 8, 6, 4, 2, -2],
+    eqTips:['','','','Body','Warmth','','','Crack','Attack','Air','',''],
   },
-  bass:    {
-    name:'Bajo', icon:'🎸', range:'40–400 Hz', color:'#0ea5e9',
-    note:'Bass must be mono below 120 Hz for reliable translation on all systems — from club to phone speaker.',
-    spectrum:[88,92,90,78,58,32,18,12,8,5,2,1],
-    hotspots:[[0,'Sub 40Hz'],[1,'Root 60Hz'],[2,'Thump 80Hz'],[4,'Tone 300Hz']],
-    pan:0, panWidth:0.0, panLabel:'Centro — mono estricto bajo 120Hz'
+  bass: {
+    name:'Bajo', icon:'🎸', range:'40–300 Hz', color:'#8b5cf6',
+    note:'El bajo debe ser mono por debajo de 120 Hz. El cuerpo está entre 80–200 Hz.',
+    panLabel:'Centro — mono estricto bajo 120Hz',
+    eq:[-2, 4, 8, 6, 3, -2, -4, -6, -8, -10, -12, -12],
+    eqTips:['','Sub','Fundamental','Body','Warmth','','','','Cut','','',''],
   },
-  hihat:   {
-    name:'Hi-Hat', icon:'🎶', range:'6k–16 kHz', color:'#10b981',
-    note:'Hi-hats live in the high frequency air zone. Panning them slightly off-center adds stereo width without compromising the mix center.',
-    spectrum:[2,2,3,4,5,8,15,25,42,82,92,72],
-    hotspots:[[8,'Closed 4kHz'],[9,'Open 8kHz'],[10,'Splash 16kHz']],
-    pan:0.35, panWidth:0.3, panLabel:'Slight right (closed) / left (open)'
+  hihat: {
+    name:'Hi-Hat', icon:'✨', range:'3 kHz – 20 kHz', color:'#10b981',
+    note:'Los hi-hats viven en la zona de alta frecuencia. Aplica HPF generoso por debajo de 500 Hz.',
+    panLabel:'Ligeramente derecha (cerrado) / izquierda (abierto)',
+    eq:[-12,-12,-12,-10,-8,-4, 0, 2, 6, 8, 6, 4],
+    eqTips:['HPF','HPF','HPF','HPF','HPF','HPF','','','Presence','Air','Sparkle',''],
   },
-  vocals:  {
-    name:'Vocales', icon:'🎤', range:'80 Hz–12 kHz', color:'#f59e0b',
-    note:'Lead vocals always sit center. Double-tracked or backing vocals can be panned wide for space and depth.',
-    spectrum:[15,22,38,58,68,72,82,92,90,72,48,22],
-    hotspots:[[2,'Body 80Hz'],[4,'Warmth 400Hz'],[6,'Presence 1kHz'],[8,'Sibilance 5kHz']],
-    pan:0, panWidth:0.1, panLabel:'Lead: centro / BVs: ancho L+R'
+  vocals: {
+    name:'Vocales', icon:'🎤', range:'80 Hz – 12 kHz', color:'#ef4444',
+    note:'Las vocales lead siempre van al centro. Aplica HPF a 80–100 Hz para limpiar el bajo.',
+    panLabel:'Lead: centro / BVs: ancho L+R',
+    eq:[-8, -8, -6, -4, 2, 4, 6, 4, 8, 6, 4, 2],
+    eqTips:['','HPF','HPF','HPF','Warmth','Presence','Clarity','Presence','Air','Air','',''],
   },
-  guitar:  {
-    name:'Guitarra', icon:'🎸', range:'80 Hz–5 kHz', color:'#ef4444',
-    note:'Rhythm guitars are typically panned wide left and right to create space for the vocals and lead in the center.',
-    spectrum:[8,16,42,78,88,82,72,62,52,38,16,5],
-    hotspots:[[2,'Warmth 80Hz'],[3,'Body 200Hz'],[5,'Definition 630Hz'],[7,'Presence 3kHz']],
-    pan:0.75, panWidth:0.25, panLabel:'Hard L / Hard R (par rítmico)'
+  guitar: {
+    name:'Guitarra', icon:'🎸', range:'80 Hz – 8 kHz', color:'#f97316',
+    note:'Las guitarras rítmicas típicamente se panean hard L/R para crear espacio.',
+    panLabel:'Hard L / Hard R (par rítmico)',
+    eq:[-8, -6, -4, 2, 6, 8, 6, 4, 8, 4, 2, -2],
+    eqTips:['','HPF','HPF','Warmth','Body','Presence','','Bite','Sparkle','','',''],
   },
-  piano:   {
-    name:'Piano', icon:'🎹', range:'28 Hz–4 kHz', color:'#8b5cf6',
-    note:'Piano spans the full frequency range. Position it slightly off-center to avoid competing with lead vocals in the center.',
-    spectrum:[62,72,68,62,58,52,58,62,58,42,22,8],
-    hotspots:[[0,'Low A 28Hz'],[2,'Mid 80Hz'],[5,'Tone 630Hz'],[7,'Keys 2kHz']],
-    pan:0.2, panWidth:0.4, panLabel:'Ligeramente fuera del centro'
+  piano: {
+    name:'Piano', icon:'🎹', range:'30 Hz – 16 kHz', color:'#06b6d4',
+    note:'El piano abarca todo el rango de frecuencias. Aplica HPF sutil y corta el barro a 200–400 Hz.',
+    panLabel:'Ligeramente fuera del centro',
+    eq:[-4, -2, -4, -6, 2, 4, 2, 4, 6, 4, 6, 4],
+    eqTips:['','','HPF','Cut mud','Warmth','Presence','','Clarity','Air','Air','Air',''],
   },
-  pad:     {
-    name:'Pad Sintetizador', icon:'🎛️', range:'200 Hz–8 kHz', color:'#06b6d4',
-    note:'Pads exist to fill space. Make them wide — they should live on the sides, leaving the center clean for leads and vocals.',
-    spectrum:[5,8,15,42,68,78,72,62,58,48,32,12],
-    hotspots:[[3,'Body 200Hz'],[5,'Mid 630Hz'],[7,'Air 2kHz'],[9,'Shimmer 8kHz']],
-    pan:0, panWidth:0.9, panLabel:'Amplitud estéreo completa — L y R'
+  pad: {
+    name:'Pad Sintetizador', icon:'🌊', range:'200 Hz – 8 kHz', color:'#6366f1',
+    note:'Los pads existen para llenar el espacio. Aplica HPF a 150–200 Hz y corta el barro a 300–500 Hz.',
+    panLabel:'Amplitud estéreo completa — L y R',
+    eq:[-10,-8,-6,-4, 2, 4, 2, 2, 4, 4, 6, 4],
+    eqTips:['HPF','HPF','HPF','HPF','Warmth','Body','','Width','Air','Air','Shimmer',''],
   },
-  lead:    {
-    name:'Lead Sintetizador', icon:'🎵', range:'200 Hz–6 kHz', color:'#ec4899',
-    note:'Lead synths sit center like a vocal. Use subtle stereo width from a chorus or reverb send — not from panning.',
-    spectrum:[8,12,26,58,82,88,82,72,62,42,20,6],
-    hotspots:[[3,'Body 200Hz'],[5,'Fundamental 630Hz'],[7,'Bite 3kHz'],[8,'Presence 5kHz']],
-    pan:0, panWidth:0.15, panLabel:'Centro con coro sutil'
+  synth: {
+    name:'Lead Sintetizador', icon:'⚡', range:'500 Hz – 12 kHz', color:'#ec4899',
+    note:'Los sintetizadores lead van al centro. Aplica HPF generoso y destaca la presencia a 2–5 kHz.',
+    panLabel:'Centro con coro sutil',
+    eq:[-10,-10,-8,-4, 0, 4, 6, 8, 8, 4, 2, -2],
+    eqTips:['HPF','HPF','HPF','HPF','','Presence','Clarity','Bite','Air','','',''],
   },
-  perc:    {
-    name:'Percusión', icon:'🪇', range:'200 Hz–10 kHz', color:'#f97316',
-    note:'Percussion elements can be scattered across the stereo field to create movement and a sense of three-dimensional space.',
-    spectrum:[5,8,18,36,52,62,72,78,82,72,48,22],
-    hotspots:[[3,'Attack 200Hz'],[6,'Color 1kHz'],[8,'Crack 5kHz']],
-    pan:0.5, panWidth:0.6, panLabel:'Disperso L-C-R para espacio'
+  percussion: {
+    name:'Percusión', icon:'🪘', range:'200 Hz – 10 kHz', color:'#84cc16',
+    note:'Los elementos de percusión se pueden dispersar L-C-R para crear espacio.',
+    panLabel:'Disperso L-C-R para espacio',
+    eq:[-8,-8,-6,-2, 4, 6, 4, 6, 8, 4, 2, -2],
+    eqTips:['HPF','HPF','HPF','','Body','Punch','','Attack','Snap','Air','',''],
   },
   strings: {
-    name:'Cuerdas', icon:'🎻', range:'196 Hz–4 kHz', color:'#84cc16',
-    note:'String sections are naturally wide from the recording process. Keep them wide in the mix to preserve the orchestral depth.',
-    spectrum:[6,12,30,62,80,82,78,70,58,40,20,6],
-    hotspots:[[3,'Rich 200Hz'],[5,'Warmth 630Hz'],[7,'Bow 2kHz'],[8,'Presence 4kHz']],
-    pan:0, panWidth:0.85, panLabel:'Estéreo amplio — distribución orquestal'
+    name:'Cuerdas', icon:'🎻', range:'80 Hz – 12 kHz', color:'#d97706',
+    note:'Las secciones de cuerdas son naturalmente amplias. Usa mid/side para controlar el ancho.',
+    panLabel:'Estéreo amplio — distribución orquestal',
+    eq:[-8,-6,-4, 0, 2, 4, 6, 4, 6, 4, 4, 2],
+    eqTips:['HPF','HPF','HPF','Warmth','Body','Richness','Presence','','Air','Air','Shimmer',''],
   },
-  brass:   {
-    name:'Metales', icon:'🎺', range:'100 Hz–8 kHz', color:'#eab308',
-    note:'Brass instruments have significant energy through the midrange. Pan sections slightly off-center to avoid masking vocals.',
-    spectrum:[10,26,58,82,88,82,72,62,68,58,32,10],
-    hotspots:[[2,'Body 80Hz'],[3,'Power 200Hz'],[5,'Bite 630Hz'],[8,'Bright 5kHz']],
-    pan:0.3, panWidth:0.5, panLabel:'Ligera distribución, evita el centro exacto'
+  brass: {
+    name:'Metales', icon:'🎺', range:'100 Hz – 8 kHz', color:'#f59e0b',
+    note:'Los instrumentos de metal tienen energía significativa en medios. Controla la aspereza a 1–3 kHz.',
+    panLabel:'Ligera distribución, evita el centro exacto',
+    eq:[-8,-6,-2, 2, 6, 8, 6, 2,-2, 2, 2,-2],
+    eqTips:['HPF','HPF','','Warmth','Body','Brightness','Presence','','Cut harsh','Air','',''],
   },
 };
+
 
 const STAGE_INSTRUMENTS = {
   production: ['kick','bass','pad','lead','piano','perc'],
@@ -2175,40 +2177,50 @@ function buildCard(key) {
   const view = cardViews[key] || 'eq';
 
   if (view === 'eq') {
-    // ── EQ view: spectrum bars + hotspot labels ──────────────
     const bands = ['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
-    const hotspotsMap = {};
-    (inst.hotspots || []).forEach(([bi, lbl]) => { hotspotsMap[bi] = lbl; });
+    const gains = inst.eq || new Array(12).fill(0);
+    const W = 280, H = 80, midY = H / 2, maxG = 12;
+    const pts = gains.map((g,i) => [(i/(bands.length-1))*W, midY-(g/maxG)*(midY-6)]);
 
-    const bars = inst.spectrum.map((val, i) => {
-      const barH = Math.round((val / 100) * 58);
-      const isHot = hotspotsMap[i] !== undefined;
-      const dot = isHot
-        ? `<div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:${inst.color};color:#fff;font-size:7px;font-weight:600;padding:1px 3px;border-radius:3px;white-space:nowrap;line-height:1.2">${hotspotsMap[i]}</div>`
-        : '';
-      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative">
-        ${dot}
-        <div style="width:100%;height:${barH}px;background:${inst.color};border-radius:2px 2px 0 0;opacity:${0.4+(val/100)*0.6}"></div>
-      </div>`;
-    }).join('');
+    // Smooth path
+    let pd = 'M '+pts[0][0]+' '+pts[0][1];
+    for (let i=1;i<pts.length;i++) {
+      const cx=(pts[i-1][0]+pts[i][0])/2;
+      pd += ' C '+cx+' '+pts[i-1][1]+' '+cx+' '+pts[i][1]+' '+pts[i][0]+' '+pts[i][1];
+    }
+    const fd = pd+' L '+W+' '+midY+' L 0 '+midY+' Z';
 
-    return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
-      <div style="background:var(--panel2);padding:20px 8px 4px;height:88px;display:flex;align-items:flex-end;gap:1px;overflow:hidden">
-        ${bars}
-      </div>
-      <div class="chart-meta">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:4px">
-            <span style="font-size:12px">${inst.icon}</span>
-            <div class="chart-n">${inst.name}</div>
-          </div>
-          <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>
-        </div>
-        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${inst.range}</div>
-      </div>
-    </div>`;
+    let svgContent = '';
+    svgContent += '<line x1="0" y1="'+midY+'" x2="'+W+'" y2="'+midY+'" stroke="var(--border)" stroke-width="0.5"/>';
+    svgContent += '<path d="'+fd+'" fill="'+inst.color+'" opacity="0.08"/>';
+    svgContent += '<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.5" stroke-linecap="round"/>';
+    pts.forEach(([x,y],i) => {
+      if (Math.abs(gains[i])>=3) {
+        svgContent += '<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+inst.color+'"/>';
+        const sign = gains[i]>0?'+':'';
+        const ly = gains[i]>0 ? y-10 : y+14;
+        svgContent += '<text x="'+x+'" y="'+ly+'" text-anchor="middle" font-size="5.5" fill="'+inst.color+'" opacity="0.8" font-family="Inter,sans-serif">'+sign+gains[i]+'dB</text>';
+      }
+    });
+    bands.forEach((b,i) => {
+      const x=(i/(bands.length-1))*W;
+      svgContent += '<text x="'+x+'" y="'+(H-1)+'" text-anchor="middle" font-size="5.5" fill="var(--text3)" font-family="Inter,sans-serif">'+b+'</text>';
+    });
 
-  } else {
+    const svg = '<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="'+H+'" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">'+svgContent+'</svg>';
+
+    return '<div class="chart-card" onclick="toggleCardView(\'' + key + '\')" id="card-'+key+'">'
+      + '<div style="padding:12px 12px 4px;background:var(--panel2)">'
+      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'
+      + '<div style="display:flex;align-items:center;gap:4px"><span style="font-size:12px">'+inst.icon+'</span><div class="chart-n">'+inst.name+'</div></div>'
+      + '<div style="font-size:9px;font-weight:600;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>'
+      + '</div>' + svg + '</div>'
+      + '<div class="chart-meta">'
+      + '<div class="chart-s" style="color:'+inst.color+';font-weight:600">'+inst.range+'</div>'
+      + '<div style="font-size:10px;color:var(--text3);margin-top:2px">'+inst.note+'</div>'
+      + '</div></div>';
+
+} else {
     // ── PAN view: stereo field visualizer ────────────────────
     // pan: -1=hard L, 0=center, 1=hard R, 2=full stereo
     // panWidth: spread radius (0=mono point, 1=full)
