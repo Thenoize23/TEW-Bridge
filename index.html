@@ -1923,16 +1923,21 @@ function toggleStep(stepId) {
 }
 
 function openDetail(stepId) {
+  try {
   const det = STEP_DETAILS[stepId];
-  if (!det) return;
+  console.log('openDetail:', stepId, 'det:', !!det);
+  if (!det) { console.warn('No STEP_DETAILS for', stepId); return; }
 
   // Find the step object — use getSTEPS() since STEPS is a Proxy
   let step = null;
-  for (const stage of Object.values(getSTEPS())) {
+  const stepsObj = getSTEPS();
+  console.log('stepsObj keys:', Object.keys(stepsObj));
+  for (const stage of Object.values(stepsObj)) {
     step = stage.find(s => s.id === stepId);
     if (step) break;
   }
-  if (!step) return;
+  console.log('step found:', !!step, step);
+  if (!step) { console.warn('Step not found in STEPS for', stepId); return; }
 
   const stageName = state.active ? STAGE_LABELS[state.active.stage] : '';
   document.getElementById('det-icon').textContent    = det.icon;
@@ -1951,6 +1956,7 @@ function openDetail(stepId) {
     (p2 ? '<p>' + p2 + '</p>' : '');
 
   document.getElementById('modal-detail').classList.add('open');
+  } catch(e) { console.error('openDetail error:', e); }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
