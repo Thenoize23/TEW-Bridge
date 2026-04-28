@@ -1,0 +1,6 @@
+[build]
+command = "npm install"
+
+[run]
+command = "node bridge.js"
+port = 3000
