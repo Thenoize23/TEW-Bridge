@@ -1785,12 +1785,38 @@ function switchInnerTab(tab) {
     const btn = document.getElementById(id);
     if (!btn) return;
     const active = id === 'itab-' + tab;
-    btn.style.background  = active ? '#1586ec' : 'transparent';
-    btn.style.color       = active ? '#fff'    : 'rgba(255,255,255,0.45)';
+    btn.style.background  = active ? 'var(--accent)' : 'transparent';
+    btn.style.color       = active ? '#fff'           : 'var(--text3)';
   });
   if (tab === 'ai')    renderAINotes();
   if (tab === 'notes') renderManualNotes();
 }
+
+
+// ── AI Suggestions ────────────────────────────────
+const AI_SUGGESTIONS = {
+  production: [
+    { tip:'Gain Staging',        text:'Keep your samples at -18 dBFS from the start. This gives you headroom for mixing later and prevents clipping in the chain.' },
+    { tip:'Track de Referencia', text:'Load a commercial reference at matched loudness (-14 LUFS). Compare your low end, stereo width, and overall energy before committing to sounds.' },
+    { tip:'Drum Groove',         text:'Introduce subtle velocity variation on hi-hats and snares. A perfectly quantized grid sounds robotic — aim for 85-95% quantize strength.' },
+    { tip:'Bajo y Kick',         text:'Your sub frequencies (below 80 Hz) need space. Program the bass to breathe with the kick — avoid stacking both on the same beat without sidechain.' },
+    { tip:'Arrangement',         text:'Every section should have a clear purpose. Build tension by adding elements, release it by stripping back. Avoid keeping the same energy for more than 8 bars.' },
+  ],
+  mix: [
+    { tip:'Gain Staging',        text:'Target -18 dBFS RMS per channel before any plugin processing. A well gain-staged session requires less limiting on the master bus.' },
+    { tip:'High-Pass Filter',    text:'High-pass everything that does not need sub energy. Guitars above 80 Hz, pads above 120 Hz, vocals above 100 Hz. This clears headroom instantly.' },
+    { tip:'Sidechain',           text:'Compress the bass with the kick as trigger — ratio 4:1, attack 1ms, release 80ms. This creates the pumping pocket that glues low end together.' },
+    { tip:'Campo Estereo',       text:'Keep bass and kick mono below 120 Hz. Pan rhythm guitars hard L/R. Lead synths and vocals stay center. Pads fill the wide sides.' },
+    { tip:'Reverb Sends',        text:'Never use reverb as an insert. Use send channels at 100% wet and blend from the send knob. One room send, one hall send, one delay send.' },
+  ],
+  mastering: [
+    { tip:'Objetivos LUFS',      text:'Spotify normalizes to -14 LUFS. Apple Music to -16 LUFS. YouTube to -14 LUFS. If you deliver louder, the platform turns it down and you lose punch.' },
+    { tip:'True Peak',           text:'Set your limiter ceiling at -1 dBTP. Intersample peaks clip during MP3/AAC encoding even if your DAW meter shows no clipping.' },
+    { tip:'EQ Moves',            text:'Mastering EQ moves should be 1-2 dB maximum. If you need more, the mix needs fixing first. Use linear phase EQ to avoid phase artifacts.' },
+    { tip:'Revision en Mono',    text:'Collapse to mono and listen. If anything disappears or sounds hollow, you have phase issues. Fix them in the mix before mastering.' },
+    { tip:'Reference Loud',      text:'Match your reference track loudness with a gain plugin before comparing. Never compare at different volumes — louder always sounds better to the ear.' },
+  ],
+};
 
 function renderAINotes() {
   const p   = state.active;
@@ -1799,7 +1825,7 @@ function renderAINotes() {
   const tips = AI_SUGGESTIONS[p.stage] || [];
   el.innerHTML = tips.map(t => `
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#1586ec;margin-bottom:6px">${t.tip}</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--accent);margin-bottom:6px">${t.tip}</div>
       <div style="font-size:13px;line-height:1.6;color:var(--text2)">${t.text}</div>
     </div>`).join('');
 }
