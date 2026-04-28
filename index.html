@@ -2400,16 +2400,19 @@ if (localStorage.getItem('tew_dark')) {
 //  INIT
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // If no Firebase, show app directly with local data
-// Apply saved language on load
-setIdioma(currentLang);
+document.addEventListener('DOMContentLoaded', function() {
+  // Apply saved skin and language
+  setSkin(currentSkin);
+  setIdioma(currentLang);
 
-if (!window._authSignIn) {
-  const _ls = document.getElementById('login-modal');
-  if (_ls) _ls.classList.remove('open');
-  renderProjects();
-  renderCharts(null);
-}
-connectWS();
+  if (!window._authSignIn) {
+    const _ls = document.getElementById('login-modal');
+    if (_ls) _ls.classList.remove('open');
+    renderProjects();
+    renderCharts(null);
+  }
+  connectWS();
+});
 </script>
 
 
