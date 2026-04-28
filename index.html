@@ -14,8 +14,6 @@
 /* ── Theme variables ─────────────────────────── */
 :root {
   --tab-bg:      #0f1f3d;
-  --gold:        transparent;
-  --gold-border: none;
   --tab-active:  #4a9eff;
   --tab-inactive:#5a7ab0;
   --panel:       #ffffff;
@@ -507,7 +505,20 @@ body {
           </label>
         </div>
         <div class="set-row">
-          <span class="set-lbl">Language</span>
+          <span class="set-lbl" id="lbl-theme">Theme</span>
+          <div style="display:flex;gap:6px">
+            <button id="skin-tew" onclick="setSkin('tew')"
+              style="border:1px solid var(--border);border-radius:8px;padding:6px 10px;
+                     font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;
+                     transition:all 0.2s;background:var(--accent);color:#fff">TEW</button>
+            <button id="skin-dnoiz3" onclick="setSkin('dnoiz3')"
+              style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;
+                     font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;
+                     transition:all 0.2s;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button>
+          </div>
+        </div>
+        <div class="set-row">
+          <span class="set-lbl" id="lbl-lang-lbl">Language</span>
           <div style="display:flex;gap:6px">
             <button id="lang-en" onclick="setLanguage('en')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
@@ -519,30 +530,16 @@ body {
                      background:var(--panel3);color:var(--text2)">ES</button>
           </div>
         </div>
-        <div class="set-row">
-          <span class="set-lbl">Theme</span>
-          <div style="display:flex;gap:6px">
-            <button id="skin-tew" onclick="setSkin('tew')"
-              style="border:1px solid var(--border);border-radius:8px;padding:6px 10px;
-                     font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;
-                     transition:all 0.2s;background:var(--accent);color:#fff">TEW</button>
-            <button id="skin-dnoiz3" onclick="setSkin('dnoiz3')"
-              style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;
-                     font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;
-                     transition:all 0.2s;background:var(--panel3);color:var(--text2);
-                     background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button>
-          </div>
-        </div>
       </div>
 
       <p class="sec-label">VST Connection</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl">Plugin VST3</span>
+          <span class="set-lbl" id="lbl-vst">Plugin VST3</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-vst"></div><span class="slbl" id="slbl-vst">Disconnected</span></div>
         </div>
         <div class="set-row">
-          <span class="set-lbl">WebSocket Bridge</span>
+          <span class="set-lbl" id="lbl-ws-lbl">WebSocket Bridge</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-ws"></div><span class="slbl" id="slbl-ws">No connection</span></div>
         </div>
         <div class="set-row"><span class="set-lbl">UDP Port</span><span class="set-val">8765</span></div>
@@ -666,7 +663,7 @@ body {
           <textarea id="note-input" class="notes-area"
             placeholder="Write your note here..."
             style="width:100%;min-height:100px;margin-bottom:8px"></textarea>
-          <button onclick="addNote()" class="btn-primary" style="margin-bottom:20px">+ Add Note</button>
+          <button onclick="addNote()" id="add-note-btn" class="btn-primary" style="margin-bottom:20px">+ Add Note</button>
           <p class="sec-label">Your Notes</p>
           <div id="notes-list"></div>
           <div class="spacer"></div>
@@ -889,59 +886,21 @@ if (auth) {
 
 <script>
 // ── Translations ─────────────────────────────────────
-// ── Skins ────────────────────────────────────────────
+// ── Skins (accent colors only — dark/light handled separately) ───────
 const SKINS = {
   tew: {
     name: 'TEW',
-    vars: {
-      '--tab-bg':      '#0f1f3d',
-      '--tab-active':  '#1586ec',
-      '--tab-inactive':'#5a7ab0',
-      '--accent':      '#1586ec',
-      '--accent2':     '#0ea5e9',
-      '--header-bg':   '#0f1f3d',
-      '--panel':       '#ffffff',
-      '--panel2':      '#f4f6fb',
-      '--panel3':      '#e8edf5',
-      '--border':      '#dde3ef',
-      '--border2':     '#c8d3e8',
-      '--card-bg':     '#ffffff',
-      '--input-bg':    '#f4f6fb',
-      '--text':        '#0f1f3d',
-      '--text2':       '#6b7a99',
-      '--text3':       '#a0adc4',
-      '--success':     '#10b981',
-      '--warning':     '#f59e0b',
-      '--danger':      '#ef4444',
-      '--gold':        'transparent',
-      '--gold-border': 'none',
-    }
+    accent:    '#1586ec',
+    accent2:   '#0ea5e9',
+    tabBg:     '#0f1f3d',
+    tabActive: '#1586ec',
   },
   dnoiz3: {
     name: "D'NOIZ3",
-    vars: {
-      '--tab-bg':      '#5f0001',
-      '--tab-active':  '#c78a18',
-      '--tab-inactive':'rgba(199,138,24,0.45)',
-      '--accent':      '#c78a18',
-      '--accent2':     '#e6a820',
-      '--header-bg':   '#5f0001',
-      '--panel':       '#7d0d0e',
-      '--panel2':      '#6a0a0b',
-      '--panel3':      '#5f0001',
-      '--border':      'rgba(199,138,24,0.25)',
-      '--border2':     'rgba(199,138,24,0.5)',
-      '--card-bg':     '#7d0d0e',
-      '--input-bg':    '#5f0001',
-      '--text':        '#f5e6c0',
-      '--text2':       '#d4a843',
-      '--text3':       'rgba(199,138,24,0.6)',
-      '--success':     '#c78a18',
-      '--warning':     '#e6a820',
-      '--danger':      '#ff6b6b',
-      '--gold':        '#c78a18',
-      '--gold-border': '1px solid #c78a18',
-    }
+    accent:    '#c78a18',
+    accent2:   '#e6a820',
+    tabBg:     '#5f0001',
+    tabActive: '#c78a18',
   }
 };
 
@@ -952,70 +911,76 @@ function setSkin(skinKey) {
   if (!skin) return;
   currentSkin = skinKey;
   localStorage.setItem('tew_skin', skinKey);
-  const root = document.documentElement.style;
-  Object.entries(skin.vars).forEach(([k, v]) => root.setProperty(k, v));
+  const r = document.documentElement.style;
+  r.setProperty('--accent',     skin.accent);
+  r.setProperty('--accent2',    skin.accent2);
+  r.setProperty('--tab-bg',     skin.tabBg);
+  r.setProperty('--tab-active', skin.tabActive);
+  r.setProperty('--header-bg',  skin.tabBg);
+  // Gold borders for Dnoiz3 only
+  const isGold = skinKey === 'dnoiz3';
+  document.querySelectorAll('.card,.log-card,.step-row,.meter-card,.chart-card').forEach(el => {
+    el.style.borderColor = isGold ? 'rgba(199,138,24,0.35)' : '';
+  });
   // Update skin buttons
   Object.keys(SKINS).forEach(k => {
     const btn = document.getElementById('skin-' + k);
-    if (btn) {
-      btn.style.background = k === skinKey ? 'var(--accent)' : 'var(--panel3)';
-      btn.style.color      = k === skinKey ? (skinKey==='dnoiz3'?'#000':'#fff') : 'var(--text2)';
-      btn.style.border     = k === 'dnoiz3' ? '1px solid var(--gold)' : '1px solid var(--border)';
-    }
+    if (!btn) return;
+    btn.style.background = k === skinKey ? skin.accent : 'var(--panel3)';
+    btn.style.color      = k === skinKey ? '#fff'      : 'var(--text2)';
   });
-  // Gold borders for Dnoiz3
-  document.querySelectorAll('.card, .modal, .set-group, .log-card, .step-row, .meter-card, .chart-card').forEach(el => {
-    el.style.border = skinKey === 'dnoiz3' ? '1px solid rgba(199,138,24,0.3)' : '';
-    if (skinKey === 'dnoiz3') el.style.boxShadow = '0 0 0 0.5px rgba(199,138,24,0.15)';
-    else el.style.boxShadow = '';
-  });
-  // Gold tab bar text
-  document.querySelectorAll('.tab-btn.active').forEach(b => {
-    b.style.color = skinKey === 'dnoiz3' ? '#c78a18' : '';
-  });
-  // Dark mode auto-apply for Dnoiz3
-  if (skinKey === 'dnoiz3') {
-    document.documentElement.removeAttribute('data-theme');
-  }
 }
 
-// ── Translations ──────────────────────────────────────
 const LANG = {
   en: {
     projects:'Projects', charts:'Charts', logs:'Logs', settings:'Settings',
-    noProjects:'No projects yet', noProjectsSub:'Tap + to create your first project',
-    noLogs:'No logs yet', noLogsSub:'Check off steps to start logging',
-    duplicateName:'A project with that name already exists.',
-    enterName:'Please enter a project name.', selectStage:'Select at least one stage.',
     steps:'Steps', aiNotes:'AI Notes', otherNotes:'Other Notes',
     production:'Production', mix:'Mix', mastering:'Mastering',
-    addNote:'+ Add Note', writeNote:'Write your note here...',
+    noProjects:'No projects yet', noProjectsSub:'Tap + to create your first project',
+    newProject:'New Project', projectName:'Project Name',
+    genre:'Genre', subgenre:'Subgenre', bpm:'BPM', key:'Key', mode:'Mode',
+    artist:'Artist / Composer', create:'Create Project', cancel:'Cancel',
+    save:'Save Changes', delete:'Delete Project', editProject:'Edit Project',
+    stages:'Stages', stageProgress:'Stage Progress', overall:'overall', achieved:'achieved',
+    noLogs:'No logs yet', noLogsSub:'Check off steps to start logging',
+    addNote:'+ Add Note', writeNote:'Write your note here...', noNotes:'No notes yet',
+    appearance:'Appearance', darkMode:'Dark Mode', language:'Language', theme:'Theme',
+    vst:'Plugin VST3', vstBridge:'WebSocket Bridge', vstPort:'UDP Port',
+    liveMetrics:'Live Metrics', account:'Account', signOut:'Sign Out',
+    projectLogs:'Project Logs', clearLogs:'Clear Logs & Reset Steps',
+    resetAll:'Reset All Projects', selectProject:'— Select project —',
     signIn:'Sign In', signUp:'Sign Up', continueGoogle:'Continue with Google',
     forgotPassword:'Forgot password?', email:'Email', password:'Password',
-    darkMode:'Dark Mode', language:'Language', skin:'Theme',
-    signOut:'Sign Out', clearLogs:'Clear Logs & Reset Steps',
-    resetAll:'Reset All Projects', selectProject:'— Select project —',
-    create:'Create Project', cancel:'Cancel', save:'Save Changes',
-    delete:'Delete Project', editProject:'Edit Project', stages:'Stages',
-    overall:'overall', achieved:'achieved',
+    vstConnected:'Connected', vstDisconnected:'Disconnected',
+    vstLive:'VST LIVE', vstOffline:'VST OFFLINE', noConnection:'No connection',
+    duplicateName:'A project with that name already exists.',
+    enterName:'Please enter a project name.', selectStage:'Select at least one stage.',
+    spectrumRef:'Spectrum References', tapToggle:'Tap card to toggle EQ / Pan',
   },
   es: {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
-    noProjects:'Sin proyectos todavía', noProjectsSub:'Toca + para crear tu primer proyecto',
-    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos para comenzar',
-    duplicateName:'Ya existe un proyecto con ese nombre.',
-    enterName:'Escribe el nombre del proyecto.', selectStage:'Selecciona al menos una etapa.',
     steps:'Pasos', aiNotes:'Notas IA', otherNotes:'Otras Notas',
     production:'Producción', mix:'Mezcla', mastering:'Mastering',
-    addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...',
+    noProjects:'Sin proyectos todavía', noProjectsSub:'Toca + para crear tu primer proyecto',
+    newProject:'Nuevo Proyecto', projectName:'Nombre del Proyecto',
+    genre:'Género', subgenre:'Subgénero', bpm:'BPM', key:'Tonalidad', mode:'Modo',
+    artist:'Artista / Compositor', create:'Crear Proyecto', cancel:'Cancelar',
+    save:'Guardar Cambios', delete:'Eliminar Proyecto', editProject:'Editar Proyecto',
+    stages:'Etapas', stageProgress:'Progreso de Etapa', overall:'total', achieved:'logrado',
+    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos para comenzar',
+    addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...', noNotes:'Sin notas todavía',
+    appearance:'Apariencia', darkMode:'Modo Oscuro', language:'Idioma', theme:'Tema',
+    vst:'Plugin VST3', vstBridge:'Puente WebSocket', vstPort:'Puerto UDP',
+    liveMetrics:'Métricas en Vivo', account:'Cuenta', signOut:'Cerrar Sesión',
+    projectLogs:'Registros de Proyecto', clearLogs:'Limpiar Registros y Resetear',
+    resetAll:'Resetear Todos los Proyectos', selectProject:'— Selecciona proyecto —',
     signIn:'Iniciar Sesión', signUp:'Registrarse', continueGoogle:'Continuar con Google',
     forgotPassword:'¿Olvidaste tu contraseña?', email:'Correo', password:'Contraseña',
-    darkMode:'Modo Oscuro', language:'Idioma', skin:'Tema',
-    signOut:'Cerrar Sesión', clearLogs:'Limpiar Registros y Resetear',
-    resetAll:'Resetear Todos los Proyectos', selectProject:'— Selecciona proyecto —',
-    create:'Crear Proyecto', cancel:'Cancelar', save:'Guardar Cambios',
-    delete:'Eliminar Proyecto', editProject:'Editar Proyecto', stages:'Etapas',
-    overall:'total', achieved:'logrado',
+    vstConnected:'Conectado', vstDisconnected:'Desconectado',
+    vstLive:'VST EN VIVO', vstOffline:'VST FUERA DE LÍNEA', noConnection:'Sin conexión',
+    duplicateName:'Ya existe un proyecto con ese nombre.',
+    enterName:'Escribe el nombre del proyecto.', selectStage:'Selecciona al menos una etapa.',
+    spectrumRef:'Referencias de Espectro', tapToggle:'Toca la tarjeta para cambiar EQ / Pan',
   }
 };
 
@@ -1025,12 +990,59 @@ function t(key) { return LANG[currentLang][key] || LANG.en[key] || key; }
 function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('tew_lang', lang);
-  // Update button styles
-  const enBtn = document.getElementById('lang-en');
-  const esBtn = document.getElementById('lang-es');
-  if (enBtn) { enBtn.style.background = lang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = lang==='en' ? '#fff' : 'var(--text2)'; }
-  if (esBtn) { esBtn.style.background = lang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = lang==='es' ? '#fff' : 'var(--text2)'; }
-  applyLanguage();
+
+  // Language buttons
+  ['en','es'].forEach(l => {
+    const btn = document.getElementById('lang-' + l);
+    if (btn) { btn.style.background = l===lang?'var(--accent)':'var(--panel3)'; btn.style.color = l===lang?'#fff':'var(--text2)'; }
+  });
+
+  // Tab bar
+  [{tab:'projects',key:'projects'},{tab:'charts',key:'charts'},{tab:'logs',key:'logs'},{tab:'settings',key:'settings'}].forEach(({tab,key}) => {
+    const btn = document.querySelector('[data-tab="' + tab + '"]');
+    if (btn) { const span = btn.querySelector('span') || btn.lastChild; if(span && span.nodeType===3) btn.lastChild.textContent = ' '+t(key).toUpperCase(); else if(span) span.textContent = t(key).toUpperCase(); }
+  });
+
+  // VST header badge
+  const hdrLbl = document.getElementById('hdr-lbl');
+  if (hdrLbl) hdrLbl.textContent = state.vstOn ? t('vstLive') : t('vstOffline');
+
+  // VST status labels in settings
+  const slblVst = document.getElementById('slbl-vst');
+  const slblWs  = document.getElementById('slbl-ws');
+  if (slblVst) slblVst.textContent = state.vstOn ? t('vstConnected') : t('vstDisconnected');
+  if (slblWs)  slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
+
+  // Settings section labels
+  const settingsMap = {
+    'lbl-darkmode':'darkMode','lbl-lang-lbl':'language','lbl-theme':'theme',
+    'lbl-vst':'vst','lbl-ws-lbl':'vstBridge','lbl-port':'vstPort',
+    'lbl-metrics':'liveMetrics','lbl-account':'account',
+    'lbl-signout':'signOut','lbl-projlogs':'projectLogs',
+    'lbl-clearall':'resetAll',
+  };
+  Object.entries(settingsMap).forEach(([id,key]) => {
+    const el = document.getElementById(id); if(el) el.textContent = t(key);
+  });
+
+  // Workspace inner tabs
+  const itabSteps = document.getElementById('itab-steps');
+  const itabAi    = document.getElementById('itab-ai');
+  const itabNotes = document.getElementById('itab-notes');
+  if (itabSteps) itabSteps.textContent = t('steps');
+  if (itabAi)    itabAi.textContent    = t('aiNotes');
+  if (itabNotes) itabNotes.textContent = t('otherNotes');
+
+  // Add note button
+  const addNoteBtn = document.getElementById('add-note-btn');
+  const noteInp    = document.getElementById('note-input');
+  if (addNoteBtn) addNoteBtn.textContent = t('addNote');
+  if (noteInp)    noteInp.placeholder    = t('writeNote');
+
+  // Re-render dynamic content
+  renderProjects();
+  renderLogs();
+  if (state.active) renderManualNotes();
 }
 
 function applyLanguage() {
@@ -2231,7 +2243,7 @@ function connectWS() {
   ws.onopen = () => {
     state.wsOn = true;
     document.getElementById('sdot-ws').className  = 'sdot sdot-g';
-    document.getElementById('slbl-ws').textContent = 'Connected';
+    document.getElementById('slbl-ws').textContent = t('vstConnected');
   };
 
   ws.onmessage = (e) => {
@@ -2244,11 +2256,11 @@ function connectWS() {
   ws.onclose = () => {
     state.wsOn = state.vstOn = false;
     document.getElementById('sdot-ws').className  = 'sdot sdot-r';
-    document.getElementById('slbl-ws').textContent = 'No connection';
+    document.getElementById('slbl-ws').textContent = t('noConnection');
     document.getElementById('sdot-vst').className = 'sdot sdot-r';
-    document.getElementById('slbl-vst').textContent = 'Disconnected';
+    document.getElementById('slbl-vst').textContent = t('vstDisconnected');
     document.getElementById('hdr-dot').className  = 'hdr-dot';
-    document.getElementById('hdr-lbl').textContent = 'VST OFFLINE';
+    document.getElementById('hdr-lbl').textContent = t('vstOffline');
     setTimeout(connectWS, 3000);
   };
 
@@ -2261,9 +2273,9 @@ function handleVST(rms, peak) {
 
   // Header badge
   document.getElementById('hdr-dot').className   = 'hdr-dot live';
-  document.getElementById('hdr-lbl').textContent  = 'VST LIVE';
+  document.getElementById('hdr-lbl').textContent = t('vstLive');
   document.getElementById('sdot-vst').className  = 'sdot sdot-g';
-  document.getElementById('slbl-vst').textContent = 'Connected';
+  document.getElementById('slbl-vst').textContent = t('vstConnected');
 
   // Settings panel
   const sr = document.getElementById('s-rms');
