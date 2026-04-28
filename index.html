@@ -488,43 +488,31 @@ body {
 
     <!-- LOGS -->
     <div id="screen-logs" class="screen">
-      <p class="sec-label">Progress Logs</p>
+      <p class="sec-label">Registros de Progreso</p>
       <div id="logs-list"></div>
       <div class="spacer"></div>
     </div>
 
     <!-- SETTINGS -->
     <div id="screen-settings" class="screen">
-      <p class="sec-label" id="lbl-appearance">Appearance</p>
+      <p class="sec-label" id="lbl-appearance">Apariencia</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl" id="lbl-darkmode">Dark Mode</span>
+          <span class="set-lbl" id="lbl-darkmode">Modo Oscuro</span>
           <label class="toggle">
             <input type="checkbox" id="dark-toggle" onchange="toggleDark(this.checked)">
             <div class="toggle-track"></div>
           </label>
         </div>
         <div class="set-row">
-          <span class="set-lbl" id="lbl-theme">Theme</span>
+          <span class="set-lbl">Tema</span>
+          <div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl">Idioma</span>
           <div style="display:flex;gap:6px">
-            <button id="skin-tew" onclick="setSkin('tew')"
-              style="border:1px solid var(--border);border-radius:8px;padding:6px 10px;
-                     font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;
-                     transition:all 0.2s;background:var(--accent);color:#fff">TEW</button>
-            <button id="skin-dnoiz3" onclick="setSkin('dnoiz3')"
-              style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;
-                     font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;
-                     transition:all 0.2s;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button>
-          </div>
-        </div>
-        <div class="set-row">
-          <span class="set-lbl" id="lbl-lang-lbl">Language</span>
-          <div style="display:flex;gap:6px">
-            <button id="lang-en" onclick="setLanguage('en')"
+            <button id="lang-en" onclick="setIdioma('en')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--accent);color:#fff">EN</button>
-            <button id="lang-es" onclick="setLanguage('es')"
+            <button id="lang-es" onclick="setIdioma('es')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--panel3);color:var(--text2)">ES</button>
@@ -532,24 +520,24 @@ body {
         </div>
       </div>
 
-      <p class="sec-label">VST Connection</p>
+      <p class="sec-label">Conexión VST</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl" id="lbl-vst">Plugin VST3</span>
+          <span class="set-lbl">Plugin VST3</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-vst"></div><span class="slbl" id="slbl-vst">Disconnected</span></div>
         </div>
         <div class="set-row">
-          <span class="set-lbl" id="lbl-ws-lbl">WebSocket Bridge</span>
+          <span class="set-lbl">WebSocket Bridge</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-ws"></div><span class="slbl" id="slbl-ws">No connection</span></div>
         </div>
-        <div class="set-row"><span class="set-lbl">UDP Port</span><span class="set-val">8765</span></div>
+        <div class="set-row"><span class="set-lbl">Puerto UDP</span><span class="set-val">8765</span></div>
       </div>
 
-      <p class="sec-label">Live Metrics</p>
+      <p class="sec-label">Métricas en Vivo</p>
       <div class="set-group">
         <div class="set-row"><span class="set-lbl">RMS</span><span class="set-val" id="s-rms">—</span></div>
         <div class="set-row"><span class="set-lbl">Peak</span><span class="set-val" id="s-peak">—</span></div>
-        <div class="set-row"><span class="set-lbl">Samples received</span><span class="set-val" id="s-cnt">0</span></div>
+        <div class="set-row"><span class="set-lbl">Muestras recibidas</span><span class="set-val" id="s-cnt">0</span></div>
       </div>
 
       <p class="sec-label">Account</p>
@@ -563,24 +551,24 @@ body {
           <div class="status-row"><div class="sdot sdot-y" id="sdot-fb"></div><span class="slbl" id="slbl-fb">Configuring…</span></div>
         </div>
         <div class="set-row" style="cursor:pointer" onclick="if(window._authSignOut){window._authSignOut();}">
-          <span class="set-lbl" style="color:var(--danger)">Sign Out</span>
+          <span class="set-lbl" style="color:var(--danger)">Cerrar Sesión</span>
           <span style="color:var(--danger);font-size:16px">→</span>
         </div>
       </div>
 
-      <p class="sec-label">Project Logs</p>
+      <p class="sec-label">Registros de Proyecto</p>
       <div class="set-group">
         <div class="set-row" id="clear-logs-row" style="cursor:pointer;display:block;padding:0">
           <div style="padding:14px 16px">
             <div style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px">Clear logs for</div>
             <select class="form-input" id="clear-logs-select" style="margin-bottom:10px" onchange="void(0)">
-              <option value="">— Select project —</option>
+              <option value="">— Selecciona proyecto —</option>
             </select>
-            <button onclick="onClearLogsClick()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Clear Logs &amp; Reset Steps</button>
+            <button onclick="onClearLogsClick()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Limpiar Registros y Resetear</button>
           </div>
         </div>
         <div class="set-row" style="padding:14px 16px;border-top:1px solid var(--border)">
-          <button id="reset-all-btn" onclick="resetAllProjects()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Reset All Projects</button>
+          <button id="reset-all-btn" onclick="resetAllProjects()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Resetear Todos los Proyectos</button>
         </div>
       </div>
       <div class="spacer"></div>
@@ -637,7 +625,7 @@ body {
 
         <!-- Progress -->
         <div class="prog-row">
-          <span class="prog-label">Stage Progress</span>
+          <span class="prog-label">Progreso de Etapa</span>
           <span class="prog-pct" id="ws-pct">0%</span>
         </div>
         <div class="prog-bar"><div class="prog-fill" id="ws-bar" style="width:0%"></div></div>
@@ -661,9 +649,9 @@ body {
         <div id="inner-notes" style="display:none">
           <p class="sec-label">Add Note</p>
           <textarea id="note-input" class="notes-area"
-            placeholder="Write your note here..."
+            placeholder="Escribe tu nota aquí..."
             style="width:100%;min-height:100px;margin-bottom:8px"></textarea>
-          <button onclick="addNote()" id="add-note-btn" class="btn-primary" style="margin-bottom:20px">+ Add Note</button>
+          <button onclick="addNote()" class="btn-primary" style="margin-bottom:20px">+ Agregar Nota</button>
           <p class="sec-label">Your Notes</p>
           <div id="notes-list"></div>
           <div class="spacer"></div>
@@ -724,13 +712,13 @@ body {
 <!-- FAB -->
 <button class="fab" id="fab" onclick="openNewProject()">+</button>
 
-<!-- Modal: New Project -->
+<!-- Modal: Nuevo Proyecto -->
 <div class="modal-overlay" id="modal-proj" onclick="void(0)">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">New Project</div>
+    <div class="modal-title">Nuevo Proyecto</div>
     <div class="form-group">
-      <label class="form-label">Project Name</label>
+      <label class="form-label">Nombre del Proyecto</label>
       <input type="text" class="form-input" id="f-name" placeholder="e.g. Midnight Sessions Vol.1">
     </div>
     <div class="form-row">
@@ -746,7 +734,7 @@ body {
         </datalist>
       </div>
       <div class="form-group">
-        <label class="form-label">Subgenre <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+        <label class="form-label">Subgenre <span style="color:var(--text3);font-weight:400">(opcional)</span></label>
         <input type="text" class="form-input" id="f-subgenre"
           placeholder="e.g. Progressive House, Melodic Trap..."
           autocomplete="off"
@@ -773,7 +761,7 @@ body {
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">Artist / Composer</label>
+      <label class="form-label">Artista / Compositor</label>
       <input type="text" class="form-input" id="f-artist" placeholder="Artist name">
     </div>
 
@@ -793,8 +781,8 @@ body {
     </div>
 
     <div id="proj-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
-    <button class="btn-primary" onclick="createProject()">Create Project</button>
-    <button class="btn-ghost"    onclick="closeModal('modal-proj')">Cancel</button>
+    <button class="btn-primary" onclick="createProject()">Crear Proyecto</button>
+    <button class="btn-ghost"    onclick="closeModal('modal-proj')">Cancelar</button>
   </div>
 </div>
 
@@ -802,20 +790,20 @@ body {
 <div class="modal-overlay" id="modal-stage">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">What stage are you working on?</div>
+    <div class="modal-title">¿En qué etapa trabajas hoy?</div>
     <div class="stage-opt" onclick="selectStage('production')">
       <div class="stage-ico ico-prod">🎹</div>
-      <div class="stage-info"><h3>Production</h3><p>Beat structure, arrangement, sound design</p></div>
+      <div class="stage-info"><h3>Production</h3><p>Estructura del beat, arreglos, diseño de sonido</p></div>
     </div>
     <div class="stage-opt" onclick="selectStage('mix')">
       <div class="stage-ico ico-mix">🎚</div>
-      <div class="stage-info"><h3>Mix</h3><p>EQ, compression, routing, space</p></div>
+      <div class="stage-info"><h3>Mix</h3><p>EQ, compresión, routing, espacio</p></div>
     </div>
     <div class="stage-opt" onclick="selectStage('mastering')">
       <div class="stage-ico ico-mast">💿</div>
-      <div class="stage-info"><h3>Mastering</h3><p>Limiting, LUFS, final export</p></div>
+      <div class="stage-info"><h3>Mastering</h3><p>Limitación, LUFS, exportación final</p></div>
     </div>
-    <button class="btn-ghost" onclick="closeModal('modal-stage')">Cancel</button>
+    <button class="btn-ghost" onclick="closeModal('modal-stage')">Cancelar</button>
   </div>
 </div>
 
@@ -886,166 +874,106 @@ if (auth) {
 
 <script>
 // ── Translations ─────────────────────────────────────
-// ── Skins (accent colors only — dark/light handled separately) ───────
+
+// Skins
 const SKINS = {
-  tew: {
-    name: 'TEW',
-    accent:    '#1586ec',
-    accent2:   '#0ea5e9',
-    tabBg:     '#0f1f3d',
-    tabActive: '#1586ec',
-  },
-  dnoiz3: {
-    name: "D'NOIZ3",
-    accent:    '#c78a18',
-    accent2:   '#e6a820',
-    tabBg:     '#5f0001',
-    tabActive: '#c78a18',
-  }
+  tew:    { accent:'#1586ec', accent2:'#0ea5e9', tabBg:'#0f1f3d', tabActive:'#1586ec' },
+  dnoiz3: { accent:'#c78a18', accent2:'#e6a820', tabBg:'#5f0001', tabActive:'#c78a18' },
 };
-
 let currentSkin = localStorage.getItem('tew_skin') || 'tew';
-
-function setSkin(skinKey) {
-  const skin = SKINS[skinKey];
-  if (!skin) return;
-  currentSkin = skinKey;
-  localStorage.setItem('tew_skin', skinKey);
+function setSkin(k) {
+  const s = SKINS[k]; if(!s) return;
+  currentSkin = k; localStorage.setItem('tew_skin', k);
   const r = document.documentElement.style;
-  r.setProperty('--accent',     skin.accent);
-  r.setProperty('--accent2',    skin.accent2);
-  r.setProperty('--tab-bg',     skin.tabBg);
-  r.setProperty('--tab-active', skin.tabActive);
-  r.setProperty('--header-bg',  skin.tabBg);
-  // Gold borders for Dnoiz3 only
-  const isGold = skinKey === 'dnoiz3';
+  r.setProperty('--accent', s.accent); r.setProperty('--accent2', s.accent2);
+  r.setProperty('--tab-bg', s.tabBg); r.setProperty('--tab-active', s.tabActive);
+  r.setProperty('--header-bg', s.tabBg);
+  const gold = k==='dnoiz3';
   document.querySelectorAll('.card,.log-card,.step-row,.meter-card,.chart-card').forEach(el => {
-    el.style.borderColor = isGold ? 'rgba(199,138,24,0.35)' : '';
+    el.style.borderColor = gold ? 'rgba(199,138,24,0.35)' : '';
   });
-  // Update skin buttons
-  Object.keys(SKINS).forEach(k => {
-    const btn = document.getElementById('skin-' + k);
-    if (!btn) return;
-    btn.style.background = k === skinKey ? skin.accent : 'var(--panel3)';
-    btn.style.color      = k === skinKey ? '#fff'      : 'var(--text2)';
+  ['tew','dnoiz3'].forEach(id => {
+    const btn = document.getElementById('skin-'+id);
+    if(btn) { btn.style.background = id===k ? s.accent:'var(--panel3)'; btn.style.color = id===k?'#fff':'var(--text2)'; }
   });
 }
-
 const LANG = {
   en: {
     projects:'Projects', charts:'Charts', logs:'Logs', settings:'Settings',
+    newProject:'Nuevo Proyecto', projectName:'Nombre del Proyecto', genre:'Genre',
+    subgenre:'Subgenre', bpm:'BPM', key:'Key', mode:'Mode', artist:'Artista / Compositor',
+    create:'Crear Proyecto', cancel:'Cancel', save:'Guardar Cambios', delete:'Eliminar Proyecto',
     steps:'Steps', aiNotes:'AI Notes', otherNotes:'Other Notes',
-    production:'Production', mix:'Mix', mastering:'Mastering',
-    noProjects:'No projects yet', noProjectsSub:'Tap + to create your first project',
-    newProject:'New Project', projectName:'Project Name',
-    genre:'Genre', subgenre:'Subgenre', bpm:'BPM', key:'Key', mode:'Mode',
-    artist:'Artist / Composer', create:'Create Project', cancel:'Cancel',
-    save:'Save Changes', delete:'Delete Project', editProject:'Edit Project',
-    stages:'Stages', stageProgress:'Stage Progress', overall:'overall', achieved:'achieved',
-    noLogs:'No logs yet', noLogsSub:'Check off steps to start logging',
-    addNote:'+ Add Note', writeNote:'Write your note here...', noNotes:'No notes yet',
-    appearance:'Appearance', darkMode:'Dark Mode', language:'Language', theme:'Theme',
-    vst:'Plugin VST3', vstBridge:'WebSocket Bridge', vstPort:'UDP Port',
-    liveMetrics:'Live Metrics', account:'Account', signOut:'Sign Out',
-    projectLogs:'Project Logs', clearLogs:'Clear Logs & Reset Steps',
-    resetAll:'Reset All Projects', selectProject:'— Select project —',
-    signIn:'Sign In', signUp:'Sign Up', continueGoogle:'Continue with Google',
-    forgotPassword:'Forgot password?', email:'Email', password:'Password',
-    vstConnected:'Connected', vstDisconnected:'Disconnected',
-    vstLive:'VST LIVE', vstOffline:'VST OFFLINE', noConnection:'No connection',
+    production:'Producción', mix:'Mezcla', mastering:'Mastering',
+    stageProgress:'Progreso de Etapa', noProjects:'Sin proyectos todavía',
+    noProjectsSub:'Toca + para crear tu primer proyecto',
+    noSteps:'Ningún paso completado todavía', noNotes:'Sin notas todavía',
+    addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...',
+    editProject:'Editar Proyecto', stages:'Stages', total:'total',
+    achieved:'achieved', signIn:'Sign In', signUp:'Sign Up',
+    forgotPassword:'¿Olvidaste tu contraseña?', continueGoogle:'Continuar con Google',
+    email:'Email', password:'Password', appearance:'Apariencia',
+    darkMode:'Modo Oscuro', language:'Idioma', vst:'Plugin VST3',
+    vstPort:'Puerto UDP', liveMetrics:'Métricas en Vivo', account:'Account',
+    signOut:'Cerrar Sesión', projectLogs:'Registros de Proyecto', clearLogs:'Clear Logs & Reset Steps',
+    resetAll:'Resetear Todos los Proyectos', selectProject:'— Selecciona proyecto —',
+    customSubgenre:'optional', searchGenre:'e.g. Electronic, Trap...',
+    searchSubgenre:'e.g. Progressive House, Melodic Trap...',
     duplicateName:'A project with that name already exists.',
-    enterName:'Please enter a project name.', selectStage:'Select at least one stage.',
-    spectrumRef:'Spectrum References', tapToggle:'Tap card to toggle EQ / Pan',
+    enterName:'Please enter a project name.',
+    selectStage:'Selecciona al menos una etapa.',
+    spectrumRef:'Referencias de Espectro', tapToggle:'Toca la tarjeta para cambiar EQ / Pan',
+    instRanges:'Instrument Ranges',
+    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos para comenzar',
+    connection:'Connection',
   },
   es: {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
+    newProject:'Nuevo Proyecto', projectName:'Nombre del Proyecto', genre:'Género',
+    subgenre:'Subgénero', bpm:'BPM', key:'Tonalidad', mode:'Modo', artist:'Artista / Compositor',
+    create:'Crear Proyecto', cancel:'Cancelar', save:'Guardar Cambios', delete:'Eliminar Proyecto',
     steps:'Pasos', aiNotes:'Notas IA', otherNotes:'Otras Notas',
     production:'Producción', mix:'Mezcla', mastering:'Mastering',
-    noProjects:'Sin proyectos todavía', noProjectsSub:'Toca + para crear tu primer proyecto',
-    newProject:'Nuevo Proyecto', projectName:'Nombre del Proyecto',
-    genre:'Género', subgenre:'Subgénero', bpm:'BPM', key:'Tonalidad', mode:'Modo',
-    artist:'Artista / Compositor', create:'Crear Proyecto', cancel:'Cancelar',
-    save:'Guardar Cambios', delete:'Eliminar Proyecto', editProject:'Editar Proyecto',
-    stages:'Etapas', stageProgress:'Progreso de Etapa', overall:'total', achieved:'logrado',
-    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos para comenzar',
-    addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...', noNotes:'Sin notas todavía',
-    appearance:'Apariencia', darkMode:'Modo Oscuro', language:'Idioma', theme:'Tema',
-    vst:'Plugin VST3', vstBridge:'Puente WebSocket', vstPort:'Puerto UDP',
-    liveMetrics:'Métricas en Vivo', account:'Cuenta', signOut:'Cerrar Sesión',
-    projectLogs:'Registros de Proyecto', clearLogs:'Limpiar Registros y Resetear',
+    stageProgress:'Progreso de Etapa', noProjects:'Sin proyectos todavía',
+    noProjectsSub:'Toca + para crear tu primer proyecto',
+    noSteps:'Ningún paso completado aún', noNotes:'Sin notas todavía',
+    addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...',
+    editProject:'Editar Proyecto', stages:'Etapas', total:'total',
+    achieved:'logrado', signIn:'Iniciar Sesión', signUp:'Registrarse',
+    forgotPassword:'¿Olvidaste tu contraseña?', continueGoogle:'Continuar con Google',
+    email:'Correo electrónico', password:'Contraseña', appearance:'Apariencia',
+    darkMode:'Modo Oscuro', language:'Idioma', vst:'Plugin VST3',
+    vstPort:'Puerto UDP', liveMetrics:'Métricas en Vivo', account:'Cuenta',
+    signOut:'Cerrar Sesión', projectLogs:'Registros de Proyecto',
+    clearLogs:'Limpiar Registros y Resetear Pasos',
     resetAll:'Resetear Todos los Proyectos', selectProject:'— Selecciona proyecto —',
-    signIn:'Iniciar Sesión', signUp:'Registrarse', continueGoogle:'Continuar con Google',
-    forgotPassword:'¿Olvidaste tu contraseña?', email:'Correo', password:'Contraseña',
-    vstConnected:'Conectado', vstDisconnected:'Desconectado',
-    vstLive:'VST EN VIVO', vstOffline:'VST FUERA DE LÍNEA', noConnection:'Sin conexión',
+    customSubgenre:'opcional', searchGenre:'ej. Electrónica, Trap...',
+    searchSubgenre:'ej. Progressive House, Trap Melódico...',
     duplicateName:'Ya existe un proyecto con ese nombre.',
-    enterName:'Escribe el nombre del proyecto.', selectStage:'Selecciona al menos una etapa.',
+    enterName:'Por favor escribe el nombre del proyecto.',
+    selectStage:'Selecciona al menos una etapa.',
     spectrumRef:'Referencias de Espectro', tapToggle:'Toca la tarjeta para cambiar EQ / Pan',
+    instRanges:'Rangos de Instrumentos',
+    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos en un proyecto para comenzar',
+    connection:'Conexión',
   }
 };
 
 let currentLang = localStorage.getItem('tew_lang') || 'en';
 function t(key) { return LANG[currentLang][key] || LANG.en[key] || key; }
 
-function setLanguage(lang) {
+function setIdioma(lang) {
   currentLang = lang;
   localStorage.setItem('tew_lang', lang);
-
-  // Language buttons
-  ['en','es'].forEach(l => {
-    const btn = document.getElementById('lang-' + l);
-    if (btn) { btn.style.background = l===lang?'var(--accent)':'var(--panel3)'; btn.style.color = l===lang?'#fff':'var(--text2)'; }
-  });
-
-  // Tab bar
-  [{tab:'projects',key:'projects'},{tab:'charts',key:'charts'},{tab:'logs',key:'logs'},{tab:'settings',key:'settings'}].forEach(({tab,key}) => {
-    const btn = document.querySelector('[data-tab="' + tab + '"]');
-    if (btn) { const span = btn.querySelector('span') || btn.lastChild; if(span && span.nodeType===3) btn.lastChild.textContent = ' '+t(key).toUpperCase(); else if(span) span.textContent = t(key).toUpperCase(); }
-  });
-
-  // VST header badge
-  const hdrLbl = document.getElementById('hdr-lbl');
-  if (hdrLbl) hdrLbl.textContent = state.vstOn ? t('vstLive') : t('vstOffline');
-
-  // VST status labels in settings
-  const slblVst = document.getElementById('slbl-vst');
-  const slblWs  = document.getElementById('slbl-ws');
-  if (slblVst) slblVst.textContent = state.vstOn ? t('vstConnected') : t('vstDisconnected');
-  if (slblWs)  slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
-
-  // Settings section labels
-  const settingsMap = {
-    'lbl-darkmode':'darkMode','lbl-lang-lbl':'language','lbl-theme':'theme',
-    'lbl-vst':'vst','lbl-ws-lbl':'vstBridge','lbl-port':'vstPort',
-    'lbl-metrics':'liveMetrics','lbl-account':'account',
-    'lbl-signout':'signOut','lbl-projlogs':'projectLogs',
-    'lbl-clearall':'resetAll',
-  };
-  Object.entries(settingsMap).forEach(([id,key]) => {
-    const el = document.getElementById(id); if(el) el.textContent = t(key);
-  });
-
-  // Workspace inner tabs
-  const itabSteps = document.getElementById('itab-steps');
-  const itabAi    = document.getElementById('itab-ai');
-  const itabNotes = document.getElementById('itab-notes');
-  if (itabSteps) itabSteps.textContent = t('steps');
-  if (itabAi)    itabAi.textContent    = t('aiNotes');
-  if (itabNotes) itabNotes.textContent = t('otherNotes');
-
-  // Add note button
-  const addNoteBtn = document.getElementById('add-note-btn');
-  const noteInp    = document.getElementById('note-input');
-  if (addNoteBtn) addNoteBtn.textContent = t('addNote');
-  if (noteInp)    noteInp.placeholder    = t('writeNote');
-
-  // Re-render dynamic content
-  renderProjects();
-  renderLogs();
-  if (state.active) renderManualNotes();
+  // Update button styles
+  const enBtn = document.getElementById('lang-en');
+  const esBtn = document.getElementById('lang-es');
+  if (enBtn) { enBtn.style.background = lang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = lang==='en' ? '#fff' : 'var(--text2)'; }
+  if (esBtn) { esBtn.style.background = lang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = lang==='es' ? '#fff' : 'var(--text2)'; }
+  applyIdioma();
 }
 
-function applyLanguage() {
+function applyIdioma() {
   // Tab bar
   const tabLabels = ['projects','charts','logs','settings'];
   tabLabels.forEach(tab => {
@@ -1104,7 +1032,7 @@ function safeEl(id) {
 
 const STEP_DETAILS = {
   // PRODUCTION
-  pr1: { icon:'🎧', detail:'A reference track is one of the most powerful tools in your workflow. Choose a professionally released song in the same genre that represents the sound you want to achieve. Load it into your DAW at a matched loudness level (around −14 LUFS) and use it throughout the session to compare frequency balance, stereo width, dynamics, and overall energy. Your goal is not to copy it — it is to understand the gap between your mix and a finished, commercially polished record.' },
+  pr1: { icon:'🎧', detail:'A reference track is one of the most powerful tools in your workflow. Choose a professionally released song in the same genre that represents the sound you want to achieve. Load it into your DAW at a matched loudness level (around −14 LUFS) and use it throughout the session to compare frequency balance, stereo width, dynamics, and total energy. Your goal is not to copy it — it is to understand the gap between your mix and a finished, commercially polished record.' },
   pr2: { icon:'🎵', detail:'Before placing any element, lock your tempo and musical key into the project settings. Everything you build — drums, bass, chords, melody — will be anchored to these two parameters. Choosing the wrong key or drifting tempo mid-project causes costly rework later. Set BPM in your DAW transport, tune any virtual instruments to the root note, and if you are working with samples, pitch-match them to your key using a pitch detection tool.' },
   pr3: { icon:'🥁', detail:'The drum foundation defines the feel and energy of the entire track. Start with kick and snare placement to establish the groove, then layer in hi-hats, percussion, and any tonal drum elements. Pay close attention to velocity variation — a perfectly quantized grid can sound robotic. Introduce subtle timing shifts and velocity humanization to give the rhythm a natural, breathing feel. Reference your drums against the reference track before adding any other elements.' },
   pr4: { icon:'🎸', detail:'The bassline works in tandem with the kick to form the low-end foundation. Program or play a bass part that complements the kick drum rhythmically — in many modern genres, the kick and bass share the same frequency space, so they need to breathe together. Keep your bassline mono below 80 Hz for maximum translation on all playback systems. Leave headroom at this stage; you will shape the bass further during mixing with sidechain compression and EQ.' },
@@ -1124,7 +1052,7 @@ const STEP_DETAILS = {
   mx8: { icon:'🔁', detail:'Delay adds rhythmic interest, depth, and space to your mix without muddying the low-end the way reverb can. Sync your delay times to the project tempo using note values — an eighth-note delay at 140 BPM equals 107ms. Use high-pass and low-pass filters on your delay returns to prevent the repeats from cluttering the frequency range of the dry signal. Automate delay sends to increase during instrumental breaks and reduce during dense sections to maintain clarity.' },
   mx9: { icon:'🔥', detail:'Saturation adds even-order harmonic distortion that mimics the warmth of analog equipment. Used subtly, it adds perceived loudness, glues elements together, and makes digital recordings feel more alive. Apply saturation to the drum bus to add punch and cohesion, to the bass to add harmonics that make it audible on small speakers, and sparingly to synths and vocals to add character. The key word is subtlety — if you can clearly hear the saturation, you have applied too much. A/B with the plugin bypassed to confirm the improvement.' },
   // MASTERING
-  ms1: { icon:'🎧', detail:'Your reference track is the most important tool in mastering. Choose a commercially released master in the same genre that represents your loudness, tonal, and dynamic targets. Import it into your mastering DAW and match its loudness using a LUFS meter before comparing. Listen critically to the low-end balance, the high-frequency air, the stereo width, and the overall density. Your mastered result should feel competitive with this reference on any playback system — from headphones to club speakers to phone speakers.' },
+  ms1: { icon:'🎧', detail:'Your reference track is the most important tool in mastering. Choose a commercially released master in the same genre that represents your loudness, tonal, and dynamic targets. Import it into your mastering DAW and match its loudness using a LUFS meter before comparing. Listen critically to the low-end balance, the high-frequency air, the stereo width, and the total density. Your mastered result should feel competitive with this reference on any playback system — from headphones to club speakers to phone speakers.' },
   ms2: { icon:'📊', detail:'Before any mastering processing, set the input gain of your mastering chain so the loudest section of the track peaks between −6 and −3 dBFS. This gives your entire mastering chain — EQ, compressor, saturator, limiter — sufficient headroom to operate cleanly without the signal clipping any plugin input stage. Avoid the temptation to push the gain high to make it sound louder at this point. Loudness comes at the end through the limiter, not from overloading the chain.' },
   ms3: { icon:'🎚️', detail:'Mastering EQ is about broad, gentle tonal shaping — not corrective surgery. That work belongs in the mix stage. At mastering, you are making final adjustments of 1 to 2 dB using wide, musical curves. A gentle high shelf boost above 12 kHz adds air and presence. A slight low-shelf boost below 60 Hz adds weight. A subtle dip in the 300–500 Hz region can reduce muddiness. Use a linear phase EQ to avoid phase artifacts that a minimum phase EQ would introduce in a full-mix context.' },
   ms4: { icon:'⚙️', detail:'A mastering compressor at a 2:1 ratio with a slow attack and medium release acts as a glue that brings the stereo mix together into a unified, cohesive sound. Set the attack slow enough (30–50ms) that transients pass through unaffected, preserving the punch and impact of the mix. The release should track the tempo of the music. Aim for 2 to 4 dB of gain reduction on average. More than 6 dB of compression at this stage will begin to audibly squash the dynamics and fatigue the listener.' },
@@ -1138,45 +1066,46 @@ const STEP_DETAILS = {
 
 const STEPS = {
   production: [
-    { id:'pr1', name:'Reference Track',    desc:'Load a commercial reference to guide your sound',       rmsMin:-30, rmsMax:-12 },
-    { id:'pr2', name:'Tempo & Key',        desc:'Lock in BPM and musical key before building',           rmsMin:-30, rmsMax:-12 },
-    { id:'pr3', name:'Drum Programming',   desc:'Build the rhythmic foundation of the track',            rmsMin:-28, rmsMax:-10 },
-    { id:'pr4', name:'Bass Line',          desc:'Establish the low-end groove and root movement',        rmsMin:-26, rmsMax:-10 },
-    { id:'pr5', name:'Chord Progression',  desc:'Define the harmonic structure and mood',               rmsMin:-24, rmsMax:-8  },
-    { id:'pr6', name:'Melody / Lead',      desc:'Create the main melodic or vocal hook element',        rmsMin:-22, rmsMax:-8  },
-    { id:'pr7', name:'Sound Design',       desc:'Shape and refine each sound with processing',          rmsMin:-22, rmsMax:-8  },
-    { id:'pr8', name:'Arrangement',        desc:'Structure intro, verse, chorus, bridge and outro',     rmsMin:-20, rmsMax:-6  },
-    { id:'pr9', name:'Automation',         desc:'Add movement, dynamics and variation over time',       rmsMin:-20, rmsMax:-6  },
+    { id:'pr1', name:'Track de Referencia',    desc:'Carga una referencia comercial para guiar tu sonido',      rmsMin:-30, rmsMax:-12 },
+    { id:'pr2', name:'Tempo y Tonalidad',       desc:'Fija el BPM y la tonalidad antes de construir',            rmsMin:-30, rmsMax:-12 },
+    { id:'pr3', name:'Programación de Batería', desc:'Construye la base rítmica del track',                      rmsMin:-28, rmsMax:-10 },
+    { id:'pr4', name:'Línea de Bajo',           desc:'Establece el groove del bajo y el movimiento armónico',    rmsMin:-26, rmsMax:-10 },
+    { id:'pr5', name:'Progresión de Acordes',   desc:'Define la estructura armónica y el estado emocional',     rmsMin:-24, rmsMax:-8  },
+    { id:'pr6', name:'Melodía / Lead',          desc:'Crea el gancho melódico o vocal principal',                rmsMin:-22, rmsMax:-8  },
+    { id:'pr7', name:'Diseño de Sonido',        desc:'Da forma a cada sonido con procesamiento creativo',        rmsMin:-22, rmsMax:-8  },
+    { id:'pr8', name:'Arreglos',                desc:'Estructura intro, verso, coro, bridge y outro',           rmsMin:-20, rmsMax:-6  },
+    { id:'pr9', name:'Automatización',          desc:'Agrega movimiento, dinámica y variación en el tiempo',    rmsMin:-20, rmsMax:-6  },
   ],
   mix: [
-    { id:'mx1', name:'Compose',            desc:'Make sure everything sounds clean before you start',   rmsMin:-24, rmsMax:-14 },
-    { id:'mx2', name:'Organization',       desc:'Label, color-code and group all tracks clearly',       rmsMin:-24, rmsMax:-14 },
-    { id:'mx3', name:'Routing I/O',        desc:'Set up buses, sends and returns correctly',            rmsMin:-22, rmsMax:-12 },
-    { id:'mx4', name:'Sends/Aux Channels', desc:'Configure reverb, delay and parallel channels',       rmsMin:-22, rmsMax:-12 },
-    { id:'mx5', name:'EQ',                 desc:'Cut problem frequencies, shape tonal balance',         rmsMin:-20, rmsMax:-10 },
-    { id:'mx6', name:'Gain Staging',       desc:'Target −18 dBFS RMS per channel for headroom',        rmsMin:-20, rmsMax:-16 },
-    { id:'mx7', name:'Compression',        desc:'Control dynamics and glue elements together',          rmsMin:-18, rmsMax:-8  },
-    { id:'mx8', name:'Delay',              desc:'Add rhythmic space and depth with delay effects',      rmsMin:-18, rmsMax:-8  },
-    { id:'mx9', name:'Saturation',         desc:'Add harmonic warmth if needed — subtle is key',        rmsMin:-16, rmsMax:-6  },
+    { id:'mx1', name:'Composición',             desc:'Asegúrate de que todo suene limpio antes de mezclar',     rmsMin:-24, rmsMax:-14 },
+    { id:'mx2', name:'Organización',            desc:'Etiqueta, colorea y agrupa todos los canales claramente', rmsMin:-24, rmsMax:-14 },
+    { id:'mx3', name:'Routing I/O',             desc:'Configura buses, envíos y retornos correctamente',        rmsMin:-22, rmsMax:-12 },
+    { id:'mx4', name:'Canales Aux',             desc:'Configura reverb, delay y canales paralelos',            rmsMin:-22, rmsMax:-12 },
+    { id:'mx5', name:'EQ',                      desc:'Corta frecuencias problemáticas y da forma tonal',        rmsMin:-20, rmsMax:-10 },
+    { id:'mx6', name:'Gain Staging',            desc:'Objetivo -18 dBFS RMS por canal para headroom',          rmsMin:-20, rmsMax:-16 },
+    { id:'mx7', name:'Compresión',              desc:'Controla la dinámica y une los elementos de la mezcla',  rmsMin:-18, rmsMax:-8  },
+    { id:'mx8', name:'Delay',                   desc:'Agrega espacio rítmico y profundidad con delay',          rmsMin:-18, rmsMax:-8  },
+    { id:'mx9', name:'Saturación',              desc:'Agrega calidez armónica si es necesario — sé sutil',     rmsMin:-16, rmsMax:-6  },
   ],
   mastering: [
-    { id:'ms1', name:'Reference Track',    desc:'Compare against a commercial master at matched loudness', rmsMin:-16, rmsMax:-10 },
-    { id:'ms2', name:'Gain Staging',       desc:'Set input gain so the chain has proper headroom',        rmsMin:-16, rmsMax:-10 },
-    { id:'ms3', name:'EQ',                 desc:'Broad tonal shaping — subtle moves of 1-2 dB max',       rmsMin:-14, rmsMax:-8  },
-    { id:'ms4', name:'Compressor',         desc:'Glue the master: ratio 2:1, slow attack, mid release',   rmsMin:-14, rmsMax:-8  },
-    { id:'ms5', name:'Stereo Enhancement', desc:'Widen highs, keep lows mono for translation',            rmsMin:-12, rmsMax:-6  },
-    { id:'ms6', name:'Saturation/Exciter', desc:'Add analog character and perceived loudness',            rmsMin:-12, rmsMax:-6  },
-    { id:'ms7', name:'Limiter',            desc:'Set true peak ceiling at −1 dBTP, target your LUFS',    rmsMin:-10, rmsMax:-2  },
-    { id:'ms8', name:'LUFS Check',         desc:'Spotify −14 / Apple −16 / YouTube −14 / CD −9',         rmsMin:-10, rmsMax:-2  },
-    { id:'ms9', name:'Dithering',          desc:'Apply TPDF dither when reducing to 16-bit',             rmsMin:-10, rmsMax:-2  },
-    { id:'ms10',name:'Final Export',       desc:'Export WAV 24-bit 44.1kHz (or per platform spec)',       rmsMin:-10, rmsMax:-2  },
+    { id:'ms1', name:'Track de Referencia',     desc:'Compara con un máster comercial a igual loudness',        rmsMin:-16, rmsMax:-10 },
+    { id:'ms2', name:'Gain Staging',            desc:'Ajusta la ganancia de entrada para headroom suficiente',  rmsMin:-16, rmsMax:-10 },
+    { id:'ms3', name:'EQ',                      desc:'Ajustes tonales suaves — máximo 1-2 dB',                 rmsMin:-14, rmsMax:-8  },
+    { id:'ms4', name:'Compresor',               desc:'Glue: ratio 2:1, ataque lento, release medio',            rmsMin:-14, rmsMax:-8  },
+    { id:'ms5', name:'Mejora Estéreo',          desc:'Amplía agudos, mantén graves en mono',                   rmsMin:-12, rmsMax:-6  },
+    { id:'ms6', name:'Saturación',              desc:'Agrega carácter analógico y loudness percibida',          rmsMin:-12, rmsMax:-6  },
+    { id:'ms7', name:'Limitador',               desc:'Ceiling -1 dBTP, alcanza tu objetivo de LUFS',           rmsMin:-10, rmsMax:-2  },
+    { id:'ms8', name:'Revisión de LUFS',        desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',          rmsMin:-10, rmsMax:-2  },
+    { id:'ms9', name:'Dithering',               desc:'Aplica dither TPDF al reducir a 16 bits',                rmsMin:-10, rmsMax:-2  },
+    { id:'ms10',name:'Exportación Final',       desc:'Exporta WAV 24-bit 44.1kHz por specs de la plataforma',  rmsMin:-10, rmsMax:-2  },
   ],
 };
+
 
 const AI_SUGGESTIONS = {
   production: [
     { tip:'Gain Staging',    text:'Keep your samples at −18 dBFS from the start. This gives you headroom for mixing later and prevents clipping in the chain.' },
-    { tip:'Reference Track', text:'Load a commercial reference at matched loudness (−14 LUFS). Compare your low end, stereo width, and overall energy before committing to sounds.' },
+    { tip:'Reference Track', text:'Load a commercial reference at matched loudness (−14 LUFS). Compare your low end, stereo width, and total energy before committing to sounds.' },
     { tip:'Drum Groove',     text:'Introduce subtle velocity variation on hi-hats and snares. A perfectly quantized grid sounds robotic — aim for 85–95% quantize strength.' },
     { tip:'Bass & Kick',     text:'Your sub frequencies (below 80 Hz) need space. Program the bass to breathe with the kick — avoid stacking both on the same beat without sidechain.' },
     { tip:'Arrangement',     text:'Every section should have a clear purpose. Build tension by adding elements, release it by stripping back. Avoid keeping the same energy for more than 8 bars.' },
@@ -1197,7 +1126,7 @@ const AI_SUGGESTIONS = {
   ],
 };
 
-const STAGE_LABELS = { production:'Production', mix:'Mix', mastering:'Mastering' };
+const STAGE_LABELS = { production:'Producción', mix:'Mezcla', mastering:'Mastering' };
 const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-mast' };
 
 // spectrum: 12 bands 20Hz→20kHz (heights 0-100)
@@ -1206,25 +1135,25 @@ const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-m
 // panWidth: how wide the instrument spreads (0=mono, 1=full stereo)
 const INSTRUMENTS = {
   kick:    {
-    name:'Kick Drum', icon:'🥁', range:'40–200 Hz', color:'#1586ec',
+    name:'Bombo', icon:'🥁', range:'40–200 Hz', color:'#1586ec',
     note:'The kick drum is the anchor of your low end. Keep it mono and centered at all times.',
     spectrum:[95,92,82,62,42,28,18,12,8,5,3,2],
     hotspots:[[0,'Sub 40Hz'],[2,'Punch 80Hz'],[3,'Body 160Hz'],[5,'Click 600Hz']],
-    pan:0, panWidth:0.05, panLabel:'Center — always mono'
+    pan:0, panWidth:0.05, panLabel:'Centro — siempre mono'
   },
   snare:   {
-    name:'Snare', icon:'🪘', range:'150 Hz–8 kHz', color:'#7c3aed',
+    name:'Caja', icon:'🪘', range:'150 Hz–8 kHz', color:'#7c3aed',
     note:'The snare defines the backbeat. Its crack cuts through a dense mix with presence around 2–5 kHz.',
     spectrum:[10,22,52,82,62,48,72,92,88,72,42,18],
     hotspots:[[3,'Body 160Hz'],[6,'Crack 1kHz'],[7,'Snap 2kHz'],[9,'Air 8kHz']],
-    pan:0, panWidth:0.08, panLabel:'Center — slight variation OK'
+    pan:0, panWidth:0.08, panLabel:'Centro — ligera variación aceptable'
   },
   bass:    {
-    name:'Bass', icon:'🎸', range:'40–400 Hz', color:'#0ea5e9',
+    name:'Bajo', icon:'🎸', range:'40–400 Hz', color:'#0ea5e9',
     note:'Bass must be mono below 120 Hz for reliable translation on all systems — from club to phone speaker.',
     spectrum:[88,92,90,78,58,32,18,12,8,5,2,1],
     hotspots:[[0,'Sub 40Hz'],[1,'Root 60Hz'],[2,'Thump 80Hz'],[4,'Tone 300Hz']],
-    pan:0, panWidth:0.0, panLabel:'Center — strict mono below 120Hz'
+    pan:0, panWidth:0.0, panLabel:'Centro — mono estricto bajo 120Hz'
   },
   hihat:   {
     name:'Hi-Hat', icon:'🎶', range:'6k–16 kHz', color:'#10b981',
@@ -1234,60 +1163,60 @@ const INSTRUMENTS = {
     pan:0.35, panWidth:0.3, panLabel:'Slight right (closed) / left (open)'
   },
   vocals:  {
-    name:'Vocals', icon:'🎤', range:'80 Hz–12 kHz', color:'#f59e0b',
+    name:'Vocales', icon:'🎤', range:'80 Hz–12 kHz', color:'#f59e0b',
     note:'Lead vocals always sit center. Double-tracked or backing vocals can be panned wide for space and depth.',
     spectrum:[15,22,38,58,68,72,82,92,90,72,48,22],
     hotspots:[[2,'Body 80Hz'],[4,'Warmth 400Hz'],[6,'Presence 1kHz'],[8,'Sibilance 5kHz']],
-    pan:0, panWidth:0.1, panLabel:'Lead: center / BVs: wide L+R'
+    pan:0, panWidth:0.1, panLabel:'Lead: centro / BVs: ancho L+R'
   },
   guitar:  {
-    name:'Guitar', icon:'🎸', range:'80 Hz–5 kHz', color:'#ef4444',
+    name:'Guitarra', icon:'🎸', range:'80 Hz–5 kHz', color:'#ef4444',
     note:'Rhythm guitars are typically panned wide left and right to create space for the vocals and lead in the center.',
     spectrum:[8,16,42,78,88,82,72,62,52,38,16,5],
     hotspots:[[2,'Warmth 80Hz'],[3,'Body 200Hz'],[5,'Definition 630Hz'],[7,'Presence 3kHz']],
-    pan:0.75, panWidth:0.25, panLabel:'Hard L / Hard R (rhythm pair)'
+    pan:0.75, panWidth:0.25, panLabel:'Hard L / Hard R (par rítmico)'
   },
   piano:   {
     name:'Piano', icon:'🎹', range:'28 Hz–4 kHz', color:'#8b5cf6',
     note:'Piano spans the full frequency range. Position it slightly off-center to avoid competing with lead vocals in the center.',
     spectrum:[62,72,68,62,58,52,58,62,58,42,22,8],
     hotspots:[[0,'Low A 28Hz'],[2,'Mid 80Hz'],[5,'Tone 630Hz'],[7,'Keys 2kHz']],
-    pan:0.2, panWidth:0.4, panLabel:'Slightly off-center, moderate width'
+    pan:0.2, panWidth:0.4, panLabel:'Ligeramente fuera del centro'
   },
   pad:     {
-    name:'Synth Pad', icon:'🎛️', range:'200 Hz–8 kHz', color:'#06b6d4',
+    name:'Pad Sintetizador', icon:'🎛️', range:'200 Hz–8 kHz', color:'#06b6d4',
     note:'Pads exist to fill space. Make them wide — they should live on the sides, leaving the center clean for leads and vocals.',
     spectrum:[5,8,15,42,68,78,72,62,58,48,32,12],
     hotspots:[[3,'Body 200Hz'],[5,'Mid 630Hz'],[7,'Air 2kHz'],[9,'Shimmer 8kHz']],
-    pan:0, panWidth:0.9, panLabel:'Full stereo width — L and R'
+    pan:0, panWidth:0.9, panLabel:'Amplitud estéreo completa — L y R'
   },
   lead:    {
-    name:'Synth Lead', icon:'🎵', range:'200 Hz–6 kHz', color:'#ec4899',
+    name:'Lead Sintetizador', icon:'🎵', range:'200 Hz–6 kHz', color:'#ec4899',
     note:'Lead synths sit center like a vocal. Use subtle stereo width from a chorus or reverb send — not from panning.',
     spectrum:[8,12,26,58,82,88,82,72,62,42,20,6],
     hotspots:[[3,'Body 200Hz'],[5,'Fundamental 630Hz'],[7,'Bite 3kHz'],[8,'Presence 5kHz']],
-    pan:0, panWidth:0.15, panLabel:'Center with subtle chorus width'
+    pan:0, panWidth:0.15, panLabel:'Centro con coro sutil'
   },
   perc:    {
-    name:'Percussion', icon:'🪇', range:'200 Hz–10 kHz', color:'#f97316',
+    name:'Percusión', icon:'🪇', range:'200 Hz–10 kHz', color:'#f97316',
     note:'Percussion elements can be scattered across the stereo field to create movement and a sense of three-dimensional space.',
     spectrum:[5,8,18,36,52,62,72,78,82,72,48,22],
     hotspots:[[3,'Attack 200Hz'],[6,'Color 1kHz'],[8,'Crack 5kHz']],
-    pan:0.5, panWidth:0.6, panLabel:'Scattered L-C-R for space'
+    pan:0.5, panWidth:0.6, panLabel:'Disperso L-C-R para espacio'
   },
   strings: {
-    name:'Strings', icon:'🎻', range:'196 Hz–4 kHz', color:'#84cc16',
+    name:'Cuerdas', icon:'🎻', range:'196 Hz–4 kHz', color:'#84cc16',
     note:'String sections are naturally wide from the recording process. Keep them wide in the mix to preserve the orchestral depth.',
     spectrum:[6,12,30,62,80,82,78,70,58,40,20,6],
     hotspots:[[3,'Rich 200Hz'],[5,'Warmth 630Hz'],[7,'Bow 2kHz'],[8,'Presence 4kHz']],
-    pan:0, panWidth:0.85, panLabel:'Wide stereo — natural orchestra spread'
+    pan:0, panWidth:0.85, panLabel:'Estéreo amplio — distribución orquestal'
   },
   brass:   {
-    name:'Brass', icon:'🎺', range:'100 Hz–8 kHz', color:'#eab308',
+    name:'Metales', icon:'🎺', range:'100 Hz–8 kHz', color:'#eab308',
     note:'Brass instruments have significant energy through the midrange. Pan sections slightly off-center to avoid masking vocals.',
     spectrum:[10,26,58,82,88,82,72,62,68,58,32,10],
     hotspots:[[2,'Body 80Hz'],[3,'Power 200Hz'],[5,'Bite 630Hz'],[8,'Bright 5kHz']],
-    pan:0.3, panWidth:0.5, panLabel:'Slight spread, avoid dead center'
+    pan:0.3, panWidth:0.5, panLabel:'Ligera distribución, evita el centro exacto'
   },
 };
 
@@ -1378,7 +1307,7 @@ function saveEditStages() {
     const cb = document.getElementById('es-' + s);
     return cb && cb.checked;
   });
-  if (!chosen.length) { showFormError('ep-error', 'Select at least one stage.'); return; }
+  if (!chosen.length) { showFormError('ep-error', 'Selecciona al menos una etapa.'); return; }
 
   // Add new stages (preserve existing stepsDone)
   chosen.forEach(s => {
@@ -1408,7 +1337,7 @@ function toggleAccordion(id) {
 function populateClearSelect() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel) return;
-  sel.innerHTML = '<option value="">— Select project —</option>' +
+  sel.innerHTML = '<option value="">— Selecciona proyecto —</option>' +
     state.projects.map(p =>
       `<option value="${p.id}">${p.name}${p.sessionLogs && p.sessionLogs.length ? ' (' + p.sessionLogs.length + ' entries)' : ''}</option>`
     ).join('');
@@ -1427,11 +1356,11 @@ function resetAllProjects() {
   // Visual feedback
   const btn = document.getElementById('reset-all-btn');
   if (btn) {
-    btn.textContent = 'All Reset!';
+    btn.textContent = '¡Todo Reseteado!';
     btn.style.borderColor = 'var(--success)';
     btn.style.color = 'var(--success)';
     setTimeout(() => {
-      btn.textContent = 'Reset All Projects';
+      btn.textContent = 'Resetear Todos los Proyectos';
       btn.style.borderColor = 'var(--danger)';
       btn.style.color = 'var(--danger)';
     }, 2000);
@@ -1441,7 +1370,7 @@ function resetAllProjects() {
 function onClearLogsClick() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel || !sel.value) {
-    alert('Please select a project first.');
+    alert('Por favor selecciona un proyecto primero.');
     return;
   }
   clearProjectLogs(sel.value);
@@ -1461,7 +1390,7 @@ function clearProjectLogs(projectId) {
   const btn = document.querySelector('#clear-logs-row button');
   if (btn) {
     const orig = btn.textContent;
-    btn.textContent = 'Cleared!';
+    btn.textContent = '¡Limpiado!';
     btn.style.borderColor = 'var(--success)';
     btn.style.color = 'var(--success)';
     setTimeout(() => {
@@ -1651,7 +1580,7 @@ function createProject() {
     document.getElementById('stage-cb-' + s) &&
     document.getElementById('stage-cb-' + s).checked
   );
-  if (!checked.length) { showFormError('proj-error', 'Select at least one stage.'); return; }
+  if (!checked.length) { showFormError('proj-error', 'Selecciona al menos una etapa.'); return; }
 
   const project = {
     id:          'p' + Date.now(),
@@ -1701,7 +1630,7 @@ function renderProjects() {
           <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
         </div>
         <div>
-          ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">No stage selected</span>'}
+          ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">Sin etapa seleccionada</span>'}
         </div>
           <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
         </div>
@@ -1811,7 +1740,7 @@ function renderManualNotes() {
   if (!el || !p) return;
   const notes = (p.manualNotes || []).slice().reverse();
   el.innerHTML = notes.length === 0
-    ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">No notes yet</div>'
+    ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">Sin notas todavía</div>'
     : notes.map((n,i) => `
       <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative">
         <div style="font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap">${n.text}</div>
@@ -2030,7 +1959,7 @@ function renderLogs() {
 
       // Step rows inside accordion
       const stepRows = stageLogs.length === 0
-        ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">No steps completed in this stage yet</div>`
+        ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">Ningún paso completado en esta etapa todavía</div>`
         : stageLogs.map(entry => {
             const auto = entry.auto
               ? `<span style="font-size:9px;background:rgba(21,134,236,0.1);color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600;margin-left:4px">VST</span>`
@@ -2075,7 +2004,7 @@ function renderLogs() {
           </div>
           <div style="text-align:right">
             <div style="font-family:var(--mono);font-size:26px;font-weight:700;color:var(--accent);line-height:1">${pct}%</div>
-            <div style="font-size:10px;color:var(--text3);margin-top:1px">overall</div>
+            <div style="font-size:10px;color:var(--text3);margin-top:1px">total</div>
           </div>
         </div>
         <div class="log-bar" style="margin-bottom:14px"><div class="log-fill" style="width:${pct}%"></div></div>
@@ -2100,7 +2029,7 @@ function renderCharts(stage) {
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
       <div style="font-size:15px;font-weight:700;margin-bottom:2px">${projName}</div>
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · Tap card to toggle EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · Toca la tarjeta para cambiar EQ / Pan</div>
     </div>`;
   } else {
     header = `<div style="margin-bottom:14px">
@@ -2243,7 +2172,7 @@ function connectWS() {
   ws.onopen = () => {
     state.wsOn = true;
     document.getElementById('sdot-ws').className  = 'sdot sdot-g';
-    document.getElementById('slbl-ws').textContent = t('vstConnected');
+    document.getElementById('slbl-ws').textContent = 'Connected';
   };
 
   ws.onmessage = (e) => {
@@ -2256,11 +2185,11 @@ function connectWS() {
   ws.onclose = () => {
     state.wsOn = state.vstOn = false;
     document.getElementById('sdot-ws').className  = 'sdot sdot-r';
-    document.getElementById('slbl-ws').textContent = t('noConnection');
+    document.getElementById('slbl-ws').textContent = 'No connection';
     document.getElementById('sdot-vst').className = 'sdot sdot-r';
-    document.getElementById('slbl-vst').textContent = t('vstDisconnected');
+    document.getElementById('slbl-vst').textContent = 'Disconnected';
     document.getElementById('hdr-dot').className  = 'hdr-dot';
-    document.getElementById('hdr-lbl').textContent = t('vstOffline');
+    document.getElementById('hdr-lbl').textContent = 'VST OFFLINE';
     setTimeout(connectWS, 3000);
   };
 
@@ -2273,9 +2202,9 @@ function handleVST(rms, peak) {
 
   // Header badge
   document.getElementById('hdr-dot').className   = 'hdr-dot live';
-  document.getElementById('hdr-lbl').textContent = t('vstLive');
+  document.getElementById('hdr-lbl').textContent  = 'VST LIVE';
   document.getElementById('sdot-vst').className  = 'sdot sdot-g';
-  document.getElementById('slbl-vst').textContent = t('vstConnected');
+  document.getElementById('slbl-vst').textContent = 'Connected';
 
   // Settings panel
   const sr = document.getElementById('s-rms');
@@ -2353,14 +2282,14 @@ connectWS();
 
 
 
-<!-- Modal: Edit Project -->
+<!-- Modal: Editar Proyecto -->
 <div class="modal-overlay" id="modal-edit-proj">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Edit Project</div>
+    <div class="modal-title">Editar Proyecto</div>
     <input type="hidden" id="ep-id">
     <div class="form-group">
-      <label class="form-label">Project Name</label>
+      <label class="form-label">Nombre del Proyecto</label>
       <input type="text" class="form-input" id="ep-name">
     </div>
     <div class="form-row">
@@ -2392,48 +2321,48 @@ connectWS();
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">Artist / Composer</label>
+      <label class="form-label">Artista / Compositor</label>
       <input type="text" class="form-input" id="ep-artist">
     </div>
     <div id="ep-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
-    <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
+    <button class="btn-primary" onclick="saveEditProject()">Guardar Cambios</button>
     <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px"
-      onclick="deleteProject(document.getElementById('ep-id').value)">Delete Project</button>
-    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancel</button>
+      onclick="deleteProject(document.getElementById('ep-id').value)">Eliminar Proyecto</button>
+    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancelar</button>
   </div>
 </div>
 
-<!-- Modal: Edit Stages -->
+<!-- Modal: Editar Etapas -->
 <div class="modal-overlay" id="modal-edit-stages">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Edit Stages</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Select which stages apply to this project.</p>
+    <div class="modal-title">Editar Etapas</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Selecciona qué etapas aplican a este proyecto.</p>
     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
       <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
         <input type="checkbox" id="es-production" style="width:18px;height:18px;accent-color:var(--accent)">
         <div>
           <div style="font-size:14px;font-weight:600">Production</div>
-          <div style="font-size:12px;color:var(--text2)">Beat structure, arrangement, sound design</div>
+          <div style="font-size:12px;color:var(--text2)">Estructura del beat, arreglos, diseño de sonido</div>
         </div>
       </label>
       <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
         <input type="checkbox" id="es-mix" style="width:18px;height:18px;accent-color:var(--accent)">
         <div>
           <div style="font-size:14px;font-weight:600">Mix</div>
-          <div style="font-size:12px;color:var(--text2)">EQ, compression, routing, space</div>
+          <div style="font-size:12px;color:var(--text2)">EQ, compresión, routing, espacio</div>
         </div>
       </label>
       <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
         <input type="checkbox" id="es-mastering" style="width:18px;height:18px;accent-color:var(--accent)">
         <div>
           <div style="font-size:14px;font-weight:600">Mastering</div>
-          <div style="font-size:12px;color:var(--text2)">Limiting, LUFS, final export</div>
+          <div style="font-size:12px;color:var(--text2)">Limitación, LUFS, exportación final</div>
         </div>
       </label>
     </div>
-    <button class="btn-primary" onclick="saveEditStages()">Save</button>
-    <button class="btn-ghost"   onclick="closeModal('modal-edit-stages')">Cancel</button>
+    <button class="btn-primary" onclick="saveEditStages()">Guardar</button>
+    <button class="btn-ghost"   onclick="closeModal('modal-edit-stages')">Cancelar</button>
   </div>
 </div>
 
@@ -2453,21 +2382,21 @@ connectWS();
     <div style="height:1px;background:var(--border);margin:16px 0"></div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--accent)" stroke-width="1.2"/><line x1="7" y1="5" x2="7" y2="9" stroke="var(--accent)" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="3.5" r="0.6" fill="var(--accent)"/></svg>
-      <span style="font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--accent)">VST Target Range</span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--accent)">Rango Objetivo VST</span>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
       <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Min</div>
+        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Mín</div>
         <div id="det-rms-min" style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--accent)"></div>
         <div style="font-size:10px;color:var(--text3);margin-top:2px">dBFS</div>
       </div>
       <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Max</div>
+        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Máx</div>
         <div id="det-rms-max" style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--accent)"></div>
         <div style="font-size:10px;color:var(--text3);margin-top:2px">dBFS</div>
       </div>
     </div>
-    <button class="btn-ghost" onclick="closeModal('modal-detail')">Close</button>
+    <button class="btn-ghost" onclick="closeModal('modal-detail')">Cerrar</button>
   </div>
 </div>
 
@@ -2499,7 +2428,7 @@ connectWS();
         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
       </svg>
-      Continue with Google
+      Continuar con Google
     </button>
 
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
@@ -2516,7 +2445,7 @@ connectWS();
 
     <div class="form-group">
       <label class="form-label">Email</label>
-      <input id="auth-email" type="email" class="form-input" placeholder="your@email.com">
+      <input id="auth-email" type="email" class="form-input" placeholder="tu@correo.com">
     </div>
     <div class="form-group">
       <label class="form-label">Password</label>
@@ -2524,7 +2453,7 @@ connectWS();
     </div>
 
     <div style="text-align:right;margin-bottom:12px">
-      <span id="forgot-btn" onclick="forgotPassword()" style="font-size:12px;color:var(--accent);cursor:pointer">Forgot password?</span>
+      <span id="forgot-btn" onclick="forgotPassword()" style="font-size:12px;color:var(--accent);cursor:pointer">¿Olvidaste tu contraseña?</span>
     </div>
 
     <div id="login-error" style="font-size:12px;min-height:16px;margin-bottom:10px;text-align:center;color:var(--danger)"></div>
