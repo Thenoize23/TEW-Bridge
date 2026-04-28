@@ -1294,10 +1294,10 @@ const INSTRUMENTS = {
 
 
 const STAGE_INSTRUMENTS = {
-  production: ['kick','bass','pad','lead','piano','perc'],
-  mix:        ['kick','snare','bass','hihat','vocals','guitar','lead','pad'],
-  mastering:  ['kick','snare','bass','hihat','vocals','guitar','lead','pad','strings','brass','piano','perc'],
-  default:    ['kick','snare','bass','hihat','vocals','guitar','lead','pad'],
+  production: ['kick','bass','pad','synth','piano','percussion'],
+  mix:        ['kick','snare','bass','hihat','vocals','guitar','synth','pad'],
+  mastering:  ['kick','snare','bass','hihat','vocals','guitar','synth','pad','strings','brass','piano','percussion'],
+  default:    ['kick','snare','bass','hihat','vocals','guitar','synth','pad'],
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2302,12 +2302,12 @@ function openInstrumentDetail(key) {
 //  VST / WebSocket
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function connectWS() {
+  // Only connect when running locally with VST plugin
+  const isLocal = location.hostname==='localhost' || location.hostname==='127.0.0.1' || location.hostname.match(/^192\./) || location.hostname.match(/^10\./);
+  if (!isLocal) return;
   let ws;
   try {
-    // Use Render in production, local bridge in development
-    const wsUrl = location.hostname === 'localhost' || location.hostname.match(/^192\./)
-      ? 'ws://' + location.hostname + ':8766'
-      : 'wss://tew-bridge.onrender.com';
+    const wsUrl = 'ws://' + location.hostname + ':8766';
     ws = new WebSocket(wsUrl);
   } catch(e) { return; }
 
