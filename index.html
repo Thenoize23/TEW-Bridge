@@ -1155,6 +1155,9 @@ function applyIdioma() {
     renderAINotes();
     renderManualNotes();
   }
+  // Also update workspace stage label in header
+  const wsStageEl = document.getElementById('ws-stage');
+  if (wsStageEl && state.active) wsStageEl.textContent = getStageLabel(state.active.stage);
 }
 
 
@@ -1197,7 +1200,8 @@ function safeEl(id) {
 
 
 
-const STAGE_LABELS = { production:'Producción', mix:'Mezcla', mastering:'Mastering' };
+function getStageLabel(s) { return {production:t('production'),mix:t('mix'),mastering:t('mastering')}[s] || s; }
+const STAGE_LABELS = new Proxy({}, { get:(_,s) => getStageLabel(s) });
 const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-mast' };
 
 // spectrum: 12 bands 20Hz→20kHz (heights 0-100)
