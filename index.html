@@ -2195,12 +2195,19 @@ function buildCard(key) {
     svgContent += '<line x1="0" y1="'+midY+'" x2="'+W+'" y2="'+midY+'" stroke="var(--border)" stroke-width="0.5"/>';
     svgContent += '<path d="'+fd+'" fill="'+inst.color+'" opacity="0.08"/>';
     svgContent += '<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.5" stroke-linecap="round"/>';
+    const tips = inst.eqTips || new Array(12).fill('');
     pts.forEach(([x,y],i) => {
       if (Math.abs(gains[i])>=3) {
         svgContent += '<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+inst.color+'"/>';
         const sign = gains[i]>0?'+':'';
-        const ly = gains[i]>0 ? y-10 : y+14;
-        svgContent += '<text x="'+x+'" y="'+ly+'" text-anchor="middle" font-size="5.5" fill="'+inst.color+'" opacity="0.8" font-family="Inter,sans-serif">'+sign+gains[i]+'dB</text>';
+        // dB label
+        const ly = gains[i]>0 ? y-9 : y+13;
+        svgContent += '<text x="'+x+'" y="'+ly+'" text-anchor="middle" font-size="5.5" fill="'+inst.color+'" opacity="0.75" font-family="Inter,sans-serif">'+sign+gains[i]+'dB</text>';
+        // Tip label (property name like "Punch", "Body", etc.)
+        if (tips[i]) {
+          const ty = gains[i]>0 ? y-18 : y+22;
+          svgContent += '<text x="'+x+'" y="'+ty+'" text-anchor="middle" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+tips[i]+'</text>';
+        }
       }
     });
     bands.forEach((b,i) => {
