@@ -596,15 +596,15 @@ body {
 
       <!-- Inner tab bar -->
       <div style="display:flex;gap:4px;background:var(--panel);padding:8px 16px;border-bottom:1px solid var(--border)">
-        <button id="itab-steps" onclick="switchInnerTab('steps')"
+        <button id="itab-steps" data-i18n="steps" onclick="switchInnerTab('steps')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
                  background:#1586ec;color:#fff">Steps</button>
-        <button id="itab-ai" onclick="switchInnerTab('ai')"
+        <button id="itab-ai" data-i18n="aiNotes" onclick="switchInnerTab('ai')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
                  background:transparent;color:rgba(255,255,255,0.45);margin:0 4px">AI Notes</button>
-        <button id="itab-notes" onclick="switchInnerTab('notes')"
+        <button id="itab-notes" data-i18n="otherNotes" onclick="switchInnerTab('notes')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
                  background:transparent;color:rgba(255,255,255,0.45)">Other Notes</button>
