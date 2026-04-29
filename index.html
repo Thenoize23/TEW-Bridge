@@ -2324,31 +2324,34 @@ function openInstrumentDetail(key) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  VST / WebSocket
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let _ws = null;
+let _wsTimer = null;
+
 function connectWS() {
-  let ws;
+  // Prevent multiple simultaneous connections
+  if (_ws && (_ws.readyState === WebSocket.CONNECTING || _ws.readyState === WebSocket.OPEN)) return;
+
   try {
-    // Use same host and port as the page — works with ngrok, local, and any tunnel
     const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = proto + '//' + location.host;
-    ws = new WebSocket(wsUrl);
+    _ws = new WebSocket(proto + '//' + location.host);
   } catch(e) { return; }
 
-  ws.onopen = () => {
+  _ws.onopen = () => {
     state.wsOn = true;
-    document.getElementById('sdot-ws').className  = 'sdot sdot-g';
+    if (_wsTimer) { clearTimeout(_wsTimer); _wsTimer = null; }
+    document.getElementById('sdot-ws').className   = 'sdot sdot-g';
     document.getElementById('slbl-ws').textContent = t('vstConnected');
   };
-  ws.onclose = ws.onerror = () => {
+  _ws.onclose = () => {
     state.wsOn = false;
-    document.getElementById('sdot-ws').className  = 'sdot sdot-r';
+    document.getElementById('sdot-ws').className   = 'sdot sdot-r';
     document.getElementById('slbl-ws').textContent = t('noConnection');
-    setTimeout(connectWS, 4000);
+    _ws = null;
+    _wsTimer = setTimeout(connectWS, 5000);
   };
-  ws.onmessage = (e) => {
-    try {
-      const d = JSON.parse(e.data);
-      if (d.rms !== undefined) handleVST(d);
-    } catch(ex) {}
+  _ws.onerror = () => { _ws && _ws.close(); };
+  _ws.onmessage = (e) => {
+    try { const d = JSON.parse(e.data); if (d.rms !== undefined) handleVST(d); } catch(ex) {}
   };
 }
 
