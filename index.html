@@ -550,7 +550,7 @@ body {
         </div>
         <div class="set-row" style="cursor:pointer" onclick="if(window._authSignOut){window._authSignOut();}">
           <span class="set-lbl" style="color:var(--danger)">Sign Out</span>
-          <span style="color:var(--danger);font-size:16px">ΓåÆ</span>
+          <span style="color:var(--danger);font-size:16px">→</span>
         </div>
       </div>
 
@@ -575,7 +575,8 @@ body {
     <!-- WORKSPACE -->
     <div id="workspace">
       <div class="ws-header">
-        <button class="back-btn" onclick="closeWorkspace()">ΓåÉ</button>
+        <button class="back-btn" onclick="closeWorkspace()">←</button>
+        <div id="ws-artwork" onclick="pickEditArtworkWS()" style="width:42px;height:42px;border-radius:50%;background:var(--accent);background-size:cover;background-position:center;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;margin-right:10px;border:2px solid rgba(255,255,255,0.2)">🎵</div>
         <div style="flex:1;min-width:0">
           <div class="ws-name" id="ws-name">Project</div>
           <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px" id="ws-stage"></div>
@@ -1188,7 +1189,7 @@ const AI_SUGGESTIONS = {
 const STAGE_LABELS = { production:'Production', mix:'Mix', mastering:'Mastering' };
 const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-mast' };
 
-// spectrum: 12 bands 20HzΓåÆ20kHz (heights 0-100)
+// spectrum: 12 bands 20Hz→20kHz (heights 0-100)
 // hotspots: key labeled points on the spectrum [bandIndex, label]
 // pan: stereo position. center=0, left=-1, right=1, wide=2
 // panWidth: how wide the instrument spreads (0=mono, 1=full stereo)
@@ -1530,6 +1531,39 @@ function pickArtwork(prefix) {
   input.click();
 }
 
+
+function pickEditArtworkWS() {
+  const p = state.active;
+  if (!p) return;
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      p.artwork = ev.target.result;
+      saveProjects();
+      updateWSArtwork(p);
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function updateWSArtwork(p) {
+  const el = document.getElementById('ws-artwork');
+  if (!el) return;
+  if (p && p.artwork) {
+    el.style.backgroundImage = 'url(' + p.artwork + ')';
+    el.style.backgroundSize  = 'cover';
+    el.style.backgroundPosition = 'center';
+    el.innerHTML = '';
+  } else {
+    el.style.backgroundImage = '';
+    el.innerHTML = '🎵';
+  }
+}
+
 function pickEditArtwork(projectId) {
   const input = document.createElement('input');
   input.type = 'file'; input.accept = 'image/*';
@@ -1790,6 +1824,7 @@ function showWorkspace(project) {
   var _ws = document.getElementById('workspace'); if(_ws) _ws.style.display = 'block';
   var _fb = document.getElementById('fab');       if(_fb) _fb.style.display = 'none';
   var _wn = document.getElementById('ws-name');   if(_wn) _wn.textContent  = project.name;
+  updateWSArtwork(project);
   renderStageTabs();
   // Use rAF to ensure DOM is painted before rendering steps
   requestAnimationFrame(() => {
