@@ -1063,6 +1063,18 @@ const STEP_DETAILS = {
   ms2: { icon:'📊', detail:'Before any mastering processing, set the input gain of your mastering chain so the loudest section of the track peaks between −6 and −3 dBFS. This gives your entire mastering chain — EQ, compressor, saturator, limiter — sufficient headroom to operate cleanly without the signal clipping any plugin input stage. Avoid the temptation to push the gain high to make it sound louder at this point. Loudness comes at the end through the limiter, not from overloading the chain.' },
   ms3: { icon:'🎚️', detail:'Mastering EQ is about broad, gentle tonal shaping — not corrective surgery. That work belongs in the mix stage. At mastering, you are making final adjustments of 1 to 2 dB using wide, musical curves. A gentle high shelf boost above 12 kHz adds air and presence. A slight low-shelf boost below 60 Hz adds weight. A subtle dip in the 300–500 Hz region can reduce muddiness. Use a linear phase EQ to avoid phase artifacts that a minimum phase EQ would introduce in a full-mix context.' },
   ms4: { icon:'⚙️', detail:'A mastering compressor at a 2:1 ratio with a slow attack and medium release acts as a glue that brings the stereo mix together into a unified, cohesive sound. Set the attack slow enough (30–50ms) that transients pass through unaffected, preserving the punch and impact of the mix. The release should track the tempo of the music. Aim for 2 to 4 dB of gain reduction on average. More than 6 dB of compression at this stage will begin to audibly squash the dynamics and fatigue the listener.' },
+  mx4b: {
+    icon: '🥁',
+    detail: 'Layering means stacking multiple sounds — snares, claps, percussion hits — so that each element contributes a specific frequency range to the combined result. A snare with snap but no body gets layered with a clap with body but no crack. Tune each layer to the same pitch, align their transients perfectly, and use a gate or transient shaper to control each layer independently before blending. The result is a single composite sound with depth, character and frequency content no individual element had alone. This is how professional drums feel larger than life — every hit is built from 2-4 sounds working as one.'
+  },
+  ms4b: {
+    icon: '🔥',
+    detail: 'Duplicate your master bus to a new channel. On the duplicate, insert a high-pass filter cutting everything below 200-300 Hz — this protects the low end from being distorted. Then hit the duplicate with a saturator or tape emulator at a moderate drive, adding harmonic richness and density. Blend this channel back into the master at -8 to -12 dB underneath the original. The original low end stays clean and controlled, while the saturated layer adds warmth, air and perceived loudness to the midrange and highs. This is the technique when a mix sounds dull and needs life without touching the limiter or raising the LUFS ceiling.'
+  },
+  ms4b: {
+    icon: '🔥',
+    detail: 'Duplicate your master bus to a new channel. On the duplicate, insert a high-pass filter cutting everything below 200-300 Hz to protect the low end from distortion. Hit the duplicate with a saturator or tape emulator at moderate drive, adding harmonic richness. Blend this channel back at -8 to -12 dB underneath the original. The original low end stays clean and controlled while the saturated layer adds warmth, air and perceived loudness to the midrange and highs. This is the technique when a mix sounds dull and needs life without touching the limiter or raising the LUFS ceiling.'
+  },
   ms5: { icon:'↔️', detail:'Stereo enhancement increases perceived width and spaciousness, but must be applied carefully. Use a mid/side processor to boost the high-frequency content of the side channel for more air and width, while keeping the low frequencies of the mid channel tight and mono. Never widen the sub frequencies — bass below 120 Hz must remain mono for reliable translation on all playback systems. Check your stereo width with a correlation meter and a mono compatibility check to ensure nothing phase-cancels when collapsed to mono.' },
   ms6: { icon:'🔥', detail:'A tape saturator or harmonic exciter at the mastering stage adds analog warmth and increases the perceived loudness of the master without reducing dynamic range. Drive the saturator gently so it adds harmonic content without obvious distortion — the effect should be felt rather than heard. This step also helps the master translate better on consumer playback systems that add their own coloration. Bypass and compare carefully: the saturated version should feel more present and three-dimensional.' },
   ms7: { icon:'🔒', detail:'The limiter is the final and most critical stage of the mastering chain. Set your true peak ceiling to −1 dBTP to prevent intersample peaks from clipping during encoding to MP3 or AAC. Start with the threshold high and gradually reduce it until you reach your target integrated loudness. Watch your gain reduction meter — if the limiter is working more than 3 to 4 dB consistently, your mix needs more dynamic control before mastering. A good limiter should be nearly transparent, catching only the occasional transient peak.' },
@@ -1095,6 +1107,7 @@ const STEPS_EN = {
     { id:'mx2', name:'Organization',        desc:'Label, color-code and group all tracks clearly',           rmsMin:-24, rmsMax:-14 },
     { id:'mx3', name:'Routing I/O',         desc:'Set up buses, sends and returns correctly',                rmsMin:-22, rmsMax:-12 },
     { id:'mx4', name:'Sends/Aux Channels',  desc:'Configure reverb, delay and parallel channels',           rmsMin:-22, rmsMax:-12 },
+    { id:'mx4b',name:'Layering',             desc:'Combine snares, claps or percs to build a new composite tone no single element has alone',  rmsMin:-22, rmsMax:-12 },
     { id:'mx5', name:'EQ',                  desc:'Cut problem frequencies, shape tonal balance',             rmsMin:-20, rmsMax:-10 },
     { id:'mx6', name:'Gain Staging',        desc:'Target -18 dBFS RMS per channel for headroom',            rmsMin:-20, rmsMax:-16 },
     { id:'mx7', name:'Compression',         desc:'Control dynamics and glue elements together',              rmsMin:-18, rmsMax:-8  },
@@ -1106,6 +1119,7 @@ const STEPS_EN = {
     { id:'ms2', name:'Gain Staging',        desc:'Set input gain so the chain has proper headroom',          rmsMin:-16, rmsMax:-10 },
     { id:'ms3', name:'EQ',                  desc:'Broad tonal shaping — 1-2 dB moves max',                  rmsMin:-14, rmsMax:-8  },
     { id:'ms4', name:'Compressor',          desc:'Glue the master: ratio 2:1, slow attack, mid release',     rmsMin:-14, rmsMax:-8  },
+    { id:'ms4b',name:'Parallel Saturation', desc:'Duplicate master bus, HPF the copy above 200Hz, saturate it, blend back at -10dB — adds harmonic density without touching the low end', rmsMin:-14, rmsMax:-8  },
     { id:'ms5', name:'Stereo Enhancement',  desc:'Widen highs, keep lows mono for translation',             rmsMin:-12, rmsMax:-6  },
     { id:'ms6', name:'Saturation',          desc:'Add analog character and perceived loudness',              rmsMin:-12, rmsMax:-6  },
     { id:'ms7', name:'Limiter',             desc:'Set true peak ceiling at -1 dBTP, target your LUFS',      rmsMin:-10, rmsMax:-2  },
@@ -1131,6 +1145,7 @@ const STEPS_ES = {
     { id:'mx2', name:'Organizacion',           desc:'Etiqueta, colorea y agrupa todos los canales claramente', rmsMin:-24, rmsMax:-14 },
     { id:'mx3', name:'Routing I/O',            desc:'Configura buses, envios y retornos correctamente',        rmsMin:-22, rmsMax:-12 },
     { id:'mx4', name:'Canales Aux',            desc:'Configura reverb, delay y canales paralelos',            rmsMin:-22, rmsMax:-12 },
+    { id:'mx4b',name:'Layering',               desc:'Combina snares, claps o percs para construir un timbre compuesto que ninguno tiene por separado', rmsMin:-22, rmsMax:-12 },
     { id:'mx5', name:'EQ',                     desc:'Corta frecuencias problematicas y da forma tonal',        rmsMin:-20, rmsMax:-10 },
     { id:'mx6', name:'Gain Staging',           desc:'Objetivo -18 dBFS RMS por canal para headroom',          rmsMin:-20, rmsMax:-16 },
     { id:'mx7', name:'Compresion',             desc:'Controla la dinamica y une los elementos de la mezcla',  rmsMin:-18, rmsMax:-8  },
