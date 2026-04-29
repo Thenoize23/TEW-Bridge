@@ -938,7 +938,7 @@ const LANG = {
     duplicateName:'A project with that name already exists.',
     enterName:'Please enter a project name.', selectStage:'Select at least one stage.',
     spectrumRef:'Spectrum References', tapToggle:'Tap card to toggle EQ / Pan',
-    connection:'VST Connection', liveMetrics:'Live Metrics', vstBridge:'WebSocket Bridge',
+    close:'Close', connection:'VST Connection', liveMetrics:'Live Metrics', vstBridge:'WebSocket Bridge',
     vstPort:'UDP Port', received:'Samples received',
   },
   es: {
@@ -1082,6 +1082,10 @@ const STEP_DETAILS = {
     detail: 'Duplicate your master bus to a new channel. On the duplicate, insert a high-pass filter cutting everything below 200-300 Hz to protect the low end from distortion. Hit the duplicate with a saturator or tape emulator at moderate drive, adding harmonic richness. Blend this channel back at -8 to -12 dB underneath the original. The original low end stays clean and controlled while the saturated layer adds warmth, air and perceived loudness to the midrange and highs. This is the technique when a mix sounds dull and needs life without touching the limiter or raising the LUFS ceiling.'
   },
   ms5: { icon:'↔️', detail:'Stereo enhancement increases perceived width and spaciousness, but must be applied carefully. Use a mid/side processor to boost the high-frequency content of the side channel for more air and width, while keeping the low frequencies of the mid channel tight and mono. Never widen the sub frequencies — bass below 120 Hz must remain mono for reliable translation on all playback systems. Check your stereo width with a correlation meter and a mono compatibility check to ensure nothing phase-cancels when collapsed to mono.' },
+  ms5b: {
+    icon: '🔒',
+    detail: 'Parallel compression on the master bus is about adding density without the squashed sound of heavy serial compression. Route the entire mix to a parallel bus, then compress it aggressively — ratio 4:1 or higher, fast attack, medium release. The compressed version sounds crushed and unnatural on its own. But blending it underneath the dry mix at around -12 dB adds punch, weight and sustain while keeping the transients and dynamics of the original intact. Adjust the blend by ear — a little goes a long way. This technique is especially effective on mixes that feel thin or lack impact at the level they need to hit.'
+  },
   ms6: { icon:'🔥', detail:'A tape saturator or harmonic exciter at the mastering stage adds analog warmth and increases the perceived loudness of the master without reducing dynamic range. Drive the saturator gently so it adds harmonic content without obvious distortion — the effect should be felt rather than heard. This step also helps the master translate better on consumer playback systems that add their own coloration. Bypass and compare carefully: the saturated version should feel more present and three-dimensional.' },
   ms7: { icon:'🔒', detail:'The limiter is the final and most critical stage of the mastering chain. Set your true peak ceiling to −1 dBTP to prevent intersample peaks from clipping during encoding to MP3 or AAC. Start with the threshold high and gradually reduce it until you reach your target integrated loudness. Watch your gain reduction meter — if the limiter is working more than 3 to 4 dB consistently, your mix needs more dynamic control before mastering. A good limiter should be nearly transparent, catching only the occasional transient peak.' },
   ms8: { icon:'📏', detail:'Integrated LUFS (Loudness Units relative to Full Scale) is the global standard for streaming platform loudness normalization. Spotify targets −14 LUFS, Apple Music targets −16 LUFS, YouTube targets −14 LUFS, and CD masters typically target −9 to −12 LUFS. If you deliver a master louder than the platform target, it will be turned down automatically, often reducing perceived quality. Use an integrated loudness meter to measure the full track from start to finish and adjust your limiter threshold to hit the correct target for your intended platform.' },
@@ -1127,6 +1131,7 @@ const STEPS_EN = {
     { id:'ms4', name:'Compressor',          desc:'Glue the master: ratio 2:1, slow attack, mid release',     rmsMin:-14, rmsMax:-8  },
     { id:'ms4b',name:'Parallel Saturation', desc:'Duplicate master bus, HPF the copy above 200Hz, saturate it, blend back at -10dB — adds harmonic density without touching the low end', rmsMin:-14, rmsMax:-8  },
     { id:'ms5', name:'Stereo Enhancement',  desc:'Widen highs, keep lows mono for translation',             rmsMin:-12, rmsMax:-6  },
+    { id:'ms5b',name:'Parallel Compression', desc:'Send master to parallel bus, compress heavily (ratio 4:1+, fast attack), blend back at -12dB — adds punch and density without killing dynamics', rmsMin:-12, rmsMax:-6  },
     { id:'ms6', name:'Saturation',          desc:'Add analog character and perceived loudness',              rmsMin:-12, rmsMax:-6  },
     { id:'ms7', name:'Limiter',             desc:'Set true peak ceiling at -1 dBTP, target your LUFS',      rmsMin:-10, rmsMax:-2  },
     { id:'ms8', name:'LUFS Check',          desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',           rmsMin:-10, rmsMax:-2  },
@@ -2042,9 +2047,10 @@ function openDetail(stepId) {
   const det = getStepDetail(stepId);
   if (!det) return;
 
-  // Find the step object
+  // Find the step object — search STEPS_EN directly (Proxy may not iterate)
   let step = null;
-  for (const stage of Object.values(STEPS)) {
+  const allStages = Object.values(STEPS_EN);
+  for (const stage of allStages) {
     step = stage.find(s => s.id === stepId);
     if (step) break;
   }
