@@ -2201,30 +2201,58 @@ function buildCard(key) {
   const view = cardViews[key] || 'eq';
 
   if (view === 'eq') {
-    const W=280,H=100,MID=50;
+    const W=300,H=110,MID=55,PAD=14;
     const gains=inst.spectrum.map(v=>Math.round((v/100)*24-12));
     const hobj=(inst.hotspots||[]).reduce((a,[i,l])=>{a[i]=l;return a},{});
-    const pts=gains.map((g,i)=>[(i/(gains.length-1))*W, MID-(g/12)*(MID-10)]);
+    const n=gains.length;
+    const pts=gains.map((g,i)=>[(PAD + (i/(n-1))*(W-PAD*2)), MID-(g/12)*(MID-12)]);
+
     let pd='M '+pts[0][0]+' '+pts[0][1];
-    for(let i=0;i<pts.length-1;i++){const cx=(pts[i][0]+pts[i+1][0])/2;pd+=' C '+cx+' '+pts[i][1]+' '+cx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];}
-    const fd=pd+' L '+W+' '+H+' L 0 '+H+' Z';
+    for(let i=0;i<pts.length-1;i++){
+      const cx=(pts[i][0]+pts[i+1][0])/2;
+      pd+=' C '+cx+' '+pts[i][1]+' '+cx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];
+    }
+    const fd=pd+' L '+(W-PAD)+' '+H+' L '+PAD+' '+H+' Z';
+
     const fl=['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
-    const ax=[0,2,4,6,8,10,11].map(i=>'<text x="'+pts[i][0]+'" y="'+(H+10)+'" text-anchor="middle" font-size="5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[i]+'</text>').join('');
+    const ax=[1,2,4,6,8,10].map(i=>
+      '<text x="'+pts[i][0]+'" y="'+(H+11)+'" text-anchor="middle" font-size="5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[i]+'</text>'
+    ).join('');
+
+    // Build dots with collision avoidance for labels
+    const labelSlots={}; // track used y positions per x zone
     const dots=pts.map(([x,y],i)=>{
       const g=gains[i]; if(Math.abs(g)<3)return '';
-      const s=g>0?'+':'', dy=g>0?y-9:y+13, lbl=hobj[i]||'', ly=g>0?y-18:y+22;
+      const sign=g>0?'+':'';
+      // dB label
+      let dbY=g>0?y-8:y+12;
+      // clamp to SVG bounds
+      dbY=Math.max(8,Math.min(H-4,dbY));
+      // x clamp
+      const tx=Math.max(PAD+10,Math.min(W-PAD-10,x));
+      // property label
+      const lbl=hobj[i]||'';
+      let lblY=g>0?y-17:y+21;
+      lblY=Math.max(8,Math.min(H-4,lblY));
+      // anchor based on x position
+      const anchor=x<PAD+20?'start':x>W-PAD-20?'end':'middle';
       return '<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+inst.color+'"/>'
-        +'<text x="'+x+'" y="'+dy+'" text-anchor="middle" font-size="5.5" fill="'+inst.color+'" opacity="0.85" font-family="Inter,sans-serif">'+s+g+'dB</text>'
-        +(lbl?'<text x="'+x+'" y="'+ly+'" text-anchor="middle" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>':'');
+        +'<text x="'+tx+'" y="'+dbY+'" text-anchor="'+anchor+'" font-size="5.5" fill="'+inst.color+'" opacity="0.9" font-family="Inter,sans-serif">'+sign+g+'dB</text>'
+        +(lbl?'<text x="'+tx+'" y="'+lblY+'" text-anchor="'+anchor+'" font-size="6.5" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>':'');
     }).join('');
+
     const svg='<svg viewBox="0 0 '+W+' '+(H+14)+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
-      +'<defs><linearGradient id="eqf'+key+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.25"/><stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.03"/></linearGradient></defs>'
-      +'<line x1="0" y1="'+MID+'" x2="'+W+'" y2="'+MID+'" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"/>'
+      +'<defs><linearGradient id="eqf'+key+'" x1="0" y1="0" x2="0" y2="1">'
+      +'<stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.3"/>'
+      +'<stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.03"/>'
+      +'</linearGradient></defs>'
+      +'<line x1="'+PAD+'" y1="'+MID+'" x2="'+(W-PAD)+'" y2="'+MID+'" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"/>'
       +'<path d="'+fd+'" fill="url(#eqf'+key+')"/>'
-      +'<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.5"/>'
+      +'<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.8"/>'
       +dots+ax+'</svg>';
+
     return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
-      <div style="padding:8px 8px 0">${svg}</div>
+      <div style="padding:10px 6px 0">${svg}</div>
       <div class="chart-meta">
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:4px">
