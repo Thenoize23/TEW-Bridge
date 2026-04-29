@@ -1,52 +1,71 @@
-﻿const dgram = require('dgram');
-const http  = require('http');
-const fs    = require('fs');
-const path  = require('path');
+// ============================================================
+//  TEW Bridge Server  —  bridge.js
+//  WebSocket and HTTP on same port 3000 for ngrok compatibility
+// ============================================================
+
+const dgram   = require('dgram');
+const http    = require('http');
+const fs      = require('fs');
+const path    = require('path');
 const { WebSocketServer } = require('ws');
 
 const UDP_PORT  = 8765;
-const WS_PORT   = 8766;
 const HTTP_PORT = 3000;
 
-const wss = new WebSocketServer({ port: WS_PORT });
-let clients = new Set();
-wss.on('connection', ws => {
-  clients.add(ws);
-  ws.on('close', () => clients.delete(ws));
+// HTTP Server
+const httpServer = http.createServer((req, res) => {
+    res.setHeader('ngrok-skip-browser-warning', 'true');
+    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
+    const ext = path.extname(filePath);
+    const mimeTypes = {
+        '.html': 'text/html', '.js': 'application/javascript',
+        '.json': 'application/json', '.css': 'text/css',
+        '.png': 'image/png', '.ico': 'image/x-icon',
+    };
+    fs.readFile(filePath, (err, data) => {
+        if (err) { res.writeHead(404); res.end('Not found'); return; }
+        res.writeHead(200, { 'Content-Type': mimeTypes[ext] || 'text/plain' });
+        res.end(data);
+    });
 });
+
+// WebSocket on SAME port as HTTP (ngrok compatible)
+const wss = new WebSocketServer({ server: httpServer });
+let clients = new Set();
+
+wss.on('connection', (ws, req) => {
+    clients.add(ws);
+    console.log(`[WS] Connected. Clients: ${clients.size}`);
+    ws.on('close', () => { clients.delete(ws); console.log(`[WS] Disconnected. Clients: ${clients.size}`); });
+    ws.on('error', () => clients.delete(ws));
+});
+
 function broadcast(data) {
-  for (const c of clients) if (c.readyState === 1) c.send(data);
+    for (const client of clients) {
+        if (client.readyState === 1) client.send(data);
+    }
 }
 
+// UDP receives from VST plugin
 const udp = dgram.createSocket('udp4');
 udp.on('message', (msg, rinfo) => {
-  broadcast(msg.toString());
-  udp.send('TEW_ACK', rinfo.port, rinfo.address);
+    const json = msg.toString();
+    console.log(`[UDP] ${rinfo.address}: ${json}`);
+    broadcast(json);
+    udp.send('TEW_ACK', rinfo.port, rinfo.address);
 });
-udp.bind(UDP_PORT);
+udp.bind(UDP_PORT, () => console.log(`[UDP] Listening on port ${UDP_PORT}`));
 
-const server = http.createServer((req, res) => {
-  const file = req.url === '/' ? 'index.html' : req.url.slice(1);
-  const fp   = path.join(__dirname, file);
-  fs.readFile(fp, (err, data) => {
-    if (err) { res.writeHead(404); res.end('Not found'); return; }
-    const mime = fp.endsWith('.html') ? 'text/html' : 'text/plain';
-    res.writeHead(200, { 'Content-Type': mime });
-    res.end(data);
-  });
-});
+// Start
+httpServer.listen(HTTP_PORT, '0.0.0.0', () => {
+    const nets = require('os').networkInterfaces();
+    let ip = 'localhost';
+    for (const n of Object.keys(nets))
+        for (const net of nets[n])
+            if (net.family === 'IPv4' && !net.internal) { ip = net.address; break; }
 
-server.listen(HTTP_PORT, '0.0.0.0', () => {
-  const { networkInterfaces } = require('os');
-  const nets = networkInterfaces();
-  let ip = 'localhost';
-  for (const n of Object.values(nets)) {
-    for (const a of n) {
-      if (a.family === 'IPv4' && !a.internal) { ip = a.address; break; }
-    }
-  }
-  console.log('\nTEW Bridge running');
-  console.log('Open on iPhone: http://' + ip + ':' + HTTP_PORT);
-  console.log('WebSocket: ws://' + ip + ':' + WS_PORT);
-  console.log('UDP listening on port ' + UDP_PORT);
+    console.log('TEW Bridge running');
+    console.log(`Open on iPhone: http://${ip}:${HTTP_PORT}`);
+    console.log(`WebSocket: ws://${ip}:${HTTP_PORT} (same port)`);
+    console.log(`UDP listening on port ${UDP_PORT}`);
 });

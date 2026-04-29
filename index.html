@@ -2325,41 +2325,33 @@ function openInstrumentDetail(key) {
 //  VST / WebSocket
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function connectWS() {
-  // Only connect when running locally with VST plugin
-  const isLocal = location.hostname==='localhost' || location.hostname==='127.0.0.1' || location.hostname.match(/^192\./) || location.hostname.match(/^10\./);
-  if (!isLocal) return;
   let ws;
   try {
-    const wsUrl = 'ws://' + location.hostname + ':8766';
+    // Use same host and port as the page — works with ngrok, local, and any tunnel
+    const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = proto + '//' + location.host;
     ws = new WebSocket(wsUrl);
   } catch(e) { return; }
 
   ws.onopen = () => {
     state.wsOn = true;
     document.getElementById('sdot-ws').className  = 'sdot sdot-g';
-    document.getElementById('slbl-ws').textContent = 'Connected';
+    document.getElementById('slbl-ws').textContent = t('vstConnected');
   };
-
+  ws.onclose = ws.onerror = () => {
+    state.wsOn = false;
+    document.getElementById('sdot-ws').className  = 'sdot sdot-r';
+    document.getElementById('slbl-ws').textContent = t('noConnection');
+    setTimeout(connectWS, 4000);
+  };
   ws.onmessage = (e) => {
     try {
       const d = JSON.parse(e.data);
-      handleVST(d.rms, d.peak);
-    } catch(_) {}
+      if (d.rms !== undefined) handleVST(d);
+    } catch(ex) {}
   };
-
-  ws.onclose = () => {
-    state.wsOn = state.vstOn = false;
-    document.getElementById('sdot-ws').className  = 'sdot sdot-r';
-    document.getElementById('slbl-ws').textContent = 'No connection';
-    document.getElementById('sdot-vst').className = 'sdot sdot-r';
-    document.getElementById('slbl-vst').textContent = 'Disconnected';
-    document.getElementById('hdr-dot').className  = 'hdr-dot';
-    document.getElementById('hdr-lbl').textContent = 'VST OFFLINE';
-    setTimeout(connectWS, 3000);
-  };
-
-  ws.onerror = () => ws.close();
 }
+
 
 function handleVST(rms, peak) {
   state.rms = rms; state.peak = peak;
