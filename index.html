@@ -603,11 +603,7 @@ body {
         </div>
 
         <!-- Progress -->
-        <div class="prog-row">
-          <span class="prog-label">Stage Progress</span>
-          <span class="prog-pct" id="ws-pct">0%</span>
-        </div>
-        <div class="prog-bar"><div class="prog-fill" id="ws-bar" style="width:0%"></div></div>
+
 
         <p class="sec-label">Steps</p>
         <div id="steps-list"></div>
@@ -803,16 +799,7 @@ body {
       </div>
     </div>
     <div id="det-body" style="font-size:14px;line-height:1.65;color:var(--text2);margin-bottom:16px"></div>
-    <div style="display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--border);margin-bottom:12px">
-      <div style="flex:1;text-align:center">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:4px">RMS Min</div>
-        <div id="det-rms-min" style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent)">—</div>
-      </div>
-      <div style="flex:1;text-align:center">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:4px">RMS Max</div>
-        <div id="det-rms-max" style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent)">—</div>
-      </div>
-    </div>
+
     <button class="btn-ghost" onclick="closeModal('modal-detail')">Close</button>
   </div>
 </div>
@@ -1996,8 +1983,6 @@ function renderSteps() {
   const done      = steps.filter(s => _sd[s.id] === true).length;
   const pct       = getStagePct(p, stage);
 
-  (function(){var _e=document.getElementById('ws-pct');if(_e)_e.textContent=pct+'%';})();
-  (function(){var _e=document.getElementById('ws-bar');if(_e)_e.style.width=pct+'%';})();
   document.getElementById('steps-list').innerHTML = steps.map(s => `
     <div class="step-row ${_sd[s.id] ? 'done' : ''}" id="sr-${s.id}">
       <div class="step-box" onclick="toggleStep('${s.id}')">${_sd[s.id] ? '✔' : ''}</div>
@@ -2060,8 +2045,6 @@ function openDetail(stepId) {
   document.getElementById('det-icon').textContent    = det.icon;
   document.getElementById('det-title').textContent   = step.name;
   document.getElementById('det-stage').textContent   = stageName;
-  document.getElementById('det-rms-min').textContent = step.rmsMin;
-  document.getElementById('det-rms-max').textContent = step.rmsMax;
 
   // Split detail into paragraphs for readability
   const sentences = det.detail.match(/[^.!?]+[.!?]+/g) || [det.detail];
@@ -2338,8 +2321,6 @@ function openInstrumentDetail(key) {
   document.getElementById('det-icon').textContent    = inst.icon;
   document.getElementById('det-title').textContent   = inst.name;
   document.getElementById('det-stage').textContent   = inst.range;
-  document.getElementById('det-rms-min').textContent = inst.range.split('–')[0];
-  document.getElementById('det-rms-max').textContent = inst.range.split('–')[1] || '';
   document.getElementById('det-body').innerHTML      = '<p>' + inst.note + '</p>';
   document.getElementById('modal-detail').classList.add('open');
 }
