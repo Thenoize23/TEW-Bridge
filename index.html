@@ -3,15 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="TEW">
 <meta name="theme-color" content="#0f1f3d">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
 <title>TEW</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -468,11 +463,8 @@ body {
 
   <!-- Header -->
   <div id="header">
-    <div class="hdr-logo" style="display:flex;align-items:center;gap:6px"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAG9UlEQVR4nJVWf4xcVRX+7r1vZmfZ7S5uixWsRFFTfhgDmtYoKkWt9g9dCMEEohEiGmMTTElASajZxJAGg0YasGpbbKRWsYVWappuaWGBloKlLd12KWy7dLs/KNv9MTs7s7M78+495/OPeTO70m2iJ3nvzeSee757vnPOPQeYQzo6OqLq793Pbb9z8OzZ3YWJ/DSFygtFRURHh4dHTh4/tmnLhj8sre7l1q1uLvv/JSQtAOzYvHlZ35l3Dwbv58C4uBRyudLAmTOPP7xq1eWJvblBSZrq4hsHDqwpThaqNkRIUSqVZFAyCOml8pXEZ2FlubppfGSk/6X29uWJ7WguQAcAQ/19a6tAgSGICjWU6UWqDCbPLE7VM4ivHEmUQehJMj+R01f27fv+B8NU+3PqnZNVsDhxirFo5fwMHC/H3Ns3ycf+XeCaV/Pc1DnJU2PlZJ0UBnollUqpeCul4lTcvnPnrQCwdetWZ0g6Y4x0PN/+42XLv7UegCeZMsZAgsJFgu5x4rcvl/DPtz0K6rCgPo2M88h6g7hcxtUtxMovNuKu69OwAFQMrHNQUbXO2rHz56f/tnnzdffef/9ZkDSPtbVdOT42NkEyiFSiolrxbNObeWbasrx+XY7rDk+xd3yKZS0zUFmMhfsHSly1J8/mNcP88vpxDkyWKCrUGdY9SXZ1drbXKH3r2PEnksB7JolBkvt6p4gHx7i6o1CjbSZwtRdJcmDSc/HaLG/cMMyy+BpgJdUocbnMZ57e8h20PfDAFdnhkQkm9UTOZN6Xnszx25uzJIUSAr2QqjMwmujGoZKgpwplpn81zl3dRZKVLK6kuQhJPXn82CF7y2233fKhyxY0AaC11gBA5Q3kp4nWa+sQxEBARJYwBkiWYRLdlDOIBfh0Y4QbFgb0TBjMFmOMBWk+/omrlkTNLc23VytjVonAAMhYRV2KiBwhdJiBIggDk2whgLQzAAwMWUkYVrQqepVT1jc0IGpomPdZAFDAmkTBIgDGAuk67OpVdPXncO9NjfhYYwqqCsJAaOAMoSBS1mBL1xSOnPMowIEqsCZGWQBjUnAJH4SBzdRfsiChx5AGhoJCcLhvzyiKZY8TQ4JHX8tgtOihVBjr4KxB2nk4ayG0ABR73wn43esZZIzDlhMTePatAuqjFAwVNDVqYRsaGliNB1VhTIxfPl/EE4cagIzDJSaF+kbCWAtrLPJlj+dOTmPD0RhvnI+RcQEAka6L0FgP0AG5ch1+sN3hyPA0rHWgmlrQIqUAAJSAswbvFgzWH3NomedgdAreOmhsEEUGL5yZxg+fLaK/0AR4gygT4/bPxFjf2oSIgqApGAKNacVUuR6/f13x51ZNIm0BA9jCZN5UAAkYYihvMe0dUkbhBFBEUBgYazFRDJjflMHCZo/Wz5dgnUVLXYSp2CNyBgpAnEIoMFEax88HBAQ4Y2sZGfly3A/gSpIEjHEUwBBqHQABqMikHTrfK8GJxR9vTeNgzzRWXNOAmxYW8c1P1eHgoCCQSFkgskRJK2niAFjMlIhSYMfHsp0AaJ1VgFh0qUFTugxPB2sjUIFMCjgxIrjjKYPuYcGqG5tR7wLu+0oDvr6phN+8CjhHWCgsiMgCDIIvLDKwiBCkUmbGALan+/QOksYBRlSxqLEOP1qSwmS+CC+AtxYSDJZ8tA6Z5gh/f9NjV08RD+7JY9dpwfBoGjdfJchEFgYGSovsNDC/cRI/WVpfKTSjAMBcdszb9m3btg2///57AIzCqqrg4WUGD31VcE1LwGXpMrLjZVz74Qht31DsPgXcs9Pgme5Lccc/PD55hcHPltRjvBgjP+VxeWYKS1umsePOFK6bX7kA4JwAMH29vbsBAEcOvvJzkgwMXkTpVUh6KgM7eov86b8mOFoskvR88miBX9s4wc/9qcCV28fYMx6TDNzRleMv9uY4VipTNCSNuUQvQYWUyUK+9JeN624ASdva2jrv3GB/D0kN3ouqMohQNE6uaE+RmCFI0m1ilnWK1amiJCHpJpVHVRhUGKgMlDhpT49W700HAE//dePNyRwjIYRaOxNVBkmaDJVek26imsw0gVSlKBlEqKq1bhJC8CTZd/r0me+tWNHEZECrgXYePnx3MqVJ0lIuKnPNi7NFRDxJTmSzg1s2bboaMLWJsAoaAUBPV9fd01PF6j7/P9i+AItkTJLDQ0MDhw68sBiozDP4oDAZpl7bv3/5yNDQ4CwjtdFjTm9Vq022xkp/b++etY88smg2g3NKdXHlXd/9SGfn0cezoyO5/8e9oXPnul968cWVs+zZi4JVZbb7v169evHbnZ0PDfb1deZzOaUElRAo4hlCzODLOjo8VBroO7v75X377mlpaWlKgExbW9sFYP8BS6zgd+zrvC4AAAAASUVORK5CYII=" width="28" height="28" style="border-radius:6px">TEW</div>
-    <div class="hdr-badge">
-      <div class="hdr-dot" id="hdr-dot"></div>
-      <span class="hdr-label" id="hdr-lbl">VST OFFLINE</span>
-    </div>
+    <div class="hdr-logo">TEW</div>
+
   </div>
 
   <!-- Content -->
@@ -493,31 +485,30 @@ body {
 
     <!-- LOGS -->
     <div id="screen-logs" class="screen">
-      <p class="sec-label">Registros de Progreso</p>
+      <p class="sec-label">Progress Logs</p>
       <div id="logs-list"></div>
       <div class="spacer"></div>
     </div>
 
     <!-- SETTINGS -->
     <div id="screen-settings" class="screen">
-      <p class="sec-label" id="lbl-appearance">Apariencia</p>
+      <p class="sec-label" id="lbl-appearance">Appearance</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl" data-i18n="darkMode">Modo Oscuro</span>
+          <span class="set-lbl" id="lbl-darkmode">Dark Mode</span>
           <label class="toggle">
             <input type="checkbox" id="dark-toggle" onchange="toggleDark(this.checked)">
             <div class="toggle-track"></div>
           </label>
         </div>
         <div class="set-row">
-          <span class="set-lbl" data-i18n="theme">Tema</span>
-          <div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl" data-i18n="language">Idioma</span>
+          <span class="set-lbl">Language</span>
           <div style="display:flex;gap:6px">
-            <button id="lang-en" onclick="setIdioma('en')"
+            <button id="lang-en" onclick="setLanguage('en')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--accent);color:#fff">EN</button>
-            <button id="lang-es" onclick="setIdioma('es')"
+            <button id="lang-es" onclick="setLanguage('es')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--panel3);color:var(--text2)">ES</button>
@@ -525,24 +516,24 @@ body {
         </div>
       </div>
 
-      <p class="sec-label" id="sec-vst" data-i18n="connection">Conexión VST</p>
+      <p class="sec-label">VST Connection</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl" data-i18n="vst">Plugin VST3</span>
+          <span class="set-lbl">Plugin VST3</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-vst"></div><span class="slbl" id="slbl-vst">Disconnected</span></div>
         </div>
         <div class="set-row">
-          <span class="set-lbl" data-i18n="vstBridge">WebSocket Bridge</span>
+          <span class="set-lbl">WebSocket Bridge</span>
           <div class="status-row"><div class="sdot sdot-r" id="sdot-ws"></div><span class="slbl" id="slbl-ws">No connection</span></div>
         </div>
-        <div class="set-row"><span class="set-lbl" data-i18n="vstPort">Puerto UDP</span><span class="set-val">8765</span></div>
+        <div class="set-row"><span class="set-lbl">UDP Port</span><span class="set-val">8765</span></div>
       </div>
 
-      <p class="sec-label" id="sec-metrics" data-i18n="liveMetrics">Métricas en Vivo</p>
+      <p class="sec-label">Live Metrics</p>
       <div class="set-group">
         <div class="set-row"><span class="set-lbl">RMS</span><span class="set-val" id="s-rms">—</span></div>
         <div class="set-row"><span class="set-lbl">Peak</span><span class="set-val" id="s-peak">—</span></div>
-        <div class="set-row"><span class="set-lbl" data-i18n="received">Muestras recibidas</span><span class="set-val" id="s-cnt">0</span></div>
+        <div class="set-row"><span class="set-lbl">Samples received</span><span class="set-val" id="s-cnt">0</span></div>
       </div>
 
       <p class="sec-label">Account</p>
@@ -556,24 +547,24 @@ body {
           <div class="status-row"><div class="sdot sdot-y" id="sdot-fb"></div><span class="slbl" id="slbl-fb">Configuring…</span></div>
         </div>
         <div class="set-row" style="cursor:pointer" onclick="if(window._authSignOut){window._authSignOut();}">
-          <span class="set-lbl" style="color:var(--danger)">Cerrar Sesión</span>
+          <span class="set-lbl" style="color:var(--danger)">Sign Out</span>
           <span style="color:var(--danger);font-size:16px">→</span>
         </div>
       </div>
 
-      <p class="sec-label" id="sec-projlogs" data-i18n="projectLogs">Registros de Proyecto</p>
+      <p class="sec-label">Project Logs</p>
       <div class="set-group">
         <div class="set-row" id="clear-logs-row" style="cursor:pointer;display:block;padding:0">
           <div style="padding:14px 16px">
             <div style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px">Clear logs for</div>
             <select class="form-input" id="clear-logs-select" style="margin-bottom:10px" onchange="void(0)">
-              <option value="">— Selecciona proyecto —</option>
+              <option value="">— Select project —</option>
             </select>
-            <button onclick="onClearLogsClick()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Limpiar Registros y Resetear</button>
+            <button onclick="onClearLogsClick()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Clear Logs &amp; Reset Steps</button>
           </div>
         </div>
         <div class="set-row" style="padding:14px 16px;border-top:1px solid var(--border)">
-          <button id="reset-all-btn" onclick="resetAllProjects()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer" data-i18n="resetAll">Resetear Todos los Proyectos</button>
+          <button id="reset-all-btn" onclick="resetAllProjects()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Reset All Projects</button>
         </div>
       </div>
       <div class="spacer"></div>
@@ -595,16 +586,16 @@ body {
       </div>
 
       <!-- Inner tab bar -->
-      <div style="display:flex;gap:4px;background:var(--panel);padding:8px 16px;border-bottom:1px solid var(--border)">
-        <button id="itab-steps" data-i18n="steps" onclick="switchInnerTab('steps')"
+      <div style="display:flex;gap:0;background:var(--header-bg);padding:0 16px 12px">
+        <button id="itab-steps" onclick="switchInnerTab('steps')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
                  background:#1586ec;color:#fff">Steps</button>
-        <button id="itab-ai" data-i18n="aiNotes" onclick="switchInnerTab('ai')"
+        <button id="itab-ai" onclick="switchInnerTab('ai')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
                  background:transparent;color:rgba(255,255,255,0.45);margin:0 4px">AI Notes</button>
-        <button id="itab-notes" data-i18n="otherNotes" onclick="switchInnerTab('notes')"
+        <button id="itab-notes" onclick="switchInnerTab('notes')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
                  background:transparent;color:rgba(255,255,255,0.45)">Other Notes</button>
@@ -630,7 +621,7 @@ body {
 
         <!-- Progress -->
         <div class="prog-row">
-          <span class="prog-label">Progreso de Etapa</span>
+          <span class="prog-label">Stage Progress</span>
           <span class="prog-pct" id="ws-pct">0%</span>
         </div>
         <div class="prog-bar"><div class="prog-fill" id="ws-bar" style="width:0%"></div></div>
@@ -654,9 +645,9 @@ body {
         <div id="inner-notes" style="display:none">
           <p class="sec-label">Add Note</p>
           <textarea id="note-input" class="notes-area"
-            data-i18n="writeNote" placeholder="Escribe tu nota aquí..."
+            placeholder="Write your note here..."
             style="width:100%;min-height:100px;margin-bottom:8px"></textarea>
-          <button onclick="addNote()" class="btn-primary" style="margin-bottom:20px" data-i18n="addNote">+ Agregar Nota</button>
+          <button onclick="addNote()" class="btn-primary" style="margin-bottom:20px">+ Add Note</button>
           <p class="sec-label">Your Notes</p>
           <div id="notes-list"></div>
           <div class="spacer"></div>
@@ -678,7 +669,7 @@ body {
           <rect x="12" y="12" width="8" height="8" rx="2.5" fill="currentColor" opacity="0.7"/>
         </svg>
       </div>
-      <span data-i18n="projects">Projects</span>
+      Projects
     </button>
     <button class="tab-btn" data-tab="charts" onclick="switchTab('charts')">
       <div class="tab-icon">
@@ -688,7 +679,7 @@ body {
           <rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor" opacity="0.5"/>
         </svg>
       </div>
-      <span data-i18n="charts">Charts</span>
+      Charts
     </button>
     <button class="tab-btn" data-tab="logs" onclick="switchTab('logs')">
       <div class="tab-icon">
@@ -717,13 +708,13 @@ body {
 <!-- FAB -->
 <button class="fab" id="fab" onclick="openNewProject()">+</button>
 
-<!-- Modal: Nuevo Proyecto -->
+<!-- Modal: New Project -->
 <div class="modal-overlay" id="modal-proj" onclick="void(0)">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title" data-i18n="newProject">Nuevo Proyecto</div>
+    <div class="modal-title">New Project</div>
     <div class="form-group">
-      <label class="form-label" data-i18n="projectName">Nombre del Proyecto</label>
+      <label class="form-label">Project Name</label>
       <input type="text" class="form-input" id="f-name" placeholder="e.g. Midnight Sessions Vol.1">
     </div>
     <div class="form-row">
@@ -739,7 +730,7 @@ body {
         </datalist>
       </div>
       <div class="form-group">
-        <label class="form-label">Subgenre <span style="color:var(--text3);font-weight:400">(opcional)</span></label>
+        <label class="form-label">Subgenre <span style="color:var(--text3);font-weight:400">(optional)</span></label>
         <input type="text" class="form-input" id="f-subgenre"
           placeholder="e.g. Progressive House, Melodic Trap..."
           autocomplete="off"
@@ -766,7 +757,7 @@ body {
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label" data-i18n="artist">Artista / Compositor</label>
+      <label class="form-label">Artist / Composer</label>
       <input type="text" class="form-input" id="f-artist" placeholder="Artist name">
     </div>
 
@@ -785,9 +776,15 @@ body {
       </div>
     </div>
 
-    <div id="proj-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
-    <button class="btn-primary" onclick="createProject()" data-i18n="create">Crear Proyecto</button>
-    <button class="btn-ghost"    onclick="closeModal('modal-proj')" data-i18n="cancel">Cancelar</button>
+    <div style="display:flex;justify-content:center;margin-bottom:16px">
+        <div id="f-artwork-preview" onclick="pickArtwork('f')"
+          style="width:80px;height:80px;border-radius:50%;background:var(--panel3);
+                 border:2px dashed var(--border);cursor:pointer;display:flex;
+                 align-items:center;justify-content:center;font-size:28px">🎵</div>
+      </div>
+      <div id="proj-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
+    <button class="btn-primary" onclick="createProject()">Create Project</button>
+    <button class="btn-ghost"    onclick="closeModal('modal-proj')">Cancel</button>
   </div>
 </div>
 
@@ -795,20 +792,20 @@ body {
 <div class="modal-overlay" id="modal-stage">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title"><span data-i18n="stageQuestion">¿En qué etapa trabajas hoy?</span></div>
+    <div class="modal-title">What stage are you working on?</div>
     <div class="stage-opt" onclick="selectStage('production')">
       <div class="stage-ico ico-prod">🎹</div>
-      <div class="stage-info"><h3>Production</h3><p>Estructura del beat, arreglos, diseño de sonido</p></div>
+      <div class="stage-info"><h3>Production</h3><p>Beat structure, arrangement, sound design</p></div>
     </div>
     <div class="stage-opt" onclick="selectStage('mix')">
       <div class="stage-ico ico-mix">🎚</div>
-      <div class="stage-info"><h3>Mix</h3><p>EQ, compresión, routing, espacio</p></div>
+      <div class="stage-info"><h3>Mix</h3><p>EQ, compression, routing, space</p></div>
     </div>
     <div class="stage-opt" onclick="selectStage('mastering')">
       <div class="stage-ico ico-mast">💿</div>
-      <div class="stage-info"><h3>Mastering</h3><p>Limitación, LUFS, exportación final</p></div>
+      <div class="stage-info"><h3>Mastering</h3><p>Limiting, LUFS, final export</p></div>
     </div>
-    <button class="btn-ghost" onclick="closeModal('modal-stage')" data-i18n="cancel">Cancelar</button>
+    <button class="btn-ghost" onclick="closeModal('modal-stage')">Cancel</button>
   </div>
 </div>
 
@@ -819,7 +816,7 @@ import { getFirestore, collection,
 import { getAuth, signInWithEmailAndPassword,
          createUserWithEmailAndPassword,
          sendPasswordResetEmail,
-         GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult,
+         GoogleAuthProvider, signInWithPopup,
          onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js';
 
 const firebaseConfig = {
@@ -859,17 +856,11 @@ window._authGoogle = async () => {
   if (!auth) return;
   try {
     const provider = new GoogleAuthProvider();
-    // Use redirect to avoid CORS/popup issues on ngrok and GitHub Pages
-    await signInWithRedirect(auth, provider);
+    await signInWithPopup(auth, provider);
   } catch(err) {
     window._loginErr && window._loginErr(err.code);
   }
 };
-
-// Handle redirect result on page load
-getRedirectResult(auth).then(result => {
-  if (result && result.user) console.log('Redirect login:', result.user.email);
-}).catch(e => { if (e.code !== 'auth/no-current-user') console.warn(e); });
 
 if (auth) {
   onAuthStateChanged(auth, async (user) => {
@@ -885,241 +876,72 @@ if (auth) {
 
 <script>
 // ── Translations ─────────────────────────────────────
-
-// Skins
-const SKINS = {
-  tew:    { accent:'#1586ec', accent2:'#0ea5e9', tabBg:'#0f1f3d', tabActive:'#1586ec' },
-  dnoiz3: { accent:'#c78a18', accent2:'#e6a820', tabBg:'#0f1f3d', tabActive:'#c78a18' },
-};
-let currentSkin = localStorage.getItem('tew_skin') || 'tew';
-function setSkin(k) {
-  const s = SKINS[k]; if(!s) return;
-  currentSkin = k; localStorage.setItem('tew_skin', k);
-  const r = document.documentElement.style;
-  r.setProperty('--accent', s.accent); r.setProperty('--accent2', s.accent2);
-  r.setProperty('--tab-bg', s.tabBg); r.setProperty('--tab-active', s.tabActive);
-  r.setProperty('--header-bg', s.tabBg);
-  const gold = k==='dnoiz3';
-  document.querySelectorAll('.card,.log-card,.step-row,.meter-card,.chart-card').forEach(el => {
-    el.style.borderColor = gold ? 'rgba(199,138,24,0.35)' : '';
-  });
-  ['tew','dnoiz3'].forEach(id => {
-    const btn = document.getElementById('skin-'+id);
-    if(btn) { btn.style.background = id===k ? s.accent:'var(--panel3)'; btn.style.color = id===k?'#fff':'var(--text2)'; }
-  });
-}
 const LANG = {
   en: {
     projects:'Projects', charts:'Charts', logs:'Logs', settings:'Settings',
+    newProject:'New Project', projectName:'Project Name', genre:'Genre',
+    subgenre:'Subgenre', bpm:'BPM', key:'Key', mode:'Mode', artist:'Artist / Composer',
+    create:'Create Project', cancel:'Cancel', save:'Save Changes', delete:'Delete Project',
     steps:'Steps', aiNotes:'AI Notes', otherNotes:'Other Notes',
     production:'Production', mix:'Mix', mastering:'Mastering',
-    newProject:'New Project', projectName:'Project Name',
-    genre:'Genre', subgenre:'Subgenre', bpm:'BPM', key:'Key', mode:'Mode',
-    artist:'Artist / Composer', create:'Create Project', cancel:'Cancel',
-    save:'Save Changes', delete:'Delete Project', editProject:'Edit Project',
-    stages:'Stages', stageProgress:'Stage Progress', overall:'overall', achieved:'achieved',
-    noProjects:'No projects yet', noProjectsSub:'Tap + to create your first project',
-    noLogs:'No logs yet', noLogsSub:'Check off steps to start logging',
-    addNote:'+ Add Note', writeNote:'Write your note here...', noNotes:'No notes yet',
-    noSteps:'No steps completed yet',
-    appearance:'Appearance', darkMode:'Dark Mode', language:'Language', theme:'Theme',
-    vst:'Plugin VST3', vstBridge:'WebSocket Bridge', vstPort:'UDP Port',
-    liveMetrics:'Live Metrics', account:'Account', received:'Samples received',
-    signOut:'Sign Out', projectLogs:'Project Logs',
-    clearLogs:'Clear Logs & Reset Steps', resetAll:'Reset All Projects',
-    selectProject:'— Select project —', connection:'VST Connection',
-    signIn:'Sign In', signUp:'Sign Up', continueGoogle:'Continue with Google',
-    forgotPassword:'Forgot password?', email:'Email', password:'Password',
-    vstConnected:'Connected', vstDisconnected:'Disconnected',
-    vstLive:'VST LIVE', vstOffline:'VST OFFLINE', noConnection:'No connection',
+    stageProgress:'Stage Progress', noProjects:'No projects yet',
+    noProjectsSub:'Tap + to create your first project',
+    noSteps:'No steps completed yet', noNotes:'No notes yet',
+    addNote:'+ Add Note', writeNote:'Write your note here...',
+    editProject:'Edit Project', stages:'Stages', overall:'overall',
+    achieved:'achieved', signIn:'Sign In', signUp:'Sign Up',
+    forgotPassword:'Forgot password?', continueGoogle:'Continue with Google',
+    email:'Email', password:'Password', appearance:'Appearance',
+    darkMode:'Dark Mode', language:'Language', vst:'Plugin VST3',
+    vstPort:'UDP Port', liveMetrics:'Live Metrics', account:'Account',
+    signOut:'Sign Out', projectLogs:'Project Logs', clearLogs:'Clear Logs & Reset Steps',
+    resetAll:'Reset All Projects', selectProject:'— Select project —',
+    customSubgenre:'optional', searchGenre:'e.g. Electronic, Trap...',
+    searchSubgenre:'e.g. Progressive House, Melodic Trap...',
     duplicateName:'A project with that name already exists.',
-    enterName:'Please enter a project name.', selectStage:'Select at least one stage.',
-    stageQuestion:'What stage are you working on?',
+    enterName:'Please enter a project name.',
+    selectStage:'Select at least one stage.',
     spectrumRef:'Spectrum References', tapToggle:'Tap card to toggle EQ / Pan',
+    instRanges:'Instrument Ranges',
+    noLogs:'No logs yet', noLogsSub:'Check off steps in a project to start logging',
+    connection:'Connection',
   },
   es: {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
+    newProject:'Nuevo Proyecto', projectName:'Nombre del Proyecto', genre:'Género',
+    subgenre:'Subgénero', bpm:'BPM', key:'Tonalidad', mode:'Modo', artist:'Artista / Compositor',
+    create:'Crear Proyecto', cancel:'Cancelar', save:'Guardar Cambios', delete:'Eliminar Proyecto',
     steps:'Pasos', aiNotes:'Notas IA', otherNotes:'Otras Notas',
     production:'Producción', mix:'Mezcla', mastering:'Mastering',
-    newProject:'Nuevo Proyecto', projectName:'Nombre del Proyecto',
-    genre:'Género', subgenre:'Subgénero', bpm:'BPM', key:'Tonalidad', mode:'Modo',
-    artist:'Artista / Compositor', create:'Crear Proyecto', cancel:'Cancelar',
-    save:'Guardar Cambios', delete:'Eliminar Proyecto', editProject:'Editar Proyecto',
-    stages:'Etapas', stageProgress:'Progreso de Etapa', overall:'total', achieved:'logrado',
-    noProjects:'Sin proyectos todavía', noProjectsSub:'Toca + para crear tu primer proyecto',
-    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos para comenzar',
-    addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...', noNotes:'Sin notas todavía',
-    noSteps:'Ningún paso completado todavía',
-    appearance:'Apariencia', darkMode:'Modo Oscuro', language:'Idioma', theme:'Tema',
-    vst:'Plugin VST3', vstBridge:'Puente WebSocket', vstPort:'Puerto UDP',
-    liveMetrics:'Métricas en Vivo', account:'Cuenta', received:'Muestras recibidas',
+    stageProgress:'Progreso de Etapa', noProjects:'Sin proyectos todavía',
+    noProjectsSub:'Toca + para crear tu primer proyecto',
+    noSteps:'Ningún paso completado aún', noNotes:'Sin notas todavía',
+    addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...',
+    editProject:'Editar Proyecto', stages:'Etapas', overall:'total',
+    achieved:'logrado', signIn:'Iniciar Sesión', signUp:'Registrarse',
+    forgotPassword:'¿Olvidaste tu contraseña?', continueGoogle:'Continuar con Google',
+    email:'Correo electrónico', password:'Contraseña', appearance:'Apariencia',
+    darkMode:'Modo Oscuro', language:'Idioma', vst:'Plugin VST3',
+    vstPort:'Puerto UDP', liveMetrics:'Métricas en Vivo', account:'Cuenta',
     signOut:'Cerrar Sesión', projectLogs:'Registros de Proyecto',
-    clearLogs:'Limpiar Registros y Resetear', resetAll:'Resetear Todos los Proyectos',
-    selectProject:'— Selecciona proyecto —', connection:'Conexión VST',
-    signIn:'Iniciar Sesión', signUp:'Registrarse', continueGoogle:'Continuar con Google',
-    forgotPassword:'¿Olvidaste tu contraseña?', email:'Correo', password:'Contraseña',
-    vstConnected:'Conectado', vstDisconnected:'Desconectado',
-    vstLive:'VST EN VIVO', vstOffline:'VST SIN CONEXIÓN', noConnection:'Sin conexión',
+    clearLogs:'Limpiar Registros y Resetear Pasos',
+    resetAll:'Resetear Todos los Proyectos', selectProject:'— Selecciona proyecto —',
+    customSubgenre:'opcional', searchGenre:'ej. Electrónica, Trap...',
+    searchSubgenre:'ej. Progressive House, Trap Melódico...',
     duplicateName:'Ya existe un proyecto con ese nombre.',
-    enterName:'Escribe el nombre del proyecto.', selectStage:'Selecciona al menos una etapa.',
-    stageQuestion:'¿En qué etapa trabajas hoy?',
+    enterName:'Por favor escribe el nombre del proyecto.',
+    selectStage:'Selecciona al menos una etapa.',
     spectrumRef:'Referencias de Espectro', tapToggle:'Toca la tarjeta para cambiar EQ / Pan',
+    instRanges:'Rangos de Instrumentos',
+    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos en un proyecto para comenzar',
+    connection:'Conexión',
   }
 };
 
 let currentLang = localStorage.getItem('tew_lang') || 'en';
 function t(key) { return LANG[currentLang][key] || LANG.en[key] || key; }
 
-// ════════════════════════════════════════════════
-//  STEPS — bilingual
-// ════════════════════════════════════════════════
-const STEPS_EN = {
-  production: [
-    { id:'pr1', name:'Reference Track',     desc:'Load a commercial reference to guide your sound',           rmsMin:-30, rmsMax:-12 },
-    { id:'pr2', name:'Tempo & Key',          desc:'Lock in BPM and musical key before building',               rmsMin:-30, rmsMax:-12 },
-    { id:'pr3', name:'Drum Programming',     desc:'Build the rhythmic foundation of the track',                rmsMin:-28, rmsMax:-10 },
-    { id:'pr4', name:'Bass Line',            desc:'Establish the low-end groove and root movement',            rmsMin:-26, rmsMax:-10 },
-    { id:'pr5', name:'Chord Progression',   desc:'Define the harmonic structure and mood',                    rmsMin:-24, rmsMax:-8  },
-    { id:'pr6', name:'Melody / Lead',        desc:'Create the main melodic or vocal hook element',             rmsMin:-22, rmsMax:-8  },
-    { id:'pr7', name:'Sound Design',         desc:'Shape and refine each sound with processing',               rmsMin:-22, rmsMax:-8  },
-    { id:'pr8', name:'Arrangement',          desc:'Structure intro, verse, chorus, bridge and outro',          rmsMin:-20, rmsMax:-6  },
-    { id:'pr9', name:'Automation',           desc:'Add movement, dynamics and variation over time',            rmsMin:-20, rmsMax:-6  },
-  ],
-  mix: [
-    { id:'mx1', name:'Compose',              desc:'Make sure everything sounds clean before you start',        rmsMin:-24, rmsMax:-14 },
-    { id:'mx2', name:'Organization',         desc:'Label, color-code and group all tracks clearly',            rmsMin:-24, rmsMax:-14 },
-    { id:'mx3', name:'Routing I/O',          desc:'Set up buses, sends and returns correctly',                 rmsMin:-22, rmsMax:-12 },
-    { id:'mx4', name:'Sends/Aux Channels',   desc:'Configure reverb, delay and parallel channels',            rmsMin:-22, rmsMax:-12 },
-    { id:'mx5', name:'EQ',                   desc:'Cut problem frequencies, shape tonal balance',              rmsMin:-20, rmsMax:-10 },
-    { id:'mx6', name:'Gain Staging',         desc:'Target -18 dBFS RMS per channel for headroom',             rmsMin:-20, rmsMax:-16 },
-    { id:'mx7', name:'Compression',          desc:'Control dynamics and glue elements together',               rmsMin:-18, rmsMax:-8  },
-    { id:'mx8', name:'Delay',                desc:'Add rhythmic space and depth with delay effects',           rmsMin:-18, rmsMax:-8  },
-    { id:'mx9', name:'Saturation',           desc:'Add harmonic warmth if needed — subtle is key',            rmsMin:-16, rmsMax:-6  },
-  ],
-  mastering: [
-    { id:'ms1', name:'Reference Track',      desc:'Compare against a commercial master at matched loudness',   rmsMin:-16, rmsMax:-10 },
-    { id:'ms2', name:'Gain Staging',         desc:'Set input gain so the chain has proper headroom',           rmsMin:-16, rmsMax:-10 },
-    { id:'ms3', name:'EQ',                   desc:'Broad tonal shaping — subtle moves of 1-2 dB max',         rmsMin:-14, rmsMax:-8  },
-    { id:'ms4', name:'Compressor',           desc:'Glue the master: ratio 2:1, slow attack, mid release',      rmsMin:-14, rmsMax:-8  },
-    { id:'ms5', name:'Stereo Enhancement',   desc:'Widen highs, keep lows mono for translation',              rmsMin:-12, rmsMax:-6  },
-    { id:'ms6', name:'Saturation',           desc:'Add analog character and perceived loudness',               rmsMin:-12, rmsMax:-6  },
-    { id:'ms7', name:'Limiter',              desc:'Set true peak ceiling at -1 dBTP, target your LUFS',       rmsMin:-10, rmsMax:-2  },
-    { id:'ms8', name:'LUFS Check',           desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',            rmsMin:-10, rmsMax:-2  },
-    { id:'ms9', name:'Dithering',            desc:'Apply TPDF dither when reducing to 16-bit',                rmsMin:-10, rmsMax:-2  },
-    { id:'ms10',name:'Final Export',         desc:'Export WAV 24-bit 44.1kHz per platform spec',              rmsMin:-10, rmsMax:-2  },
-  ],
-};
-
-const STEPS_ES = {
-  production: [
-    { id:'pr1', name:'Track de Referencia',    desc:'Carga una referencia comercial para guiar tu sonido',       rmsMin:-30, rmsMax:-12 },
-    { id:'pr2', name:'Tempo y Tonalidad',       desc:'Fija el BPM y la tonalidad antes de construir',             rmsMin:-30, rmsMax:-12 },
-    { id:'pr3', name:'Programacion de Bateria', desc:'Construye la base ritmica del track',                       rmsMin:-28, rmsMax:-10 },
-    { id:'pr4', name:'Linea de Bajo',           desc:'Establece el groove del bajo y el movimiento armonico',     rmsMin:-26, rmsMax:-10 },
-    { id:'pr5', name:'Progresion de Acordes',   desc:'Define la estructura armonica y el estado emocional',      rmsMin:-24, rmsMax:-8  },
-    { id:'pr6', name:'Melodia / Lead',          desc:'Crea el gancho melodico o vocal principal',                 rmsMin:-22, rmsMax:-8  },
-    { id:'pr7', name:'Diseno de Sonido',        desc:'Da forma a cada sonido con procesamiento creativo',         rmsMin:-22, rmsMax:-8  },
-    { id:'pr8', name:'Arreglos',                desc:'Estructura intro, verso, coro, bridge y outro',            rmsMin:-20, rmsMax:-6  },
-    { id:'pr9', name:'Automatizacion',          desc:'Agrega movimiento, dinamica y variacion en el tiempo',     rmsMin:-20, rmsMax:-6  },
-  ],
-  mix: [
-    { id:'mx1', name:'Composicion',             desc:'Asegurate de que todo suene limpio antes de mezclar',      rmsMin:-24, rmsMax:-14 },
-    { id:'mx2', name:'Organizacion',            desc:'Etiqueta, colorea y agrupa todos los canales claramente',  rmsMin:-24, rmsMax:-14 },
-    { id:'mx3', name:'Routing I/O',             desc:'Configura buses, envios y retornos correctamente',         rmsMin:-22, rmsMax:-12 },
-    { id:'mx4', name:'Canales Aux',             desc:'Configura reverb, delay y canales paralelos',             rmsMin:-22, rmsMax:-12 },
-    { id:'mx5', name:'EQ',                      desc:'Corta frecuencias problematicas y da forma tonal',         rmsMin:-20, rmsMax:-10 },
-    { id:'mx6', name:'Gain Staging',            desc:'Objetivo -18 dBFS RMS por canal para headroom',           rmsMin:-20, rmsMax:-16 },
-    { id:'mx7', name:'Compresion',              desc:'Controla la dinamica y une los elementos de la mezcla',   rmsMin:-18, rmsMax:-8  },
-    { id:'mx8', name:'Delay',                   desc:'Agrega espacio ritmico y profundidad con delay',           rmsMin:-18, rmsMax:-8  },
-    { id:'mx9', name:'Saturacion',              desc:'Agrega calidez armonica si es necesario - se sutil',      rmsMin:-16, rmsMax:-6  },
-  ],
-  mastering: [
-    { id:'ms1', name:'Track de Referencia',     desc:'Compara con un master comercial a igual loudness',         rmsMin:-16, rmsMax:-10 },
-    { id:'ms2', name:'Gain Staging',            desc:'Ajusta la ganancia de entrada para headroom suficiente',   rmsMin:-16, rmsMax:-10 },
-    { id:'ms3', name:'EQ',                      desc:'Ajustes tonales suaves - maximo 1-2 dB',                  rmsMin:-14, rmsMax:-8  },
-    { id:'ms4', name:'Compresor',               desc:'Glue: ratio 2:1, ataque lento, release medio',             rmsMin:-14, rmsMax:-8  },
-    { id:'ms5', name:'Mejora Estereo',          desc:'Amplia agudos, manten graves en mono',                    rmsMin:-12, rmsMax:-6  },
-    { id:'ms6', name:'Saturacion',              desc:'Agrega caracter analogico y loudness percibida',           rmsMin:-12, rmsMax:-6  },
-    { id:'ms7', name:'Limitador',               desc:'Ceiling -1 dBTP, alcanza tu objetivo de LUFS',            rmsMin:-10, rmsMax:-2  },
-    { id:'ms8', name:'Revision de LUFS',        desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',           rmsMin:-10, rmsMax:-2  },
-    { id:'ms9', name:'Dithering',               desc:'Aplica dither TPDF al reducir a 16 bits',                 rmsMin:-10, rmsMax:-2  },
-    { id:'ms10',name:'Exportacion Final',       desc:'Exporta WAV 24-bit 44.1kHz por specs de la plataforma',   rmsMin:-10, rmsMax:-2  },
-  ],
-};
-
-function getSTEPS() { return currentLang === 'es' ? STEPS_ES : STEPS_EN; }
-const STEPS = new Proxy({}, { get: (_, k) => getSTEPS()[k] });
-
-// ════════════════════════════════════════════════
-//  STEP_DETAILS — bilingual  
-// ════════════════════════════════════════════════
-const STEP_DETAILS_EN2 = {
-  pr1:{icon:'🎧',detail:'A reference track is one of the most powerful tools in your workflow. Choose a professionally released song in the same genre that represents the sound you want to achieve. Load it at matched loudness (around -14 LUFS) and use it throughout the session to compare frequency balance, stereo width, dynamics, and overall energy.'},
-  pr2:{icon:'🎵',detail:'Before placing any element, lock your tempo and musical key. Everything you build will be anchored to these two parameters. Choosing the wrong key or drifting tempo mid-project causes costly rework. Set BPM in your DAW transport and tune all virtual instruments to the root note.'},
-  pr3:{icon:'🥁',detail:'The drum foundation defines the feel and energy of the entire track. Start with kick and snare placement, then layer hi-hats and percussion. Introduce subtle velocity variation and timing shifts to give the rhythm a natural, breathing feel — a perfectly quantized grid sounds robotic.'},
-  pr4:{icon:'🎸',detail:'The bassline works in tandem with the kick to form the low-end foundation. Keep it mono below 80 Hz for maximum translation on all playback systems. Leave headroom at this stage — you will shape the bass further during mixing with sidechain compression and EQ.'},
-  pr5:{icon:'🎹',detail:'Chords provide the emotional context and harmonic movement of your track. Try inversions and voicings to avoid frequency clutter — spread chords across the mid and high registers and leave the low end to the bass and kick.'},
-  pr6:{icon:'🎤',detail:'The lead melody or vocal hook is what listeners will remember. Write or record the melody with the chord progression playing so it feels harmonically connected. Consider the phrasing — where the melody breathes and rests is just as important as the notes themselves.'},
-  pr7:{icon:'🔊',detail:'Sound design is where your track gets its unique character. Use synthesis, sampling, resampling, and processing to sculpt each element. Remove unwanted frequencies at the source before they become problems in the mix.'},
-  pr8:{icon:'📐',detail:'Arrangement is the architecture of your track. Map out your sections (intro, verse, chorus, bridge, outro) and make sure each one has a clear purpose. Use element additions and removals, filter sweeps, and volume automation to create natural transitions.'},
-  pr9:{icon:'📈',detail:'Automation transforms a static mix into a living, evolving track. Add volume automation for dynamics, filter automation for tension and release, and effect parameter automation for movement. Focus on macro automation that shapes the energy of entire sections.'},
-  mx1:{icon:'👂',detail:'Before touching a fader or plugin, listen to the raw session from start to finish. Take notes on obvious problems — levels, frequency clashes, timing issues. Make sure all clips are trimmed cleanly and all tracks are properly named and organized.'},
-  mx2:{icon:'🗂️',detail:'Professional mixing starts with a professional session layout. Color-code tracks by category — drums, bass, keys, guitars, vocals, FX. Group related tracks into buses so you can process them together efficiently. A well-organized session saves hours and keeps your ears fresh.'},
-  mx3:{icon:'🔌',detail:'Routing is the backbone of your mix infrastructure. Every track should feed into an appropriate group bus, and every bus should route to the master fader through a clear, logical signal chain. Verify that no signal is accidentally double-routed or missing from the master output.'},
-  mx4:{icon:'🎛️',detail:'Send channels allow you to apply a single reverb or delay to multiple tracks simultaneously, saving CPU and creating a cohesive sense of space. Create at least one room reverb send, one hall send for leads and vocals, and one tempo-synced delay. Set each return to 100% wet.'},
-  mx5:{icon:'🎚️',detail:'EQ is your primary tool for creating separation and clarity. First, high-pass filter every track that does not need low-end energy. Then identify and cut narrow problem resonances. Each instrument should occupy its own frequency zone so the mix translates clearly on any speaker system.'},
-  mx6:{icon:'📊',detail:'Gain staging means managing signal levels throughout your entire chain. Target approximately -18 dBFS RMS per channel — this gives you consistent headroom, keeps plugins operating in their optimal range, and ensures your master bus receives a clean signal.'},
-  mx7:{icon:'⚙️',detail:'Compression controls dynamic range and helps elements sit together as a cohesive mix. For transient elements like drums use faster attack times. For sustained elements like pads and vocals use slower attacks to preserve the natural transient feel. Use parallel compression to retain punch while achieving density.'},
-  mx8:{icon:'🔁',detail:'Delay adds rhythmic interest, depth, and space without muddying the low-end. Sync delay times to the project tempo. Use high-pass and low-pass filters on delay returns to prevent repeats from cluttering the frequency range of the dry signal.'},
-  mx9:{icon:'🔥',detail:'Saturation adds even-order harmonic distortion that mimics the warmth of analog equipment. Used subtly, it adds perceived loudness and glues elements together. Apply to the drum bus for cohesion, to the bass for harmonics on small speakers, and sparingly to synths and vocals for character.'},
-  ms1:{icon:'🎧',detail:'Your reference track is the most important tool in mastering. Choose a commercially released master in the same genre. Match its loudness using a LUFS meter before comparing. Listen critically to the low-end balance, high-frequency air, stereo width, and overall density.'},
-  ms2:{icon:'📊',detail:'Before any mastering processing, set the input gain so the loudest section peaks between -6 and -3 dBFS. This gives your entire chain sufficient headroom to operate cleanly. Avoid pushing the gain to make it sound louder at this point — loudness comes at the end through the limiter.'},
-  ms3:{icon:'🎚️',detail:'Mastering EQ is about broad, gentle tonal shaping — not corrective surgery. Make final adjustments of 1 to 2 dB using wide, musical curves. A gentle high shelf boost above 12 kHz adds air and presence. Use linear phase EQ to avoid phase artifacts in the full-mix context.'},
-  ms4:{icon:'⚙️',detail:'A mastering compressor at 2:1 ratio with slow attack and medium release acts as glue that unifies the stereo mix. Set the attack slow enough (30-50ms) that transients pass through unaffected. Aim for 2 to 4 dB of gain reduction on average — more than 6 dB will audibly squash the dynamics.'},
-  ms5:{icon:'↔️',detail:'Stereo enhancement must be applied carefully. Use a mid/side processor to boost high-frequency content in the side channel for width. Never widen sub frequencies — bass below 120 Hz must remain mono for reliable translation. Check mono compatibility with a correlation meter.'},
-  ms6:{icon:'🔥',detail:'A tape saturator or harmonic exciter adds analog warmth and increases perceived loudness without reducing dynamic range. Drive it gently so it adds harmonic content without obvious distortion. The effect should be felt rather than heard. Bypass and compare carefully to confirm the improvement.'},
-  ms7:{icon:'🔒',detail:'The limiter is the final and most critical stage. Set your true peak ceiling to -1 dBTP to prevent intersample peaks from clipping during encoding to MP3 or AAC. Watch your gain reduction — if the limiter works more than 3-4 dB consistently, your mix needs more dynamic control before mastering.'},
-  ms8:{icon:'📏',detail:'Integrated LUFS is the global standard for streaming loudness normalization. Spotify targets -14 LUFS, Apple Music -16 LUFS, YouTube -14 LUFS. If you deliver louder than the platform target, it will be turned down automatically. Measure the full track from start to finish using an integrated loudness meter.'},
-  ms9:{icon:'🎛️',detail:'Dithering is required when reducing bit depth from 24-bit to 16-bit. Without dither, bit-depth reduction introduces quantization distortion. TPDF dither adds a small amount of random noise that masks this distortion. Apply dithering only once, as the very last process in your chain.'},
-  ms10:{icon:'📦',detail:'The final export is your deliverable to the world. Export a 24-bit 44.1 kHz WAV file for streaming distribution. For CD duplication, export 16-bit 44.1 kHz WAV with dither applied. Name your files clearly with the artist name, track title, and format specification.'},
-};
-
-const STEP_DETAILS_ES2 = {
-  pr1:{icon:'🎧',detail:'El track de referencia es una de las herramientas mas poderosas en tu flujo de trabajo. Elige una cancion publicada profesionalmente en el mismo genero que representa el sonido que quieres lograr. Cargala a loudness igualado (alrededor de -14 LUFS) y usala durante toda la sesion para comparar balance de frecuencias, amplitud estereo, dinamica y energia general.'},
-  pr2:{icon:'🎵',detail:'Antes de colocar cualquier elemento, fija el tempo y la tonalidad en la configuracion del proyecto. Todo lo que construyas estara anclado a estos dos parametros. Elegir la tonalidad incorrecta o derivar el tempo a mitad del proyecto genera retrabajos costosos. Ajusta el BPM en el transporte del DAW y afina todos los instrumentos virtuales a la nota raiz.'},
-  pr3:{icon:'🥁',detail:'La base de bateria define el groove y la energia de todo el track. Comienza con el kick y el snare para establecer el pulso, luego agrega hi-hats y percusion. Introduce variaciones sutiles de velocidad y timing para dar una sensacion natural y respirada al ritmo — una cuadricula perfectamente cuantizada suena robotica.'},
-  pr4:{icon:'🎸',detail:'El bassline trabaja junto al kick para formar la base de bajos. Mantenlo en mono por debajo de 80 Hz para maxima traslacion en todos los sistemas de reproduccion. Deja headroom en esta etapa — daras forma al bajo durante la mezcla con compresion sidechain y EQ.'},
-  pr5:{icon:'🎹',detail:'Los acordes proveen el contexto emocional y el movimiento armonico de tu track. Prueba inversiones y voicings para evitar la saturacion de frecuencias — distribuye los acordes en el registro medio y agudo y deja el extremo grave para el bajo y el kick.'},
-  pr6:{icon:'🎤',detail:'La melodia lead o el gancho vocal es lo que los oyentes recordaran. Escribe o graba la melodia con la progresion de acordes sonando para que se sienta conectada armonicamente. El fraseo es tan importante como las notas mismas — donde respira y descansa la melodia define su caracter.'},
-  pr7:{icon:'🔊',detail:'El diseno de sonido es donde tu track obtiene su caracter unico. Usa sintesis, sampling, resampling y procesamiento para esculpir cada elemento. Elimina frecuencias no deseadas en la fuente antes de que se conviertan en problemas durante la mezcla.'},
-  pr8:{icon:'📐',detail:'El arreglo es la arquitectura de tu track. Mapea tus secciones (intro, verso, coro, bridge, outro) y asegurate de que cada una tenga un proposito claro. Usa adiciones y retiros de elementos, sweeps de filtro y automatizacion de volumen para crear transiciones naturales.'},
-  pr9:{icon:'📈',detail:'La automatizacion transforma una mezcla estatica en un track vivo y en evolucion. Agrega automatizacion de volumen para crear dinamica, de filtros para construir y liberar tension, y de parametros de efectos para agregar movimiento e interes. Enfocate en la automatizacion macro que da forma a la energia de secciones enteras.'},
-  mx1:{icon:'👂',detail:'Antes de tocar un solo fader o plugin, sientate y escucha la sesion cruda de principio a fin. Toma notas sobre problemas obvios — niveles, frecuencias que chocan, problemas de timing. Asegurate de que todos los clips esten limpios y que todas las pistas esten nombradas y organizadas correctamente.'},
-  mx2:{icon:'🗂️',detail:'La mezcla profesional comienza con una sesion profesional. Colorea tus canales por categoria — bateria, bajo, teclados, guitarras, vocales, FX. Agrupa los canales relacionados en buses para procesarlos juntos de manera eficiente. Una sesion bien organizada ahorra horas y mantiene tus oidos frescos para las decisiones creativas.'},
-  mx3:{icon:'🔌',detail:'El routing es la columna vertebral de tu infraestructura de mezcla. Cada canal debe alimentar un bus de grupo apropiado, y cada bus debe ir al fader master a traves de una cadena de senal clara y logica. Verifica que ninguna senal este doblemente ruteada o ausente de la salida master.'},
-  mx4:{icon:'🎛️',detail:'Los canales de envio te permiten aplicar un solo reverb o delay a multiples canales simultaneamente, ahorrando CPU y creando un sentido coherente de espacio. Crea al menos un envio de reverb de sala, uno de sala grande para leads y vocales, y uno de delay sincronizado al tempo. Ajusta cada retorno al 100% humedo.'},
-  mx5:{icon:'🎚️',detail:'El EQ es tu herramienta principal para crear separacion y claridad. Primero, aplica un filtro pasa-altos en cada canal que no necesite energia sub. Luego identifica y corta resonancias problematicas. Cada instrumento debe ocupar su propia zona de frecuencias para que la mezcla se traduzca claramente en cualquier sistema de reproduccion.'},
-  mx6:{icon:'📊',detail:'El gain staging es la disciplina de gestionar los niveles de senal a traves de toda tu cadena. Apunta a aproximadamente -18 dBFS RMS por canal — esto te da headroom consistente, mantiene tus plugins operando en su rango optimo y asegura que tu bus master reciba una senal limpia.'},
-  mx7:{icon:'⚙️',detail:'La compresion controla el rango dinamico de los elementos individuales y ayuda a que se asienten juntos como una mezcla cohesiva. Para elementos transitorios como bateria usa ataques rapidos. Para elementos sostenidos como pads y vocales usa ataques lentos para preservar el transitorio natural.'},
-  mx8:{icon:'🔁',detail:'El delay agrega interes ritmico, profundidad y espacio sin ensuciar el extremo bajo. Sincroniza tus tiempos de delay al tempo del proyecto. Usa filtros pasa-altos y pasa-bajos en tus retornos de delay para evitar que las repeticiones ensucien el rango de frecuencias de la senal seca.'},
-  mx9:{icon:'🔥',detail:'La saturacion agrega distorsion armonica de orden par que imita la calidez del equipo analogico. Usada sutilmente, agrega loudness percibida y une elementos. Aplicala al bus de bateria para cohesion, al bajo para armonicos en bocinas pequenas, y con moderacion a sintetizadores y vocales para caracter.'},
-  ms1:{icon:'🎧',detail:'Tu track de referencia es la herramienta mas importante en el mastering. Elige un master publicado comercialmente en el mismo genero. Iguala su loudness usando un medidor de LUFS antes de comparar. Escucha criticamente el balance del extremo bajo, el aire en frecuencias altas, la amplitud estereo y la densidad general.'},
-  ms2:{icon:'📊',detail:'Antes de cualquier procesamiento de mastering, ajusta la ganancia de entrada para que la seccion mas fuerte del track alcance entre -6 y -3 dBFS. Esto le da a toda tu cadena headroom suficiente para operar limpiamente. Evita empujar la ganancia para que suene mas fuerte en este punto — la loudness llega al final a traves del limitador.'},
-  ms3:{icon:'🎚️',detail:'El EQ de mastering se trata de dar forma tonal amplia y suave — no de cirugia correctiva. Haz ajustes finales de 1 a 2 dB usando curvas amplias y musicales. Un boost suave de shelf alto por encima de 12 kHz agrega aire y presencia. Usa EQ de fase lineal para evitar artefactos de fase en el contexto de la mezcla completa.'},
-  ms4:{icon:'⚙️',detail:'Un compresor de mastering a ratio 2:1 con ataque lento y release medio actua como pegamento que une la mezcla estereo. Ajusta el ataque lo suficientemente lento (30-50ms) para que los transitorios pasen sin afectarse. Apunta a 2-4 dB de reduccion de ganancia en promedio — mas de 6 dB aplastara la dinamica visiblemente.'},
-  ms5:{icon:'↔️',detail:'La mejora estereo debe aplicarse con cuidado. Usa un procesador mid/side para impulsar el contenido de alta frecuencia del canal lateral. Nunca amplies las frecuencias sub — el bajo por debajo de 120 Hz debe permanecer en mono para una traslacion confiable en todos los sistemas de reproduccion.'},
-  ms6:{icon:'🔥',detail:'Un saturador de cinta o excitador armonico agrega calidez analogica y aumenta la loudness percibida sin reducir el rango dinamico. Impulsa el saturador suavemente para que agregue contenido armonico sin distorsion obvia — el efecto debe sentirse mas que escucharse. Compara con el plugin desactivado para confirmar la mejora.'},
-  ms7:{icon:'🔒',detail:'El limitador es la etapa final y mas critica. Ajusta tu ceiling de true peak a -1 dBTP para prevenir picos entre muestras que recorten durante la codificacion a MP3 o AAC. Si el limitador trabaja mas de 3-4 dB consistentemente, tu mezcla necesita mas control dinamico antes del mastering.'},
-  ms8:{icon:'📏',detail:'Los LUFS integrados son el estandar global para la normalizacion de loudness en plataformas de streaming. Spotify apunta a -14 LUFS, Apple Music a -16 LUFS, YouTube a -14 LUFS. Si entregas mas alto que el objetivo de la plataforma, lo bajaran automaticamente reduciendo la calidad percibida.'},
-  ms9:{icon:'🎛️',detail:'El dithering es necesario al reducir la profundidad de bits de 24 a 16 bits. Sin dither, la reduccion introduce distorsion de cuantizacion — un artefacto digital aspero. El dither TPDF agrega una pequena cantidad de ruido aleatorio que enmascara esta distorsion. Aplicalo solo una vez, como el ultimo proceso en tu cadena.'},
-  ms10:{icon:'📦',detail:'La exportacion final es tu entregable al mundo. Exporta WAV de 24 bits 44.1 kHz para distribucion en streaming. Para duplicacion de CD, exporta WAV de 16 bits 44.1 kHz con dither aplicado. Nombra tus archivos claramente con el nombre del artista, titulo de la pista y especificacion de formato.'},
-};
-
-function getSTEP_DETAILS2() { return currentLang === 'es' ? STEP_DETAILS_ES2 : STEP_DETAILS_EN2; }
-const STEP_DETAILS = new Proxy({}, { get: (_, k) => getSTEP_DETAILS2()[k] });
-
-
-function setIdioma(lang) {
+function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('tew_lang', lang);
   // Update button styles
@@ -1127,49 +949,31 @@ function setIdioma(lang) {
   const esBtn = document.getElementById('lang-es');
   if (enBtn) { enBtn.style.background = lang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = lang==='en' ? '#fff' : 'var(--text2)'; }
   if (esBtn) { esBtn.style.background = lang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = lang==='es' ? '#fff' : 'var(--text2)'; }
-  applyIdioma();
+  applyLanguage();
 }
 
-function applyIdioma() {
-  // Update every element that has data-i18n attribute
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    const val = t(key);
-    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-      el.placeholder = val;
-    } else {
-      el.textContent = val;
-    }
+function applyLanguage() {
+  // Tab bar
+  const tabLabels = ['projects','charts','logs','settings'];
+  tabLabels.forEach(tab => {
+    const btn = document.querySelector('[data-tab="' + tab + '"]');
+    if (btn) btn.lastChild.textContent = ' ' + t(tab).toUpperCase();
   });
-  // Update data-i18n-html (for elements with inner HTML)
-  document.querySelectorAll('[data-i18n-title]').forEach(el => {
-    el.title = t(el.getAttribute('data-i18n-title'));
-  });
-  // VST live status (dynamic — override with current state)
+  // Header
   const hdrLbl = document.getElementById('hdr-lbl');
-  if (hdrLbl) hdrLbl.textContent = state.vstOn ? t('vstLive') : t('vstOffline');
-  const slblVst = document.getElementById('slbl-vst');
-  const slblWs  = document.getElementById('slbl-ws');
-  if (slblVst) slblVst.textContent = state.vstOn ? t('vstConnected') : t('vstDisconnected');
-  if (slblWs)  slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
-  // Re-render dynamic lists
+  if (hdrLbl && !hdrLbl.classList.contains('live')) hdrLbl.textContent = 'VST OFFLINE';
+  // Re-render current screen
   renderProjects();
   renderLogs();
-  if (state.active) {
+  // Inner tabs if workspace open
+  const ws = document.getElementById('workspace');
+  if (ws && ws.style.display === 'block') {
     renderStageTabs();
     renderSteps();
     renderAINotes();
     renderManualNotes();
-    // Refresh inner tab labels
-    const activeInner = document.querySelector('#inner-steps[style*="block"]') ? 'steps'
-      : document.querySelector('#inner-ai[style*="block"]') ? 'ai' : 'notes';
-    switchInnerTab(activeInner);
   }
-  // Also update workspace stage label in header
-  const wsStageEl = document.getElementById('ws-stage');
-  if (wsStageEl && state.active) wsStageEl.textContent = getStageLabel(state.active.stage);
 }
-
 
 function getProjectPct(p) {
   const stages = Array.isArray(p.stages) && p.stages.length ? p.stages : ['mix'];
@@ -1205,13 +1009,102 @@ function safeEl(id) {
 //  DATA — Steps per stage
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+const STEP_DETAILS = {
+  // PRODUCTION
+  pr1: { icon:'🎧', detail:'A reference track is one of the most powerful tools in your workflow. Choose a professionally released song in the same genre that represents the sound you want to achieve. Load it into your DAW at a matched loudness level (around −14 LUFS) and use it throughout the session to compare frequency balance, stereo width, dynamics, and overall energy. Your goal is not to copy it — it is to understand the gap between your mix and a finished, commercially polished record.' },
+  pr2: { icon:'🎵', detail:'Before placing any element, lock your tempo and musical key into the project settings. Everything you build — drums, bass, chords, melody — will be anchored to these two parameters. Choosing the wrong key or drifting tempo mid-project causes costly rework later. Set BPM in your DAW transport, tune any virtual instruments to the root note, and if you are working with samples, pitch-match them to your key using a pitch detection tool.' },
+  pr3: { icon:'🥁', detail:'The drum foundation defines the feel and energy of the entire track. Start with kick and snare placement to establish the groove, then layer in hi-hats, percussion, and any tonal drum elements. Pay close attention to velocity variation — a perfectly quantized grid can sound robotic. Introduce subtle timing shifts and velocity humanization to give the rhythm a natural, breathing feel. Reference your drums against the reference track before adding any other elements.' },
+  pr4: { icon:'🎸', detail:'The bassline works in tandem with the kick to form the low-end foundation. Program or play a bass part that complements the kick drum rhythmically — in many modern genres, the kick and bass share the same frequency space, so they need to breathe together. Keep your bassline mono below 80 Hz for maximum translation on all playback systems. Leave headroom at this stage; you will shape the bass further during mixing with sidechain compression and EQ.' },
+  pr5: { icon:'🎹', detail:'Chords provide the emotional context and harmonic movement of your track. Choose a progression that supports the mood you want to create and define the tension and resolution points across your arrangement. Try inversions and voicings to avoid frequency clutter — spread chords across the mid and high registers and leave the low end to the bass and kick. Record multiple takes or experiment with different chord voicings before committing.' },
+  pr6: { icon:'🎤', detail:'The lead melody or vocal hook is what listeners will remember. This element sits at the top of your mix and needs to cut through everything else. Write or record the melody with the chord progression playing so it feels harmonically connected. Consider the phrasing — where the melody breathes and rests is just as important as the notes themselves. If using a vocal, record multiple takes for comping later during the mixing stage.' },
+  pr7: { icon:'🔊', detail:'Sound design is where your track gets its unique character. Every sound you use should be intentional and serve the mix. Use synthesis, sampling, resampling, and processing to sculpt each element. Remove unwanted frequencies at the source — if a sound has problematic resonances or excessive low-end, address it now before it becomes a problem in the mix. The more intentional your sound design, the less corrective work you will need at the mixing stage.' },
+  pr8: { icon:'📐', detail:'Arrangement is the architecture of your track. A great arrangement guides the listener through an emotional journey — building tension, releasing it, creating surprises and moments of rest. Map out your sections (intro, verse, pre-chorus, chorus, bridge, outro) and make sure each one has a clear purpose. Use element additions and removals, filter sweeps, and volume automation to create natural transitions. Listen to the entire track top-to-bottom to assess the flow before moving on.' },
+  pr9: { icon:'📈', detail:'Automation transforms a static mix into a living, evolving track. Add volume automation to create dynamics, filter automation to build and release tension, and effect parameter automation to add movement and interest. In production, focus on macro automation — broad movements that shape the energy of entire sections. Reserve micro automation (individual element rides, subtle sends adjustments) for the mixing stage. Automate with purpose: every move should serve the emotion of the song.' },
+  // MIX
+  mx1: { icon:'👂', detail:'Before touching a single fader or plugin, sit down and listen to the raw session from start to finish. Take notes on obvious problems — elements that are too loud or too quiet, frequencies that clash, timing issues, or anything that feels out of place. This critical listening pass sets your intention for the mix. Make sure all clips are trimmed cleanly, no unwanted noise exists between phrases, and all tracks are properly named and organized. A clean session produces a clean mix.' },
+  mx2: { icon:'🗂️', detail:'Professional mixing starts with a professional session layout. Color-code your tracks by category — drums, bass, keys, guitars, vocals, FX. Group related tracks into buses (drum bus, instrument bus, vocal bus) so you can process them together efficiently. Label everything clearly so you can navigate the session without confusion. Create your send channels for reverb and delay returns before you start processing individual tracks. A well-organized session saves hours and keeps your ears fresh for creative decisions.' },
+  mx3: { icon:'🔌', detail:'Routing is the backbone of your mix infrastructure. Every track should feed into an appropriate group bus, and every bus should route to your master fader through a clear, logical signal chain. Set up your parallel compression buses, your reverb and delay return channels, and any stem buses you need for stem mixing or client delivery. Verify that no signal is accidentally double-routed or missing from the master output. Get this right before you start mixing — changing routing mid-session creates confusion and phase problems.' },
+  mx4: { icon:'🎛️', detail:'Send channels allow you to apply a single reverb or delay to multiple tracks simultaneously, saving CPU and creating a cohesive sense of space. Create at least one room reverb send for close-sounding elements, one hall or plate reverb for leads and vocals, and one tempo-synced delay for rhythmic effects. Set each return channel to 100% wet signal and control the blend from the individual send knobs on each track. This approach gives you precise, independent control over the space of every element in your mix.' },
+  mx5: { icon:'🎚️', detail:'EQ is your primary tool for creating separation and clarity in a mix. Work in two phases: first, use a high-pass filter on every track that does not need low-end information to clean up the sub frequencies. Second, identify and cut narrow problem resonances using a dynamic EQ or notch filter. Avoid boosting broad shelves at this stage — corrective EQ should be surgical. Each instrument should occupy its own frequency zone. When every element has space, the mix translates clearly on any speaker system.' },
+  mx6: { icon:'📊', detail:'Gain staging is the discipline of managing signal levels throughout your entire signal chain. The goal is to run each channel at approximately −18 dBFS RMS — this gives you consistent headroom, keeps your plugins operating in their optimal range, and ensures that your master bus is not receiving an overloaded signal. Check your channel input levels before any plugin processing and reduce clip gain or the track fader to hit the target. A well gain-staged mix will feel more controlled and require less limiting on the master bus.' },
+  mx7: { icon:'⚙️', detail:'Compression controls the dynamic range of individual elements and helps them sit together as a cohesive mix. For transient elements like drums and bass, use faster attack times to tame peaks. For sustained elements like pads and vocals, use slower attack times to preserve the natural transient and feel. The most important compressor setting is the release — set it so the compressor breathes with the rhythm of the music. Use parallel compression on drums and bass to retain punch while achieving density and control.' },
+  mx8: { icon:'🔁', detail:'Delay adds rhythmic interest, depth, and space to your mix without muddying the low-end the way reverb can. Sync your delay times to the project tempo using note values — an eighth-note delay at 140 BPM equals 107ms. Use high-pass and low-pass filters on your delay returns to prevent the repeats from cluttering the frequency range of the dry signal. Automate delay sends to increase during instrumental breaks and reduce during dense sections to maintain clarity.' },
+  mx9: { icon:'🔥', detail:'Saturation adds even-order harmonic distortion that mimics the warmth of analog equipment. Used subtly, it adds perceived loudness, glues elements together, and makes digital recordings feel more alive. Apply saturation to the drum bus to add punch and cohesion, to the bass to add harmonics that make it audible on small speakers, and sparingly to synths and vocals to add character. The key word is subtlety — if you can clearly hear the saturation, you have applied too much. A/B with the plugin bypassed to confirm the improvement.' },
+  // MASTERING
+  ms1: { icon:'🎧', detail:'Your reference track is the most important tool in mastering. Choose a commercially released master in the same genre that represents your loudness, tonal, and dynamic targets. Import it into your mastering DAW and match its loudness using a LUFS meter before comparing. Listen critically to the low-end balance, the high-frequency air, the stereo width, and the overall density. Your mastered result should feel competitive with this reference on any playback system — from headphones to club speakers to phone speakers.' },
+  ms2: { icon:'📊', detail:'Before any mastering processing, set the input gain of your mastering chain so the loudest section of the track peaks between −6 and −3 dBFS. This gives your entire mastering chain — EQ, compressor, saturator, limiter — sufficient headroom to operate cleanly without the signal clipping any plugin input stage. Avoid the temptation to push the gain high to make it sound louder at this point. Loudness comes at the end through the limiter, not from overloading the chain.' },
+  ms3: { icon:'🎚️', detail:'Mastering EQ is about broad, gentle tonal shaping — not corrective surgery. That work belongs in the mix stage. At mastering, you are making final adjustments of 1 to 2 dB using wide, musical curves. A gentle high shelf boost above 12 kHz adds air and presence. A slight low-shelf boost below 60 Hz adds weight. A subtle dip in the 300–500 Hz region can reduce muddiness. Use a linear phase EQ to avoid phase artifacts that a minimum phase EQ would introduce in a full-mix context.' },
+  ms4: { icon:'⚙️', detail:'A mastering compressor at a 2:1 ratio with a slow attack and medium release acts as a glue that brings the stereo mix together into a unified, cohesive sound. Set the attack slow enough (30–50ms) that transients pass through unaffected, preserving the punch and impact of the mix. The release should track the tempo of the music. Aim for 2 to 4 dB of gain reduction on average. More than 6 dB of compression at this stage will begin to audibly squash the dynamics and fatigue the listener.' },
+  ms5: { icon:'↔️', detail:'Stereo enhancement increases perceived width and spaciousness, but must be applied carefully. Use a mid/side processor to boost the high-frequency content of the side channel for more air and width, while keeping the low frequencies of the mid channel tight and mono. Never widen the sub frequencies — bass below 120 Hz must remain mono for reliable translation on all playback systems. Check your stereo width with a correlation meter and a mono compatibility check to ensure nothing phase-cancels when collapsed to mono.' },
+  ms6: { icon:'🔥', detail:'A tape saturator or harmonic exciter at the mastering stage adds analog warmth and increases the perceived loudness of the master without reducing dynamic range. Drive the saturator gently so it adds harmonic content without obvious distortion — the effect should be felt rather than heard. This step also helps the master translate better on consumer playback systems that add their own coloration. Bypass and compare carefully: the saturated version should feel more present and three-dimensional.' },
+  ms7: { icon:'🔒', detail:'The limiter is the final and most critical stage of the mastering chain. Set your true peak ceiling to −1 dBTP to prevent intersample peaks from clipping during encoding to MP3 or AAC. Start with the threshold high and gradually reduce it until you reach your target integrated loudness. Watch your gain reduction meter — if the limiter is working more than 3 to 4 dB consistently, your mix needs more dynamic control before mastering. A good limiter should be nearly transparent, catching only the occasional transient peak.' },
+  ms8: { icon:'📏', detail:'Integrated LUFS (Loudness Units relative to Full Scale) is the global standard for streaming platform loudness normalization. Spotify targets −14 LUFS, Apple Music targets −16 LUFS, YouTube targets −14 LUFS, and CD masters typically target −9 to −12 LUFS. If you deliver a master louder than the platform target, it will be turned down automatically, often reducing perceived quality. Use an integrated loudness meter to measure the full track from start to finish and adjust your limiter threshold to hit the correct target for your intended platform.' },
+  ms9: { icon:'🎛️', detail:'Dithering is required when reducing the bit depth of your master from 24-bit to 16-bit for CD or certain streaming deliverables. Without dither, bit-depth reduction introduces quantization distortion — a harsh, digital artifact. TPDF (Triangular Probability Density Function) dither adds a small amount of random noise that masks this distortion, preserving the perceived low-level resolution of your master. Apply dithering only once, as the very last process in your chain, and only when changing bit depth. Never dither a 24-bit delivery.' },
+  ms10:{ icon:'📦', detail:'The final export is your deliverable to the world. Export a 24-bit 44.1 kHz WAV file as your distribution master for streaming platforms. For CD duplication, export a 16-bit 44.1 kHz WAV with dither applied. Some platforms (Apple Digital Masters, Tidal) accept 24-bit 96 kHz high-resolution files. Name your files clearly with the artist name, track title, ISRC code if available, and the format specification. Keep your session and all source files archived so you can re-export if platform requirements change in the future.' },
+};
 
+const STEPS = {
+  production: [
+    { id:'pr1', name:'Reference Track',    desc:'Load a commercial reference to guide your sound',       rmsMin:-30, rmsMax:-12 },
+    { id:'pr2', name:'Tempo & Key',        desc:'Lock in BPM and musical key before building',           rmsMin:-30, rmsMax:-12 },
+    { id:'pr3', name:'Drum Programming',   desc:'Build the rhythmic foundation of the track',            rmsMin:-28, rmsMax:-10 },
+    { id:'pr4', name:'Bass Line',          desc:'Establish the low-end groove and root movement',        rmsMin:-26, rmsMax:-10 },
+    { id:'pr5', name:'Chord Progression',  desc:'Define the harmonic structure and mood',               rmsMin:-24, rmsMax:-8  },
+    { id:'pr6', name:'Melody / Lead',      desc:'Create the main melodic or vocal hook element',        rmsMin:-22, rmsMax:-8  },
+    { id:'pr7', name:'Sound Design',       desc:'Shape and refine each sound with processing',          rmsMin:-22, rmsMax:-8  },
+    { id:'pr8', name:'Arrangement',        desc:'Structure intro, verse, chorus, bridge and outro',     rmsMin:-20, rmsMax:-6  },
+    { id:'pr9', name:'Automation',         desc:'Add movement, dynamics and variation over time',       rmsMin:-20, rmsMax:-6  },
+  ],
+  mix: [
+    { id:'mx1', name:'Compose',            desc:'Make sure everything sounds clean before you start',   rmsMin:-24, rmsMax:-14 },
+    { id:'mx2', name:'Organization',       desc:'Label, color-code and group all tracks clearly',       rmsMin:-24, rmsMax:-14 },
+    { id:'mx3', name:'Routing I/O',        desc:'Set up buses, sends and returns correctly',            rmsMin:-22, rmsMax:-12 },
+    { id:'mx4', name:'Sends/Aux Channels', desc:'Configure reverb, delay and parallel channels',       rmsMin:-22, rmsMax:-12 },
+    { id:'mx5', name:'EQ',                 desc:'Cut problem frequencies, shape tonal balance',         rmsMin:-20, rmsMax:-10 },
+    { id:'mx6', name:'Gain Staging',       desc:'Target −18 dBFS RMS per channel for headroom',        rmsMin:-20, rmsMax:-16 },
+    { id:'mx7', name:'Compression',        desc:'Control dynamics and glue elements together',          rmsMin:-18, rmsMax:-8  },
+    { id:'mx8', name:'Delay',              desc:'Add rhythmic space and depth with delay effects',      rmsMin:-18, rmsMax:-8  },
+    { id:'mx9', name:'Saturation',         desc:'Add harmonic warmth if needed — subtle is key',        rmsMin:-16, rmsMax:-6  },
+  ],
+  mastering: [
+    { id:'ms1', name:'Reference Track',    desc:'Compare against a commercial master at matched loudness', rmsMin:-16, rmsMax:-10 },
+    { id:'ms2', name:'Gain Staging',       desc:'Set input gain so the chain has proper headroom',        rmsMin:-16, rmsMax:-10 },
+    { id:'ms3', name:'EQ',                 desc:'Broad tonal shaping — subtle moves of 1-2 dB max',       rmsMin:-14, rmsMax:-8  },
+    { id:'ms4', name:'Compressor',         desc:'Glue the master: ratio 2:1, slow attack, mid release',   rmsMin:-14, rmsMax:-8  },
+    { id:'ms5', name:'Stereo Enhancement', desc:'Widen highs, keep lows mono for translation',            rmsMin:-12, rmsMax:-6  },
+    { id:'ms6', name:'Saturation/Exciter', desc:'Add analog character and perceived loudness',            rmsMin:-12, rmsMax:-6  },
+    { id:'ms7', name:'Limiter',            desc:'Set true peak ceiling at −1 dBTP, target your LUFS',    rmsMin:-10, rmsMax:-2  },
+    { id:'ms8', name:'LUFS Check',         desc:'Spotify −14 / Apple −16 / YouTube −14 / CD −9',         rmsMin:-10, rmsMax:-2  },
+    { id:'ms9', name:'Dithering',          desc:'Apply TPDF dither when reducing to 16-bit',             rmsMin:-10, rmsMax:-2  },
+    { id:'ms10',name:'Final Export',       desc:'Export WAV 24-bit 44.1kHz (or per platform spec)',       rmsMin:-10, rmsMax:-2  },
+  ],
+};
 
+const AI_SUGGESTIONS = {
+  production: [
+    { tip:'Gain Staging',    text:'Keep your samples at −18 dBFS from the start. This gives you headroom for mixing later and prevents clipping in the chain.' },
+    { tip:'Reference Track', text:'Load a commercial reference at matched loudness (−14 LUFS). Compare your low end, stereo width, and overall energy before committing to sounds.' },
+    { tip:'Drum Groove',     text:'Introduce subtle velocity variation on hi-hats and snares. A perfectly quantized grid sounds robotic — aim for 85–95% quantize strength.' },
+    { tip:'Bass & Kick',     text:'Your sub frequencies (below 80 Hz) need space. Program the bass to breathe with the kick — avoid stacking both on the same beat without sidechain.' },
+    { tip:'Arrangement',     text:'Every section should have a clear purpose. Build tension by adding elements, release it by stripping back. Avoid keeping the same energy for more than 8 bars.' },
+  ],
+  mix: [
+    { tip:'Gain Staging',    text:'Target −18 dBFS RMS per channel before any plugin processing. A well gain-staged session requires less limiting on the master bus.' },
+    { tip:'High-Pass Filter',text:'High-pass everything that does not need sub energy. Guitars above 80 Hz, pads above 120 Hz, vocals above 100 Hz. This clears headroom instantly.' },
+    { tip:'Sidechain',       text:'Compress the bass with the kick as trigger — ratio 4:1, attack 1ms, release 80ms. This creates the pumping pocket that glues low end together.' },
+    { tip:'Stereo Field',    text:'Keep bass and kick mono below 120 Hz. Pan rhythm guitars hard L/R. Lead synths and vocals stay center. Pads fill the wide sides.' },
+    { tip:'Reverb Sends',    text:'Never use reverb as an insert. Use send channels at 100% wet and blend from the send knob. One room send, one hall send, one delay send — keep it organized.' },
+  ],
+  mastering: [
+    { tip:'LUFS Targets',    text:'Spotify normalizes to −14 LUFS. Apple Music to −16 LUFS. YouTube to −14 LUFS. If you deliver louder, the platform turns it down and you lose punch.' },
+    { tip:'True Peak',       text:'Set your limiter ceiling at −1 dBTP. Intersample peaks clip during MP3/AAC encoding even if your DAW meter shows no clipping.' },
+    { tip:'EQ Moves',        text:'Mastering EQ moves should be 1–2 dB maximum. If you need more, the mix needs fixing first. Use linear phase EQ to avoid phase artifacts.' },
+    { tip:'Mono Check',      text:'Collapse to mono and listen. If anything disappears or sounds hollow, you have phase issues. Fix them in the mix before mastering.' },
+    { tip:'Reference Loud',  text:'Match your reference track loudness with a gain plugin before comparing. Never compare at different volumes — louder always sounds better to the ear.' },
+  ],
+};
 
-
-
-function getStageLabel(s) { return {production:t('production'),mix:t('mix'),mastering:t('mastering')}[s] || s; }
-const STAGE_LABELS = new Proxy({}, { get:(_,s) => getStageLabel(s) });
+const STAGE_LABELS = { production:'Production', mix:'Mix', mastering:'Mastering' };
 const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-mast' };
 
 // spectrum: 12 bands 20Hz→20kHz (heights 0-100)
@@ -1219,99 +1112,97 @@ const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-m
 // pan: stereo position. center=0, left=-1, right=1, wide=2
 // panWidth: how wide the instrument spreads (0=mono, 1=full stereo)
 const INSTRUMENTS = {
-  kick: {
-    name:'Bombo', icon:'🥁', range:'40–200 Hz', color:'#1586ec',
-    note:'El bombo es el ancla del extremo bajo. Mantenlo en mono y centrado siempre.',
-    panLabel:'Centro — siempre mono',
-    // EQ curve: gains in dB at [20,40,80,160,315,630,1k,2k,4k,8k,16k,20k]
-    eq:[-3, 6, 8, 4, -2, -6, -8, -4, -2, -8, -10, -10],
-    eqTips:['','Sub punch','Punch','Body','','HPF','','Click transient','','Cut mud','',''],
+  kick:    {
+    name:'Kick Drum', icon:'🥁', range:'40–200 Hz', color:'#1586ec',
+    note:'The kick drum is the anchor of your low end. Keep it mono and centered at all times.',
+    spectrum:[95,92,82,62,42,28,18,12,8,5,3,2],
+    hotspots:[[0,'Sub 40Hz'],[2,'Punch 80Hz'],[3,'Body 160Hz'],[5,'Click 600Hz']],
+    pan:0, panWidth:0.05, panLabel:'Center — always mono'
   },
-  snare: {
-    name:'Caja', icon:'🥁', range:'200 Hz – 8 kHz', color:'#f59e0b',
-    note:'La caja define el backbeat. El cuerpo está alrededor de 200 Hz, el crack a 2–5 kHz.',
-    panLabel:'Centro — ligera variación aceptable',
-    eq:[-8, -8, -6, 4, 6, 2, -2, 8, 6, 4, 2, -2],
-    eqTips:['','','','Body','Warmth','','','Crack','Attack','Air','',''],
+  snare:   {
+    name:'Snare', icon:'🪘', range:'150 Hz–8 kHz', color:'#7c3aed',
+    note:'The snare defines the backbeat. Its crack cuts through a dense mix with presence around 2–5 kHz.',
+    spectrum:[10,22,52,82,62,48,72,92,88,72,42,18],
+    hotspots:[[3,'Body 160Hz'],[6,'Crack 1kHz'],[7,'Snap 2kHz'],[9,'Air 8kHz']],
+    pan:0, panWidth:0.08, panLabel:'Center — slight variation OK'
   },
-  bass: {
-    name:'Bajo', icon:'🎸', range:'40–300 Hz', color:'#8b5cf6',
-    note:'El bajo debe ser mono por debajo de 120 Hz. El cuerpo está entre 80–200 Hz.',
-    panLabel:'Centro — mono estricto bajo 120Hz',
-    eq:[-2, 4, 8, 6, 3, -2, -4, -6, -8, -10, -12, -12],
-    eqTips:['','Sub','Fundamental','Body','Warmth','','','','Cut','','',''],
+  bass:    {
+    name:'Bass', icon:'🎸', range:'40–400 Hz', color:'#0ea5e9',
+    note:'Bass must be mono below 120 Hz for reliable translation on all systems — from club to phone speaker.',
+    spectrum:[88,92,90,78,58,32,18,12,8,5,2,1],
+    hotspots:[[0,'Sub 40Hz'],[1,'Root 60Hz'],[2,'Thump 80Hz'],[4,'Tone 300Hz']],
+    pan:0, panWidth:0.0, panLabel:'Center — strict mono below 120Hz'
   },
-  hihat: {
-    name:'Hi-Hat', icon:'✨', range:'3 kHz – 20 kHz', color:'#10b981',
-    note:'Los hi-hats viven en la zona de alta frecuencia. Aplica HPF generoso por debajo de 500 Hz.',
-    panLabel:'Ligeramente derecha (cerrado) / izquierda (abierto)',
-    eq:[-12,-12,-12,-10,-8,-4, 0, 2, 6, 8, 6, 4],
-    eqTips:['HPF','HPF','HPF','HPF','HPF','HPF','','','Presence','Air','Sparkle',''],
+  hihat:   {
+    name:'Hi-Hat', icon:'🎶', range:'6k–16 kHz', color:'#10b981',
+    note:'Hi-hats live in the high frequency air zone. Panning them slightly off-center adds stereo width without compromising the mix center.',
+    spectrum:[2,2,3,4,5,8,15,25,42,82,92,72],
+    hotspots:[[8,'Closed 4kHz'],[9,'Open 8kHz'],[10,'Splash 16kHz']],
+    pan:0.35, panWidth:0.3, panLabel:'Slight right (closed) / left (open)'
   },
-  vocals: {
-    name:'Vocales', icon:'🎤', range:'80 Hz – 12 kHz', color:'#ef4444',
-    note:'Las vocales lead siempre van al centro. Aplica HPF a 80–100 Hz para limpiar el bajo.',
-    panLabel:'Lead: centro / BVs: ancho L+R',
-    eq:[-8, -8, -6, -4, 2, 4, 6, 4, 8, 6, 4, 2],
-    eqTips:['','HPF','HPF','HPF','Warmth','Presence','Clarity','Presence','Air','Air','',''],
+  vocals:  {
+    name:'Vocals', icon:'🎤', range:'80 Hz–12 kHz', color:'#f59e0b',
+    note:'Lead vocals always sit center. Double-tracked or backing vocals can be panned wide for space and depth.',
+    spectrum:[15,22,38,58,68,72,82,92,90,72,48,22],
+    hotspots:[[2,'Body 80Hz'],[4,'Warmth 400Hz'],[6,'Presence 1kHz'],[8,'Sibilance 5kHz']],
+    pan:0, panWidth:0.1, panLabel:'Lead: center / BVs: wide L+R'
   },
-  guitar: {
-    name:'Guitarra', icon:'🎸', range:'80 Hz – 8 kHz', color:'#f97316',
-    note:'Las guitarras rítmicas típicamente se panean hard L/R para crear espacio.',
-    panLabel:'Hard L / Hard R (par rítmico)',
-    eq:[-8, -6, -4, 2, 6, 8, 6, 4, 8, 4, 2, -2],
-    eqTips:['','HPF','HPF','Warmth','Body','Presence','','Bite','Sparkle','','',''],
+  guitar:  {
+    name:'Guitar', icon:'🎸', range:'80 Hz–5 kHz', color:'#ef4444',
+    note:'Rhythm guitars are typically panned wide left and right to create space for the vocals and lead in the center.',
+    spectrum:[8,16,42,78,88,82,72,62,52,38,16,5],
+    hotspots:[[2,'Warmth 80Hz'],[3,'Body 200Hz'],[5,'Definition 630Hz'],[7,'Presence 3kHz']],
+    pan:0.75, panWidth:0.25, panLabel:'Hard L / Hard R (rhythm pair)'
   },
-  piano: {
-    name:'Piano', icon:'🎹', range:'30 Hz – 16 kHz', color:'#06b6d4',
-    note:'El piano abarca todo el rango de frecuencias. Aplica HPF sutil y corta el barro a 200–400 Hz.',
-    panLabel:'Ligeramente fuera del centro',
-    eq:[-4, -2, -4, -6, 2, 4, 2, 4, 6, 4, 6, 4],
-    eqTips:['','','HPF','Cut mud','Warmth','Presence','','Clarity','Air','Air','Air',''],
+  piano:   {
+    name:'Piano', icon:'🎹', range:'28 Hz–4 kHz', color:'#8b5cf6',
+    note:'Piano spans the full frequency range. Position it slightly off-center to avoid competing with lead vocals in the center.',
+    spectrum:[62,72,68,62,58,52,58,62,58,42,22,8],
+    hotspots:[[0,'Low A 28Hz'],[2,'Mid 80Hz'],[5,'Tone 630Hz'],[7,'Keys 2kHz']],
+    pan:0.2, panWidth:0.4, panLabel:'Slightly off-center, moderate width'
   },
-  pad: {
-    name:'Pad Sintetizador', icon:'🌊', range:'200 Hz – 8 kHz', color:'#6366f1',
-    note:'Los pads existen para llenar el espacio. Aplica HPF a 150–200 Hz y corta el barro a 300–500 Hz.',
-    panLabel:'Amplitud estéreo completa — L y R',
-    eq:[-10,-8,-6,-4, 2, 4, 2, 2, 4, 4, 6, 4],
-    eqTips:['HPF','HPF','HPF','HPF','Warmth','Body','','Width','Air','Air','Shimmer',''],
+  pad:     {
+    name:'Synth Pad', icon:'🎛️', range:'200 Hz–8 kHz', color:'#06b6d4',
+    note:'Pads exist to fill space. Make them wide — they should live on the sides, leaving the center clean for leads and vocals.',
+    spectrum:[5,8,15,42,68,78,72,62,58,48,32,12],
+    hotspots:[[3,'Body 200Hz'],[5,'Mid 630Hz'],[7,'Air 2kHz'],[9,'Shimmer 8kHz']],
+    pan:0, panWidth:0.9, panLabel:'Full stereo width — L and R'
   },
-  synth: {
-    name:'Lead Sintetizador', icon:'⚡', range:'500 Hz – 12 kHz', color:'#ec4899',
-    note:'Los sintetizadores lead van al centro. Aplica HPF generoso y destaca la presencia a 2–5 kHz.',
-    panLabel:'Centro con coro sutil',
-    eq:[-10,-10,-8,-4, 0, 4, 6, 8, 8, 4, 2, -2],
-    eqTips:['HPF','HPF','HPF','HPF','','Presence','Clarity','Bite','Air','','',''],
+  lead:    {
+    name:'Synth Lead', icon:'🎵', range:'200 Hz–6 kHz', color:'#ec4899',
+    note:'Lead synths sit center like a vocal. Use subtle stereo width from a chorus or reverb send — not from panning.',
+    spectrum:[8,12,26,58,82,88,82,72,62,42,20,6],
+    hotspots:[[3,'Body 200Hz'],[5,'Fundamental 630Hz'],[7,'Bite 3kHz'],[8,'Presence 5kHz']],
+    pan:0, panWidth:0.15, panLabel:'Center with subtle chorus width'
   },
-  percussion: {
-    name:'Percusión', icon:'🪘', range:'200 Hz – 10 kHz', color:'#84cc16',
-    note:'Los elementos de percusión se pueden dispersar L-C-R para crear espacio.',
-    panLabel:'Disperso L-C-R para espacio',
-    eq:[-8,-8,-6,-2, 4, 6, 4, 6, 8, 4, 2, -2],
-    eqTips:['HPF','HPF','HPF','','Body','Punch','','Attack','Snap','Air','',''],
+  perc:    {
+    name:'Percussion', icon:'🪇', range:'200 Hz–10 kHz', color:'#f97316',
+    note:'Percussion elements can be scattered across the stereo field to create movement and a sense of three-dimensional space.',
+    spectrum:[5,8,18,36,52,62,72,78,82,72,48,22],
+    hotspots:[[3,'Attack 200Hz'],[6,'Color 1kHz'],[8,'Crack 5kHz']],
+    pan:0.5, panWidth:0.6, panLabel:'Scattered L-C-R for space'
   },
   strings: {
-    name:'Cuerdas', icon:'🎻', range:'80 Hz – 12 kHz', color:'#d97706',
-    note:'Las secciones de cuerdas son naturalmente amplias. Usa mid/side para controlar el ancho.',
-    panLabel:'Estéreo amplio — distribución orquestal',
-    eq:[-8,-6,-4, 0, 2, 4, 6, 4, 6, 4, 4, 2],
-    eqTips:['HPF','HPF','HPF','Warmth','Body','Richness','Presence','','Air','Air','Shimmer',''],
+    name:'Strings', icon:'🎻', range:'196 Hz–4 kHz', color:'#84cc16',
+    note:'String sections are naturally wide from the recording process. Keep them wide in the mix to preserve the orchestral depth.',
+    spectrum:[6,12,30,62,80,82,78,70,58,40,20,6],
+    hotspots:[[3,'Rich 200Hz'],[5,'Warmth 630Hz'],[7,'Bow 2kHz'],[8,'Presence 4kHz']],
+    pan:0, panWidth:0.85, panLabel:'Wide stereo — natural orchestra spread'
   },
-  brass: {
-    name:'Metales', icon:'🎺', range:'100 Hz – 8 kHz', color:'#f59e0b',
-    note:'Los instrumentos de metal tienen energía significativa en medios. Controla la aspereza a 1–3 kHz.',
-    panLabel:'Ligera distribución, evita el centro exacto',
-    eq:[-8,-6,-2, 2, 6, 8, 6, 2,-2, 2, 2,-2],
-    eqTips:['HPF','HPF','','Warmth','Body','Brightness','Presence','','Cut harsh','Air','',''],
+  brass:   {
+    name:'Brass', icon:'🎺', range:'100 Hz–8 kHz', color:'#eab308',
+    note:'Brass instruments have significant energy through the midrange. Pan sections slightly off-center to avoid masking vocals.',
+    spectrum:[10,26,58,82,88,82,72,62,68,58,32,10],
+    hotspots:[[2,'Body 80Hz'],[3,'Power 200Hz'],[5,'Bite 630Hz'],[8,'Bright 5kHz']],
+    pan:0.3, panWidth:0.5, panLabel:'Slight spread, avoid dead center'
   },
 };
 
-
 const STAGE_INSTRUMENTS = {
-  production: ['kick','bass','pad','synth','piano','percussion'],
-  mix:        ['kick','snare','bass','hihat','vocals','guitar','synth','pad'],
-  mastering:  ['kick','snare','bass','hihat','vocals','guitar','synth','pad','strings','brass','piano','percussion'],
-  default:    ['kick','snare','bass','hihat','vocals','guitar','synth','pad'],
+  production: ['kick','bass','pad','lead','piano','perc'],
+  mix:        ['kick','snare','bass','hihat','vocals','guitar','lead','pad'],
+  mastering:  ['kick','snare','bass','hihat','vocals','guitar','lead','pad','strings','brass','piano','perc'],
+  default:    ['kick','snare','bass','hihat','vocals','guitar','lead','pad'],
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1394,7 +1285,7 @@ function saveEditStages() {
     const cb = document.getElementById('es-' + s);
     return cb && cb.checked;
   });
-  if (!chosen.length) { showFormError('ep-error', 'Selecciona al menos una etapa.'); return; }
+  if (!chosen.length) { showFormError('ep-error', 'Select at least one stage.'); return; }
 
   // Add new stages (preserve existing stepsDone)
   chosen.forEach(s => {
@@ -1424,7 +1315,7 @@ function toggleAccordion(id) {
 function populateClearSelect() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel) return;
-  sel.innerHTML = '<option value="">— Selecciona proyecto —</option>' +
+  sel.innerHTML = '<option value="">— Select project —</option>' +
     state.projects.map(p =>
       `<option value="${p.id}">${p.name}${p.sessionLogs && p.sessionLogs.length ? ' (' + p.sessionLogs.length + ' entries)' : ''}</option>`
     ).join('');
@@ -1443,11 +1334,11 @@ function resetAllProjects() {
   // Visual feedback
   const btn = document.getElementById('reset-all-btn');
   if (btn) {
-    btn.textContent = '¡Todo Reseteado!';
+    btn.textContent = 'All Reset!';
     btn.style.borderColor = 'var(--success)';
     btn.style.color = 'var(--success)';
     setTimeout(() => {
-      btn.textContent = 'Resetear Todos los Proyectos';
+      btn.textContent = 'Reset All Projects';
       btn.style.borderColor = 'var(--danger)';
       btn.style.color = 'var(--danger)';
     }, 2000);
@@ -1457,7 +1348,7 @@ function resetAllProjects() {
 function onClearLogsClick() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel || !sel.value) {
-    alert('Por favor selecciona un proyecto primero.');
+    alert('Please select a project first.');
     return;
   }
   clearProjectLogs(sel.value);
@@ -1477,7 +1368,7 @@ function clearProjectLogs(projectId) {
   const btn = document.querySelector('#clear-logs-row button');
   if (btn) {
     const orig = btn.textContent;
-    btn.textContent = '¡Limpiado!';
+    btn.textContent = 'Cleared!';
     btn.style.borderColor = 'var(--success)';
     btn.style.color = 'var(--success)';
     setTimeout(() => {
@@ -1538,6 +1429,41 @@ function updateSubgenre(prefix) {
   const listId = prefix + '-subgenre-list';
   const dl = document.getElementById(listId);
   if (dl) dl.innerHTML = subs.map(s => `<option value="${s}">`).join('');
+}
+
+
+// ── Artwork ────────────────────────────────────────────────
+function pickArtwork(prefix) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      state.pendingArtwork = ev.target.result;
+      const el = document.getElementById(prefix + '-artwork-preview');
+      if (el) { el.style.backgroundImage = 'url('+ev.target.result+')'; el.style.backgroundSize='cover'; el.style.backgroundPosition='center'; el.innerHTML=''; }
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function pickEditArtwork(projectId) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const p = state.projects.find(x => x.id === projectId);
+      if (p) { p.artwork = ev.target.result; saveProjects(); }
+      const el = document.getElementById('ep-artwork-preview');
+      if (el) { el.style.backgroundImage='url('+ev.target.result+')'; el.style.backgroundSize='cover'; el.style.backgroundPosition='center'; el.innerHTML=''; }
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
 }
 
 function showFormError(elId, msg) {
@@ -1667,7 +1593,7 @@ function createProject() {
     document.getElementById('stage-cb-' + s) &&
     document.getElementById('stage-cb-' + s).checked
   );
-  if (!checked.length) { showFormError('proj-error', 'Selecciona al menos una etapa.'); return; }
+  if (!checked.length) { showFormError('proj-error', 'Select at least one stage.'); return; }
 
   const project = {
     id:          'p' + Date.now(),
@@ -1717,7 +1643,7 @@ function renderProjects() {
           <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
         </div>
         <div>
-          ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">Sin etapa seleccionada</span>'}
+          ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">No stage selected</span>'}
         </div>
           <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
         </div>
@@ -1798,80 +1724,25 @@ function switchInnerTab(tab) {
     const el = document.getElementById('inner-' + t);
     if (el) el.style.display = t === tab ? 'block' : 'none';
   });
-  const tabLabels = { steps: t('steps'), ai: t('aiNotes'), notes: t('otherNotes') };
-  ['steps','ai','notes'].forEach(id => {
-    const btn = document.getElementById('itab-' + id);
+  ['itab-steps','itab-ai','itab-notes'].forEach(id => {
+    const btn = document.getElementById(id);
     if (!btn) return;
-    const active = id === tab;
-    btn.style.background = active ? 'var(--accent)' : 'transparent';
-    btn.style.color      = active ? '#fff'           : 'var(--text3)';
-    btn.textContent      = tabLabels[id];
+    const active = id === 'itab-' + tab;
+    btn.style.background  = active ? '#1586ec' : 'transparent';
+    btn.style.color       = active ? '#fff'    : 'rgba(255,255,255,0.45)';
   });
   if (tab === 'ai')    renderAINotes();
   if (tab === 'notes') renderManualNotes();
 }
 
-
-// ── AI Suggestions ────────────────────────────────
-const AI_SUGGESTIONS_EN = {
-  production: [
-    { tip:'Gain Staging',       text:'Keep your samples at -18 dBFS from the start. This gives you headroom for mixing and prevents clipping in the chain.' },
-    { tip:'Reference Track',    text:'Load a commercial reference at matched loudness (-14 LUFS). Compare low end, stereo width, and overall energy before committing to sounds.' },
-    { tip:'Drum Groove',        text:'Introduce subtle velocity variation on hi-hats and snares. A perfectly quantized grid sounds robotic — aim for 85-95% quantize strength.' },
-    { tip:'Bass & Kick',        text:'Your sub frequencies (below 80 Hz) need space. Program the bass to breathe with the kick — avoid stacking both without sidechain.' },
-    { tip:'Arrangement',        text:'Every section should have a clear purpose. Build tension by adding elements, release it by stripping back. Avoid the same energy for more than 8 bars.' },
-  ],
-  mix: [
-    { tip:'Gain Staging',       text:'Target -18 dBFS RMS per channel before any plugin processing. A well gain-staged session requires less limiting on the master bus.' },
-    { tip:'High-Pass Filter',   text:'High-pass everything that does not need sub energy. Guitars above 80 Hz, pads above 120 Hz, vocals above 100 Hz. This clears headroom instantly.' },
-    { tip:'Sidechain',          text:'Compress the bass with the kick as trigger — ratio 4:1, attack 1ms, release 80ms. This creates the pumping pocket that glues low end together.' },
-    { tip:'Stereo Field',       text:'Keep bass and kick mono below 120 Hz. Pan rhythm guitars hard L/R. Lead synths and vocals stay center. Pads fill the wide sides.' },
-    { tip:'Reverb Sends',       text:'Never use reverb as an insert. Use send channels at 100% wet. One room send, one hall send, one delay send — keep it organized.' },
-  ],
-  mastering: [
-    { tip:'LUFS Targets',       text:'Spotify normalizes to -14 LUFS. Apple Music to -16 LUFS. YouTube to -14 LUFS. If you deliver louder, the platform turns it down and you lose punch.' },
-    { tip:'True Peak',          text:'Set your limiter ceiling at -1 dBTP. Intersample peaks clip during MP3/AAC encoding even if your DAW meter shows no clipping.' },
-    { tip:'EQ Moves',           text:'Mastering EQ moves should be 1-2 dB maximum. If you need more, the mix needs fixing first. Use linear phase EQ to avoid phase artifacts.' },
-    { tip:'Mono Check',         text:'Collapse to mono and listen. If anything disappears or sounds hollow, you have phase issues. Fix them in the mix before mastering.' },
-    { tip:'Reference Loud',     text:'Match your reference track loudness before comparing. Never compare at different volumes — louder always sounds better to the ear.' },
-  ],
-};
-
-const AI_SUGGESTIONS_ES = {
-  production: [
-    { tip:'Gain Staging',       text:'Mantén tus samples a -18 dBFS desde el principio. Esto te da headroom para la mezcla y previene el clipping en la cadena.' },
-    { tip:'Track de Referencia',text:'Carga una referencia comercial a -14 LUFS igualados. Compara el extremo bajo, amplitud estéreo y energía general antes de comprometerte con los sonidos.' },
-    { tip:'Groove de Batería',  text:'Introduce variación sutil de velocidad en hi-hats y snares. Una cuadrícula perfectamente cuantizada suena robótica — apunta a 85-95% de cuantización.' },
-    { tip:'Bajo y Kick',        text:'Tus frecuencias sub (por debajo de 80 Hz) necesitan espacio. Programa el bajo para respirar con el kick — evita apilarlos sin sidechain.' },
-    { tip:'Arreglo',            text:'Cada sección debe tener un propósito claro. Construye tensión agregando elementos, libérala quitándolos. Evita la misma energía por más de 8 compases.' },
-  ],
-  mix: [
-    { tip:'Gain Staging',       text:'Apunta a -18 dBFS RMS por canal antes de cualquier plugin. Una sesión bien ganada requiere menos limitación en el bus máster.' },
-    { tip:'Filtro Pasa-Altos',  text:'Filtra todo lo que no necesite energía sub. Guitarras por encima de 80 Hz, pads por encima de 120 Hz, vocales por encima de 100 Hz.' },
-    { tip:'Sidechain',          text:'Comprime el bajo con el kick como trigger — ratio 4:1, ataque 1ms, release 80ms. Esto crea el bolsillo que une el extremo bajo.' },
-    { tip:'Campo Estéreo',      text:'Mantén bajo y kick en mono por debajo de 120 Hz. Panea las guitarras hard L/R. Sintetizadores lead y vocales al centro. Pads en los lados.' },
-    { tip:'Envíos de Reverb',   text:'Nunca uses reverb como insert. Usa canales de envío al 100% húmedo. Un envío de sala, uno de sala grande, uno de delay — organizado.' },
-  ],
-  mastering: [
-    { tip:'Objetivos de LUFS',  text:'Spotify normaliza a -14 LUFS. Apple Music a -16 LUFS. YouTube a -14 LUFS. Si entregas más alto, la plataforma lo baja y pierdes punch.' },
-    { tip:'True Peak',          text:'Ajusta el ceiling de tu limitador a -1 dBTP. Los picos entre muestras recortan durante la codificación a MP3/AAC aunque el DAW no muestre clipping.' },
-    { tip:'Movimientos de EQ',  text:'Los movimientos de EQ en mastering deben ser máximo 1-2 dB. Si necesitas más, la mezcla necesita corrección primero.' },
-    { tip:'Revisión en Mono',   text:'Colapsa a mono y escucha. Si algo desaparece o suena hueco, tienes problemas de fase. Corrígelos en la mezcla antes del mastering.' },
-    { tip:'Referencia Igualada',text:'Iguala el loudness de tu referencia antes de comparar. Nunca compares a diferentes volúmenes — lo más fuerte siempre suena mejor al oído.' },
-  ],
-};
-
-function getAI_SUGGESTIONS() { return currentLang === 'es' ? AI_SUGGESTIONS_ES : AI_SUGGESTIONS_EN; }
-
-
 function renderAINotes() {
   const p   = state.active;
   const el  = document.getElementById('ai-suggestions-list');
   if (!el || !p) return;
-  const tips = getAI_SUGGESTIONS()[p.stage] || [];
+  const tips = AI_SUGGESTIONS[p.stage] || [];
   el.innerHTML = tips.map(t => `
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--accent);margin-bottom:6px">${t.tip}</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#1586ec;margin-bottom:6px">${t.tip}</div>
       <div style="font-size:13px;line-height:1.6;color:var(--text2)">${t.text}</div>
     </div>`).join('');
 }
@@ -1882,7 +1753,7 @@ function renderManualNotes() {
   if (!el || !p) return;
   const notes = (p.manualNotes || []).slice().reverse();
   el.innerHTML = notes.length === 0
-    ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">Sin notas todavía</div>'
+    ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">No notes yet</div>'
     : notes.map((n,i) => `
       <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative">
         <div style="font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap">${n.text}</div>
@@ -2014,21 +1885,16 @@ function toggleStep(stepId) {
 }
 
 function openDetail(stepId) {
-  try {
   const det = STEP_DETAILS[stepId];
-  console.log('openDetail:', stepId, 'det:', !!det);
-  if (!det) { console.warn('No STEP_DETAILS for', stepId); return; }
+  if (!det) return;
 
-  // Find the step object — use getSTEPS() since STEPS is a Proxy
+  // Find the step object
   let step = null;
-  const stepsObj = getSTEPS();
-  console.log('stepsObj keys:', Object.keys(stepsObj));
-  for (const stage of Object.values(stepsObj)) {
+  for (const stage of Object.values(STEPS)) {
     step = stage.find(s => s.id === stepId);
     if (step) break;
   }
-  console.log('step found:', !!step, step);
-  if (!step) { console.warn('Step not found in STEPS for', stepId); return; }
+  if (!step) return;
 
   const stageName = state.active ? STAGE_LABELS[state.active.stage] : '';
   document.getElementById('det-icon').textContent    = det.icon;
@@ -2047,7 +1913,6 @@ function openDetail(stepId) {
     (p2 ? '<p>' + p2 + '</p>' : '');
 
   document.getElementById('modal-detail').classList.add('open');
-  } catch(e) { console.error('openDetail error:', e); }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2107,7 +1972,7 @@ function renderLogs() {
 
       // Step rows inside accordion
       const stepRows = stageLogs.length === 0
-        ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">Ningún paso completado en esta etapa todavía</div>`
+        ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">No steps completed in this stage yet</div>`
         : stageLogs.map(entry => {
             const auto = entry.auto
               ? `<span style="font-size:9px;background:rgba(21,134,236,0.1);color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600;margin-left:4px">VST</span>`
@@ -2152,7 +2017,7 @@ function renderLogs() {
           </div>
           <div style="text-align:right">
             <div style="font-family:var(--mono);font-size:26px;font-weight:700;color:var(--accent);line-height:1">${pct}%</div>
-            <div style="font-size:10px;color:var(--text3);margin-top:1px">total</div>
+            <div style="font-size:10px;color:var(--text3);margin-top:1px">overall</div>
           </div>
         </div>
         <div class="log-bar" style="margin-bottom:14px"><div class="log-fill" style="width:${pct}%"></div></div>
@@ -2177,7 +2042,7 @@ function renderCharts(stage) {
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
       <div style="font-size:15px;font-weight:700;margin-bottom:2px">${projName}</div>
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · Toca la tarjeta para cambiar EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · Tap card to toggle EQ / Pan</div>
     </div>`;
   } else {
     header = `<div style="margin-bottom:14px">
@@ -2194,57 +2059,40 @@ function buildCard(key) {
   const view = cardViews[key] || 'eq';
 
   if (view === 'eq') {
+    // ── EQ view: spectrum bars + hotspot labels ──────────────
     const bands = ['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
-    const gains = inst.eq || new Array(12).fill(0);
-    const W = 280, H = 80, midY = H / 2, maxG = 12;
-    const pts = gains.map((g,i) => [(i/(bands.length-1))*W, midY-(g/maxG)*(midY-6)]);
+    const hotspotsMap = {};
+    (inst.hotspots || []).forEach(([bi, lbl]) => { hotspotsMap[bi] = lbl; });
 
-    // Smooth path
-    let pd = 'M '+pts[0][0]+' '+pts[0][1];
-    for (let i=1;i<pts.length;i++) {
-      const cx=(pts[i-1][0]+pts[i][0])/2;
-      pd += ' C '+cx+' '+pts[i-1][1]+' '+cx+' '+pts[i][1]+' '+pts[i][0]+' '+pts[i][1];
-    }
-    const fd = pd+' L '+W+' '+midY+' L 0 '+midY+' Z';
+    const bars = inst.spectrum.map((val, i) => {
+      const barH = Math.round((val / 100) * 58);
+      const isHot = hotspotsMap[i] !== undefined;
+      const dot = isHot
+        ? `<div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:${inst.color};color:#fff;font-size:7px;font-weight:600;padding:1px 3px;border-radius:3px;white-space:nowrap;line-height:1.2">${hotspotsMap[i]}</div>`
+        : '';
+      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative">
+        ${dot}
+        <div style="width:100%;height:${barH}px;background:${inst.color};border-radius:2px 2px 0 0;opacity:${0.4+(val/100)*0.6}"></div>
+      </div>`;
+    }).join('');
 
-    let svgContent = '';
-    svgContent += '<line x1="0" y1="'+midY+'" x2="'+W+'" y2="'+midY+'" stroke="var(--border)" stroke-width="0.5"/>';
-    svgContent += '<path d="'+fd+'" fill="'+inst.color+'" opacity="0.08"/>';
-    svgContent += '<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.5" stroke-linecap="round"/>';
-    const tips = inst.eqTips || new Array(12).fill('');
-    pts.forEach(([x,y],i) => {
-      if (Math.abs(gains[i])>=3) {
-        svgContent += '<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+inst.color+'"/>';
-        const sign = gains[i]>0?'+':'';
-        // dB label
-        const ly = gains[i]>0 ? y-9 : y+13;
-        svgContent += '<text x="'+x+'" y="'+ly+'" text-anchor="middle" font-size="5.5" fill="'+inst.color+'" opacity="0.75" font-family="Inter,sans-serif">'+sign+gains[i]+'dB</text>';
-        // Tip label (property name like "Punch", "Body", etc.)
-        if (tips[i]) {
-          const ty = gains[i]>0 ? y-18 : y+22;
-          svgContent += '<text x="'+x+'" y="'+ty+'" text-anchor="middle" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+tips[i]+'</text>';
-        }
-      }
-    });
-    bands.forEach((b,i) => {
-      const x=(i/(bands.length-1))*W;
-      svgContent += '<text x="'+x+'" y="'+(H-1)+'" text-anchor="middle" font-size="5.5" fill="var(--text3)" font-family="Inter,sans-serif">'+b+'</text>';
-    });
+    return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
+      <div style="background:var(--panel2);padding:20px 8px 4px;height:88px;display:flex;align-items:flex-end;gap:1px;overflow:hidden">
+        ${bars}
+      </div>
+      <div class="chart-meta">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:4px">
+            <span style="font-size:12px">${inst.icon}</span>
+            <div class="chart-n">${inst.name}</div>
+          </div>
+          <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>
+        </div>
+        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${inst.range}</div>
+      </div>
+    </div>`;
 
-    const svg = '<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="'+H+'" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">'+svgContent+'</svg>';
-
-    return '<div class="chart-card" onclick="toggleCardView(\'' + key + '\')" id="card-'+key+'">'
-      + '<div style="padding:12px 12px 4px;background:var(--panel2)">'
-      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'
-      + '<div style="display:flex;align-items:center;gap:4px"><span style="font-size:12px">'+inst.icon+'</span><div class="chart-n">'+inst.name+'</div></div>'
-      + '<div style="font-size:9px;font-weight:600;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>'
-      + '</div>' + svg + '</div>'
-      + '<div class="chart-meta">'
-      + '<div class="chart-s" style="color:'+inst.color+';font-weight:600">'+inst.range+'</div>'
-      + '<div style="font-size:10px;color:var(--text3);margin-top:2px">'+inst.note+'</div>'
-      + '</div></div>';
-
-} else {
+  } else {
     // ── PAN view: stereo field visualizer ────────────────────
     // pan: -1=hard L, 0=center, 1=hard R, 2=full stereo
     // panWidth: spread radius (0=mono point, 1=full)
@@ -2324,37 +2172,42 @@ function openInstrumentDetail(key) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  VST / WebSocket
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-let _ws = null;
-let _wsTimer = null;
-
 function connectWS() {
-  // Prevent multiple simultaneous connections
-  if (_ws && (_ws.readyState === WebSocket.CONNECTING || _ws.readyState === WebSocket.OPEN)) return;
-
+  let ws;
   try {
-    const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
-    _ws = new WebSocket(proto + '//' + location.host);
+    // Use Render in production, local bridge in development
+    const wsUrl = location.hostname === 'localhost' || location.hostname.match(/^192\./)
+      ? 'ws://' + location.hostname + ':8766'
+      : 'wss://tew-bridge.onrender.com';
+    ws = new WebSocket(wsUrl);
   } catch(e) { return; }
 
-  _ws.onopen = () => {
+  ws.onopen = () => {
     state.wsOn = true;
-    if (_wsTimer) { clearTimeout(_wsTimer); _wsTimer = null; }
-    document.getElementById('sdot-ws').className   = 'sdot sdot-g';
-    document.getElementById('slbl-ws').textContent = t('vstConnected');
+    document.getElementById('sdot-ws').className  = 'sdot sdot-g';
+    document.getElementById('slbl-ws').textContent = 'Connected';
   };
-  _ws.onclose = () => {
-    state.wsOn = false;
-    document.getElementById('sdot-ws').className   = 'sdot sdot-r';
-    document.getElementById('slbl-ws').textContent = t('noConnection');
-    _ws = null;
-    _wsTimer = setTimeout(connectWS, 5000);
-  };
-  _ws.onerror = () => { _ws && _ws.close(); };
-  _ws.onmessage = (e) => {
-    try { const d = JSON.parse(e.data); if (d.rms !== undefined) handleVST(d); } catch(ex) {}
-  };
-}
 
+  ws.onmessage = (e) => {
+    try {
+      const d = JSON.parse(e.data);
+      handleVST(d.rms, d.peak);
+    } catch(_) {}
+  };
+
+  ws.onclose = () => {
+    state.wsOn = state.vstOn = false;
+    document.getElementById('sdot-ws').className  = 'sdot sdot-r';
+    document.getElementById('slbl-ws').textContent = 'No connection';
+    document.getElementById('sdot-vst').className = 'sdot sdot-r';
+    document.getElementById('slbl-vst').textContent = 'Disconnected';
+    document.getElementById('hdr-dot').className  = 'hdr-dot';
+    document.getElementById('hdr-lbl').textContent = 'VST OFFLINE';
+    setTimeout(connectWS, 3000);
+  };
+
+  ws.onerror = () => ws.close();
+}
 
 function handleVST(rms, peak) {
   state.rms = rms; state.peak = peak;
@@ -2431,31 +2284,25 @@ if (localStorage.getItem('tew_dark')) {
 //  INIT
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // If no Firebase, show app directly with local data
-document.addEventListener('DOMContentLoaded', function() {
-  // Apply saved skin and language
-  setSkin(currentSkin);
-  setIdioma(currentLang);
-
-  if (!window._authSignIn) {
-    const _ls = document.getElementById('login-modal');
-    if (_ls) _ls.classList.remove('open');
-    renderProjects();
-    renderCharts(null);
-  }
-  connectWS();
-});
+if (!window._authSignIn) {
+  const _ls = document.getElementById('login-modal');
+  if (_ls) _ls.classList.remove('open');
+  renderProjects();
+  renderCharts(null);
+}
+connectWS();
 </script>
 
 
 
-<!-- Modal: Editar Proyecto -->
+<!-- Modal: Edit Project -->
 <div class="modal-overlay" id="modal-edit-proj">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title" data-i18n="editProject">Editar Proyecto</div>
+    <div class="modal-title">Edit Project</div>
     <input type="hidden" id="ep-id">
     <div class="form-group">
-      <label class="form-label" data-i18n="projectName">Nombre del Proyecto</label>
+      <label class="form-label">Project Name</label>
       <input type="text" class="form-input" id="ep-name">
     </div>
     <div class="form-row">
@@ -2487,48 +2334,54 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label" data-i18n="artist">Artista / Compositor</label>
+      <label class="form-label">Artist / Composer</label>
       <input type="text" class="form-input" id="ep-artist">
     </div>
+    <div style="display:flex;justify-content:center;margin-bottom:16px">
+      <div id="ep-artwork-preview" onclick="pickEditArtwork(document.getElementById('ep-id').value)"
+        style="width:80px;height:80px;border-radius:50%;background:var(--panel3);
+               border:2px dashed var(--border);cursor:pointer;display:flex;
+               align-items:center;justify-content:center;font-size:28px">🎵</div>
+    </div>
     <div id="ep-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
-    <button class="btn-primary" onclick="saveEditProject()" data-i18n="save">Guardar Cambios</button>
+    <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
     <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px"
-      onclick="deleteProject(document.getElementById('ep-id').value)" data-i18n="delete">Eliminar Proyecto</button>
-    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')" data-i18n="cancel">Cancelar</button>
+      onclick="deleteProject(document.getElementById('ep-id').value)">Delete Project</button>
+    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancel</button>
   </div>
 </div>
 
-<!-- Modal: Editar Etapas -->
+<!-- Modal: Edit Stages -->
 <div class="modal-overlay" id="modal-edit-stages">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Editar Etapas</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Selecciona qué etapas aplican a este proyecto.</p>
+    <div class="modal-title">Edit Stages</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Select which stages apply to this project.</p>
     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
       <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
         <input type="checkbox" id="es-production" style="width:18px;height:18px;accent-color:var(--accent)">
         <div>
           <div style="font-size:14px;font-weight:600">Production</div>
-          <div style="font-size:12px;color:var(--text2)">Estructura del beat, arreglos, diseño de sonido</div>
+          <div style="font-size:12px;color:var(--text2)">Beat structure, arrangement, sound design</div>
         </div>
       </label>
       <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
         <input type="checkbox" id="es-mix" style="width:18px;height:18px;accent-color:var(--accent)">
         <div>
           <div style="font-size:14px;font-weight:600">Mix</div>
-          <div style="font-size:12px;color:var(--text2)">EQ, compresión, routing, espacio</div>
+          <div style="font-size:12px;color:var(--text2)">EQ, compression, routing, space</div>
         </div>
       </label>
       <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
         <input type="checkbox" id="es-mastering" style="width:18px;height:18px;accent-color:var(--accent)">
         <div>
           <div style="font-size:14px;font-weight:600">Mastering</div>
-          <div style="font-size:12px;color:var(--text2)">Limitación, LUFS, exportación final</div>
+          <div style="font-size:12px;color:var(--text2)">Limiting, LUFS, final export</div>
         </div>
       </label>
     </div>
-    <button class="btn-primary" onclick="saveEditStages()">Guardar</button>
-    <button class="btn-ghost"   onclick="closeModal('modal-edit-stages')" data-i18n="cancel">Cancelar</button>
+    <button class="btn-primary" onclick="saveEditStages()">Save</button>
+    <button class="btn-ghost"   onclick="closeModal('modal-edit-stages')">Cancel</button>
   </div>
 </div>
 
@@ -2548,21 +2401,21 @@ document.addEventListener('DOMContentLoaded', function() {
     <div style="height:1px;background:var(--border);margin:16px 0"></div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--accent)" stroke-width="1.2"/><line x1="7" y1="5" x2="7" y2="9" stroke="var(--accent)" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="3.5" r="0.6" fill="var(--accent)"/></svg>
-      <span style="font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--accent)">Rango Objetivo VST</span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--accent)">VST Target Range</span>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
       <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Mín</div>
+        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Min</div>
         <div id="det-rms-min" style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--accent)"></div>
         <div style="font-size:10px;color:var(--text3);margin-top:2px">dBFS</div>
       </div>
       <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Máx</div>
+        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Max</div>
         <div id="det-rms-max" style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--accent)"></div>
         <div style="font-size:10px;color:var(--text3);margin-top:2px">dBFS</div>
       </div>
     </div>
-    <button class="btn-ghost" onclick="closeModal('modal-detail')">Cerrar</button>
+    <button class="btn-ghost" onclick="closeModal('modal-detail')">Close</button>
   </div>
 </div>
 
@@ -2594,7 +2447,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
       </svg>
-      Continuar con Google
+      Continue with Google
     </button>
 
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
@@ -2611,7 +2464,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="form-group">
       <label class="form-label">Email</label>
-      <input id="auth-email" type="email" class="form-input" placeholder="tu@correo.com">
+      <input id="auth-email" type="email" class="form-input" placeholder="your@email.com">
     </div>
     <div class="form-group">
       <label class="form-label">Password</label>
@@ -2619,7 +2472,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div style="text-align:right;margin-bottom:12px">
-      <span id="forgot-btn" onclick="forgotPassword()" style="font-size:12px;color:var(--accent);cursor:pointer" data-i18n="forgotPassword">¿Olvidaste tu contraseña?</span>
+      <span id="forgot-btn" onclick="forgotPassword()" style="font-size:12px;color:var(--accent);cursor:pointer">Forgot password?</span>
     </div>
 
     <div id="login-error" style="font-size:12px;min-height:16px;margin-bottom:10px;text-align:center;color:var(--danger)"></div>
