@@ -563,13 +563,10 @@ body {
         </div>
         <button onclick="openEditStages()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:var(--sans)">Stages</button>
       </div>
-      <!-- Stage tabs -->
-      <div style="padding:0 16px 12px;background:var(--panel2)">
-        <div id="ws-stage-tabs" style="display:flex;gap:4px;background:var(--panel3);border-radius:10px;padding:4px"></div>
-      </div>
+      <div id="ws-stage-tabs" style="display:flex;gap:4px;background:rgba(255,255,255,0.08);border-radius:10px;padding:4px;margin:0 16px 10px"></div>
 
       <!-- Inner tab bar -->
-      <div style="display:flex;gap:4px;background:var(--panel2);padding:6px 16px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;gap:4px;background:var(--panel);padding:8px 16px;border-bottom:1px solid var(--border)">
         <button id="itab-steps" onclick="switchInnerTab('steps')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
@@ -588,8 +585,14 @@ body {
 
         <!-- STEPS TAB -->
         <div id="inner-steps">
-          <p class="sec-label" style="margin-top:8px">Steps</p>
-          <div id="steps-list"></div>
+
+        </div>
+
+        <!-- Progress -->
+
+
+        <p class="sec-label">Steps</p>
+        <div id="steps-list"></div>
         <div class="spacer"></div>
         </div><!-- /inner-steps -->
 
@@ -2548,5 +2551,3 @@ connectWS();
 
 </body>
 </html>
-
-
