@@ -782,7 +782,7 @@ body {
         <div id="f-artwork-preview" onclick="pickArtwork('f')"
           style="width:80px;height:80px;border-radius:50%;background:var(--panel3);
                  border:2px dashed var(--border);cursor:pointer;display:flex;
-                 align-items:center;justify-content:center;font-size:28px">≡ƒÄ╡</div>
+                 align-items:center;justify-content:center;font-size:28px">🎵</div>
       </div>
       <div id="proj-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
     <button class="btn-primary" onclick="createProject()">Create Project</button>
@@ -1219,7 +1219,7 @@ const INSTRUMENTS = {
     pan:0, panWidth:0.9, panLabel:'Full stereo width ΓÇö L and R'
   },
   lead:    {
-    name:'Synth Lead', icon:'≡ƒÄ╡', range:'200 HzΓÇô6 kHz', color:'#ec4899',
+    name:'Synth Lead', icon:'🎵', range:'200 HzΓÇô6 kHz', color:'#ec4899',
     note:'Lead synths sit center like a vocal. Use subtle stereo width from a chorus or reverb send ΓÇö not from panning.',
     spectrum:[8,12,26,58,82,88,82,72,62,42,20,6],
     hotspots:[[3,'Body 200Hz'],[5,'Fundamental 630Hz'],[7,'Bite 3kHz'],[8,'Presence 5kHz']],
@@ -1685,7 +1685,7 @@ function renderProjects() {
           <button onclick="event.stopPropagation();openEditProject('${p.id}')"
             style="background:var(--panel3);border:1px solid var(--border);border-radius:8px;
                    width:30px;height:30px;cursor:pointer;color:var(--text2);font-size:14px;
-                   display:flex;align-items:center;justify-content:center">Γ£Ä</button>
+                   display:flex;align-items:center;justify-content:center">🎵</button>
         </div>
         <div style="cursor:pointer" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
         <div class="proj-name">${p.name}</div>
@@ -2393,7 +2393,7 @@ connectWS();
       <div id="ep-artwork-preview" onclick="pickEditArtwork(document.getElementById('ep-id').value)"
         style="width:80px;height:80px;border-radius:50%;background:var(--panel3);
                border:2px dashed var(--border);cursor:pointer;display:flex;
-               align-items:center;justify-content:center;font-size:28px">≡ƒÄ╡</div>
+               align-items:center;justify-content:center;font-size:28px">🎵</div>
     </div>
     <div id="ep-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
     <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
