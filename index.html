@@ -2151,9 +2151,12 @@ function renderLogs() {
     return `
       <div class="log-card" style="margin-bottom:16px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
-          <div>
-            <div style="font-size:16px;font-weight:700">${p.name}</div>
-            <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} | ${p.bpm} BPM | ${p.key}</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:44px;height:44px;border-radius:50%;flex-shrink:0;background:${p.artwork ? 'url('+p.artwork+') center/cover' : 'var(--accent)'};display:flex;align-items:center;justify-content:center;font-size:18px">${p.artwork ? '' : '🎵'}</div>
+            <div>
+              <div style="font-size:16px;font-weight:700">${p.name}</div>
+              <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} | ${p.bpm} BPM | ${p.key}</div>
+            </div>
           </div>
           <div style="text-align:right">
             <div style="font-family:var(--mono);font-size:26px;font-weight:700;color:var(--accent);line-height:1">${pct}%</div>
