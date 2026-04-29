@@ -2223,9 +2223,19 @@ function buildCard(key) {
       +'<path d="'+fd+'" fill="url(#eqf'+key+')"/>'
       +'<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.5"/>'
       +dots+ax+'</svg>';
-    return '<div class="chart-card" onclick="toggleCardView(\'' + key + '\')" id="card-'+key+'">'
-      +'<div style="padding:12px 8px 0">'+svg+'</div>'
-      +'<div class="chart-meta"><div style="display:flex;align-items:center;justify-content:space-between">'
+    return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
+      <div style="padding:8px 8px 0">${svg}</div>
+      <div class="chart-meta">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:4px">
+            <span style="font-size:12px">${inst.icon}</span>
+            <div class="chart-n">${inst.name}</div>
+          </div>
+          <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>
+        </div>
+        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${inst.range}</div>
+      </div>
+    </div>`;
   } else {
     // ── PAN view: stereo field visualizer ────────────────────
     // pan: -1=hard L, 0=center, 1=hard R, 2=full stereo
