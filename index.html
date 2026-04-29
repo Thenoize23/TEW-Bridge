@@ -1535,6 +1535,22 @@ function pickArtwork(prefix) {
 function pickEditArtworkWS() {
   const p = state.active;
   if (!p) return;
+  if (p.artwork) {
+    // Show options: change or remove
+    const sheet = document.createElement('div');
+    sheet.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:var(--panel);border-radius:16px 16px 0 0;padding:16px;z-index:9999;box-shadow:0 -4px 20px rgba(0,0,0,0.2)';
+    sheet.innerHTML = '<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;text-align:center">Artwork</div>'
+      + '<button onclick="this.parentElement.remove();_pickArtworkFile()" style="width:100%;padding:12px;margin-bottom:8px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">Change Photo</button>'
+      + '<button onclick="this.parentElement.remove();_removeArtwork()" style="width:100%;padding:12px;margin-bottom:8px;background:var(--panel3);color:var(--danger);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">Remove Photo</button>'
+      + '<button onclick="this.parentElement.remove()" style="width:100%;padding:12px;background:var(--panel3);color:var(--text2);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">Cancel</button>';
+    document.body.appendChild(sheet);
+  } else {
+    _pickArtworkFile();
+  }
+}
+
+function _pickArtworkFile() {
+  const p = state.active; if (!p) return;
   const input = document.createElement('input');
   input.type = 'file'; input.accept = 'image/*';
   input.onchange = (e) => {
@@ -1548,6 +1564,13 @@ function pickEditArtworkWS() {
     reader.readAsDataURL(file);
   };
   input.click();
+}
+
+function _removeArtwork() {
+  const p = state.active; if (!p) return;
+  p.artwork = null;
+  saveProjects();
+  updateWSArtwork(p);
 }
 
 function updateWSArtwork(p) {
@@ -1755,7 +1778,7 @@ function renderProjects() {
         <div style="cursor:pointer" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
         <div class="proj-name">${p.name}</div>
         <div class="proj-meta">
-          <span>${p.genre}${p.subgenre ? ' ┬╖ ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
+          <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
         </div>
         <div>
           ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">No stage selected</span>'}
@@ -2129,7 +2152,7 @@ function renderLogs() {
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
           <div>
             <div style="font-size:16px;font-weight:700">${p.name}</div>
-            <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} ┬╖ ${p.bpm} BPM ┬╖ ${p.key}</div>
+            <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.bpm} BPM · ${p.key}</div>
           </div>
           <div style="text-align:right">
             <div style="font-family:var(--mono);font-size:26px;font-weight:700;color:var(--accent);line-height:1">${pct}%</div>
@@ -2158,11 +2181,11 @@ function renderCharts(stage) {
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
       <div style="font-size:15px;font-weight:700;margin-bottom:2px">${projName}</div>
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} ┬╖ Tap card to toggle EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · Tap card to toggle EQ / Pan</div>
     </div>`;
   } else {
     header = `<div style="margin-bottom:14px">
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">Instrument Ranges ┬╖ Tap to toggle EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">Instrument Ranges · Tap to toggle EQ / Pan</div>
     </div>`;
   }
 
@@ -2261,7 +2284,7 @@ function buildCard(key) {
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">PAN</div>
         </div>
-        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${posLabel} ┬╖ ${inst.range}</div>
+        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${posLabel} · ${inst.range}</div>
       </div>
     </div>`;
   }
