@@ -2192,39 +2192,44 @@ function buildCard(key) {
   const view = cardViews[key] || 'eq';
 
   if (view === 'eq') {
-    // ── EQ view: spectrum bars + hotspot labels ──────────────
-    const bands = ['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
-    const hotspotsMap = {};
-    (inst.hotspots || []).forEach(([bi, lbl]) => { hotspotsMap[bi] = lbl; });
+    const W = 280, H = 100, MID = 50;
+    const gains = inst.spectrum.map(v => Math.round((v/100)*24 - 12));
+    const hotspotObj = (inst.hotspots||[]).reduce((a,[i,l])=>{a[i]=l;return a},{});
+    const pts = gains.map((g,i) => [ (i/(inst.spectrum.length-1))*W, MID-(g/12)*(MID-10) ]);
 
-    const bars = inst.spectrum.map((val, i) => {
-      const barH = Math.round((val / 100) * 58);
-      const isHot = hotspotsMap[i] !== undefined;
-      const dot = isHot
-        ? `<div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:${inst.color};color:#fff;font-size:7px;font-weight:600;padding:1px 3px;border-radius:3px;white-space:nowrap;line-height:1.2">${hotspotsMap[i]}</div>`
-        : '';
-      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative">
-        ${dot}
-        <div style="width:100%;height:${barH}px;background:${inst.color};border-radius:2px 2px 0 0;opacity:${0.4+(val/100)*0.6}"></div>
-      </div>`;
+    let pathD = 'M '+pts[0][0]+' '+pts[0][1];
+    for (let i=0;i<pts.length-1;i++) {
+      const cpx = (pts[i][0]+pts[i+1][0])/2;
+      pathD += ' C '+cpx+' '+pts[i][1]+' '+cpx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];
+    }
+    const fillD = pathD+' L '+W+' '+H+' L 0 '+H+' Z';
+
+    const freqLbls = ['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
+    const axisHtml = [0,2,4,6,8,10,11].map(i =>
+      '<text x="'+pts[i][0]+'" y="'+(H+10)+'" text-anchor="middle" font-size="5" fill="var(--text3)" font-family="Inter,sans-serif">'+freqLbls[i]+'</text>'
+    ).join('');
+
+    const dotsHtml = pts.map(([x,y],i) => {
+      const g = gains[i]; if (Math.abs(g)<3) return '';
+      const sign = g>0?'+':'';
+      const dbY  = g>0 ? y-9 : y+13;
+      const lbl  = hotspotObj[i]||'';
+      const lblY = g>0 ? y-18 : y+22;
+      return '<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+inst.color+'"/>'
+        +'<text x="'+x+'" y="'+dbY+'" text-anchor="middle" font-size="5.5" fill="'+inst.color+'" opacity="0.85" font-family="Inter,sans-serif">'+sign+g+'dB</text>'
+        +(lbl?'<text x="'+x+'" y="'+lblY+'" text-anchor="middle" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>':'');
     }).join('');
 
-    return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
-      <div style="background:var(--panel2);padding:20px 8px 4px;height:88px;display:flex;align-items:flex-end;gap:1px;overflow:hidden">
-        ${bars}
-      </div>
-      <div class="chart-meta">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:4px">
-            <span style="font-size:12px">${inst.icon}</span>
-            <div class="chart-n">${inst.name}</div>
-          </div>
-          <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>
-        </div>
-        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${inst.range}</div>
-      </div>
-    </div>`;
+    const svgStr = '<svg viewBox="0 0 '+W+' '+(H+14)+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
+      +'<defs><linearGradient id="eqf-'+key+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.25"/><stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.03"/></linearGradient></defs>'
+      +'<line x1="0" y1="'+MID+'" x2="'+W+'" y2="'+MID+'" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"/>'
+      +'<path d="'+fillD+'" fill="url(#eqf-'+key+')"/>'
+      +'<path d="'+pathD+'" fill="none" stroke="'+inst.color+'" stroke-width="1.5"/>'
+      +dotsHtml+axisHtml+'</svg>';
 
+    return '<div class="chart-card" onclick="toggleCardView(\'' + key + '\')" id="card-'+key+'">'
+      +'<div style="padding:12px 8px 0">'+svgStr+'</div>'
+      +'<div class="chart-meta"><div style="display:flex;align-items:center;justify-content:space-between">'
   } else {
     // ── PAN view: stereo field visualizer ────────────────────
     // pan: -1=hard L, 0=center, 1=hard R, 2=full stereo
