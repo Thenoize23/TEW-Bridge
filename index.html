@@ -517,14 +517,8 @@ body {
           </div>
         </div>
       </div>
-      <span class="slbl" id="slbl-vst">Disconnected</span></div>
-        </div>
-        <div class="set-row">
-          <span class="set-lbl">WebSocket Bridge</span>
-          <div class="status-row"><div class="sdot sdot-r" id="sdot-ws"></div><span class="slbl" id="slbl-ws">No connection</span></div>
-        </div>
-        <div class="set-row"><span class="set-lbl">UDP Port</span><span class="set-val">8765</span></div>
-      </div>
+
+      
       <p class="sec-label">Account</p>
       <div class="set-group">
         <div class="set-row">
@@ -2193,55 +2187,33 @@ function buildCard(key) {
     const hobj=(inst.hotspots||[]).reduce((a,[i,l])=>{a[i]=l;return a},{});
     const n=gains.length;
     const pts=gains.map((g,i)=>[(PAD+(i/(n-1))*(W-PAD*2)), MID-(g/12)*(MID-14)]);
-
     let pd='M '+pts[0][0]+' '+pts[0][1];
-    for(let i=0;i<pts.length-1;i++){
-      const cx=(pts[i][0]+pts[i+1][0])/2;
-      pd+=' C '+cx+' '+pts[i][1]+' '+cx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];
-    }
+    for(let i=0;i<pts.length-1;i++){const cx=(pts[i][0]+pts[i+1][0])/2;pd+=' C '+cx+' '+pts[i][1]+' '+cx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];}
     const fd=pd+' L '+(W-PAD)+' '+H+' L '+PAD+' '+H+' Z';
-
     const fl=['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
-    const ax=[1,2,4,6,8,10].map(i=>
-      '<text x="'+pts[i][0]+'" y="'+(H+11)+'" text-anchor="middle" font-size="5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[i]+'</text>'
-    ).join('');
-
-    // Only show labels for the most significant points — filter to avoid overlap
-    // Pick top N by |gain| ensuring min x distance of 35px between labeled points
-    const significant = gains
-      .map((g,i)=>({i,g,x:pts[i][0]}))
-      .filter(({g})=>Math.abs(g)>=3)
-      .sort((a,b)=>Math.abs(b.g)-Math.abs(a.g));
+    const ax=[1,2,4,6,8,10].map(i=>'<text x="'+pts[i][0]+'" y="'+(H+11)+'" text-anchor="middle" font-size="5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[i]+'</text>').join('');
+    const sig=gains.map((g,i)=>({i,g,x:pts[i][0]})).filter(({g})=>Math.abs(g)>=3).sort((a,b)=>Math.abs(b.g)-Math.abs(a.g));
     const labeled=new Set();
-    significant.forEach(({i,x})=>{
-      const tooClose=[...labeled].some(j=>Math.abs(pts[j][0]-x)<38);
-      if(!tooClose) labeled.add(i);
-    });
-
+    sig.forEach(({i,x})=>{if(![...labeled].some(j=>Math.abs(pts[j][0]-x)<38))labeled.add(i);});
     const dots=pts.map(([x,y],i)=>{
       const g=gains[i]; if(Math.abs(g)<3)return '';
-      const anchor=x<PAD+18?'start':x>W-PAD-18?'end':'middle';
+      const anc=x<PAD+18?'start':x>W-PAD-18?'end':'middle';
       const cx=x<PAD+18?x+2:x>W-PAD-18?x-2:x;
       let out='<circle cx="'+x+'" cy="'+y+'" r="2" fill="'+inst.color+'"/>';
       if(labeled.has(i)){
-        const sign=g>0?'+':'', dy=g>0?y-8:y+12;
-        out+='<text x="'+cx+'" y="'+Math.max(8,Math.min(H-2,dy))+'" text-anchor="'+anchor+'" font-size="5.5" fill="'+inst.color+'" opacity="0.9" font-family="Inter,sans-serif">'+sign+g+'dB</text>';
+        const sign=g>0?'+':'', dy=Math.max(8,Math.min(H-2,g>0?y-8:y+12));
+        out+='<text x="'+cx+'" y="'+dy+'" text-anchor="'+anc+'" font-size="5.5" fill="'+inst.color+'" opacity="0.9" font-family="Inter,sans-serif">'+sign+g+'dB</text>';
         const lbl=hobj[i]||'';
-        if(lbl){const ly=g>0?y-16:y+21; out+='<text x="'+cx+'" y="'+Math.max(8,Math.min(H-2,ly))+'" text-anchor="'+anchor+'" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>';}
+        if(lbl){const ly=Math.max(8,Math.min(H-2,g>0?y-16:y+21));out+='<text x="'+cx+'" y="'+ly+'" text-anchor="'+anc+'" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>';}
       }
       return out;
     }).join('');
-
     const svg='<svg viewBox="0 0 '+W+' '+(H+14)+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
-      +'<defs><linearGradient id="eqf'+key+'" x1="0" y1="0" x2="0" y2="1">'
-      +'<stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.3"/>'
-      +'<stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.03"/>'
-      +'</linearGradient></defs>'
+      +'<defs><linearGradient id="eqf'+key+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.3"/><stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.03"/></linearGradient></defs>'
       +'<line x1="'+PAD+'" y1="'+MID+'" x2="'+(W-PAD)+'" y2="'+MID+'" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"/>'
       +'<path d="'+fd+'" fill="url(#eqf'+key+')"/>'
       +'<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.8"/>'
       +dots+ax+'</svg>';
-
     return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
       <div style="padding:10px 4px 0">${svg}</div>
       <div class="chart-meta">
