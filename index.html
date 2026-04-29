@@ -506,11 +506,11 @@ body {
         <div class="set-row">
           <span class="set-lbl" data-i18n="theme">Theme</span></div><div class="set-row"><div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl" data-i18n="language">Language</span>
           <div style="display:flex;gap:6px">
-            <button id="lang-en" onclick="setIdioma('en')"
+            <button id="lang-en" onclick="setLanguage('en')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--accent);color:#fff">EN</button>
-            <button id="lang-es" onclick="setIdioma('es')"
+            <button id="lang-es" onclick="setLanguage('es')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--panel3);color:var(--text2)">ES</button>
@@ -982,7 +982,16 @@ function setIdioma(lang) {
 }
 
 
-function setLanguage(lang) { setIdioma(lang); }
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('tew_lang', lang);
+  // Update button styles
+  const enBtn = document.getElementById('lang-en');
+  const esBtn = document.getElementById('lang-es');
+  if (enBtn) { enBtn.style.background = lang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = lang==='en' ? '#fff' : 'var(--text2)'; }
+  if (esBtn) { esBtn.style.background = lang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = lang==='es' ? '#fff' : 'var(--text2)'; }
+  applyLanguage();
+}
 
 function applyLanguage() {
   // Tab bar
@@ -2192,43 +2201,30 @@ function buildCard(key) {
   const view = cardViews[key] || 'eq';
 
   if (view === 'eq') {
-    const W = 280, H = 100, MID = 50;
-    const gains = inst.spectrum.map(v => Math.round((v/100)*24 - 12));
-    const hotspotObj = (inst.hotspots||[]).reduce((a,[i,l])=>{a[i]=l;return a},{});
-    const pts = gains.map((g,i) => [ (i/(inst.spectrum.length-1))*W, MID-(g/12)*(MID-10) ]);
-
-    let pathD = 'M '+pts[0][0]+' '+pts[0][1];
-    for (let i=0;i<pts.length-1;i++) {
-      const cpx = (pts[i][0]+pts[i+1][0])/2;
-      pathD += ' C '+cpx+' '+pts[i][1]+' '+cpx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];
-    }
-    const fillD = pathD+' L '+W+' '+H+' L 0 '+H+' Z';
-
-    const freqLbls = ['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
-    const axisHtml = [0,2,4,6,8,10,11].map(i =>
-      '<text x="'+pts[i][0]+'" y="'+(H+10)+'" text-anchor="middle" font-size="5" fill="var(--text3)" font-family="Inter,sans-serif">'+freqLbls[i]+'</text>'
-    ).join('');
-
-    const dotsHtml = pts.map(([x,y],i) => {
-      const g = gains[i]; if (Math.abs(g)<3) return '';
-      const sign = g>0?'+':'';
-      const dbY  = g>0 ? y-9 : y+13;
-      const lbl  = hotspotObj[i]||'';
-      const lblY = g>0 ? y-18 : y+22;
+    const W=280,H=100,MID=50;
+    const gains=inst.spectrum.map(v=>Math.round((v/100)*24-12));
+    const hobj=(inst.hotspots||[]).reduce((a,[i,l])=>{a[i]=l;return a},{});
+    const pts=gains.map((g,i)=>[(i/(gains.length-1))*W, MID-(g/12)*(MID-10)]);
+    let pd='M '+pts[0][0]+' '+pts[0][1];
+    for(let i=0;i<pts.length-1;i++){const cx=(pts[i][0]+pts[i+1][0])/2;pd+=' C '+cx+' '+pts[i][1]+' '+cx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];}
+    const fd=pd+' L '+W+' '+H+' L 0 '+H+' Z';
+    const fl=['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
+    const ax=[0,2,4,6,8,10,11].map(i=>'<text x="'+pts[i][0]+'" y="'+(H+10)+'" text-anchor="middle" font-size="5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[i]+'</text>').join('');
+    const dots=pts.map(([x,y],i)=>{
+      const g=gains[i]; if(Math.abs(g)<3)return '';
+      const s=g>0?'+':'', dy=g>0?y-9:y+13, lbl=hobj[i]||'', ly=g>0?y-18:y+22;
       return '<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+inst.color+'"/>'
-        +'<text x="'+x+'" y="'+dbY+'" text-anchor="middle" font-size="5.5" fill="'+inst.color+'" opacity="0.85" font-family="Inter,sans-serif">'+sign+g+'dB</text>'
-        +(lbl?'<text x="'+x+'" y="'+lblY+'" text-anchor="middle" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>':'');
+        +'<text x="'+x+'" y="'+dy+'" text-anchor="middle" font-size="5.5" fill="'+inst.color+'" opacity="0.85" font-family="Inter,sans-serif">'+s+g+'dB</text>'
+        +(lbl?'<text x="'+x+'" y="'+ly+'" text-anchor="middle" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>':'');
     }).join('');
-
-    const svgStr = '<svg viewBox="0 0 '+W+' '+(H+14)+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
-      +'<defs><linearGradient id="eqf-'+key+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.25"/><stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.03"/></linearGradient></defs>'
+    const svg='<svg viewBox="0 0 '+W+' '+(H+14)+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
+      +'<defs><linearGradient id="eqf'+key+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.25"/><stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.03"/></linearGradient></defs>'
       +'<line x1="0" y1="'+MID+'" x2="'+W+'" y2="'+MID+'" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"/>'
-      +'<path d="'+fillD+'" fill="url(#eqf-'+key+')"/>'
-      +'<path d="'+pathD+'" fill="none" stroke="'+inst.color+'" stroke-width="1.5"/>'
-      +dotsHtml+axisHtml+'</svg>';
-
+      +'<path d="'+fd+'" fill="url(#eqf'+key+')"/>'
+      +'<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.5"/>'
+      +dots+ax+'</svg>';
     return '<div class="chart-card" onclick="toggleCardView(\'' + key + '\')" id="card-'+key+'">'
-      +'<div style="padding:12px 8px 0">'+svgStr+'</div>'
+      +'<div style="padding:12px 8px 0">'+svg+'</div>'
       +'<div class="chart-meta"><div style="display:flex;align-items:center;justify-content:space-between">'
   } else {
     // ── PAN view: stereo field visualizer ────────────────────
