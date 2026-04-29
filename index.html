@@ -792,6 +792,31 @@ body {
   </div>
 </div>
 
+<div id="modal-detail" class="modal-overlay">
+  <div class="modal" style="max-height:80dvh;overflow-y:auto">
+    <div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div id="det-icon" style="font-size:32px">🎵</div>
+      <div style="flex:1">
+        <div id="det-title" style="font-size:18px;font-weight:700;color:var(--text)"></div>
+        <div id="det-stage" style="font-size:12px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px"></div>
+      </div>
+    </div>
+    <div id="det-body" style="font-size:14px;line-height:1.65;color:var(--text2);margin-bottom:16px"></div>
+    <div style="display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--border);margin-bottom:12px">
+      <div style="flex:1;text-align:center">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:4px">RMS Min</div>
+        <div id="det-rms-min" style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent)">—</div>
+      </div>
+      <div style="flex:1;text-align:center">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:4px">RMS Max</div>
+        <div id="det-rms-max" style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent)">—</div>
+      </div>
+    </div>
+    <button class="btn-ghost" onclick="closeModal('modal-detail')">Close</button>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp }          from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js';
 import { getFirestore, collection,
@@ -971,30 +996,11 @@ function setLanguage(lang) {
   const esBtn = document.getElementById('lang-es');
   if (enBtn) { enBtn.style.background = lang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = lang==='en' ? '#fff' : 'var(--text2)'; }
   if (esBtn) { esBtn.style.background = lang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = lang==='es' ? '#fff' : 'var(--text2)'; }
-  applyLanguage();
+  applyIdioma();
 }
 
 function applyLanguage() {
-  // Tab bar
-  const tabLabels = ['projects','charts','logs','settings'];
-  tabLabels.forEach(tab => {
-    const btn = document.querySelector('[data-tab="' + tab + '"]');
-    if (btn) btn.lastChild.textContent = ' ' + t(tab).toUpperCase();
-  });
-  // Header
-  const hdrLbl = document.getElementById('hdr-lbl');
-  if (hdrLbl && !hdrLbl.classList.contains('live')) hdrLbl.textContent = 'VST OFFLINE';
-  // Re-render current screen
-  renderProjects();
-  renderLogs();
-  // Inner tabs if workspace open
-  const ws = document.getElementById('workspace');
-  if (ws && ws.style.display === 'block') {
-    renderStageTabs();
-    renderSteps();
-    renderAINotes();
-    renderManualNotes();
-  }
+  applyIdioma();
 }
 
 function getProjectPct(p) {
@@ -1064,6 +1070,13 @@ const STEP_DETAILS = {
   ms9: { icon:'🎛️', detail:'Dithering is required when reducing the bit depth of your master from 24-bit to 16-bit for CD or certain streaming deliverables. Without dither, bit-depth reduction introduces quantization distortion — a harsh, digital artifact. TPDF (Triangular Probability Density Function) dither adds a small amount of random noise that masks this distortion, preserving the perceived low-level resolution of your master. Apply dithering only once, as the very last process in your chain, and only when changing bit depth. Never dither a 24-bit delivery.' },
   ms10:{ icon:'📦', detail:'The final export is your deliverable to the world. Export a 24-bit 44.1 kHz WAV file as your distribution master for streaming platforms. For CD duplication, export a 16-bit 44.1 kHz WAV with dither applied. Some platforms (Apple Digital Masters, Tidal) accept 24-bit 96 kHz high-resolution files. Name your files clearly with the artist name, track title, ISRC code if available, and the format specification. Keep your session and all source files archived so you can re-export if platform requirements change in the future.' },
 };
+
+function getStepDetail(stepId) {
+  const det = STEP_DETAILS[stepId];
+  if (!det) return null;
+  return det;
+}
+
 
 const STEPS_EN = {
   production: [
@@ -2005,7 +2018,7 @@ function toggleStep(stepId) {
 }
 
 function openDetail(stepId) {
-  const det = STEP_DETAILS[stepId];
+  const det = getStepDetail(stepId);
   if (!det) return;
 
   // Find the step object
@@ -2308,18 +2321,18 @@ function openInstrumentDetail(key) {
 //  VST / WebSocket
 // ═══════════════════════════════════════════════
 function connectWS() {
-  // Only connect locally
-  const isLocal = location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.hostname.match(/^192\./)|| location.hostname.endsWith('.ngrok-free.dev')||location.hostname.endsWith('.ngrok.io');
-  if (!isLocal) return;
   let ws;
   try {
-    const proto = location.protocol==='https:'?'wss:':'ws:';
-    ws = new WebSocket(proto+'//'+location.host);
+    // Use Render in production, local bridge in development
+    const wsUrl = location.hostname === 'localhost' || location.hostname.match(/^192\./)
+      ? 'ws://' + location.hostname + ':8766'
+      : 'wss://tew-bridge.onrender.com';
+    ws = new WebSocket(wsUrl);
   } catch(e) { return; }
 
   ws.onopen = () => {
     state.wsOn = true;
-    var _swg=document.getElementById('sdot-ws'); if(_swg)_swg.className='sdot sdot-g';
+    document.getElementById('sdot-ws').className  = 'sdot sdot-g';
     document.getElementById('slbl-ws').textContent = 'Connected';
   };
 
@@ -2332,7 +2345,7 @@ function connectWS() {
 
   ws.onclose = () => {
     state.wsOn = state.vstOn = false;
-    var _sw=document.getElementById('sdot-ws'); if(_sw)_sw.className='sdot sdot-r';
+    document.getElementById('sdot-ws').className  = 'sdot sdot-r';
     document.getElementById('slbl-ws').textContent = 'No connection';
     document.getElementById('sdot-vst').className = 'sdot sdot-r';
     document.getElementById('slbl-vst').textContent = 'Disconnected';
