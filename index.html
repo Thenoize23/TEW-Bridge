@@ -517,12 +517,7 @@ body {
           </div>
         </div>
       </div>
-
-      <p class="sec-label">VST Connection</p>
-      <div class="set-group">
-        <div class="set-row">
-          <span class="set-lbl">Plugin VST3</span>
-          <div class="status-row"><div class="sdot sdot-r" id="sdot-vst"></div><span class="slbl" id="slbl-vst">Disconnected</span></div>
+      <span class="slbl" id="slbl-vst">Disconnected</span></div>
         </div>
         <div class="set-row">
           <span class="set-lbl">WebSocket Bridge</span>
@@ -530,14 +525,6 @@ body {
         </div>
         <div class="set-row"><span class="set-lbl">UDP Port</span><span class="set-val">8765</span></div>
       </div>
-
-      <p class="sec-label">Live Metrics</p>
-      <div class="set-group">
-        <div class="set-row"><span class="set-lbl">RMS</span><span class="set-val" id="s-rms">—</span></div>
-        <div class="set-row"><span class="set-lbl">Peak</span><span class="set-val" id="s-peak">—</span></div>
-        <div class="set-row"><span class="set-lbl">Samples received</span><span class="set-val" id="s-cnt">0</span></div>
-      </div>
-
       <p class="sec-label">Account</p>
       <div class="set-group">
         <div class="set-row">
@@ -2201,11 +2188,11 @@ function buildCard(key) {
   const view = cardViews[key] || 'eq';
 
   if (view === 'eq') {
-    const W=300,H=110,MID=55,PAD=14;
+    const W=300,H=110,MID=55,PAD=16;
     const gains=inst.spectrum.map(v=>Math.round((v/100)*24-12));
     const hobj=(inst.hotspots||[]).reduce((a,[i,l])=>{a[i]=l;return a},{});
     const n=gains.length;
-    const pts=gains.map((g,i)=>[(PAD + (i/(n-1))*(W-PAD*2)), MID-(g/12)*(MID-12)]);
+    const pts=gains.map((g,i)=>[(PAD+(i/(n-1))*(W-PAD*2)), MID-(g/12)*(MID-14)]);
 
     let pd='M '+pts[0][0]+' '+pts[0][1];
     for(let i=0;i<pts.length-1;i++){
@@ -2219,26 +2206,30 @@ function buildCard(key) {
       '<text x="'+pts[i][0]+'" y="'+(H+11)+'" text-anchor="middle" font-size="5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[i]+'</text>'
     ).join('');
 
-    // Build dots with collision avoidance for labels
-    const labelSlots={}; // track used y positions per x zone
+    // Only show labels for the most significant points — filter to avoid overlap
+    // Pick top N by |gain| ensuring min x distance of 35px between labeled points
+    const significant = gains
+      .map((g,i)=>({i,g,x:pts[i][0]}))
+      .filter(({g})=>Math.abs(g)>=3)
+      .sort((a,b)=>Math.abs(b.g)-Math.abs(a.g));
+    const labeled=new Set();
+    significant.forEach(({i,x})=>{
+      const tooClose=[...labeled].some(j=>Math.abs(pts[j][0]-x)<38);
+      if(!tooClose) labeled.add(i);
+    });
+
     const dots=pts.map(([x,y],i)=>{
       const g=gains[i]; if(Math.abs(g)<3)return '';
-      const sign=g>0?'+':'';
-      // dB label
-      let dbY=g>0?y-8:y+12;
-      // clamp to SVG bounds
-      dbY=Math.max(8,Math.min(H-4,dbY));
-      // x clamp
-      const tx=Math.max(PAD+10,Math.min(W-PAD-10,x));
-      // property label
-      const lbl=hobj[i]||'';
-      let lblY=g>0?y-17:y+21;
-      lblY=Math.max(8,Math.min(H-4,lblY));
-      // anchor based on x position
-      const anchor=x<PAD+20?'start':x>W-PAD-20?'end':'middle';
-      return '<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+inst.color+'"/>'
-        +'<text x="'+tx+'" y="'+dbY+'" text-anchor="'+anchor+'" font-size="5.5" fill="'+inst.color+'" opacity="0.9" font-family="Inter,sans-serif">'+sign+g+'dB</text>'
-        +(lbl?'<text x="'+tx+'" y="'+lblY+'" text-anchor="'+anchor+'" font-size="6.5" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>':'');
+      const anchor=x<PAD+18?'start':x>W-PAD-18?'end':'middle';
+      const cx=x<PAD+18?x+2:x>W-PAD-18?x-2:x;
+      let out='<circle cx="'+x+'" cy="'+y+'" r="2" fill="'+inst.color+'"/>';
+      if(labeled.has(i)){
+        const sign=g>0?'+':'', dy=g>0?y-8:y+12;
+        out+='<text x="'+cx+'" y="'+Math.max(8,Math.min(H-2,dy))+'" text-anchor="'+anchor+'" font-size="5.5" fill="'+inst.color+'" opacity="0.9" font-family="Inter,sans-serif">'+sign+g+'dB</text>';
+        const lbl=hobj[i]||'';
+        if(lbl){const ly=g>0?y-16:y+21; out+='<text x="'+cx+'" y="'+Math.max(8,Math.min(H-2,ly))+'" text-anchor="'+anchor+'" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>';}
+      }
+      return out;
     }).join('');
 
     const svg='<svg viewBox="0 0 '+W+' '+(H+14)+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
@@ -2252,7 +2243,7 @@ function buildCard(key) {
       +dots+ax+'</svg>';
 
     return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
-      <div style="padding:10px 6px 0">${svg}</div>
+      <div style="padding:10px 4px 0">${svg}</div>
       <div class="chart-meta">
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:4px">
