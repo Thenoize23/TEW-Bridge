@@ -819,7 +819,7 @@ import { getFirestore, collection,
 import { getAuth, signInWithEmailAndPassword,
          createUserWithEmailAndPassword,
          sendPasswordResetEmail,
-         GoogleAuthProvider, signInWithPopup,
+         GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult,
          onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js';
 
 const firebaseConfig = {
@@ -859,11 +859,17 @@ window._authGoogle = async () => {
   if (!auth) return;
   try {
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    // Use redirect to avoid CORS/popup issues on ngrok and GitHub Pages
+    await signInWithRedirect(auth, provider);
   } catch(err) {
     window._loginErr && window._loginErr(err.code);
   }
 };
+
+// Handle redirect result on page load
+getRedirectResult(auth).then(result => {
+  if (result && result.user) console.log('Redirect login:', result.user.email);
+}).catch(e => { if (e.code !== 'auth/no-current-user') console.warn(e); });
 
 if (auth) {
   onAuthStateChanged(auth, async (user) => {
