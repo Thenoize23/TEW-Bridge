@@ -1577,12 +1577,10 @@ function updateWSArtwork(p) {
   const el = document.getElementById('ws-artwork');
   if (!el) return;
   if (p && p.artwork) {
-    el.style.backgroundImage = 'url(' + p.artwork + ')';
-    el.style.backgroundSize  = 'cover';
-    el.style.backgroundPosition = 'center';
+    el.style.background = 'url(' + p.artwork + ') center/cover';
     el.innerHTML = '';
   } else {
-    el.style.backgroundImage = '';
+    el.style.background = 'var(--accent)';
     el.innerHTML = '🎵';
   }
 }
@@ -1775,10 +1773,13 @@ function renderProjects() {
                    width:30px;height:30px;cursor:pointer;color:var(--text2);font-size:14px;
                    display:flex;align-items:center;justify-content:center">✓</button>
         </div>
-        <div style="cursor:pointer" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
-        <div class="proj-name">${p.name}</div>
-        <div class="proj-meta">
-          <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
+        <div style="cursor:pointer;display:flex;align-items:center;gap:14px;padding:4px 0" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
+          <div style="width:52px;height:52px;border-radius:50%;flex-shrink:0;background:${p.artwork ? 'url('+p.artwork+') center/cover' : 'var(--accent)'};display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid rgba(255,255,255,0.1)">${p.artwork ? '' : '🎵'}</div>
+          <div style="min-width:0;flex:1">
+          <div class="proj-name">${p.name}</div>
+          <div class="proj-meta">
+          <span>${p.genre}${p.subgenre ? ' ⋅ ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
+          </div>
         </div>
         <div>
           ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">No stage selected</span>'}
@@ -2152,7 +2153,7 @@ function renderLogs() {
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
           <div>
             <div style="font-size:16px;font-weight:700">${p.name}</div>
-            <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.bpm} BPM · ${p.key}</div>
+            <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} | ${p.bpm} BPM | ${p.key}</div>
           </div>
           <div style="text-align:right">
             <div style="font-family:var(--mono);font-size:26px;font-weight:700;color:var(--accent);line-height:1">${pct}%</div>
@@ -2181,11 +2182,11 @@ function renderCharts(stage) {
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
       <div style="font-size:15px;font-weight:700;margin-bottom:2px">${projName}</div>
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · Tap card to toggle EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} &#183; Tap card to toggle EQ / Pan</div>
     </div>`;
   } else {
     header = `<div style="margin-bottom:14px">
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">Instrument Ranges · Tap to toggle EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">Instrument Ranges &#183; Tap to toggle EQ / Pan</div>
     </div>`;
   }
 
@@ -2284,7 +2285,7 @@ function buildCard(key) {
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">PAN</div>
         </div>
-        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${posLabel} · ${inst.range}</div>
+        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${posLabel} &#183; ${inst.range}</div>
       </div>
     </div>`;
   }
