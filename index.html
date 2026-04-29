@@ -506,11 +506,11 @@ body {
         <div class="set-row">
           <span class="set-lbl" data-i18n="theme">Theme</span></div><div class="set-row"><div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl" data-i18n="language">Language</span>
           <div style="display:flex;gap:6px">
-            <button id="lang-en" onclick="setLanguage('en')"
+            <button id="lang-en" onclick="setIdioma('en')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--accent);color:#fff">EN</button>
-            <button id="lang-es" onclick="setLanguage('es')"
+            <button id="lang-es" onclick="setIdioma('es')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--panel3);color:var(--text2)">ES</button>
@@ -982,16 +982,7 @@ function setIdioma(lang) {
 }
 
 
-function setLanguage(lang) {
-  currentLang = lang;
-  localStorage.setItem('tew_lang', lang);
-  // Update button styles
-  const enBtn = document.getElementById('lang-en');
-  const esBtn = document.getElementById('lang-es');
-  if (enBtn) { enBtn.style.background = lang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = lang==='en' ? '#fff' : 'var(--text2)'; }
-  if (esBtn) { esBtn.style.background = lang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = lang==='es' ? '#fff' : 'var(--text2)'; }
-  applyLanguage();
-}
+function setLanguage(lang) { setIdioma(lang); }
 
 function applyLanguage() {
   // Tab bar
