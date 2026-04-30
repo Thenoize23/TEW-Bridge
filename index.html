@@ -2381,41 +2381,14 @@ function openInstrumentDetail(key) {
 //  VST / WebSocket
 // ═══════════════════════════════════════════════
 function connectWS() {
-  let ws;
-  try {
-    // Use Render in production, local bridge in development
-    const wsUrl = location.hostname === 'localhost' || location.hostname.match(/^192\./)
-      ? 'ws://' + location.hostname + ':8766'
-      : 'wss://tew-bridge.onrender.com';
-    ws = new WebSocket(wsUrl);
-  } catch(e) { return; }
-
-  ws.onopen = () => {
-    state.wsOn = true;
-    var _sdws = document.getElementById('sdot-ws'); if(_sdws) _sdws.className = 'sdot sdot-g';
-    var _slws = document.getElementById('slbl-ws'); if(_slws) _slws.textContent = 'Connected';
-  };
-
-  ws.onmessage = (e) => {
-    try {
-      const d = JSON.parse(e.data);
-      handleVST(d.rms, d.peak);
-    } catch(_) {}
-  };
-
-  ws.onclose = () => {
-    state.wsOn = state.vstOn = false;
-    var _sdws2=document.getElementById('sdot-ws');if(_sdws2)_sdws2.className='sdot sdot-r';
-    var _slws2=document.getElementById('slbl-ws');if(_slws2)_slws2.textContent='Disconnected';
-    document.getElementById('sdot-vst').className = 'sdot sdot-r';
-    document.getElementById('slbl-vst').textContent = 'Disconnected';
-    document.getElementById('hdr-dot').className  = 'hdr-dot';
-    document.getElementById('hdr-lbl').textContent = 'VST OFFLINE';
-    setTimeout(connectWS, 3000);
-  };
-
-  ws.onerror = () => ws.close();
+  // Only connect when running locally with the bridge
+  const isLocal = ['localhost','127.0.0.1'].includes(location.hostname)
+    || location.hostname.match(/^192\./)
+    || location.hostname.endsWith('.ngrok-free.dev');
+  if (!isLocal) return;
+  // Local connection code would go here
 }
+
 
 function handleVST(rms, peak) {
   state.rms = rms; state.peak = peak;
@@ -2496,7 +2469,7 @@ if (!window._authSignIn) {
   renderProjects();
   renderCharts(null);
 }
-connectWS();
+// connectWS disabled on GitHub Pages
 
 </script>
 
