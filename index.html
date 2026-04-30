@@ -2392,8 +2392,8 @@ function connectWS() {
 
   ws.onopen = () => {
     state.wsOn = true;
-    document.getElementById('sdot-ws').className  = 'sdot sdot-g';
-    document.getElementById('slbl-ws').textContent = 'Connected';
+    var _sdws = document.getElementById('sdot-ws'); if(_sdws) _sdws.className = 'sdot sdot-g';
+    var _slws = document.getElementById('slbl-ws'); if(_slws) _slws.textContent = 'Connected';
   };
 
   ws.onmessage = (e) => {
@@ -2405,8 +2405,8 @@ function connectWS() {
 
   ws.onclose = () => {
     state.wsOn = state.vstOn = false;
-    document.getElementById('sdot-ws').className  = 'sdot sdot-r';
-    document.getElementById('slbl-ws').textContent = 'No connection';
+    var _sdws2=document.getElementById('sdot-ws');if(_sdws2)_sdws2.className='sdot sdot-r';
+    var _slws2=document.getElementById('slbl-ws');if(_slws2)_slws2.textContent='Disconnected';
     document.getElementById('sdot-vst').className = 'sdot sdot-r';
     document.getElementById('slbl-vst').textContent = 'Disconnected';
     document.getElementById('hdr-dot').className  = 'hdr-dot';
