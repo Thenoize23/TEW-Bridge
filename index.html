@@ -2579,5 +2579,43 @@ connectWS();
   </div>
 </div>
 
+
+<script>
+// Login UI functions
+let authMode = 'signin';
+
+function toggleAuthMode() {
+  authMode = authMode === 'signin' ? 'signup' : 'signin';
+  document.getElementById('auth-toggle-text').textContent = 
+    authMode === 'signin' ? "Don't have an account?" : 'Already have an account?';
+  const btn = document.querySelector('#login-modal button');
+  if (btn) btn.textContent = authMode === 'signin' ? 'Sign In' : 'Sign Up';
+}
+
+function showReset() {
+  const email = document.getElementById('login-email').value.trim();
+  if (window._authReset) window._authReset(email);
+}
+
+function submitAuth() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
+  if (!email || !pass) { errEl.textContent = 'Please enter email and password.'; return; }
+  errEl.textContent = '';
+  if (authMode === 'signin') {
+    if (window._authSignIn) window._authSignIn(email, pass);
+  } else {
+    if (window._authSignUp) window._authSignUp(email, pass);
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const ls = document.getElementById('login-modal');
+    if (ls && ls.classList.contains('open')) submitAuth();
+  }
+});
+</script>
 </body>
 </html>
