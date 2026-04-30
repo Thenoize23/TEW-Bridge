@@ -2552,5 +2552,32 @@ connectWS();
     </div>
     
 
+
+<div id="login-modal" class="modal-overlay">
+  <div class="modal" style="max-height:80dvh;overflow-y:auto">
+    <div class="modal-handle"></div>
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:28px;margin-bottom:8px">🎚️</div>
+      <div style="font-size:20px;font-weight:700;color:var(--text)">TEW</div>
+      <div style="font-size:13px;color:var(--text3);margin-top:4px">The Engineer's Workpad</div>
+    </div>
+    <div id="login-error" style="font-size:12px;color:var(--danger);text-align:center;min-height:16px;margin-bottom:8px"></div>
+    <input id="login-email" type="email" placeholder="Email" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--input-bg,var(--panel3));color:var(--text);font-size:14px;font-family:var(--sans);margin-bottom:10px;outline:none"/>
+    <input id="login-pass" type="password" placeholder="Password" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--input-bg,var(--panel3));color:var(--text);font-size:14px;font-family:var(--sans);margin-bottom:14px;outline:none"/>
+    <button onclick="submitAuth()" style="width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-bottom:10px">Sign In</button>
+    <button onclick="window._authGoogle&&window._authGoogle()" style="width:100%;padding:13px;background:var(--panel3);color:var(--text);border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
+      Continue with Google
+    </button>
+    <div style="text-align:center;font-size:13px;color:var(--text3)">
+      <span id="auth-toggle-text">Don't have an account?</span>
+      <button onclick="toggleAuthMode()" style="background:none;border:none;color:var(--accent);font-size:13px;cursor:pointer;font-family:var(--sans);padding:0 4px">Sign Up</button>
+    </div>
+    <div style="text-align:center;margin-top:8px">
+      <button onclick="showReset()" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;font-family:var(--sans)">Forgot password?</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
