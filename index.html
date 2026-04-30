@@ -588,12 +588,26 @@ body {
 
         <!-- STEPS TAB -->
         <div id="inner-steps">
-                 </div>
+        <!-- Meters -->
+        <div class="meters">
+          <div class="meter-card">
+            <div class="meter-lbl">RMS</div>
+            <div class="meter-val" id="m-rms">—</div>
+            <div class="meter-strip"><div class="meter-strip-fill" id="m-rms-f" style="width:0%;background:#1586ec"></div></div>
+          </div>
+          <div class="meter-card">
+            <div class="meter-lbl">Peak</div>
+            <div class="meter-val" id="m-peak">—</div>
+            <div class="meter-strip"><div class="meter-strip-fill" id="m-peak-f" style="width:0%;background:#f59e0b"></div></div>
           </div>
         </div>
 
         <!-- Progress -->
-
+        <div class="prog-row">
+          <span class="prog-label">Stage Progress</span>
+          <span class="prog-pct" id="ws-pct">0%</span>
+        </div>
+        <div class="prog-bar"><div class="prog-fill" id="ws-bar" style="width:0%"></div></div>
 
         <p class="sec-label">Steps</p>
         <div id="steps-list"></div>
@@ -790,6 +804,14 @@ body {
     </div>
     <div id="det-body" style="font-size:14px;line-height:1.65;color:var(--text2);margin-bottom:16px"></div>
     <div style="display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--border);margin-bottom:12px">
+      <div style="flex:1;text-align:center">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:4px">RMS Min</div>
+        <div id="det-rms-min" style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent)">—</div>
+      </div>
+      <div style="flex:1;text-align:center">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:4px">RMS Max</div>
+        <div id="det-rms-max" style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent)">—</div>
+      </div>
     </div>
     <button class="btn-ghost" onclick="closeModal('modal-detail')">Close</button>
   </div>
@@ -860,8 +882,7 @@ if (auth) {
 }
 </script>
 
-<script>if(localStorage.getItem('tew_seen_disclaimer')){var _d=document.getElementById('modal-disclaimer');if(_d)_d.classList.remove('open');}
-
+<script>
 // ── Translations ─────────────────────────────────────
 // ── Skins ────────────────────────────────────────────
 const SKINS = {
@@ -2679,53 +2700,5 @@ document.addEventListener('keydown', e => {
 });
 </script>
 
-
-<div id="modal-disclaimer" class="modal-overlay">
-  <div class="modal" style="max-width:340px;margin:auto">
-    <div class="modal-handle"></div>
-    <div style="font-size:28px;text-align:center;margin-bottom:12px">⚠️</div>
-    <div style="font-size:17px;font-weight:700;color:var(--text);text-align:center;margin-bottom:10px" data-i18n="disclaimerTitle">Before you start</div>
-    <div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px;text-align:center" data-i18n="disclaimerBody">
-      TEW is a guide to help you through the production process. The steps, tips and AI notes are references — not rules. Every track is different. Trust your ears above all.
-    </div>
-    <button onclick="document.getElementById('modal-disclaimer').classList.remove('open');localStorage.setItem('tew_seen_disclaimer','1')"
-      style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)" data-i18n="disclaimerBtn">
-      Got it
-    </button>
-  </div>
-</div>
-
-<div id="modal-disclaimer" class="modal-overlay open">
-  <div class="modal" style="max-width:340px;margin:auto">
-    <div class="modal-handle"></div>
-    <div style="font-size:28px;text-align:center;margin-bottom:12px">⚠️</div>
-    <div style="font-size:17px;font-weight:700;color:var(--text);text-align:center;margin-bottom:10px">Before you start</div>
-    <div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px;text-align:center">TEW is a guide to help you through the production process. The steps, tips and AI notes are references — not rules. Every track is different. Trust your ears above all.</div>
-    <button onclick="document.getElementById('modal-disclaimer').classList.remove('open');localStorage.setItem('tew_seen_disclaimer','1')" style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)">Got it</button>
-  </div>
-</div>
-
-<div id="login-modal" class="modal-overlay">
-  <div class="modal" style="max-height:80dvh;overflow-y:auto">
-    <div class="modal-handle"></div>
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="font-size:28px;margin-bottom:8px">🎚️</div>
-      <div style="font-size:20px;font-weight:700;color:var(--text)">TEW</div>
-      <div style="font-size:13px;color:var(--text3);margin-top:4px">The Engineer's Workpad</div>
-    </div>
-    <div id="login-error" style="font-size:12px;color:var(--danger);text-align:center;min-height:16px;margin-bottom:8px"></div>
-    <input id="login-email" type="email" placeholder="Email" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel3);color:var(--text);font-size:14px;font-family:var(--sans);margin-bottom:10px;outline:none"/>
-    <input id="login-pass" type="password" placeholder="Password" style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel3);color:var(--text);font-size:14px;font-family:var(--sans);margin-bottom:14px;outline:none"/>
-    <button onclick="submitAuth()" style="width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-bottom:10px">Sign In</button>
-    <button onclick="window._authGoogle&&window._authGoogle()" style="width:100%;padding:13px;background:var(--panel3);color:var(--text);border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);margin-bottom:14px">Continue with Google</button>
-    <div style="text-align:center;font-size:13px;color:var(--text3)">
-      <span id="auth-toggle-text">Don't have an account?</span>
-      <button onclick="toggleAuthMode()" style="background:none;border:none;color:var(--accent);font-size:13px;cursor:pointer;font-family:var(--sans);padding:0 4px">Sign Up</button>
-    </div>
-    <div style="text-align:center;margin-top:8px">
-      <button onclick="showReset()" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;font-family:var(--sans)">Forgot password?</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
