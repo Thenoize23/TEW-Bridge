@@ -2055,8 +2055,7 @@ function toggleStep(stepId) {
   }
   saveProjects();
   renderSteps();
-  // Only check completion when ADDING a step (not removing)
-  if (p.stepsDone[p.stage][stepId]) checkStageComplete();
+  checkStageComplete();
   renderLogs();
 }
 
@@ -2734,26 +2733,6 @@ document.addEventListener('keydown', e => {
       style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)">
       Let's go 🎵
     </button>
-  </div>
-</div>
-
-<div id="modal-edit-stages" class="modal-overlay">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Edit Stages</div>
-    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
-      <label style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text);cursor:pointer">
-        <input type="checkbox" id="es-production" style="width:18px;height:18px;accent-color:var(--accent)"> Production
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text);cursor:pointer">
-        <input type="checkbox" id="es-mix" style="width:18px;height:18px;accent-color:var(--accent)"> Mix
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text);cursor:pointer">
-        <input type="checkbox" id="es-mastering" style="width:18px;height:18px;accent-color:var(--accent)"> Mastering
-      </label>
-    </div>
-    <button onclick="saveEditStages()" style="width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-bottom:8px">Save</button>
-    <button class="btn-ghost" onclick="document.getElementById('modal-edit-stages').classList.remove('open')">Cancel</button>
   </div>
 </div>
 </body>
