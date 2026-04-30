@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/png" href="tew-blue-fix.png?v=999">
-  <link rel="manifest" href="manifest.json?v=999">
+  <link rel="icon" id="tew-icon" type="image/png" href="tew-ultra.png?v=500">
+  <script>
+    // Script para evitar que otros scripts cambien el logo
+    const icon = document.getElementById('tew-icon');
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'href' && icon.href.indexOf('tew-ultra') === -1) {
+          icon.href = 'tew-ultra.png?v=500';
+        }
+      });
+    });
+    observer.observe(icon, { attributes: true });
+  </script>
+  
+  
   
   
   
@@ -2568,6 +2581,7 @@ connectWS();
 
 </body>
 </html>
+
 
 
 
