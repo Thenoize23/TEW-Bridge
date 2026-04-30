@@ -1020,6 +1020,10 @@ const STEP_DETAILS = {
   // PRODUCTION
   pr1: { icon:'🎧', detail:'A reference track is one of the most powerful tools in your workflow. Choose a professionally released song in the same genre that represents the sound you want to achieve. Load it into your DAW at a matched loudness level (around −14 LUFS) and use it throughout the session to compare frequency balance, stereo width, dynamics, and overall energy. Your goal is not to copy it — it is to understand the gap between your mix and a finished, commercially polished record.' },
   pr2: { icon:'🎵', detail:'Before placing any element, lock your tempo and musical key into the project settings. Everything you build — drums, bass, chords, melody — will be anchored to these two parameters. Choosing the wrong key or drifting tempo mid-project causes costly rework later. Set BPM in your DAW transport, tune any virtual instruments to the root note, and if you are working with samples, pitch-match them to your key using a pitch detection tool.' },
+  pr2b: {
+    icon: '🗺️',
+    detail: 'Before you build a single sound, map the entire track on paper or a notes app. Write every section in order — Intro, Verse, Build, Drop, Break, Bridge, Outro — and next to each one write one sentence: what emotion does this hit, and what does it do that the section before did not. The intro creates curiosity. The verse builds context. The build creates tension. The drop releases it. The break resets. The bridge adds contrast. The outro closes. If two consecutive sections do the same emotional job, one of them needs to change. This exercise forces every part of the track to earn its place before you spend a single hour producing it. The tracks that hit hardest are the ones where every transition feels inevitable.'
+  },
   pr3: { icon:'🥁', detail:'The drum foundation defines the feel and energy of the entire track. Start with kick and snare placement to establish the groove, then layer in hi-hats, percussion, and any tonal drum elements. Pay close attention to velocity variation — a perfectly quantized grid can sound robotic. Introduce subtle timing shifts and velocity humanization to give the rhythm a natural, breathing feel. Reference your drums against the reference track before adding any other elements.' },
   pr4: { icon:'🎸', detail:'The bassline works in tandem with the kick to form the low-end foundation. Program or play a bass part that complements the kick drum rhythmically — in many modern genres, the kick and bass share the same frequency space, so they need to breathe together. Keep your bassline mono below 80 Hz for maximum translation on all playback systems. Leave headroom at this stage; you will shape the bass further during mixing with sidechain compression and EQ.' },
   pr5: { icon:'🎹', detail:'Chords provide the emotional context and harmonic movement of your track. Choose a progression that supports the mood you want to create and define the tension and resolution points across your arrangement. Try inversions and voicings to avoid frequency clutter — spread chords across the mid and high registers and leave the low end to the bass and kick. Record multiple takes or experiment with different chord voicings before committing.' },
@@ -1073,6 +1077,7 @@ const STEPS_EN = {
   production: [
     { id:'pr1', name:'Reference Track',    desc:'Load a commercial reference to guide your sound',          rmsMin:-30, rmsMax:-12 },
     { id:'pr2', name:'Tempo & Key',         desc:'Lock in BPM and key before building',                      rmsMin:-30, rmsMax:-12 },
+    { id:'pr2b',name:'Section Mapping',      desc:'Sketch every section of the track — intro, verse, build, drop, break, outro. Define what emotion each section should hit and how it contrasts the one before. The more each section earns its place, the more the full track pays off.',  rmsMin:-30, rmsMax:-12 },
     { id:'pr3', name:'Drum Programming',    desc:'Build the rhythmic foundation of the track',               rmsMin:-28, rmsMax:-10 },
     { id:'pr4', name:'Bass Line',           desc:'Establish the low-end groove and root movement',           rmsMin:-26, rmsMax:-10 },
     { id:'pr5', name:'Chord Progression',  desc:'Define the harmonic structure and mood',                   rmsMin:-24, rmsMax:-8  },
@@ -1111,6 +1116,7 @@ const STEPS_ES = {
   production: [
     { id:'pr1', name:'Track de Referencia',   desc:'Carga una referencia comercial para guiar tu sonido',      rmsMin:-30, rmsMax:-12 },
     { id:'pr2', name:'Tempo y Tonalidad',      desc:'Fija el BPM y la tonalidad antes de construir',            rmsMin:-30, rmsMax:-12 },
+    { id:'pr2b',name:'Mapeo de Secciones',   desc:'Esboza cada seccion del track — intro, verso, build, drop, break, outro. Define que emocion debe generar cada seccion y como contrasta con la anterior. Cuanto mas gane su lugar cada parte, mas fuerte sera el impacto de la cancion completa.', rmsMin:-30, rmsMax:-12 },
     { id:'pr3', name:'Programacion Bateria',   desc:'Construye la base ritmica del track',                      rmsMin:-28, rmsMax:-10 },
     { id:'pr4', name:'Linea de Bajo',          desc:'Establece el groove del bajo y el movimiento armonico',    rmsMin:-26, rmsMax:-10 },
     { id:'pr5', name:'Progresion de Acordes',  desc:'Define la estructura armonica y el estado emocional',     rmsMin:-24, rmsMax:-8  },
