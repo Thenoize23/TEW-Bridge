@@ -2055,7 +2055,8 @@ function toggleStep(stepId) {
   }
   saveProjects();
   renderSteps();
-  checkStageComplete();
+  // Only check completion when ADDING a step (not removing)
+  if (p.stepsDone[p.stage][stepId]) checkStageComplete();
   renderLogs();
 }
 
