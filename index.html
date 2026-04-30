@@ -1987,6 +1987,30 @@ function renderSteps() {
     </div>`).join('');
 }
 
+function checkStageComplete() {
+  const p = state.active;
+  if (!p) return;
+  const stage = p.stage;
+  const steps = (typeof STEPS_EN !== 'undefined' ? STEPS_EN : STEPS)[stage] || [];
+  const done  = p.stepsDone && p.stepsDone[stage] ? p.stepsDone[stage] : {};
+  const total = steps.length;
+  const completed = steps.filter(s => done[s.id]).length;
+  if (total > 0 && completed === total) {
+    const stages = { production:'Production', mix:'Mix', mastering:'Mastering' };
+    const msgs = {
+      production: "You've completed Production. Your track has a foundation — time to mix.",
+      mix: "Mix stage complete. Your track is balanced and ready for mastering.",
+      mastering: "Mastering done. Your track is ready for the world. Release it. 🎉"
+    };
+    const titleEl = document.getElementById('complete-title');
+    const bodyEl  = document.getElementById('complete-body');
+    if (titleEl) titleEl.textContent = (stages[stage] || stage) + ' Complete!';
+    if (bodyEl)  bodyEl.textContent  = msgs[stage] || 'All steps completed!';
+    const modal = document.getElementById('modal-complete');
+    if (modal) modal.classList.add('open');
+  }
+}
+
 function toggleStep(stepId) {
   const p     = state.active;
   if (!p) return;
@@ -2012,6 +2036,7 @@ function toggleStep(stepId) {
   }
   saveProjects();
   renderSteps();
+  checkStageComplete();
   renderLogs();
 }
 
@@ -2678,5 +2703,18 @@ document.addEventListener('keydown', e => {
 });
 </script>
 
+
+<div id="modal-complete" class="modal-overlay">
+  <div class="modal" style="max-width:340px;margin:auto;text-align:center">
+    <div class="modal-handle"></div>
+    <div style="font-size:52px;margin-bottom:12px">🏆</div>
+    <div id="complete-title" style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px">Stage Complete!</div>
+    <div id="complete-body" style="font-size:14px;line-height:1.6;color:var(--text2);margin-bottom:20px">You completed all steps. Time to move to the next stage.</div>
+    <button onclick="document.getElementById('modal-complete').classList.remove('open')"
+      style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)">
+      Let's go 🎵
+    </button>
+  </div>
+</div>
 </body>
 </html>
