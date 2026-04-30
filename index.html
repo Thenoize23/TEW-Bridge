@@ -1990,22 +1990,41 @@ function renderSteps() {
 function checkStageComplete() {
   const p = state.active;
   if (!p) return;
-  const stage = p.stage;
-  const steps = (typeof STEPS_EN !== 'undefined' ? STEPS_EN : STEPS)[stage] || [];
-  const done  = p.stepsDone && p.stepsDone[stage] ? p.stepsDone[stage] : {};
-  const total = steps.length;
-  const completed = steps.filter(s => done[s.id]).length;
-  if (total > 0 && completed === total) {
-    const stages = { production:'Production', mix:'Mix', mastering:'Mastering' };
-    const msgs = {
-      production: "You've completed Production. Your track has a foundation — time to mix.",
-      mix: "Mix stage complete. Your track is balanced and ready for mastering.",
-      mastering: "Mastering done. Your track is ready for the world. Release it. 🎉"
-    };
+  const activeStages = p.stages || [p.stage];
+  const allSteps = getSTEPS() || STEPS;
+
+  // Check if ALL active stages are 100% complete
+  let allDone = true;
+  let totalAll = 0, completedAll = 0;
+  for (const st of activeStages) {
+    const stSteps = allSteps[st] || [];
+    const stDone  = (p.stepsDone && p.stepsDone[st]) ? p.stepsDone[st] : {};
+    totalAll    += stSteps.length;
+    completedAll += stSteps.filter(s => stDone[s.id]).length;
+    if (stSteps.length === 0 || stSteps.filter(s => stDone[s.id]).length < stSteps.length) {
+      allDone = false;
+    }
+  }
+
+  if (allDone && totalAll > 0) {
+    // Only show once per project completion
+    const key = 'tew_complete_' + p.id;
+    if (localStorage.getItem(key)) return;
+    localStorage.setItem(key, '1');
+
+    const stageNames = activeStages.map(s => ({production:'Production',mix:'Mix',mastering:'Mastering'}[s]||s)).join(' + ');
     const titleEl = document.getElementById('complete-title');
     const bodyEl  = document.getElementById('complete-body');
-    if (titleEl) titleEl.textContent = (stages[stage] || stage) + ' Complete!';
-    if (bodyEl)  bodyEl.textContent  = msgs[stage] || 'All steps completed!';
+    if (titleEl) titleEl.textContent = stageNames + ' Complete! 🏆';
+    if (bodyEl) {
+      if (activeStages.includes('mastering')) {
+        bodyEl.textContent = "Your track is ready for the world. Mix, master, done. Release it.";
+      } else if (activeStages.includes('mix')) {
+        bodyEl.textContent = "Mix complete. Your track is balanced and ready for the next step.";
+      } else {
+        bodyEl.textContent = "Production complete. Your track has a foundation — time to mix.";
+      }
+    }
     const modal = document.getElementById('modal-complete');
     if (modal) modal.classList.add('open');
   }
