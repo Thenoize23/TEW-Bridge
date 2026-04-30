@@ -581,7 +581,7 @@ body {
         <button id="itab-notes" onclick="switchInnerTab('notes')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
-                 background:transparent;color:rgba(255,255,255,0.45)">Other Notes</button>
+                 background:transparent;color:rgba(255,255,255,0.45)">Custom Notes</button>
       </div>
 
       <div class="ws-body">
@@ -861,7 +861,7 @@ if (auth) {
 }
 </script>
 
-<script>
+<script
 // ── Translations ─────────────────────────────────────
 // ── Skins ────────────────────────────────────────────
 const SKINS = {
@@ -891,7 +891,7 @@ function setSkin(k) {
 const LANG = {
   en: {
     projects:'Projects', charts:'Charts', logs:'Logs', settings:'Settings',
-    steps:'Steps', aiNotes:'AI Notes', otherNotes:'Other Notes',
+    steps:'Steps', aiNotes:'AI Notes', otherNotes:'Custom Notes',
     production:'Production', mix:'Mix', mastering:'Mastering',
     newProject:'New Project', projectName:'Project Name',
     genre:'Genre', subgenre:'Subgenre', bpm:'BPM', key:'Key', mode:'Mode',
@@ -916,7 +916,7 @@ const LANG = {
   },
   es: {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
-    steps:'Pasos', aiNotes:'Notas IA', otherNotes:'Otras Notas',
+    steps:'Pasos', aiNotes:'Notas IA', otherNotes:'Custom Notes',
     production:'Producción', mix:'Mezcla', mastering:'Mastering',
     newProject:'Nuevo Proyecto', projectName:'Nombre del Proyecto',
     genre:'Género', subgenre:'Subgénero', bpm:'BPM', key:'Tonalidad', mode:'Modo',
@@ -2427,6 +2427,7 @@ if (!window._authSignIn) {
   renderCharts(null);
 }
 connectWS();
+
 </script>
 
 
