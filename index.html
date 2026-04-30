@@ -860,7 +860,8 @@ if (auth) {
 }
 </script>
 
-<script>
+<script>if(localStorage.getItem('tew_seen_disclaimer')){var _d=document.getElementById('modal-disclaimer');if(_d)_d.classList.remove('open');}
+
 // ── Translations ─────────────────────────────────────
 // ── Skins ────────────────────────────────────────────
 const SKINS = {
@@ -2678,5 +2679,20 @@ document.addEventListener('keydown', e => {
 });
 </script>
 
+
+<div id="modal-disclaimer" class="modal-overlay open">
+  <div class="modal" style="max-width:340px;margin:auto">
+    <div class="modal-handle"></div>
+    <div style="font-size:28px;text-align:center;margin-bottom:12px">⚠️</div>
+    <div style="font-size:17px;font-weight:700;color:var(--text);text-align:center;margin-bottom:10px" data-i18n="disclaimerTitle">Before you start</div>
+    <div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px;text-align:center" data-i18n="disclaimerBody">
+      TEW is a guide to help you through the production process. The steps, tips and AI notes are references — not rules. Every track is different. Trust your ears above all.
+    </div>
+    <button onclick="document.getElementById('modal-disclaimer').classList.remove('open');localStorage.setItem('tew_seen_disclaimer','1')"
+      style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)" data-i18n="disclaimerBtn">
+      Got it
+    </button>
+  </div>
+</div>
 </body>
 </html>
