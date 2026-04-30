@@ -588,26 +588,9 @@ body {
 
         <!-- STEPS TAB -->
         <div id="inner-steps">
-        <!-- Meters -->
-        <div class="meters">
-          <div class="meter-card">
-            <div class="meter-lbl">RMS</div>
-            <div class="meter-val" id="m-rms">—</div>
-            <div class="meter-strip"><div class="meter-strip-fill" id="m-rms-f" style="width:0%;background:#1586ec"></div></div>
-          </div>
-          <div class="meter-card">
-            <div class="meter-lbl">Peak</div>
-            <div class="meter-val" id="m-peak">—</div>
-            <div class="meter-strip"><div class="meter-strip-fill" id="m-peak-f" style="width:0%;background:#f59e0b"></div></div>
-          </div>
-        </div>
 
-        <!-- Progress -->
-        <div class="prog-row">
-          <span class="prog-label">Stage Progress</span>
-          <span class="prog-pct" id="ws-pct">0%</span>
-        </div>
-        <div class="prog-bar"><div class="prog-fill" id="ws-bar" style="width:0%"></div></div>
+
+
 
         <p class="sec-label">Steps</p>
         <div id="steps-list"></div>
@@ -805,13 +788,9 @@ body {
     <div id="det-body" style="font-size:14px;line-height:1.65;color:var(--text2);margin-bottom:16px"></div>
     <div style="display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--border);margin-bottom:12px">
       <div style="flex:1;text-align:center">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:4px">RMS Min</div>
-        <div id="det-rms-min" style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent)">—</div>
-      </div>
+        
       <div style="flex:1;text-align:center">
-        <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:4px">RMS Max</div>
-        <div id="det-rms-max" style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent)">—</div>
-      </div>
+        
     </div>
     <button class="btn-ghost" onclick="closeModal('modal-detail')">Close</button>
   </div>
@@ -1985,8 +1964,6 @@ function renderSteps() {
   const done      = steps.filter(s => _sd[s.id] === true).length;
   const pct       = getStagePct(p, stage);
 
-  (function(){var _e=document.getElementById('ws-pct');if(_e)_e.textContent=pct+'%';})();
-  (function(){var _e=document.getElementById('ws-bar');if(_e)_e.style.width=pct+'%';})();
   document.getElementById('steps-list').innerHTML = steps.map(s => `
     <div class="step-row ${_sd[s.id] ? 'done' : ''}" id="sr-${s.id}">
       <div class="step-box" onclick="toggleStep('${s.id}')">${_sd[s.id] ? '✔' : ''}</div>
@@ -2389,10 +2366,6 @@ function handleVST(rms, peak) {
   if (sc) sc.textContent = state.count;
 
   // Workspace meters
-  const mr  = document.getElementById('m-rms');
-  const mp  = document.getElementById('m-peak');
-  const mrf = document.getElementById('m-rms-f');
-  const mpf = document.getElementById('m-peak-f');
   if (mr) {
     mr.textContent = rms.toFixed(1)  + ' dB';
     mp.textContent = peak.toFixed(1) + ' dB';
@@ -2569,12 +2542,12 @@ connectWS();
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
       <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
         <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Min</div>
-        <div id="det-rms-min" style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--accent)"></div>
+        
         <div style="font-size:10px;color:var(--text3);margin-top:2px">dBFS</div>
       </div>
       <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
         <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Max</div>
-        <div id="det-rms-max" style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--accent)"></div>
+        
         <div style="font-size:10px;color:var(--text3);margin-top:2px">dBFS</div>
       </div>
     </div>
