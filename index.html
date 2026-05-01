@@ -1567,6 +1567,61 @@ function createProject() {
   showWorkspace(project);
 }
 
+function openEditProject(projectId) {
+  const p = state.projects.find(x => x.id === projectId);
+  if (!p) return;
+  const _s = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+  _s('ep-name',   p.name);
+  _s('ep-bpm',    '');
+  _s('ep-artist', p.artist);
+  const keyParts = (p.key || 'C Major').split(' ');
+  _s('ep-key',  keyParts[0] || 'C');
+  _s('ep-mode', keyParts[1] || 'Major');
+  _s('ep-id',   projectId);
+  // genre select
+  const gEl = document.getElementById('ep-genre');
+  if (gEl) gEl.value = p.genre || gEl.options[0].value;
+  const modal = document.getElementById('modal-edit-proj');
+  if (modal) modal.classList.add('open');
+}
+
+function saveEditProject() {
+  const id = document.getElementById('ep-id').value;
+  const p  = state.projects.find(x => x.id === id);
+  if (!p) return;
+  const name = document.getElementById('ep-name').value.trim();
+  if (!name) { alert('Project name is required'); return; }
+  p.name   = name;
+  p.genre  = document.getElementById('ep-genre').value;
+  p.bpm    = document.getElementById('ep-bpm').value || p.bpm || '—';
+  p.key    = (document.getElementById('ep-key').value || 'C') + ' ' + (document.getElementById('ep-mode').value || 'Major');
+  p.artist = document.getElementById('ep-artist').value.trim();
+  saveProjects();
+  renderProjects();
+  closeModal('modal-edit-proj');
+  if (state.active && state.active.id === id) {
+    const _wn = document.getElementById('ws-name');
+    if (_wn) _wn.textContent = p.name;
+  }
+}
+
+function deleteProject(projectId) {
+  if (!confirm('Delete this project?')) return;
+  state.projects = state.projects.filter(x => x.id !== projectId);
+  if (state.active && state.active.id === projectId) {
+    state.active = null;
+    const ws = document.getElementById('workspace');
+    if (ws) ws.style.display = 'none';
+    const sp = document.getElementById('screen-projects');
+    if (sp) sp.classList.add('active');
+    const fb = document.getElementById('fab');
+    if (fb) fb.style.display = 'flex';
+  }
+  saveProjects();
+  renderProjects();
+  closeModal('modal-edit-proj');
+}
+
 function renderProjects() {
   const list = document.getElementById('proj-list');
   if (!state.projects.length) {
@@ -2350,5 +2405,55 @@ document.addEventListener('keydown', e => {
 });
 </script>
 
+
+<div class="modal-overlay" id="modal-edit-proj">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Edit Project</div>
+    <input type="hidden" id="ep-id">
+    <div class="form-group">
+      <label class="form-label">Project Name</label>
+      <input type="text" class="form-input" id="ep-name" placeholder="My Track">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Genre</label>
+        <select class="form-input" id="ep-genre">
+          <option>Trap</option><option>R&amp;B</option><option>Pop</option>
+          <option>Hip-Hop</option><option>Electronic</option><option>Reggaeton</option>
+          <option>Afrobeats</option><option>Rock</option><option>Jazz</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">BPM</label>
+        <input type="number" class="form-input" id="ep-bpm" min="40" max="300" placeholder="120">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Key</label>
+        <select class="form-input" id="ep-key">
+          <option>C</option><option>C#</option><option>D</option><option>D#</option>
+          <option>E</option><option>F</option><option>F#</option><option>G</option>
+          <option>G#</option><option>A</option><option>A#</option><option>B</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mode</label>
+        <select class="form-input" id="ep-mode">
+          <option>Major</option><option>Minor</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Artist / Composer</label>
+      <input type="text" class="form-input" id="ep-artist" placeholder="Artist name">
+    </div>
+    <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
+    <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px"
+      onclick="deleteProject(document.getElementById('ep-id').value)">Delete Project</button>
+    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancel</button>
+  </div>
+</div>
 </body>
 </html>
