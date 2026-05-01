@@ -554,7 +554,7 @@ body {
     </div>
 
     <!-- WORKSPACE -->
-    <div id="workspace" style="position:relative;z-index:10">
+    <div id="workspace">
       <div class="ws-header">
         <button class="back-btn" onclick="closeWorkspace()">←</button>
         <div style="flex:1;min-width:0">
@@ -1633,18 +1633,16 @@ function getSubgenreValue(prefix) {
   return (document.getElementById(prefix + '-subgenre') || {}).value || '';
 }
 
+
+
+
 function openEditProject(projectId) {
   const p = state.projects.find(x => x.id === projectId);
   if (!p) return;
   document.getElementById('ep-name').value   = p.name   || '';
-  const epGenreInp = document.getElementById('ep-genre');
-  const epSubInp   = document.getElementById('ep-subgenre');
-  if (epGenreInp) epGenreInp.value = p.genre    || '';
-  if (epSubInp)   epSubInp.value   = p.subgenre || '';
-  setTimeout(() => updateSubgenre('ep'), 50);
+  document.getElementById('ep-genre').value  = p.genre  || '';
   document.getElementById('ep-bpm').value    = p.bpm    || '';
   document.getElementById('ep-artist').value = p.artist || '';
-  // Set key/mode
   const keyParts = (p.key || 'C Major').split(' ');
   document.getElementById('ep-key').value  = keyParts[0] || 'C';
   document.getElementById('ep-mode').value = keyParts[1] || 'Major';
@@ -1657,21 +1655,15 @@ function saveEditProject() {
   const p  = state.projects.find(x => x.id === id);
   if (!p) return;
   const name = document.getElementById('ep-name').value.trim();
-  if (!name) { showFormError('proj-error', t('enterName')); return; }
-  if (state.projects.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-    showFormError('proj-error', t('duplicateName'));
-    return;
-  }
+  if (!name) { alert('Enter a project name'); return; }
   p.name   = name;
-  p.genre    = getGenreValue('ep');
-  p.subgenre = getSubgenreValue('ep');
+  p.genre  = document.getElementById('ep-genre').value;
   p.bpm    = document.getElementById('ep-bpm').value || '—';
   p.key    = document.getElementById('ep-key').value + ' ' + document.getElementById('ep-mode').value;
   p.artist = document.getElementById('ep-artist').value.trim();
   saveProjects();
   renderProjects();
   closeModal('modal-edit-proj');
-  // Update workspace header if this is the active project
   if (state.active && state.active.id === id) {
     const _wn = document.getElementById('ws-name');
     if (_wn) _wn.textContent = p.name;
@@ -1685,7 +1677,6 @@ function deleteProject(projectId) {
     var _ws = document.getElementById('workspace');
     if (_ws) _ws.style.display = 'none';
     document.getElementById('screen-projects').classList.add('active');
-    document.querySelector('[data-tab="projects"]').classList.add('active');
     var _fb = document.getElementById('fab'); if(_fb) _fb.style.display = 'flex';
   }
   saveProjects();
@@ -1780,11 +1771,11 @@ function renderProjects() {
     const pct = getProjectPct(p);
     return `
       <div class="card" style="position:relative">
-        <div style="position:absolute;top:12px;right:12px;z-index:1">
+        <div style="position:absolute;top:12px;right:12px;z-index:2">
           <button onclick="event.stopPropagation();openEditProject('${p.id}')"
             style="background:var(--panel3);border:1px solid var(--border);border-radius:8px;
                    width:30px;height:30px;cursor:pointer;color:var(--text2);font-size:14px;
-                   display:flex;align-items:center;justify-content:center">✓</button>
+                   display:flex;align-items:center;justify-content:center">✏️</button>
         </div>
         <div style="cursor:pointer;display:flex;align-items:center;gap:14px;padding:4px 0" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
           <div style="width:52px;height:52px;border-radius:50%;flex-shrink:0;background:${p.artwork ? 'url('+p.artwork+') center/cover' : 'var(--accent)'};display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid rgba(255,255,255,0.1)">${p.artwork ? '' : '🎵'}</div>
@@ -2540,5 +2531,53 @@ document.addEventListener('keydown', e => {
   </div>
 </div>
 
+
+<div class="modal-overlay" id="modal-edit-proj">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Edit Project</div>
+    <input type="hidden" id="ep-id">
+    <div class="form-group">
+      <label class="form-label">Project Name</label>
+      <input type="text" class="form-input" id="ep-name">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Genre</label>
+        <select class="form-input" id="ep-genre">
+          <option>Trap</option><option>R&amp;B</option><option>Pop</option>
+          <option>Hip-Hop</option><option>Electronic</option><option>Reggaeton</option>
+          <option>Afrobeats</option><option>Rock</option><option>Jazz</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">BPM</label>
+        <input type="number" class="form-input" id="ep-bpm" min="40" max="300">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Key</label>
+        <select class="form-input" id="ep-key">
+          <option>C</option><option>C#</option><option>D</option><option>D#</option>
+          <option>E</option><option>F</option><option>F#</option><option>G</option>
+          <option>G#</option><option>A</option><option>A#</option><option>B</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mode</label>
+        <select class="form-input" id="ep-mode"><option>Major</option><option>Minor</option></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Artist / Composer</label>
+      <input type="text" class="form-input" id="ep-artist">
+    </div>
+    <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
+    <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px"
+      onclick="deleteProject(document.getElementById('ep-id').value)">Delete Project</button>
+    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancel</button>
+  </div>
+</div>
 </body>
 </html>
