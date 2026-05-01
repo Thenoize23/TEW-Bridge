@@ -2381,13 +2381,12 @@ function openInstrumentDetail(key) {
 //  VST / WebSocket
 // ═══════════════════════════════════════════════
 function connectWS() {
-  // Only connect when running locally with the bridge
   const isLocal = ['localhost','127.0.0.1'].includes(location.hostname)
-    || location.hostname.match(/^192\./)
+    || /^192\./.test(location.hostname)
     || location.hostname.endsWith('.ngrok-free.dev');
   if (!isLocal) return;
-  // Local connection code would go here
 }
+
 
 
 function handleVST(rms, peak) {
