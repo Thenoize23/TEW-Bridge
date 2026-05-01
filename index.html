@@ -1639,15 +1639,17 @@ function getSubgenreValue(prefix) {
 function openEditProject(projectId) {
   const p = state.projects.find(x => x.id === projectId);
   if (!p) return;
-  document.getElementById('ep-name').value   = p.name   || '';
-  document.getElementById('ep-genre').value  = p.genre  || '';
-  document.getElementById('ep-bpm').value    = p.bpm    || '';
-  document.getElementById('ep-artist').value = p.artist || '';
+  const _set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
+  _set('ep-name',   p.name   || '');
+  _set('ep-genre',  p.genre  || '');
+  _set('ep-bpm',    '');
+  _set('ep-artist', p.artist || '');
   const keyParts = (p.key || 'C Major').split(' ');
-  document.getElementById('ep-key').value  = keyParts[0] || 'C';
-  document.getElementById('ep-mode').value = keyParts[1] || 'Major';
-  document.getElementById('ep-id').value   = projectId;
-  document.getElementById('modal-edit-proj').classList.add('open');
+  _set('ep-key',  keyParts[0] || 'C');
+  _set('ep-mode', keyParts[1] || 'Major');
+  _set('ep-id',   projectId);
+  const modal = document.getElementById('modal-edit-proj');
+  if (modal) modal.classList.add('open');
 }
 
 function saveEditProject() {
