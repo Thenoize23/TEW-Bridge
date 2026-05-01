@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- TEW v2.1 -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,9 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="TEW">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta name="theme-color" content="#0f1f3d">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
 <title>TEW</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -202,7 +204,7 @@ body {
 /* ── Modal ───────────────────────────────────── */
 .modal-overlay {
   display: none;
-  position: fixed; top:0; left:0; right:0; bottom:0; width:100%; height:100%;
+  position: fixed; inset: 0;
   background: rgba(0,0,0,0.55);
   z-index: 100;
   align-items: flex-end;
@@ -465,8 +467,11 @@ body {
 
   <!-- Header -->
   <div id="header">
-    <div class="hdr-logo" style="display:flex;align-items:center;gap:6px"><img src="data:image/png;base64,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" width="28" height="28" style="border-radius:6px">TEW</div>
-
+    <div class="hdr-logo">TEW</div>
+    <div class="hdr-badge">
+      <div class="hdr-dot" id="hdr-dot"></div>
+      <span class="hdr-label" id="hdr-lbl">VST OFFLINE</span>
+    </div>
   </div>
 
   <!-- Content -->
@@ -487,30 +492,31 @@ body {
 
     <!-- LOGS -->
     <div id="screen-logs" class="screen">
-      <p class="sec-label">Progress Logs</p>
+      <p class="sec-label">Registros de Progreso</p>
       <div id="logs-list"></div>
       <div class="spacer"></div>
     </div>
 
     <!-- SETTINGS -->
     <div id="screen-settings" class="screen">
-      <p class="sec-label" id="lbl-appearance">Appearance</p>
+      <p class="sec-label" id="lbl-appearance">Apariencia</p>
       <div class="set-group">
         <div class="set-row">
-          <span class="set-lbl" id="lbl-darkmode">Dark Mode</span>
+          <span class="set-lbl" data-i18n="darkMode">Modo Oscuro</span>
           <label class="toggle">
             <input type="checkbox" id="dark-toggle" onchange="toggleDark(this.checked)">
             <div class="toggle-track"></div>
           </label>
         </div>
         <div class="set-row">
-          <span class="set-lbl" data-i18n="theme">Theme</span></div><div class="set-row"><div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl" data-i18n="language">Language</span>
+          <span class="set-lbl" data-i18n="theme">Tema</span>
+          <div style="display:flex;gap:6px"><button id="skin-tew" onclick="setSkin('tew')" style="border:none;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff">TEW</button><button id="skin-dnoiz3" onclick="setSkin('dnoiz3')" style="border:1px solid #c78a18;border-radius:8px;padding:6px 10px;font-family:var(--sans);font-size:11px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#5f0001,#7d0d0e);color:#c78a18">D'NOIZ3</button></div></div><div class="set-row"><span class="set-lbl" data-i18n="language">Idioma</span>
           <div style="display:flex;gap:6px">
-            <button id="lang-en" onclick="setLanguage('en')"
+            <button id="lang-en" onclick="setIdioma('en')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--accent);color:#fff">EN</button>
-            <button id="lang-es" onclick="setLanguage('es')"
+            <button id="lang-es" onclick="setIdioma('es')"
               style="border:none;border-radius:8px;padding:6px 12px;font-family:var(--sans);
                      font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
                      background:var(--panel3);color:var(--text2)">ES</button>
@@ -518,7 +524,26 @@ body {
         </div>
       </div>
 
-      
+      <p class="sec-label" id="sec-vst" data-i18n="connection">Conexión VST</p>
+      <div class="set-group">
+        <div class="set-row">
+          <span class="set-lbl" data-i18n="vst">Plugin VST3</span>
+          <div class="status-row"><div class="sdot sdot-r" id="sdot-vst"></div><span class="slbl" id="slbl-vst">Disconnected</span></div>
+        </div>
+        <div class="set-row">
+          <span class="set-lbl" data-i18n="vstBridge">WebSocket Bridge</span>
+          <div class="status-row"><div class="sdot sdot-r" id="sdot-ws"></div><span class="slbl" id="slbl-ws">No connection</span></div>
+        </div>
+        <div class="set-row"><span class="set-lbl" data-i18n="vstPort">Puerto UDP</span><span class="set-val">8765</span></div>
+      </div>
+
+      <p class="sec-label" id="sec-metrics" data-i18n="liveMetrics">Métricas en Vivo</p>
+      <div class="set-group">
+        <div class="set-row"><span class="set-lbl">RMS</span><span class="set-val" id="s-rms">—</span></div>
+        <div class="set-row"><span class="set-lbl">Peak</span><span class="set-val" id="s-peak">—</span></div>
+        <div class="set-row"><span class="set-lbl" data-i18n="received">Muestras recibidas</span><span class="set-val" id="s-cnt">0</span></div>
+      </div>
+
       <p class="sec-label">Account</p>
       <div class="set-group">
         <div class="set-row">
@@ -530,24 +555,24 @@ body {
           <div class="status-row"><div class="sdot sdot-y" id="sdot-fb"></div><span class="slbl" id="slbl-fb">Configuring…</span></div>
         </div>
         <div class="set-row" style="cursor:pointer" onclick="if(window._authSignOut){window._authSignOut();}">
-          <span class="set-lbl" style="color:var(--danger)">Sign Out</span>
+          <span class="set-lbl" style="color:var(--danger)">Cerrar Sesión</span>
           <span style="color:var(--danger);font-size:16px">→</span>
         </div>
       </div>
 
-      <p class="sec-label">Project Logs</p>
+      <p class="sec-label" id="sec-projlogs" data-i18n="projectLogs">Registros de Proyecto</p>
       <div class="set-group">
         <div class="set-row" id="clear-logs-row" style="cursor:pointer;display:block;padding:0">
           <div style="padding:14px 16px">
             <div style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px">Clear logs for</div>
             <select class="form-input" id="clear-logs-select" style="margin-bottom:10px" onchange="void(0)">
-              <option value="">— Select project —</option>
+              <option value="">— Selecciona proyecto —</option>
             </select>
-            <button onclick="onClearLogsClick()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Clear Logs &amp; Reset Steps</button>
+            <button onclick="onClearLogsClick()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Limpiar Registros y Resetear</button>
           </div>
         </div>
         <div class="set-row" style="padding:14px 16px;border-top:1px solid var(--border)">
-          <button id="reset-all-btn" onclick="resetAllProjects()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer">Reset All Projects</button>
+          <button id="reset-all-btn" onclick="resetAllProjects()" style="width:100%;background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:11px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer" data-i18n="resetAll">Resetear Todos los Proyectos</button>
         </div>
       </div>
       <div class="spacer"></div>
@@ -569,7 +594,7 @@ body {
       </div>
 
       <!-- Inner tab bar -->
-      <div style="display:flex;gap:4px;background:var(--panel);padding:8px 16px;border-bottom:1px solid var(--border)">
+      <div style="display:flex;gap:0;background:var(--header-bg);padding:0 16px 12px">
         <button id="itab-steps" onclick="switchInnerTab('steps')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
@@ -581,16 +606,16 @@ body {
         <button id="itab-notes" onclick="switchInnerTab('notes')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
-                 background:transparent;color:rgba(255,255,255,0.45)">Custom Notes</button>
+                 background:transparent;color:rgba(255,255,255,0.45)">Other Notes</button>
       </div>
 
       <div class="ws-body">
 
         <!-- STEPS TAB -->
         <div id="inner-steps">
+                 </div>
 
-
-
+        <!-- Progress -->
 
         <p class="sec-label">Steps</p>
         <div id="steps-list"></div>
@@ -611,9 +636,9 @@ body {
         <div id="inner-notes" style="display:none">
           <p class="sec-label">Add Note</p>
           <textarea id="note-input" class="notes-area"
-            placeholder="Write your note here..."
+            data-i18n="writeNote" placeholder="Escribe tu nota aquí..."
             style="width:100%;min-height:100px;margin-bottom:8px"></textarea>
-          <button onclick="addNote()" class="btn-primary" style="margin-bottom:20px">+ Add Note</button>
+          <button onclick="addNote()" class="btn-primary" style="margin-bottom:20px" data-i18n="addNote">+ Agregar Nota</button>
           <p class="sec-label">Your Notes</p>
           <div id="notes-list"></div>
           <div class="spacer"></div>
@@ -635,7 +660,7 @@ body {
           <rect x="12" y="12" width="8" height="8" rx="2.5" fill="currentColor" opacity="0.7"/>
         </svg>
       </div>
-      Projects
+      <span data-i18n="projects">Projects</span>
     </button>
     <button class="tab-btn" data-tab="charts" onclick="switchTab('charts')">
       <div class="tab-icon">
@@ -645,7 +670,7 @@ body {
           <rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor" opacity="0.5"/>
         </svg>
       </div>
-      Charts
+      <span data-i18n="charts">Charts</span>
     </button>
     <button class="tab-btn" data-tab="logs" onclick="switchTab('logs')">
       <div class="tab-icon">
@@ -674,13 +699,13 @@ body {
 <!-- FAB -->
 <button class="fab" id="fab" onclick="openNewProject()">+</button>
 
-<!-- Modal: New Project -->
+<!-- Modal: Nuevo Proyecto -->
 <div class="modal-overlay" id="modal-proj" onclick="void(0)">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">New Project</div>
+    <div class="modal-title" data-i18n="newProject">Nuevo Proyecto</div>
     <div class="form-group">
-      <label class="form-label">Project Name</label>
+      <label class="form-label" data-i18n="projectName">Nombre del Proyecto</label>
       <input type="text" class="form-input" id="f-name" placeholder="e.g. Midnight Sessions Vol.1">
     </div>
     <div class="form-row">
@@ -696,7 +721,7 @@ body {
         </datalist>
       </div>
       <div class="form-group">
-        <label class="form-label">Subgenre <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+        <label class="form-label">Subgenre <span style="color:var(--text3);font-weight:400">(opcional)</span></label>
         <input type="text" class="form-input" id="f-subgenre"
           placeholder="e.g. Progressive House, Melodic Trap..."
           autocomplete="off"
@@ -723,7 +748,7 @@ body {
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">Artist / Composer</label>
+      <label class="form-label" data-i18n="artist">Artista / Compositor</label>
       <input type="text" class="form-input" id="f-artist" placeholder="Artist name">
     </div>
 
@@ -742,15 +767,9 @@ body {
       </div>
     </div>
 
-    <div style="display:flex;justify-content:center;margin-bottom:16px">
-        <div id="f-artwork-preview" onclick="pickArtwork('f')"
-          style="width:80px;height:80px;border-radius:50%;background:var(--panel3);
-                 border:2px dashed var(--border);cursor:pointer;display:flex;
-                 align-items:center;justify-content:center;font-size:28px">🎵</div>
-      </div>
-      <div id="proj-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
-    <button class="btn-primary" onclick="createProject()">Create Project</button>
-    <button class="btn-ghost"    onclick="closeModal('modal-proj')">Cancel</button>
+    <div id="proj-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
+    <button class="btn-primary" onclick="createProject()" data-i18n="create">Crear Proyecto</button>
+    <button class="btn-ghost"    onclick="closeModal('modal-proj')" data-i18n="cancel">Cancelar</button>
   </div>
 </div>
 
@@ -758,61 +777,20 @@ body {
 <div class="modal-overlay" id="modal-stage">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">What stage are you working on?</div>
+    <div class="modal-title"><span data-i18n="stageQuestion">¿En qué etapa trabajas hoy?</span></div>
     <div class="stage-opt" onclick="selectStage('production')">
       <div class="stage-ico ico-prod">🎹</div>
-      <div class="stage-info"><h3>Production</h3><p>Beat structure, arrangement, sound design</p></div>
+      <div class="stage-info"><h3>Production</h3><p>Estructura del beat, arreglos, diseño de sonido</p></div>
     </div>
     <div class="stage-opt" onclick="selectStage('mix')">
-      <div class="stage-ico ico-mix">🎚️</div>
-      <div class="stage-info"><h3>Mix</h3><p>EQ, compression, routing, space</p></div>
+      <div class="stage-ico ico-mix">🎚</div>
+      <div class="stage-info"><h3>Mix</h3><p>EQ, compresión, routing, espacio</p></div>
     </div>
     <div class="stage-opt" onclick="selectStage('mastering')">
-      <div class="stage-ico ico-mast">🏆</div>
-      <div class="stage-info"><h3>Mastering</h3><p>Limiting, LUFS, final export</p></div>
+      <div class="stage-ico ico-mast">💿</div>
+      <div class="stage-info"><h3>Mastering</h3><p>Limitación, LUFS, exportación final</p></div>
     </div>
-    <button class="btn-ghost" onclick="closeModal('modal-stage')">Cancel</button>
-  </div>
-</div>
-
-<div id="modal-detail" class="modal-overlay">
-  <div class="modal" style="max-height:80dvh;overflow-y:auto">
-    <div class="modal-handle"></div>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-      <div id="det-icon" style="font-size:32px">🎵</div>
-      <div style="flex:1">
-        <div id="det-title" style="font-size:18px;font-weight:700;color:var(--text)"></div>
-        <div id="det-stage" style="font-size:12px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px"></div>
-      </div>
-    </div>
-    <div id="det-body" style="font-size:14px;line-height:1.65;color:var(--text2);margin-bottom:16px"></div>
-    <div style="display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--border);margin-bottom:12px">
-      <div style="flex:1;text-align:center">
-        
-      <div style="flex:1;text-align:center">
-        
-    </div>
-    <button class="btn-ghost" onclick="closeModal('modal-detail')">Close</button>
-  </div>
-</div>
-
-<div id="modal-edit-stages" class="modal-overlay">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Edit Stages</div>
-    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
-      <label style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text);cursor:pointer">
-        <input type="checkbox" id="es-production" style="width:18px;height:18px;accent-color:var(--accent)"> Production
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text);cursor:pointer">
-        <input type="checkbox" id="es-mix" style="width:18px;height:18px;accent-color:var(--accent)"> Mix
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:15px;color:var(--text);cursor:pointer">
-        <input type="checkbox" id="es-mastering" style="width:18px;height:18px;accent-color:var(--accent)"> Mastering
-      </label>
-    </div>
-    <button onclick="saveEditStages()" style="width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-bottom:8px">Save</button>
-    <button class="btn-ghost" onclick="closeModal('modal-edit-stages')">Cancel</button>
+    <button class="btn-ghost" onclick="closeModal('modal-stage')" data-i18n="cancel">Cancelar</button>
   </div>
 </div>
 
@@ -883,7 +861,8 @@ if (auth) {
 
 <script>
 // ── Translations ─────────────────────────────────────
-// ── Skins ────────────────────────────────────────────
+
+// Skins
 const SKINS = {
   tew:    { accent:'#1586ec', accent2:'#0ea5e9', tabBg:'#0f1f3d', tabActive:'#1586ec' },
   dnoiz3: { accent:'#c78a18', accent2:'#e6a820', tabBg:'#0f1f3d', tabActive:'#c78a18' },
@@ -902,16 +881,13 @@ function setSkin(k) {
   });
   ['tew','dnoiz3'].forEach(id => {
     const btn = document.getElementById('skin-'+id);
-    if (!btn) return;
-    btn.style.background = id===k ? s.accent : 'var(--panel3)';
-    btn.style.color      = id===k ? '#fff'    : 'var(--text2)';
+    if(btn) { btn.style.background = id===k ? s.accent:'var(--panel3)'; btn.style.color = id===k?'#fff':'var(--text2)'; }
   });
 }
-
 const LANG = {
   en: {
     projects:'Projects', charts:'Charts', logs:'Logs', settings:'Settings',
-    steps:'Steps', aiNotes:'AI Notes', otherNotes:'Custom Notes',
+    steps:'Steps', aiNotes:'AI Notes', otherNotes:'Other Notes',
     production:'Production', mix:'Mix', mastering:'Mastering',
     newProject:'New Project', projectName:'Project Name',
     genre:'Genre', subgenre:'Subgenre', bpm:'BPM', key:'Key', mode:'Mode',
@@ -921,22 +897,25 @@ const LANG = {
     noProjects:'No projects yet', noProjectsSub:'Tap + to create your first project',
     noLogs:'No logs yet', noLogsSub:'Check off steps to start logging',
     addNote:'+ Add Note', writeNote:'Write your note here...', noNotes:'No notes yet',
+    noSteps:'No steps completed yet',
     appearance:'Appearance', darkMode:'Dark Mode', language:'Language', theme:'Theme',
-    account:'Account', signOut:'Sign Out', projectLogs:'Project Logs',
+    vst:'Plugin VST3', vstBridge:'WebSocket Bridge', vstPort:'UDP Port',
+    liveMetrics:'Live Metrics', account:'Account', received:'Samples received',
+    signOut:'Sign Out', projectLogs:'Project Logs',
     clearLogs:'Clear Logs & Reset Steps', resetAll:'Reset All Projects',
+    selectProject:'— Select project —', connection:'VST Connection',
     signIn:'Sign In', signUp:'Sign Up', continueGoogle:'Continue with Google',
     forgotPassword:'Forgot password?', email:'Email', password:'Password',
     vstConnected:'Connected', vstDisconnected:'Disconnected',
     vstLive:'VST LIVE', vstOffline:'VST OFFLINE', noConnection:'No connection',
     duplicateName:'A project with that name already exists.',
     enterName:'Please enter a project name.', selectStage:'Select at least one stage.',
+    stageQuestion:'What stage are you working on?',
     spectrumRef:'Spectrum References', tapToggle:'Tap card to toggle EQ / Pan',
-    connection:'VST Connection', liveMetrics:'Live Metrics', vstBridge:'WebSocket Bridge',
-    vstPort:'UDP Port', received:'Samples received',
   },
   es: {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
-    steps:'Pasos', aiNotes:'Notas IA', otherNotes:'Custom Notes',
+    steps:'Pasos', aiNotes:'Notas IA', otherNotes:'Otras Notas',
     production:'Producción', mix:'Mezcla', mastering:'Mastering',
     newProject:'Nuevo Proyecto', projectName:'Nombre del Proyecto',
     genre:'Género', subgenre:'Subgénero', bpm:'BPM', key:'Tonalidad', mode:'Modo',
@@ -946,48 +925,177 @@ const LANG = {
     noProjects:'Sin proyectos todavía', noProjectsSub:'Toca + para crear tu primer proyecto',
     noLogs:'Sin registros todavía', noLogsSub:'Marca pasos para comenzar',
     addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...', noNotes:'Sin notas todavía',
+    noSteps:'Ningún paso completado todavía',
     appearance:'Apariencia', darkMode:'Modo Oscuro', language:'Idioma', theme:'Tema',
-    account:'Cuenta', signOut:'Cerrar Sesión', projectLogs:'Registros de Proyecto',
+    vst:'Plugin VST3', vstBridge:'Puente WebSocket', vstPort:'Puerto UDP',
+    liveMetrics:'Métricas en Vivo', account:'Cuenta', received:'Muestras recibidas',
+    signOut:'Cerrar Sesión', projectLogs:'Registros de Proyecto',
     clearLogs:'Limpiar Registros y Resetear', resetAll:'Resetear Todos los Proyectos',
+    selectProject:'— Selecciona proyecto —', connection:'Conexión VST',
     signIn:'Iniciar Sesión', signUp:'Registrarse', continueGoogle:'Continuar con Google',
     forgotPassword:'¿Olvidaste tu contraseña?', email:'Correo', password:'Contraseña',
     vstConnected:'Conectado', vstDisconnected:'Desconectado',
     vstLive:'VST EN VIVO', vstOffline:'VST SIN CONEXIÓN', noConnection:'Sin conexión',
     duplicateName:'Ya existe un proyecto con ese nombre.',
     enterName:'Escribe el nombre del proyecto.', selectStage:'Selecciona al menos una etapa.',
+    stageQuestion:'¿En qué etapa trabajas hoy?',
     spectrumRef:'Referencias de Espectro', tapToggle:'Toca la tarjeta para cambiar EQ / Pan',
-    connection:'Conexión VST', liveMetrics:'Métricas en Vivo', vstBridge:'Puente WebSocket',
-    vstPort:'Puerto UDP', received:'Muestras recibidas',
   }
 };
 
 let currentLang = localStorage.getItem('tew_lang') || 'en';
-function t(key) { return (LANG[currentLang]&&LANG[currentLang][key]) || LANG.en[key] || key; }
+function t(key) { return LANG[currentLang][key] || LANG.en[key] || key; }
 
-function applyIdioma() {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    const val = t(key);
-    if (el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder = val;
-    else el.textContent = val;
-  });
-  renderProjects();
-  renderLogs();
-  if (state.active) { renderStageTabs(); renderSteps(); renderAINotes(); renderManualNotes(); }
-}
+// ════════════════════════════════════════════════
+//  STEPS — bilingual
+// ════════════════════════════════════════════════
+const STEPS_EN = {
+  production: [
+    { id:'pr1', name:'Reference Track',     desc:'Load a commercial reference to guide your sound',           rmsMin:-30, rmsMax:-12 },
+    { id:'pr2', name:'Tempo & Key',          desc:'Lock in BPM and musical key before building',               rmsMin:-30, rmsMax:-12 },
+    { id:'pr3', name:'Drum Programming',     desc:'Build the rhythmic foundation of the track',                rmsMin:-28, rmsMax:-10 },
+    { id:'pr4', name:'Bass Line',            desc:'Establish the low-end groove and root movement',            rmsMin:-26, rmsMax:-10 },
+    { id:'pr5', name:'Chord Progression',   desc:'Define the harmonic structure and mood',                    rmsMin:-24, rmsMax:-8  },
+    { id:'pr6', name:'Melody / Lead',        desc:'Create the main melodic or vocal hook element',             rmsMin:-22, rmsMax:-8  },
+    { id:'pr7', name:'Sound Design',         desc:'Shape and refine each sound with processing',               rmsMin:-22, rmsMax:-8  },
+    { id:'pr8', name:'Arrangement',          desc:'Structure intro, verse, chorus, bridge and outro',          rmsMin:-20, rmsMax:-6  },
+    { id:'pr9', name:'Automation',           desc:'Add movement, dynamics and variation over time',            rmsMin:-20, rmsMax:-6  },
+  ],
+  mix: [
+    { id:'mx1', name:'Compose',              desc:'Make sure everything sounds clean before you start',        rmsMin:-24, rmsMax:-14 },
+    { id:'mx2', name:'Organization',         desc:'Label, color-code and group all tracks clearly',            rmsMin:-24, rmsMax:-14 },
+    { id:'mx3', name:'Routing I/O',          desc:'Set up buses, sends and returns correctly',                 rmsMin:-22, rmsMax:-12 },
+    { id:'mx4', name:'Sends/Aux Channels',   desc:'Configure reverb, delay and parallel channels',            rmsMin:-22, rmsMax:-12 },
+    { id:'mx5', name:'EQ',                   desc:'Cut problem frequencies, shape tonal balance',              rmsMin:-20, rmsMax:-10 },
+    { id:'mx6', name:'Gain Staging',         desc:'Target -18 dBFS RMS per channel for headroom',             rmsMin:-20, rmsMax:-16 },
+    { id:'mx7', name:'Compression',          desc:'Control dynamics and glue elements together',               rmsMin:-18, rmsMax:-8  },
+    { id:'mx8', name:'Delay',                desc:'Add rhythmic space and depth with delay effects',           rmsMin:-18, rmsMax:-8  },
+    { id:'mx9', name:'Saturation',           desc:'Add harmonic warmth if needed — subtle is key',            rmsMin:-16, rmsMax:-6  },
+  ],
+  mastering: [
+    { id:'ms1', name:'Reference Track',      desc:'Compare against a commercial master at matched loudness',   rmsMin:-16, rmsMax:-10 },
+    { id:'ms2', name:'Gain Staging',         desc:'Set input gain so the chain has proper headroom',           rmsMin:-16, rmsMax:-10 },
+    { id:'ms3', name:'EQ',                   desc:'Broad tonal shaping — subtle moves of 1-2 dB max',         rmsMin:-14, rmsMax:-8  },
+    { id:'ms4', name:'Compressor',           desc:'Glue the master: ratio 2:1, slow attack, mid release',      rmsMin:-14, rmsMax:-8  },
+    { id:'ms5', name:'Stereo Enhancement',   desc:'Widen highs, keep lows mono for translation',              rmsMin:-12, rmsMax:-6  },
+    { id:'ms6', name:'Saturation',           desc:'Add analog character and perceived loudness',               rmsMin:-12, rmsMax:-6  },
+    { id:'ms7', name:'Limiter',              desc:'Set true peak ceiling at -1 dBTP, target your LUFS',       rmsMin:-10, rmsMax:-2  },
+    { id:'ms8', name:'LUFS Check',           desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',            rmsMin:-10, rmsMax:-2  },
+    { id:'ms9', name:'Dithering',            desc:'Apply TPDF dither when reducing to 16-bit',                rmsMin:-10, rmsMax:-2  },
+    { id:'ms10',name:'Final Export',         desc:'Export WAV 24-bit 44.1kHz per platform spec',              rmsMin:-10, rmsMax:-2  },
+  ],
+};
+
+const STEPS_ES = {
+  production: [
+    { id:'pr1', name:'Track de Referencia',    desc:'Carga una referencia comercial para guiar tu sonido',       rmsMin:-30, rmsMax:-12 },
+    { id:'pr2', name:'Tempo y Tonalidad',       desc:'Fija el BPM y la tonalidad antes de construir',             rmsMin:-30, rmsMax:-12 },
+    { id:'pr3', name:'Programacion de Bateria', desc:'Construye la base ritmica del track',                       rmsMin:-28, rmsMax:-10 },
+    { id:'pr4', name:'Linea de Bajo',           desc:'Establece el groove del bajo y el movimiento armonico',     rmsMin:-26, rmsMax:-10 },
+    { id:'pr5', name:'Progresion de Acordes',   desc:'Define la estructura armonica y el estado emocional',      rmsMin:-24, rmsMax:-8  },
+    { id:'pr6', name:'Melodia / Lead',          desc:'Crea el gancho melodico o vocal principal',                 rmsMin:-22, rmsMax:-8  },
+    { id:'pr7', name:'Diseno de Sonido',        desc:'Da forma a cada sonido con procesamiento creativo',         rmsMin:-22, rmsMax:-8  },
+    { id:'pr8', name:'Arreglos',                desc:'Estructura intro, verso, coro, bridge y outro',            rmsMin:-20, rmsMax:-6  },
+    { id:'pr9', name:'Automatizacion',          desc:'Agrega movimiento, dinamica y variacion en el tiempo',     rmsMin:-20, rmsMax:-6  },
+  ],
+  mix: [
+    { id:'mx1', name:'Composicion',             desc:'Asegurate de que todo suene limpio antes de mezclar',      rmsMin:-24, rmsMax:-14 },
+    { id:'mx2', name:'Organizacion',            desc:'Etiqueta, colorea y agrupa todos los canales claramente',  rmsMin:-24, rmsMax:-14 },
+    { id:'mx3', name:'Routing I/O',             desc:'Configura buses, envios y retornos correctamente',         rmsMin:-22, rmsMax:-12 },
+    { id:'mx4', name:'Canales Aux',             desc:'Configura reverb, delay y canales paralelos',             rmsMin:-22, rmsMax:-12 },
+    { id:'mx5', name:'EQ',                      desc:'Corta frecuencias problematicas y da forma tonal',         rmsMin:-20, rmsMax:-10 },
+    { id:'mx6', name:'Gain Staging',            desc:'Objetivo -18 dBFS RMS por canal para headroom',           rmsMin:-20, rmsMax:-16 },
+    { id:'mx7', name:'Compresion',              desc:'Controla la dinamica y une los elementos de la mezcla',   rmsMin:-18, rmsMax:-8  },
+    { id:'mx8', name:'Delay',                   desc:'Agrega espacio ritmico y profundidad con delay',           rmsMin:-18, rmsMax:-8  },
+    { id:'mx9', name:'Saturacion',              desc:'Agrega calidez armonica si es necesario - se sutil',      rmsMin:-16, rmsMax:-6  },
+  ],
+  mastering: [
+    { id:'ms1', name:'Track de Referencia',     desc:'Compara con un master comercial a igual loudness',         rmsMin:-16, rmsMax:-10 },
+    { id:'ms2', name:'Gain Staging',            desc:'Ajusta la ganancia de entrada para headroom suficiente',   rmsMin:-16, rmsMax:-10 },
+    { id:'ms3', name:'EQ',                      desc:'Ajustes tonales suaves - maximo 1-2 dB',                  rmsMin:-14, rmsMax:-8  },
+    { id:'ms4', name:'Compresor',               desc:'Glue: ratio 2:1, ataque lento, release medio',             rmsMin:-14, rmsMax:-8  },
+    { id:'ms5', name:'Mejora Estereo',          desc:'Amplia agudos, manten graves en mono',                    rmsMin:-12, rmsMax:-6  },
+    { id:'ms6', name:'Saturacion',              desc:'Agrega caracter analogico y loudness percibida',           rmsMin:-12, rmsMax:-6  },
+    { id:'ms7', name:'Limitador',               desc:'Ceiling -1 dBTP, alcanza tu objetivo de LUFS',            rmsMin:-10, rmsMax:-2  },
+    { id:'ms8', name:'Revision de LUFS',        desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',           rmsMin:-10, rmsMax:-2  },
+    { id:'ms9', name:'Dithering',               desc:'Aplica dither TPDF al reducir a 16 bits',                 rmsMin:-10, rmsMax:-2  },
+    { id:'ms10',name:'Exportacion Final',       desc:'Exporta WAV 24-bit 44.1kHz por specs de la plataforma',   rmsMin:-10, rmsMax:-2  },
+  ],
+};
+
+function getSTEPS() { return currentLang === 'es' ? STEPS_ES : STEPS_EN; }
+const STEPS = new Proxy({}, { get: (_, k) => getSTEPS()[k] });
+
+// ════════════════════════════════════════════════
+//  STEP_DETAILS — bilingual  
+// ════════════════════════════════════════════════
+const STEP_DETAILS_EN2 = {
+  pr1:{icon:'🎧',detail:'A reference track is one of the most powerful tools in your workflow. Choose a professionally released song in the same genre that represents the sound you want to achieve. Load it at matched loudness (around -14 LUFS) and use it throughout the session to compare frequency balance, stereo width, dynamics, and overall energy.'},
+  pr2:{icon:'🎵',detail:'Before placing any element, lock your tempo and musical key. Everything you build will be anchored to these two parameters. Choosing the wrong key or drifting tempo mid-project causes costly rework. Set BPM in your DAW transport and tune all virtual instruments to the root note.'},
+  pr3:{icon:'🥁',detail:'The drum foundation defines the feel and energy of the entire track. Start with kick and snare placement, then layer hi-hats and percussion. Introduce subtle velocity variation and timing shifts to give the rhythm a natural, breathing feel — a perfectly quantized grid sounds robotic.'},
+  pr4:{icon:'🎸',detail:'The bassline works in tandem with the kick to form the low-end foundation. Keep it mono below 80 Hz for maximum translation on all playback systems. Leave headroom at this stage — you will shape the bass further during mixing with sidechain compression and EQ.'},
+  pr5:{icon:'🎹',detail:'Chords provide the emotional context and harmonic movement of your track. Try inversions and voicings to avoid frequency clutter — spread chords across the mid and high registers and leave the low end to the bass and kick.'},
+  pr6:{icon:'🎤',detail:'The lead melody or vocal hook is what listeners will remember. Write or record the melody with the chord progression playing so it feels harmonically connected. Consider the phrasing — where the melody breathes and rests is just as important as the notes themselves.'},
+  pr7:{icon:'🔊',detail:'Sound design is where your track gets its unique character. Use synthesis, sampling, resampling, and processing to sculpt each element. Remove unwanted frequencies at the source before they become problems in the mix.'},
+  pr8:{icon:'📐',detail:'Arrangement is the architecture of your track. Map out your sections (intro, verse, chorus, bridge, outro) and make sure each one has a clear purpose. Use element additions and removals, filter sweeps, and volume automation to create natural transitions.'},
+  pr9:{icon:'📈',detail:'Automation transforms a static mix into a living, evolving track. Add volume automation for dynamics, filter automation for tension and release, and effect parameter automation for movement. Focus on macro automation that shapes the energy of entire sections.'},
+  mx1:{icon:'👂',detail:'Before touching a fader or plugin, listen to the raw session from start to finish. Take notes on obvious problems — levels, frequency clashes, timing issues. Make sure all clips are trimmed cleanly and all tracks are properly named and organized.'},
+  mx2:{icon:'🗂️',detail:'Professional mixing starts with a professional session layout. Color-code tracks by category — drums, bass, keys, guitars, vocals, FX. Group related tracks into buses so you can process them together efficiently. A well-organized session saves hours and keeps your ears fresh.'},
+  mx3:{icon:'🔌',detail:'Routing is the backbone of your mix infrastructure. Every track should feed into an appropriate group bus, and every bus should route to the master fader through a clear, logical signal chain. Verify that no signal is accidentally double-routed or missing from the master output.'},
+  mx4:{icon:'🎛️',detail:'Send channels allow you to apply a single reverb or delay to multiple tracks simultaneously, saving CPU and creating a cohesive sense of space. Create at least one room reverb send, one hall send for leads and vocals, and one tempo-synced delay. Set each return to 100% wet.'},
+  mx5:{icon:'🎚️',detail:'EQ is your primary tool for creating separation and clarity. First, high-pass filter every track that does not need low-end energy. Then identify and cut narrow problem resonances. Each instrument should occupy its own frequency zone so the mix translates clearly on any speaker system.'},
+  mx6:{icon:'📊',detail:'Gain staging means managing signal levels throughout your entire chain. Target approximately -18 dBFS RMS per channel — this gives you consistent headroom, keeps plugins operating in their optimal range, and ensures your master bus receives a clean signal.'},
+  mx7:{icon:'⚙️',detail:'Compression controls dynamic range and helps elements sit together as a cohesive mix. For transient elements like drums use faster attack times. For sustained elements like pads and vocals use slower attacks to preserve the natural transient feel. Use parallel compression to retain punch while achieving density.'},
+  mx8:{icon:'🔁',detail:'Delay adds rhythmic interest, depth, and space without muddying the low-end. Sync delay times to the project tempo. Use high-pass and low-pass filters on delay returns to prevent repeats from cluttering the frequency range of the dry signal.'},
+  mx9:{icon:'🔥',detail:'Saturation adds even-order harmonic distortion that mimics the warmth of analog equipment. Used subtly, it adds perceived loudness and glues elements together. Apply to the drum bus for cohesion, to the bass for harmonics on small speakers, and sparingly to synths and vocals for character.'},
+  ms1:{icon:'🎧',detail:'Your reference track is the most important tool in mastering. Choose a commercially released master in the same genre. Match its loudness using a LUFS meter before comparing. Listen critically to the low-end balance, high-frequency air, stereo width, and overall density.'},
+  ms2:{icon:'📊',detail:'Before any mastering processing, set the input gain so the loudest section peaks between -6 and -3 dBFS. This gives your entire chain sufficient headroom to operate cleanly. Avoid pushing the gain to make it sound louder at this point — loudness comes at the end through the limiter.'},
+  ms3:{icon:'🎚️',detail:'Mastering EQ is about broad, gentle tonal shaping — not corrective surgery. Make final adjustments of 1 to 2 dB using wide, musical curves. A gentle high shelf boost above 12 kHz adds air and presence. Use linear phase EQ to avoid phase artifacts in the full-mix context.'},
+  ms4:{icon:'⚙️',detail:'A mastering compressor at 2:1 ratio with slow attack and medium release acts as glue that unifies the stereo mix. Set the attack slow enough (30-50ms) that transients pass through unaffected. Aim for 2 to 4 dB of gain reduction on average — more than 6 dB will audibly squash the dynamics.'},
+  ms5:{icon:'↔️',detail:'Stereo enhancement must be applied carefully. Use a mid/side processor to boost high-frequency content in the side channel for width. Never widen sub frequencies — bass below 120 Hz must remain mono for reliable translation. Check mono compatibility with a correlation meter.'},
+  ms6:{icon:'🔥',detail:'A tape saturator or harmonic exciter adds analog warmth and increases perceived loudness without reducing dynamic range. Drive it gently so it adds harmonic content without obvious distortion. The effect should be felt rather than heard. Bypass and compare carefully to confirm the improvement.'},
+  ms7:{icon:'🔒',detail:'The limiter is the final and most critical stage. Set your true peak ceiling to -1 dBTP to prevent intersample peaks from clipping during encoding to MP3 or AAC. Watch your gain reduction — if the limiter works more than 3-4 dB consistently, your mix needs more dynamic control before mastering.'},
+  ms8:{icon:'📏',detail:'Integrated LUFS is the global standard for streaming loudness normalization. Spotify targets -14 LUFS, Apple Music -16 LUFS, YouTube -14 LUFS. If you deliver louder than the platform target, it will be turned down automatically. Measure the full track from start to finish using an integrated loudness meter.'},
+  ms9:{icon:'🎛️',detail:'Dithering is required when reducing bit depth from 24-bit to 16-bit. Without dither, bit-depth reduction introduces quantization distortion. TPDF dither adds a small amount of random noise that masks this distortion. Apply dithering only once, as the very last process in your chain.'},
+  ms10:{icon:'📦',detail:'The final export is your deliverable to the world. Export a 24-bit 44.1 kHz WAV file for streaming distribution. For CD duplication, export 16-bit 44.1 kHz WAV with dither applied. Name your files clearly with the artist name, track title, and format specification.'},
+};
+
+const STEP_DETAILS_ES2 = {
+  pr1:{icon:'🎧',detail:'El track de referencia es una de las herramientas mas poderosas en tu flujo de trabajo. Elige una cancion publicada profesionalmente en el mismo genero que representa el sonido que quieres lograr. Cargala a loudness igualado (alrededor de -14 LUFS) y usala durante toda la sesion para comparar balance de frecuencias, amplitud estereo, dinamica y energia general.'},
+  pr2:{icon:'🎵',detail:'Antes de colocar cualquier elemento, fija el tempo y la tonalidad en la configuracion del proyecto. Todo lo que construyas estara anclado a estos dos parametros. Elegir la tonalidad incorrecta o derivar el tempo a mitad del proyecto genera retrabajos costosos. Ajusta el BPM en el transporte del DAW y afina todos los instrumentos virtuales a la nota raiz.'},
+  pr3:{icon:'🥁',detail:'La base de bateria define el groove y la energia de todo el track. Comienza con el kick y el snare para establecer el pulso, luego agrega hi-hats y percusion. Introduce variaciones sutiles de velocidad y timing para dar una sensacion natural y respirada al ritmo — una cuadricula perfectamente cuantizada suena robotica.'},
+  pr4:{icon:'🎸',detail:'El bassline trabaja junto al kick para formar la base de bajos. Mantenlo en mono por debajo de 80 Hz para maxima traslacion en todos los sistemas de reproduccion. Deja headroom en esta etapa — daras forma al bajo durante la mezcla con compresion sidechain y EQ.'},
+  pr5:{icon:'🎹',detail:'Los acordes proveen el contexto emocional y el movimiento armonico de tu track. Prueba inversiones y voicings para evitar la saturacion de frecuencias — distribuye los acordes en el registro medio y agudo y deja el extremo grave para el bajo y el kick.'},
+  pr6:{icon:'🎤',detail:'La melodia lead o el gancho vocal es lo que los oyentes recordaran. Escribe o graba la melodia con la progresion de acordes sonando para que se sienta conectada armonicamente. El fraseo es tan importante como las notas mismas — donde respira y descansa la melodia define su caracter.'},
+  pr7:{icon:'🔊',detail:'El diseno de sonido es donde tu track obtiene su caracter unico. Usa sintesis, sampling, resampling y procesamiento para esculpir cada elemento. Elimina frecuencias no deseadas en la fuente antes de que se conviertan en problemas durante la mezcla.'},
+  pr8:{icon:'📐',detail:'El arreglo es la arquitectura de tu track. Mapea tus secciones (intro, verso, coro, bridge, outro) y asegurate de que cada una tenga un proposito claro. Usa adiciones y retiros de elementos, sweeps de filtro y automatizacion de volumen para crear transiciones naturales.'},
+  pr9:{icon:'📈',detail:'La automatizacion transforma una mezcla estatica en un track vivo y en evolucion. Agrega automatizacion de volumen para crear dinamica, de filtros para construir y liberar tension, y de parametros de efectos para agregar movimiento e interes. Enfocate en la automatizacion macro que da forma a la energia de secciones enteras.'},
+  mx1:{icon:'👂',detail:'Antes de tocar un solo fader o plugin, sientate y escucha la sesion cruda de principio a fin. Toma notas sobre problemas obvios — niveles, frecuencias que chocan, problemas de timing. Asegurate de que todos los clips esten limpios y que todas las pistas esten nombradas y organizadas correctamente.'},
+  mx2:{icon:'🗂️',detail:'La mezcla profesional comienza con una sesion profesional. Colorea tus canales por categoria — bateria, bajo, teclados, guitarras, vocales, FX. Agrupa los canales relacionados en buses para procesarlos juntos de manera eficiente. Una sesion bien organizada ahorra horas y mantiene tus oidos frescos para las decisiones creativas.'},
+  mx3:{icon:'🔌',detail:'El routing es la columna vertebral de tu infraestructura de mezcla. Cada canal debe alimentar un bus de grupo apropiado, y cada bus debe ir al fader master a traves de una cadena de senal clara y logica. Verifica que ninguna senal este doblemente ruteada o ausente de la salida master.'},
+  mx4:{icon:'🎛️',detail:'Los canales de envio te permiten aplicar un solo reverb o delay a multiples canales simultaneamente, ahorrando CPU y creando un sentido coherente de espacio. Crea al menos un envio de reverb de sala, uno de sala grande para leads y vocales, y uno de delay sincronizado al tempo. Ajusta cada retorno al 100% humedo.'},
+  mx5:{icon:'🎚️',detail:'El EQ es tu herramienta principal para crear separacion y claridad. Primero, aplica un filtro pasa-altos en cada canal que no necesite energia sub. Luego identifica y corta resonancias problematicas. Cada instrumento debe ocupar su propia zona de frecuencias para que la mezcla se traduzca claramente en cualquier sistema de reproduccion.'},
+  mx6:{icon:'📊',detail:'El gain staging es la disciplina de gestionar los niveles de senal a traves de toda tu cadena. Apunta a aproximadamente -18 dBFS RMS por canal — esto te da headroom consistente, mantiene tus plugins operando en su rango optimo y asegura que tu bus master reciba una senal limpia.'},
+  mx7:{icon:'⚙️',detail:'La compresion controla el rango dinamico de los elementos individuales y ayuda a que se asienten juntos como una mezcla cohesiva. Para elementos transitorios como bateria usa ataques rapidos. Para elementos sostenidos como pads y vocales usa ataques lentos para preservar el transitorio natural.'},
+  mx8:{icon:'🔁',detail:'El delay agrega interes ritmico, profundidad y espacio sin ensuciar el extremo bajo. Sincroniza tus tiempos de delay al tempo del proyecto. Usa filtros pasa-altos y pasa-bajos en tus retornos de delay para evitar que las repeticiones ensucien el rango de frecuencias de la senal seca.'},
+  mx9:{icon:'🔥',detail:'La saturacion agrega distorsion armonica de orden par que imita la calidez del equipo analogico. Usada sutilmente, agrega loudness percibida y une elementos. Aplicala al bus de bateria para cohesion, al bajo para armonicos en bocinas pequenas, y con moderacion a sintetizadores y vocales para caracter.'},
+  ms1:{icon:'🎧',detail:'Tu track de referencia es la herramienta mas importante en el mastering. Elige un master publicado comercialmente en el mismo genero. Iguala su loudness usando un medidor de LUFS antes de comparar. Escucha criticamente el balance del extremo bajo, el aire en frecuencias altas, la amplitud estereo y la densidad general.'},
+  ms2:{icon:'📊',detail:'Antes de cualquier procesamiento de mastering, ajusta la ganancia de entrada para que la seccion mas fuerte del track alcance entre -6 y -3 dBFS. Esto le da a toda tu cadena headroom suficiente para operar limpiamente. Evita empujar la ganancia para que suene mas fuerte en este punto — la loudness llega al final a traves del limitador.'},
+  ms3:{icon:'🎚️',detail:'El EQ de mastering se trata de dar forma tonal amplia y suave — no de cirugia correctiva. Haz ajustes finales de 1 a 2 dB usando curvas amplias y musicales. Un boost suave de shelf alto por encima de 12 kHz agrega aire y presencia. Usa EQ de fase lineal para evitar artefactos de fase en el contexto de la mezcla completa.'},
+  ms4:{icon:'⚙️',detail:'Un compresor de mastering a ratio 2:1 con ataque lento y release medio actua como pegamento que une la mezcla estereo. Ajusta el ataque lo suficientemente lento (30-50ms) para que los transitorios pasen sin afectarse. Apunta a 2-4 dB de reduccion de ganancia en promedio — mas de 6 dB aplastara la dinamica visiblemente.'},
+  ms5:{icon:'↔️',detail:'La mejora estereo debe aplicarse con cuidado. Usa un procesador mid/side para impulsar el contenido de alta frecuencia del canal lateral. Nunca amplies las frecuencias sub — el bajo por debajo de 120 Hz debe permanecer en mono para una traslacion confiable en todos los sistemas de reproduccion.'},
+  ms6:{icon:'🔥',detail:'Un saturador de cinta o excitador armonico agrega calidez analogica y aumenta la loudness percibida sin reducir el rango dinamico. Impulsa el saturador suavemente para que agregue contenido armonico sin distorsion obvia — el efecto debe sentirse mas que escucharse. Compara con el plugin desactivado para confirmar la mejora.'},
+  ms7:{icon:'🔒',detail:'El limitador es la etapa final y mas critica. Ajusta tu ceiling de true peak a -1 dBTP para prevenir picos entre muestras que recorten durante la codificacion a MP3 o AAC. Si el limitador trabaja mas de 3-4 dB consistentemente, tu mezcla necesita mas control dinamico antes del mastering.'},
+  ms8:{icon:'📏',detail:'Los LUFS integrados son el estandar global para la normalizacion de loudness en plataformas de streaming. Spotify apunta a -14 LUFS, Apple Music a -16 LUFS, YouTube a -14 LUFS. Si entregas mas alto que el objetivo de la plataforma, lo bajaran automaticamente reduciendo la calidad percibida.'},
+  ms9:{icon:'🎛️',detail:'El dithering es necesario al reducir la profundidad de bits de 24 a 16 bits. Sin dither, la reduccion introduce distorsion de cuantizacion — un artefacto digital aspero. El dither TPDF agrega una pequena cantidad de ruido aleatorio que enmascara esta distorsion. Aplicalo solo una vez, como el ultimo proceso en tu cadena.'},
+  ms10:{icon:'📦',detail:'La exportacion final es tu entregable al mundo. Exporta WAV de 24 bits 44.1 kHz para distribucion en streaming. Para duplicacion de CD, exporta WAV de 16 bits 44.1 kHz con dither aplicado. Nombra tus archivos claramente con el nombre del artista, titulo de la pista y especificacion de formato.'},
+};
+
+function getSTEP_DETAILS2() { return currentLang === 'es' ? STEP_DETAILS_ES2 : STEP_DETAILS_EN2; }
+const STEP_DETAILS = new Proxy({}, { get: (_, k) => getSTEP_DETAILS2()[k] });
+
 
 function setIdioma(lang) {
-  currentLang = lang;
-  localStorage.setItem('tew_lang', lang);
-  ['en','es'].forEach(l => {
-    const btn = document.getElementById('lang-'+l);
-    if (btn) { btn.style.background = l===lang?'var(--accent)':'var(--panel3)'; btn.style.color = l===lang?'#fff':'var(--text2)'; }
-  });
-  applyIdioma();
-}
-
-
-function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('tew_lang', lang);
   // Update button styles
@@ -998,9 +1106,36 @@ function setLanguage(lang) {
   applyIdioma();
 }
 
-function applyLanguage() {
-  applyIdioma();
+function applyIdioma() {
+  // Update every element that has data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = val;
+    } else {
+      el.textContent = val;
+    }
+  });
+  // Update data-i18n-html (for elements with inner HTML)
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    el.title = t(el.getAttribute('data-i18n-title'));
+  });
+  // VST live status (dynamic — override with current state)
+  if (hdrLbl) hdrLbl.textContent = state.vstOn ? t('vstLive') : t('vstOffline');
+  if (slblVst) slblVst.textContent = state.vstOn ? t('vstConnected') : t('vstDisconnected');
+  if (slblWs)  slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
+  // Re-render dynamic lists
+  renderProjects();
+  renderLogs();
+  if (state.active) {
+    renderStageTabs();
+    renderSteps();
+    renderAINotes();
+    renderManualNotes();
+  }
 }
+
 
 function getProjectPct(p) {
   const stages = Array.isArray(p.stages) && p.stages.length ? p.stages : ['mix'];
@@ -1032,174 +1167,16 @@ function safeEl(id) {
 
 
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  DATA — Steps per stage
-// ═══════════════════════════════════════════════
-
-const STEP_DETAILS = {
-  // PRODUCTION
-  pr1: { icon:'🎧', detail:'A reference track is one of the most powerful tools in your workflow. Choose a professionally released song in the same genre that represents the sound you want to achieve. Load it into your DAW at a matched loudness level (around −14 LUFS) and use it throughout the session to compare frequency balance, stereo width, dynamics, and overall energy. Your goal is not to copy it — it is to understand the gap between your mix and a finished, commercially polished record.' },
-  pr2: { icon:'🎵', detail:'Before placing any element, lock your tempo and musical key into the project settings. Everything you build — drums, bass, chords, melody — will be anchored to these two parameters. Choosing the wrong key or drifting tempo mid-project causes costly rework later. Set BPM in your DAW transport, tune any virtual instruments to the root note, and if you are working with samples, pitch-match them to your key using a pitch detection tool.' },
-  pr2b: {
-    icon: '🗺️',
-    detail: 'Before you build a single sound, map the entire track on paper or a notes app. Write every section in order — Intro, Verse, Build, Drop, Break, Bridge, Outro — and next to each one write one sentence: what emotion does this hit, and what does it do that the section before did not. The intro creates curiosity. The verse builds context. The build creates tension. The drop releases it. The break resets. The bridge adds contrast. The outro closes. If two consecutive sections do the same emotional job, one of them needs to change. This exercise forces every part of the track to earn its place before you spend a single hour producing it. The tracks that hit hardest are the ones where every transition feels inevitable.'
-  },
-  pr3: { icon:'🥁', detail:'The drum foundation defines the feel and energy of the entire track. Start with kick and snare placement to establish the groove, then layer in hi-hats, percussion, and any tonal drum elements. Pay close attention to velocity variation — a perfectly quantized grid can sound robotic. Introduce subtle timing shifts and velocity humanization to give the rhythm a natural, breathing feel. Reference your drums against the reference track before adding any other elements.' },
-  pr4: { icon:'🎸', detail:'The bassline works in tandem with the kick to form the low-end foundation. Program or play a bass part that complements the kick drum rhythmically — in many modern genres, the kick and bass share the same frequency space, so they need to breathe together. Keep your bassline mono below 80 Hz for maximum translation on all playback systems. Leave headroom at this stage; you will shape the bass further during mixing with sidechain compression and EQ.' },
-  pr5: { icon:'🎹', detail:'Chords provide the emotional context and harmonic movement of your track. Choose a progression that supports the mood you want to create and define the tension and resolution points across your arrangement. Try inversions and voicings to avoid frequency clutter — spread chords across the mid and high registers and leave the low end to the bass and kick. Record multiple takes or experiment with different chord voicings before committing.' },
-  pr6: { icon:'🎤', detail:'The lead melody or vocal hook is what listeners will remember. This element sits at the top of your mix and needs to cut through everything else. Write or record the melody with the chord progression playing so it feels harmonically connected. Consider the phrasing — where the melody breathes and rests is just as important as the notes themselves. If using a vocal, record multiple takes for comping later during the mixing stage.' },
-  pr7: { icon:'🔊', detail:'Sound design is where your track gets its unique character. Every sound you use should be intentional and serve the mix. Use synthesis, sampling, resampling, and processing to sculpt each element. Remove unwanted frequencies at the source — if a sound has problematic resonances or excessive low-end, address it now before it becomes a problem in the mix. The more intentional your sound design, the less corrective work you will need at the mixing stage.' },
-  pr8: { icon:'📐', detail:'Arrangement is the architecture of your track. A great arrangement guides the listener through an emotional journey — building tension, releasing it, creating surprises and moments of rest. Map out your sections (intro, verse, pre-chorus, chorus, bridge, outro) and make sure each one has a clear purpose. Use element additions and removals, filter sweeps, and volume automation to create natural transitions. Listen to the entire track top-to-bottom to assess the flow before moving on.' },
-  pr9: { icon:'📈', detail:'Automation transforms a static mix into a living, evolving track. Add volume automation to create dynamics, filter automation to build and release tension, and effect parameter automation to add movement and interest. In production, focus on macro automation — broad movements that shape the energy of entire sections. Reserve micro automation (individual element rides, subtle sends adjustments) for the mixing stage. Automate with purpose: every move should serve the emotion of the song.' },
-  // MIX
-  mx1: { icon:'👂', detail:'Before touching a single fader or plugin, sit down and listen to the raw session from start to finish. Take notes on obvious problems — elements that are too loud or too quiet, frequencies that clash, timing issues, or anything that feels out of place. This critical listening pass sets your intention for the mix. Make sure all clips are trimmed cleanly, no unwanted noise exists between phrases, and all tracks are properly named and organized. A clean session produces a clean mix.' },
-  mx2: { icon:'🗂️', detail:'Professional mixing starts with a professional session layout. Color-code your tracks by category — drums, bass, keys, guitars, vocals, FX. Group related tracks into buses (drum bus, instrument bus, vocal bus) so you can process them together efficiently. Label everything clearly so you can navigate the session without confusion. Create your send channels for reverb and delay returns before you start processing individual tracks. A well-organized session saves hours and keeps your ears fresh for creative decisions.' },
-  mx3: { icon:'🔌', detail:'Routing is the backbone of your mix infrastructure. Every track should feed into an appropriate group bus, and every bus should route to your master fader through a clear, logical signal chain. Set up your parallel compression buses, your reverb and delay return channels, and any stem buses you need for stem mixing or client delivery. Verify that no signal is accidentally double-routed or missing from the master output. Get this right before you start mixing — changing routing mid-session creates confusion and phase problems.' },
-  mx4: { icon:'🎛️', detail:'Send channels allow you to apply a single reverb or delay to multiple tracks simultaneously, saving CPU and creating a cohesive sense of space. Create at least one room reverb send for close-sounding elements, one hall or plate reverb for leads and vocals, and one tempo-synced delay for rhythmic effects. Set each return channel to 100% wet signal and control the blend from the individual send knobs on each track. This approach gives you precise, independent control over the space of every element in your mix.' },
-  mx5: { icon:'🎚️', detail:'EQ is your primary tool for creating separation and clarity in a mix. Work in two phases: first, use a high-pass filter on every track that does not need low-end information to clean up the sub frequencies. Second, identify and cut narrow problem resonances using a dynamic EQ or notch filter. Avoid boosting broad shelves at this stage — corrective EQ should be surgical. Each instrument should occupy its own frequency zone. When every element has space, the mix translates clearly on any speaker system.' },
-  mx6: { icon:'📊', detail:'Gain staging is the discipline of managing signal levels throughout your entire signal chain. The goal is to run each channel at approximately −18 dBFS RMS — this gives you consistent headroom, keeps your plugins operating in their optimal range, and ensures that your master bus is not receiving an overloaded signal. Check your channel input levels before any plugin processing and reduce clip gain or the track fader to hit the target. A well gain-staged mix will feel more controlled and require less limiting on the master bus.' },
-  mx7: { icon:'⚙️', detail:'Compression controls the dynamic range of individual elements and helps them sit together as a cohesive mix. For transient elements like drums and bass, use faster attack times to tame peaks. For sustained elements like pads and vocals, use slower attack times to preserve the natural transient and feel. The most important compressor setting is the release — set it so the compressor breathes with the rhythm of the music. Use parallel compression on drums and bass to retain punch while achieving density and control.' },
-  mx8: { icon:'🔁', detail:'Delay adds rhythmic interest, depth, and space to your mix without muddying the low-end the way reverb can. Sync your delay times to the project tempo using note values — an eighth-note delay at 140 BPM equals 107ms. Use high-pass and low-pass filters on your delay returns to prevent the repeats from cluttering the frequency range of the dry signal. Automate delay sends to increase during instrumental breaks and reduce during dense sections to maintain clarity.' },
-  mx9: { icon:'🔥', detail:'Saturation adds even-order harmonic distortion that mimics the warmth of analog equipment. Used subtly, it adds perceived loudness, glues elements together, and makes digital recordings feel more alive. Apply saturation to the drum bus to add punch and cohesion, to the bass to add harmonics that make it audible on small speakers, and sparingly to synths and vocals to add character. The key word is subtlety — if you can clearly hear the saturation, you have applied too much. A/B with the plugin bypassed to confirm the improvement.' },
-  // MASTERING
-  ms1: { icon:'🎧', detail:'Your reference track is the most important tool in mastering. Choose a commercially released master in the same genre that represents your loudness, tonal, and dynamic targets. Import it into your mastering DAW and match its loudness using a LUFS meter before comparing. Listen critically to the low-end balance, the high-frequency air, the stereo width, and the overall density. Your mastered result should feel competitive with this reference on any playback system — from headphones to club speakers to phone speakers.' },
-  ms2: { icon:'📊', detail:'Before any mastering processing, set the input gain of your mastering chain so the loudest section of the track peaks between −6 and −3 dBFS. This gives your entire mastering chain — EQ, compressor, saturator, limiter — sufficient headroom to operate cleanly without the signal clipping any plugin input stage. Avoid the temptation to push the gain high to make it sound louder at this point. Loudness comes at the end through the limiter, not from overloading the chain.' },
-  ms3: { icon:'🎚️', detail:'Mastering EQ is about broad, gentle tonal shaping — not corrective surgery. That work belongs in the mix stage. At mastering, you are making final adjustments of 1 to 2 dB using wide, musical curves. A gentle high shelf boost above 12 kHz adds air and presence. A slight low-shelf boost below 60 Hz adds weight. A subtle dip in the 300–500 Hz region can reduce muddiness. Use a linear phase EQ to avoid phase artifacts that a minimum phase EQ would introduce in a full-mix context.' },
-  ms4: { icon:'⚙️', detail:'A mastering compressor at a 2:1 ratio with a slow attack and medium release acts as a glue that brings the stereo mix together into a unified, cohesive sound. Set the attack slow enough (30–50ms) that transients pass through unaffected, preserving the punch and impact of the mix. The release should track the tempo of the music. Aim for 2 to 4 dB of gain reduction on average. More than 6 dB of compression at this stage will begin to audibly squash the dynamics and fatigue the listener.' },
-  mx4b: {
-    icon: '🥁',
-    detail: 'Layering means stacking multiple sounds — snares, claps, percussion hits — so that each element contributes a specific frequency range to the combined result. A snare with snap but no body gets layered with a clap with body but no crack. Tune each layer to the same pitch, align their transients perfectly, and use a gate or transient shaper to control each layer independently before blending. The result is a single composite sound with depth, character and frequency content no individual element had alone. This is how professional drums feel larger than life — every hit is built from 2-4 sounds working as one.'
-  },
-  ms4b: {
-    icon: '🔥',
-    detail: 'Duplicate your master bus to a new channel. On the duplicate, insert a high-pass filter cutting everything below 200-300 Hz — this protects the low end from being distorted. Then hit the duplicate with a saturator or tape emulator at a moderate drive, adding harmonic richness and density. Blend this channel back into the master at -8 to -12 dB underneath the original. The original low end stays clean and controlled, while the saturated layer adds warmth, air and perceived loudness to the midrange and highs. This is the technique when a mix sounds dull and needs life without touching the limiter or raising the LUFS ceiling.'
-  },
-  ms4b: {
-    icon: '🔥',
-    detail: 'Duplicate your master bus to a new channel. On the duplicate, insert a high-pass filter cutting everything below 200-300 Hz to protect the low end from distortion. Hit the duplicate with a saturator or tape emulator at moderate drive, adding harmonic richness. Blend this channel back at -8 to -12 dB underneath the original. The original low end stays clean and controlled while the saturated layer adds warmth, air and perceived loudness to the midrange and highs. This is the technique when a mix sounds dull and needs life without touching the limiter or raising the LUFS ceiling.'
-  },
-  ms5: { icon:'↔️', detail:'Stereo enhancement increases perceived width and spaciousness, but must be applied carefully. Use a mid/side processor to boost the high-frequency content of the side channel for more air and width, while keeping the low frequencies of the mid channel tight and mono. Never widen the sub frequencies — bass below 120 Hz must remain mono for reliable translation on all playback systems. Check your stereo width with a correlation meter and a mono compatibility check to ensure nothing phase-cancels when collapsed to mono.' },
-  ms6: { icon:'🔥', detail:'A tape saturator or harmonic exciter at the mastering stage adds analog warmth and increases the perceived loudness of the master without reducing dynamic range. Drive the saturator gently so it adds harmonic content without obvious distortion — the effect should be felt rather than heard. This step also helps the master translate better on consumer playback systems that add their own coloration. Bypass and compare carefully: the saturated version should feel more present and three-dimensional.' },
-  ms7: { icon:'🔒', detail:'The limiter is the final and most critical stage of the mastering chain. Set your true peak ceiling to −1 dBTP to prevent intersample peaks from clipping during encoding to MP3 or AAC. Start with the threshold high and gradually reduce it until you reach your target integrated loudness. Watch your gain reduction meter — if the limiter is working more than 3 to 4 dB consistently, your mix needs more dynamic control before mastering. A good limiter should be nearly transparent, catching only the occasional transient peak.' },
-  ms8: { icon:'📏', detail:'Integrated LUFS (Loudness Units relative to Full Scale) is the global standard for streaming platform loudness normalization. Spotify targets −14 LUFS, Apple Music targets −16 LUFS, YouTube targets −14 LUFS, and CD masters typically target −9 to −12 LUFS. If you deliver a master louder than the platform target, it will be turned down automatically, often reducing perceived quality. Use an integrated loudness meter to measure the full track from start to finish and adjust your limiter threshold to hit the correct target for your intended platform.' },
-  ms9: { icon:'🎛️', detail:'Dithering is required when reducing the bit depth of your master from 24-bit to 16-bit for CD or certain streaming deliverables. Without dither, bit-depth reduction introduces quantization distortion — a harsh, digital artifact. TPDF (Triangular Probability Density Function) dither adds a small amount of random noise that masks this distortion, preserving the perceived low-level resolution of your master. Apply dithering only once, as the very last process in your chain, and only when changing bit depth. Never dither a 24-bit delivery.' },
-  ms10:{ icon:'📦', detail:'The final export is your deliverable to the world. Export a 24-bit 44.1 kHz WAV file as your distribution master for streaming platforms. For CD duplication, export a 16-bit 44.1 kHz WAV with dither applied. Some platforms (Apple Digital Masters, Tidal) accept 24-bit 96 kHz high-resolution files. Name your files clearly with the artist name, track title, ISRC code if available, and the format specification. Keep your session and all source files archived so you can re-export if platform requirements change in the future.' },
-};
-
-function getStepDetail(stepId) {
-  const det = STEP_DETAILS[stepId];
-  if (!det) return null;
-  return det;
-}
-
-
-const STEPS_EN = {
-  production: [
-    { id:'pr1', name:'Reference Track',    desc:'Load a commercial reference to guide your sound',          rmsMin:-30, rmsMax:-12 },
-    { id:'pr2', name:'Tempo & Key',         desc:'Lock in BPM and key before building',                      rmsMin:-30, rmsMax:-12 },
-    { id:'pr2b',name:'Section Mapping',      desc:'Map every section before building — define what emotion each part hits and how it contrasts the one before.',  rmsMin:-30, rmsMax:-12 },
-    { id:'pr3', name:'Drum Programming',    desc:'Build the rhythmic foundation of the track',               rmsMin:-28, rmsMax:-10 },
-    { id:'pr4', name:'Bass Line',           desc:'Establish the low-end groove and root movement',           rmsMin:-26, rmsMax:-10 },
-    { id:'pr5', name:'Chord Progression',  desc:'Define the harmonic structure and mood',                   rmsMin:-24, rmsMax:-8  },
-    { id:'pr6', name:'Melody / Lead',       desc:'Create the main melodic or vocal hook',                    rmsMin:-22, rmsMax:-8  },
-    { id:'pr7', name:'Sound Design',        desc:'Shape and refine each sound with processing',              rmsMin:-22, rmsMax:-8  },
-    { id:'pr8', name:'Arrangement',         desc:'Structure intro, verse, chorus, bridge and outro',         rmsMin:-20, rmsMax:-6  },
-    { id:'pr9', name:'Automation',          desc:'Add movement, dynamics and variation over time',           rmsMin:-20, rmsMax:-6  },
-  ],
-  mix: [
-    { id:'mx1', name:'Review Production',   desc:'Listen through the full production on different systems before mixing — headphones, monitors, phone. Make notes.',       rmsMin:-24, rmsMax:-14 },
-    { id:'mx2', name:'Organization',        desc:'Label, color-code and group all tracks clearly',           rmsMin:-24, rmsMax:-14 },
-    { id:'mx3', name:'Routing I/O',         desc:'Set up buses, sends and returns correctly',                rmsMin:-22, rmsMax:-12 },
-    { id:'mx4', name:'Sends/Aux Channels',  desc:'Configure reverb, delay and parallel channels',           rmsMin:-22, rmsMax:-12 },
-    { id:'mx4b',name:'Layering',             desc:'Combine snares, claps or percs to build a new composite tone no single element has alone',  rmsMin:-22, rmsMax:-12 },
-    { id:'mx5', name:'EQ',                  desc:'Cut problem frequencies, shape tonal balance',             rmsMin:-20, rmsMax:-10 },
-    { id:'mx6', name:'Gain Staging',        desc:'Target -18 dBFS RMS per channel for headroom',            rmsMin:-20, rmsMax:-16 },
-    { id:'mx7', name:'Compression',         desc:'Control dynamics and glue elements together',              rmsMin:-18, rmsMax:-8  },
-    { id:'mx8', name:'Delay',               desc:'Add rhythmic space and depth with delay effects',          rmsMin:-18, rmsMax:-8  },
-    { id:'mx9', name:'Saturation',          desc:'Add harmonic warmth — subtle is key',                     rmsMin:-16, rmsMax:-6  },
-  ],
-  mastering: [
-    { id:'ms1', name:'Reference Track',     desc:'Compare against a commercial master at matched loudness',  rmsMin:-16, rmsMax:-10 },
-    { id:'ms2', name:'Gain Staging',        desc:'Set input gain so the chain has proper headroom',          rmsMin:-16, rmsMax:-10 },
-    { id:'ms3', name:'EQ',                  desc:'Broad tonal shaping — 1-2 dB moves max',                  rmsMin:-14, rmsMax:-8  },
-    { id:'ms4', name:'Compressor',          desc:'Glue the master: ratio 2:1, slow attack, mid release',     rmsMin:-14, rmsMax:-8  },
-    { id:'ms4b',name:'Parallel Saturation', desc:'Duplicate master bus, HPF the copy above 200Hz, saturate it, blend back at -10dB — adds harmonic density without touching the low end', rmsMin:-14, rmsMax:-8  },
-    { id:'ms5', name:'Stereo Enhancement',  desc:'Widen highs, keep lows mono for translation',             rmsMin:-12, rmsMax:-6  },
-    { id:'ms6', name:'Saturation',          desc:'Add analog character and perceived loudness',              rmsMin:-12, rmsMax:-6  },
-    { id:'ms7', name:'Limiter',             desc:'Set true peak ceiling at -1 dBTP, target your LUFS',      rmsMin:-10, rmsMax:-2  },
-    { id:'ms8', name:'LUFS Check',          desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',           rmsMin:-10, rmsMax:-2  },
-    { id:'ms9', name:'Dithering',           desc:'Apply TPDF dither when reducing to 16-bit',               rmsMin:-10, rmsMax:-2  },
-    { id:'ms10',name:'Final Export',        desc:'Export WAV 24-bit 44.1kHz per platform spec',             rmsMin:-10, rmsMax:-2  },
-  ],
-};
-const STEPS_ES = {
-  production: [
-    { id:'pr1', name:'Track de Referencia',   desc:'Carga una referencia comercial para guiar tu sonido',      rmsMin:-30, rmsMax:-12 },
-    { id:'pr2', name:'Tempo y Tonalidad',      desc:'Fija el BPM y la tonalidad antes de construir',            rmsMin:-30, rmsMax:-12 },
-    { id:'pr2b',name:'Mapeo de Secciones',   desc:'Mapea cada seccion antes de construir — define que emocion genera cada parte y como contrasta con la anterior.', rmsMin:-30, rmsMax:-12 },
-    { id:'pr3', name:'Programacion Bateria',   desc:'Construye la base ritmica del track',                      rmsMin:-28, rmsMax:-10 },
-    { id:'pr4', name:'Linea de Bajo',          desc:'Establece el groove del bajo y el movimiento armonico',    rmsMin:-26, rmsMax:-10 },
-    { id:'pr5', name:'Progresion de Acordes',  desc:'Define la estructura armonica y el estado emocional',     rmsMin:-24, rmsMax:-8  },
-    { id:'pr6', name:'Melodia / Lead',         desc:'Crea el gancho melodico o vocal principal',                rmsMin:-22, rmsMax:-8  },
-    { id:'pr7', name:'Diseno de Sonido',       desc:'Da forma a cada sonido con procesamiento creativo',        rmsMin:-22, rmsMax:-8  },
-    { id:'pr8', name:'Arreglos',               desc:'Estructura intro, verso, coro, bridge y outro',           rmsMin:-20, rmsMax:-6  },
-    { id:'pr9', name:'Automatizacion',         desc:'Agrega movimiento, dinamica y variacion en el tiempo',    rmsMin:-20, rmsMax:-6  },
-  ],
-  mix: [
-    { id:'mx1', name:'Revision de Produccion', desc:'Escucha la produccion completa en diferentes sistemas antes de mezclar — audifonos, monitores, telefono. Toma notas.',     rmsMin:-24, rmsMax:-14 },
-    { id:'mx2', name:'Organizacion',           desc:'Etiqueta, colorea y agrupa todos los canales claramente', rmsMin:-24, rmsMax:-14 },
-    { id:'mx3', name:'Routing I/O',            desc:'Configura buses, envios y retornos correctamente',        rmsMin:-22, rmsMax:-12 },
-    { id:'mx4', name:'Canales Aux',            desc:'Configura reverb, delay y canales paralelos',            rmsMin:-22, rmsMax:-12 },
-    { id:'mx4b',name:'Layering',               desc:'Combina snares, claps o percs para construir un timbre compuesto que ninguno tiene por separado', rmsMin:-22, rmsMax:-12 },
-    { id:'mx5', name:'EQ',                     desc:'Corta frecuencias problematicas y da forma tonal',        rmsMin:-20, rmsMax:-10 },
-    { id:'mx6', name:'Gain Staging',           desc:'Objetivo -18 dBFS RMS por canal para headroom',          rmsMin:-20, rmsMax:-16 },
-    { id:'mx7', name:'Compresion',             desc:'Controla la dinamica y une los elementos de la mezcla',  rmsMin:-18, rmsMax:-8  },
-    { id:'mx8', name:'Delay',                  desc:'Agrega espacio ritmico y profundidad con delay',          rmsMin:-18, rmsMax:-8  },
-    { id:'mx9', name:'Saturacion',             desc:'Agrega calidez armonica — se sutil',                     rmsMin:-16, rmsMax:-6  },
-  ],
-  mastering: [
-    { id:'ms1', name:'Track de Referencia',    desc:'Compara con un master comercial a igual loudness',        rmsMin:-16, rmsMax:-10 },
-    { id:'ms2', name:'Gain Staging',           desc:'Ajusta la ganancia de entrada para headroom suficiente',  rmsMin:-16, rmsMax:-10 },
-    { id:'ms3', name:'EQ',                     desc:'Ajustes tonales suaves — maximo 1-2 dB',                 rmsMin:-14, rmsMax:-8  },
-    { id:'ms4', name:'Compresor',              desc:'Glue: ratio 2:1, ataque lento, release medio',            rmsMin:-14, rmsMax:-8  },
-    { id:'ms5', name:'Mejora Estereo',         desc:'Amplia agudos, manten graves en mono',                   rmsMin:-12, rmsMax:-6  },
-    { id:'ms6', name:'Saturacion',             desc:'Agrega caracter analogico y loudness percibida',          rmsMin:-12, rmsMax:-6  },
-    { id:'ms7', name:'Limitador',              desc:'Ceiling -1 dBTP, alcanza tu objetivo de LUFS',           rmsMin:-10, rmsMax:-2  },
-    { id:'ms8', name:'Revision de LUFS',       desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',          rmsMin:-10, rmsMax:-2  },
-    { id:'ms9', name:'Dithering',              desc:'Aplica dither TPDF al reducir a 16 bits',                rmsMin:-10, rmsMax:-2  },
-    { id:'ms10',name:'Exportacion Final',      desc:'Exporta WAV 24-bit 44.1kHz por specs de la plataforma',  rmsMin:-10, rmsMax:-2  },
-  ],
-};
-function getSTEPS() { return currentLang==='es' ? STEPS_ES : STEPS_EN; }
-const STEPS = new Proxy({}, { get:(_,k) => getSTEPS()[k] });
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 
-const AI_SUGGESTIONS = {
-  production: [
-    { tip:'Gain Staging',    text:'Keep your samples at −18 dBFS from the start. This gives you headroom for mixing later and prevents clipping in the chain.' },
-    { tip:'Reference Track', text:'Load a commercial reference at matched loudness (−14 LUFS). Compare your low end, stereo width, and overall energy before committing to sounds.' },
-    { tip:'Drum Groove',     text:'Introduce subtle velocity variation on hi-hats and snares. A perfectly quantized grid sounds robotic — aim for 85–95% quantize strength.' },
-    { tip:'Bass & Kick',     text:'Your sub frequencies (below 80 Hz) need space. Program the bass to breathe with the kick — avoid stacking both on the same beat without sidechain.' },
-    { tip:'Arrangement',     text:'Every section should have a clear purpose. Build tension by adding elements, release it by stripping back. Avoid keeping the same energy for more than 8 bars.' },
-  ],
-  mix: [
-    { tip:'Gain Staging',    text:'Target −18 dBFS RMS per channel before any plugin processing. A well gain-staged session requires less limiting on the master bus.' },
-    { tip:'High-Pass Filter',text:'High-pass everything that does not need sub energy. Guitars above 80 Hz, pads above 120 Hz, vocals above 100 Hz. This clears headroom instantly.' },
-    { tip:'Sidechain',       text:'Compress the bass with the kick as trigger — ratio 4:1, attack 1ms, release 80ms. This creates the pumping pocket that glues low end together.' },
-    { tip:'Stereo Field',    text:'Keep bass and kick mono below 120 Hz. Pan rhythm guitars hard L/R. Lead synths and vocals stay center. Pads fill the wide sides.' },
-    { tip:'Reverb Sends',    text:'Never use reverb as an insert. Use send channels at 100% wet and blend from the send knob. One room send, one hall send, one delay send — keep it organized.' },
-  ],
-  mastering: [
-    { tip:'LUFS Targets',    text:'Spotify normalizes to −14 LUFS. Apple Music to −16 LUFS. YouTube to −14 LUFS. If you deliver louder, the platform turns it down and you lose punch.' },
-    { tip:'True Peak',       text:'Set your limiter ceiling at −1 dBTP. Intersample peaks clip during MP3/AAC encoding even if your DAW meter shows no clipping.' },
-    { tip:'EQ Moves',        text:'Mastering EQ moves should be 1–2 dB maximum. If you need more, the mix needs fixing first. Use linear phase EQ to avoid phase artifacts.' },
-    { tip:'Mono Check',      text:'Collapse to mono and listen. If anything disappears or sounds hollow, you have phase issues. Fix them in the mix before mastering.' },
-    { tip:'Reference Loud',  text:'Match your reference track loudness with a gain plugin before comparing. Never compare at different volumes — louder always sounds better to the ear.' },
-  ],
-};
 
-const STAGE_LABELS = { production:'Production', mix:'Mix', mastering:'Mastering' };
+
+
+const STAGE_LABELS = { production:'Producción', mix:'Mezcla', mastering:'Mastering' };
 const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-mast' };
 
 // spectrum: 12 bands 20Hz→20kHz (heights 0-100)
@@ -1208,88 +1185,88 @@ const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-m
 // panWidth: how wide the instrument spreads (0=mono, 1=full stereo)
 const INSTRUMENTS = {
   kick:    {
-    name:'Kick Drum', icon:'🥁', range:'40–200 Hz', color:'#1586ec',
+    name:'Bombo', icon:'🥁', range:'40–200 Hz', color:'#1586ec',
     note:'The kick drum is the anchor of your low end. Keep it mono and centered at all times.',
     spectrum:[95,92,82,62,42,28,18,12,8,5,3,2],
     hotspots:[[0,'Sub 40Hz'],[2,'Punch 80Hz'],[3,'Body 160Hz'],[5,'Click 600Hz']],
-    pan:0, panWidth:0.05, panLabel:'Center — always mono'
+    pan:0, panWidth:0.05, panLabel:'Centro — siempre mono'
   },
   snare:   {
-    name:'Snare', icon:'🎵', range:'150 Hz–8 kHz', color:'#7c3aed',
+    name:'Caja', icon:'🪘', range:'150 Hz–8 kHz', color:'#7c3aed',
     note:'The snare defines the backbeat. Its crack cuts through a dense mix with presence around 2–5 kHz.',
     spectrum:[10,22,52,82,62,48,72,92,88,72,42,18],
     hotspots:[[3,'Body 160Hz'],[6,'Crack 1kHz'],[7,'Snap 2kHz'],[9,'Air 8kHz']],
-    pan:0, panWidth:0.08, panLabel:'Center — slight variation OK'
+    pan:0, panWidth:0.08, panLabel:'Centro — ligera variación aceptable'
   },
   bass:    {
-    name:'Bass', icon:'🎸', range:'40–400 Hz', color:'#0ea5e9',
+    name:'Bajo', icon:'🎸', range:'40–400 Hz', color:'#0ea5e9',
     note:'Bass must be mono below 120 Hz for reliable translation on all systems — from club to phone speaker.',
     spectrum:[88,92,90,78,58,32,18,12,8,5,2,1],
     hotspots:[[0,'Sub 40Hz'],[1,'Root 60Hz'],[2,'Thump 80Hz'],[4,'Tone 300Hz']],
-    pan:0, panWidth:0.0, panLabel:'Center — strict mono below 120Hz'
+    pan:0, panWidth:0.0, panLabel:'Centro — mono estricto bajo 120Hz'
   },
   hihat:   {
-    name:'Hi-Hat', icon:'✨', range:'6k–16 kHz', color:'#10b981',
+    name:'Hi-Hat', icon:'🎶', range:'6k–16 kHz', color:'#10b981',
     note:'Hi-hats live in the high frequency air zone. Panning them slightly off-center adds stereo width without compromising the mix center.',
     spectrum:[2,2,3,4,5,8,15,25,42,82,92,72],
     hotspots:[[8,'Closed 4kHz'],[9,'Open 8kHz'],[10,'Splash 16kHz']],
     pan:0.35, panWidth:0.3, panLabel:'Slight right (closed) / left (open)'
   },
   vocals:  {
-    name:'Vocals', icon:'🎤', range:'80 Hz–12 kHz', color:'#f59e0b',
+    name:'Vocales', icon:'🎤', range:'80 Hz–12 kHz', color:'#f59e0b',
     note:'Lead vocals always sit center. Double-tracked or backing vocals can be panned wide for space and depth.',
     spectrum:[15,22,38,58,68,72,82,92,90,72,48,22],
     hotspots:[[2,'Body 80Hz'],[4,'Warmth 400Hz'],[6,'Presence 1kHz'],[8,'Sibilance 5kHz']],
-    pan:0, panWidth:0.1, panLabel:'Lead: center / BVs: wide L+R'
+    pan:0, panWidth:0.1, panLabel:'Lead: centro / BVs: ancho L+R'
   },
   guitar:  {
-    name:'Guitar', icon:'🎸', range:'80 Hz–5 kHz', color:'#ef4444',
+    name:'Guitarra', icon:'🎸', range:'80 Hz–5 kHz', color:'#ef4444',
     note:'Rhythm guitars are typically panned wide left and right to create space for the vocals and lead in the center.',
     spectrum:[8,16,42,78,88,82,72,62,52,38,16,5],
     hotspots:[[2,'Warmth 80Hz'],[3,'Body 200Hz'],[5,'Definition 630Hz'],[7,'Presence 3kHz']],
-    pan:0.75, panWidth:0.25, panLabel:'Hard L / Hard R (rhythm pair)'
+    pan:0.75, panWidth:0.25, panLabel:'Hard L / Hard R (par rítmico)'
   },
   piano:   {
     name:'Piano', icon:'🎹', range:'28 Hz–4 kHz', color:'#8b5cf6',
     note:'Piano spans the full frequency range. Position it slightly off-center to avoid competing with lead vocals in the center.',
     spectrum:[62,72,68,62,58,52,58,62,58,42,22,8],
     hotspots:[[0,'Low A 28Hz'],[2,'Mid 80Hz'],[5,'Tone 630Hz'],[7,'Keys 2kHz']],
-    pan:0.2, panWidth:0.4, panLabel:'Slightly off-center, moderate width'
+    pan:0.2, panWidth:0.4, panLabel:'Ligeramente fuera del centro'
   },
   pad:     {
-    name:'Synth Pad', icon:'🎛️', range:'200 Hz–8 kHz', color:'#06b6d4',
+    name:'Pad Sintetizador', icon:'🎛️', range:'200 Hz–8 kHz', color:'#06b6d4',
     note:'Pads exist to fill space. Make them wide — they should live on the sides, leaving the center clean for leads and vocals.',
     spectrum:[5,8,15,42,68,78,72,62,58,48,32,12],
     hotspots:[[3,'Body 200Hz'],[5,'Mid 630Hz'],[7,'Air 2kHz'],[9,'Shimmer 8kHz']],
-    pan:0, panWidth:0.9, panLabel:'Full stereo width — L and R'
+    pan:0, panWidth:0.9, panLabel:'Amplitud estéreo completa — L y R'
   },
   lead:    {
-    name:'Synth Lead', icon:'🎵', range:'200 Hz–6 kHz', color:'#ec4899',
+    name:'Lead Sintetizador', icon:'🎵', range:'200 Hz–6 kHz', color:'#ec4899',
     note:'Lead synths sit center like a vocal. Use subtle stereo width from a chorus or reverb send — not from panning.',
     spectrum:[8,12,26,58,82,88,82,72,62,42,20,6],
     hotspots:[[3,'Body 200Hz'],[5,'Fundamental 630Hz'],[7,'Bite 3kHz'],[8,'Presence 5kHz']],
-    pan:0, panWidth:0.15, panLabel:'Center with subtle chorus width'
+    pan:0, panWidth:0.15, panLabel:'Centro con coro sutil'
   },
   perc:    {
-    name:'Percussion', icon:'🪘', range:'200 Hz–10 kHz', color:'#f97316',
+    name:'Percusión', icon:'🪇', range:'200 Hz–10 kHz', color:'#f97316',
     note:'Percussion elements can be scattered across the stereo field to create movement and a sense of three-dimensional space.',
     spectrum:[5,8,18,36,52,62,72,78,82,72,48,22],
     hotspots:[[3,'Attack 200Hz'],[6,'Color 1kHz'],[8,'Crack 5kHz']],
-    pan:0.5, panWidth:0.6, panLabel:'Scattered L-C-R for space'
+    pan:0.5, panWidth:0.6, panLabel:'Disperso L-C-R para espacio'
   },
   strings: {
-    name:'Strings', icon:'🎻', range:'196 Hz–4 kHz', color:'#84cc16',
+    name:'Cuerdas', icon:'🎻', range:'196 Hz–4 kHz', color:'#84cc16',
     note:'String sections are naturally wide from the recording process. Keep them wide in the mix to preserve the orchestral depth.',
     spectrum:[6,12,30,62,80,82,78,70,58,40,20,6],
     hotspots:[[3,'Rich 200Hz'],[5,'Warmth 630Hz'],[7,'Bow 2kHz'],[8,'Presence 4kHz']],
-    pan:0, panWidth:0.85, panLabel:'Wide stereo — natural orchestra spread'
+    pan:0, panWidth:0.85, panLabel:'Estéreo amplio — distribución orquestal'
   },
   brass:   {
-    name:'Brass', icon:'🎺', range:'100 Hz–8 kHz', color:'#eab308',
+    name:'Metales', icon:'🎺', range:'100 Hz–8 kHz', color:'#eab308',
     note:'Brass instruments have significant energy through the midrange. Pan sections slightly off-center to avoid masking vocals.',
     spectrum:[10,26,58,82,88,82,72,62,68,58,32,10],
     hotspots:[[2,'Body 80Hz'],[3,'Power 200Hz'],[5,'Bite 630Hz'],[8,'Bright 5kHz']],
-    pan:0.3, panWidth:0.5, panLabel:'Slight spread, avoid dead center'
+    pan:0.3, panWidth:0.5, panLabel:'Ligera distribución, evita el centro exacto'
   },
 };
 
@@ -1300,9 +1277,9 @@ const STAGE_INSTRUMENTS = {
   default:    ['kick','snare','bass','hihat','vocals','guitar','lead','pad'],
 };
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  STATE
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const state = {
   projects: JSON.parse(localStorage.getItem('tew_projects') || '[]'),
   active:   null,
@@ -1380,7 +1357,7 @@ function saveEditStages() {
     const cb = document.getElementById('es-' + s);
     return cb && cb.checked;
   });
-  if (!chosen.length) { showFormError('ep-error', 'Select at least one stage.'); return; }
+  if (!chosen.length) { showFormError('ep-error', 'Selecciona al menos una etapa.'); return; }
 
   // Add new stages (preserve existing stepsDone)
   chosen.forEach(s => {
@@ -1410,7 +1387,7 @@ function toggleAccordion(id) {
 function populateClearSelect() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel) return;
-  sel.innerHTML = '<option value="">— Select project —</option>' +
+  sel.innerHTML = '<option value="">— Selecciona proyecto —</option>' +
     state.projects.map(p =>
       `<option value="${p.id}">${p.name}${p.sessionLogs && p.sessionLogs.length ? ' (' + p.sessionLogs.length + ' entries)' : ''}</option>`
     ).join('');
@@ -1429,11 +1406,11 @@ function resetAllProjects() {
   // Visual feedback
   const btn = document.getElementById('reset-all-btn');
   if (btn) {
-    btn.textContent = 'All Reset!';
+    btn.textContent = '¡Todo Reseteado!';
     btn.style.borderColor = 'var(--success)';
     btn.style.color = 'var(--success)';
     setTimeout(() => {
-      btn.textContent = 'Reset All Projects';
+      btn.textContent = 'Resetear Todos los Proyectos';
       btn.style.borderColor = 'var(--danger)';
       btn.style.color = 'var(--danger)';
     }, 2000);
@@ -1443,7 +1420,7 @@ function resetAllProjects() {
 function onClearLogsClick() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel || !sel.value) {
-    alert('Please select a project first.');
+    alert('Por favor selecciona un proyecto primero.');
     return;
   }
   clearProjectLogs(sel.value);
@@ -1463,7 +1440,7 @@ function clearProjectLogs(projectId) {
   const btn = document.querySelector('#clear-logs-row button');
   if (btn) {
     const orig = btn.textContent;
-    btn.textContent = 'Cleared!';
+    btn.textContent = '¡Limpiado!';
     btn.style.borderColor = 'var(--success)';
     btn.style.color = 'var(--success)';
     setTimeout(() => {
@@ -1526,95 +1503,6 @@ function updateSubgenre(prefix) {
   if (dl) dl.innerHTML = subs.map(s => `<option value="${s}">`).join('');
 }
 
-
-// ── Artwork ────────────────────────────────────────────────
-function pickArtwork(prefix) {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = (e) => {
-    const file = e.target.files[0]; if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      state.pendingArtwork = ev.target.result;
-      const el = document.getElementById(prefix + '-artwork-preview');
-      if (el) { el.style.backgroundImage = 'url('+ev.target.result+')'; el.style.backgroundSize='cover'; el.style.backgroundPosition='center'; el.innerHTML=''; }
-    };
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
-
-
-function pickEditArtworkWS() {
-  const p = state.active;
-  if (!p) return;
-  if (p.artwork) {
-    // Show options: change or remove
-    const sheet = document.createElement('div');
-    sheet.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:var(--panel);border-radius:16px 16px 0 0;padding:16px;z-index:9999;box-shadow:0 -4px 20px rgba(0,0,0,0.2)';
-    sheet.innerHTML = '<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;text-align:center">Artwork</div>'
-      + '<button onclick="this.parentElement.remove();_pickArtworkFile()" style="width:100%;padding:12px;margin-bottom:8px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">Change Photo</button>'
-      + '<button onclick="this.parentElement.remove();_removeArtwork()" style="width:100%;padding:12px;margin-bottom:8px;background:var(--panel3);color:var(--danger);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">Remove Photo</button>'
-      + '<button onclick="this.parentElement.remove()" style="width:100%;padding:12px;background:var(--panel3);color:var(--text2);border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">Cancel</button>';
-    document.body.appendChild(sheet);
-  } else {
-    _pickArtworkFile();
-  }
-}
-
-function _pickArtworkFile() {
-  const p = state.active; if (!p) return;
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = (e) => {
-    const file = e.target.files[0]; if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      p.artwork = ev.target.result;
-      saveProjects();
-      updateWSArtwork(p);
-    };
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
-
-function _removeArtwork() {
-  const p = state.active; if (!p) return;
-  p.artwork = null;
-  saveProjects();
-  updateWSArtwork(p);
-}
-
-function updateWSArtwork(p) {
-  const el = document.getElementById('ws-artwork');
-  if (!el) return;
-  if (p && p.artwork) {
-    el.style.background = 'url(' + p.artwork + ') center/cover';
-    el.innerHTML = '';
-  } else {
-    el.style.background = 'var(--accent)';
-    el.innerHTML = '🎵';
-  }
-}
-
-function pickEditArtwork(projectId) {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = (e) => {
-    const file = e.target.files[0]; if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const p = state.projects.find(x => x.id === projectId);
-      if (p) { p.artwork = ev.target.result; saveProjects(); }
-      const el = document.getElementById('ep-artwork-preview');
-      if (el) { el.style.backgroundImage='url('+ev.target.result+')'; el.style.backgroundSize='cover'; el.style.backgroundPosition='center'; el.innerHTML=''; }
-    };
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
-
 function showFormError(elId, msg) {
   const el = document.getElementById(elId);
   if (!el) return;
@@ -1633,23 +1521,23 @@ function getSubgenreValue(prefix) {
   return (document.getElementById(prefix + '-subgenre') || {}).value || '';
 }
 
-
-
-
 function openEditProject(projectId) {
   const p = state.projects.find(x => x.id === projectId);
   if (!p) return;
-  const _set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
-  _set('ep-name',   p.name   || '');
-  _set('ep-genre',  p.genre  || '');
-  _set('ep-bpm',    '');
-  _set('ep-artist', p.artist || '');
+  document.getElementById('ep-name').value   = p.name   || '';
+  const epGenreInp = document.getElementById('ep-genre');
+  const epSubInp   = document.getElementById('ep-subgenre');
+  if (epGenreInp) epGenreInp.value = p.genre    || '';
+  if (epSubInp)   epSubInp.value   = p.subgenre || '';
+  setTimeout(() => updateSubgenre('ep'), 50);
+  document.getElementById('ep-bpm').value    = p.bpm    || '';
+  document.getElementById('ep-artist').value = p.artist || '';
+  // Set key/mode
   const keyParts = (p.key || 'C Major').split(' ');
-  _set('ep-key',  keyParts[0] || 'C');
-  _set('ep-mode', keyParts[1] || 'Major');
-  _set('ep-id',   projectId);
-  const modal = document.getElementById('modal-edit-proj');
-  if (modal) modal.classList.add('open');
+  document.getElementById('ep-key').value  = keyParts[0] || 'C';
+  document.getElementById('ep-mode').value = keyParts[1] || 'Major';
+  document.getElementById('ep-id').value   = projectId;
+  document.getElementById('modal-edit-proj').classList.add('open');
 }
 
 function saveEditProject() {
@@ -1657,15 +1545,21 @@ function saveEditProject() {
   const p  = state.projects.find(x => x.id === id);
   if (!p) return;
   const name = document.getElementById('ep-name').value.trim();
-  if (!name) { alert('Enter a project name'); return; }
+  if (!name) { showFormError('proj-error', t('enterName')); return; }
+  if (state.projects.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+    showFormError('proj-error', t('duplicateName'));
+    return;
+  }
   p.name   = name;
-  p.genre  = document.getElementById('ep-genre').value;
+  p.genre    = getGenreValue('ep');
+  p.subgenre = getSubgenreValue('ep');
   p.bpm    = document.getElementById('ep-bpm').value || '—';
   p.key    = document.getElementById('ep-key').value + ' ' + document.getElementById('ep-mode').value;
   p.artist = document.getElementById('ep-artist').value.trim();
   saveProjects();
   renderProjects();
   closeModal('modal-edit-proj');
+  // Update workspace header if this is the active project
   if (state.active && state.active.id === id) {
     const _wn = document.getElementById('ws-name');
     if (_wn) _wn.textContent = p.name;
@@ -1679,6 +1573,7 @@ function deleteProject(projectId) {
     var _ws = document.getElementById('workspace');
     if (_ws) _ws.style.display = 'none';
     document.getElementById('screen-projects').classList.add('active');
+    document.querySelector('[data-tab="projects"]').classList.add('active');
     var _fb = document.getElementById('fab'); if(_fb) _fb.style.display = 'flex';
   }
   saveProjects();
@@ -1693,9 +1588,9 @@ function saveProjects() {
   }
 }
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  TABS
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function switchTab(tab) {
   // Always hide workspace when switching tabs
   const ws = document.getElementById('workspace');
@@ -1712,9 +1607,9 @@ function switchTab(tab) {
   if (tab === 'settings') populateClearSelect();
 }
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  PROJECTS
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function openNewProject() {
   document.getElementById('modal-proj').classList.add('open');
 }
@@ -1735,7 +1630,7 @@ function createProject() {
     document.getElementById('stage-cb-' + s) &&
     document.getElementById('stage-cb-' + s).checked
   );
-  if (!checked.length) { showFormError('proj-error', 'Select at least one stage.'); return; }
+  if (!checked.length) { showFormError('proj-error', 'Selecciona al menos una etapa.'); return; }
 
   const project = {
     id:          'p' + Date.now(),
@@ -1766,7 +1661,7 @@ function createProject() {
 function renderProjects() {
   const list = document.getElementById('proj-list');
   if (!state.projects.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-ico">🎚️</div><div class="empty-ttl">${t('noProjects')}</div><div class="empty-sub">${t('noProjectsSub')}</div></div>`;
+    list.innerHTML = `<div class="empty"><div class="empty-ico">🎚</div><div class="empty-ttl">${t('noProjects')}</div><div class="empty-sub">${t('noProjectsSub')}</div></div>`;
     return;
   }
   list.innerHTML = state.projects.map(p => {
@@ -1777,18 +1672,15 @@ function renderProjects() {
           <button onclick="event.stopPropagation();openEditProject('${p.id}')"
             style="background:var(--panel3);border:1px solid var(--border);border-radius:8px;
                    width:30px;height:30px;cursor:pointer;color:var(--text2);font-size:14px;
-                   display:flex;align-items:center;justify-content:center">✏️</button>
+                   display:flex;align-items:center;justify-content:center">✎</button>
         </div>
-        <div style="cursor:pointer;display:flex;align-items:center;gap:14px;padding:4px 0" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
-          <div style="width:52px;height:52px;border-radius:50%;flex-shrink:0;background:${p.artwork ? 'url('+p.artwork+') center/cover' : 'var(--accent)'};display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid rgba(255,255,255,0.1)">${p.artwork ? '' : '🎵'}</div>
-          <div style="min-width:0;flex:1">
-          <div class="proj-name">${p.name}</div>
-          <div class="proj-meta">
-          <span>${p.genre}${p.subgenre ? ' ⋅ ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
-          </div>
+        <div style="cursor:pointer" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
+        <div class="proj-name">${p.name}</div>
+        <div class="proj-meta">
+          <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
         </div>
         <div>
-          ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">No stage selected</span>'}
+          ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">Sin etapa seleccionada</span>'}
         </div>
           <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
         </div>
@@ -1840,9 +1732,9 @@ function selectStage(stage) {
   renderProjects();
 }
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  WORKSPACE
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function showWorkspace(project) {
   state.active = project;
   if (!project.stages) project.stages = ['production','mix','mastering'];
@@ -1854,7 +1746,6 @@ function showWorkspace(project) {
   var _ws = document.getElementById('workspace'); if(_ws) _ws.style.display = 'block';
   var _fb = document.getElementById('fab');       if(_fb) _fb.style.display = 'none';
   var _wn = document.getElementById('ws-name');   if(_wn) _wn.textContent  = project.name;
-  updateWSArtwork(project);
   renderStageTabs();
   // Use rAF to ensure DOM is painted before rendering steps
   requestAnimationFrame(() => {
@@ -1899,7 +1790,7 @@ function renderManualNotes() {
   if (!el || !p) return;
   const notes = (p.manualNotes || []).slice().reverse();
   el.innerHTML = notes.length === 0
-    ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">No notes yet</div>'
+    ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">Sin notas todavía</div>'
     : notes.map((n,i) => `
       <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative">
         <div style="font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap">${n.text}</div>
@@ -1985,12 +1876,12 @@ function renderSteps() {
 
   document.getElementById('steps-list').innerHTML = steps.map(s => `
     <div class="step-row ${_sd[s.id] ? 'done' : ''}" id="sr-${s.id}">
-      <div class="step-box" onclick="toggleStep('${s.id}')">${_sd[s.id] ? '✔' : ''}</div>
+      <div class="step-box" onclick="toggleStep('${s.id}')">${_sd[s.id] ? '✓' : ''}</div>
       <div class="step-body" onclick="toggleStep('${s.id}')">
         <div class="step-name">${s.name}</div>
         <div class="step-desc">${s.desc}</div>
       </div>
-      <button class="det-btn" onclick="event.stopPropagation();openDetail('${s.id}')">
+      <button class="det-btn" onclick="openDetail('${s.id}')">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.3"/>
           <line x1="8" y1="7" x2="8" y2="11.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
@@ -1998,49 +1889,6 @@ function renderSteps() {
         </svg>
       </button>
     </div>`).join('');
-}
-
-function checkStageComplete() {
-  const p = state.active;
-  if (!p) return;
-  const activeStages = p.stages || [p.stage];
-  const allSteps = getSTEPS() || STEPS;
-
-  // Check if ALL active stages are 100% complete
-  let allDone = true;
-  let totalAll = 0, completedAll = 0;
-  for (const st of activeStages) {
-    const stSteps = allSteps[st] || [];
-    const stDone  = (p.stepsDone && p.stepsDone[st]) ? p.stepsDone[st] : {};
-    totalAll    += stSteps.length;
-    completedAll += stSteps.filter(s => stDone[s.id]).length;
-    if (stSteps.length === 0 || stSteps.filter(s => stDone[s.id]).length < stSteps.length) {
-      allDone = false;
-    }
-  }
-
-  if (allDone && totalAll > 0) {
-    // Only show once per project completion
-    const key = 'tew_complete_' + p.id;
-    if (localStorage.getItem(key)) return;
-    localStorage.setItem(key, '1');
-
-    const stageNames = activeStages.map(s => ({production:'Production',mix:'Mix',mastering:'Mastering'}[s]||s)).join(' + ');
-    const titleEl = document.getElementById('complete-title');
-    const bodyEl  = document.getElementById('complete-body');
-    if (titleEl) titleEl.textContent = stageNames + ' Complete! 🏆';
-    if (bodyEl) {
-      if (activeStages.includes('mastering')) {
-        bodyEl.textContent = "Your track is ready for the world. Mix, master, done. Release it.";
-      } else if (activeStages.includes('mix')) {
-        bodyEl.textContent = "Mix complete. Your track is balanced and ready for the next step.";
-      } else {
-        bodyEl.textContent = "Production complete. Your track has a foundation — time to mix.";
-      }
-    }
-    const modal = document.getElementById('modal-complete');
-    if (modal) modal.classList.add('open');
-  }
 }
 
 function toggleStep(stepId) {
@@ -2068,28 +1916,32 @@ function toggleStep(stepId) {
   }
   saveProjects();
   renderSteps();
-  checkStageComplete();
   renderLogs();
 }
 
 function openDetail(stepId) {
-  const det = getStepDetail(stepId);
-  if (!det) return;
+  try {
+  const det = STEP_DETAILS[stepId];
+  console.log('openDetail:', stepId, 'det:', !!det);
+  if (!det) { console.warn('No STEP_DETAILS for', stepId); return; }
 
-  // Find the step object - search all stages directly
+  // Find the step object — use getSTEPS() since STEPS is a Proxy
   let step = null;
-  const _allStages = ['production','mix','mastering'];
-  for (const stageName2 of _allStages) {
-    const stageSteps = (typeof STEPS_EN !== 'undefined' ? STEPS_EN : STEPS)[stageName2] || [];
-    step = stageSteps.find(s => s.id === stepId);
+  const stepsObj = getSTEPS();
+  console.log('stepsObj keys:', Object.keys(stepsObj));
+  for (const stage of Object.values(stepsObj)) {
+    step = stage.find(s => s.id === stepId);
     if (step) break;
   }
-  if (!step) return;
+  console.log('step found:', !!step, step);
+  if (!step) { console.warn('Step not found in STEPS for', stepId); return; }
 
   const stageName = state.active ? STAGE_LABELS[state.active.stage] : '';
   document.getElementById('det-icon').textContent    = det.icon;
   document.getElementById('det-title').textContent   = step.name;
   document.getElementById('det-stage').textContent   = stageName;
+  document.getElementById('det-rms-min').textContent = step.rmsMin;
+  document.getElementById('det-rms-max').textContent = step.rmsMax;
 
   // Split detail into paragraphs for readability
   const sentences = det.detail.match(/[^.!?]+[.!?]+/g) || [det.detail];
@@ -2101,11 +1953,12 @@ function openDetail(stepId) {
     (p2 ? '<p>' + p2 + '</p>' : '');
 
   document.getElementById('modal-detail').classList.add('open');
+  } catch(e) { console.error('openDetail error:', e); }
 }
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  TIME AGO
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function timeAgo(ts) {
   const diff = Date.now() - ts;
   const mins  = Math.floor(diff / 60000);
@@ -2124,9 +1977,9 @@ function timeAgo(ts) {
   return years + ' year' + (years === 1 ? '' : 's') + ' ago';
 }
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  LOGS
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function renderLogs() {
   const list = document.getElementById('logs-list');
   if (!list) return;
@@ -2160,7 +2013,7 @@ function renderLogs() {
 
       // Step rows inside accordion
       const stepRows = stageLogs.length === 0
-        ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">No steps completed in this stage yet</div>`
+        ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">Ningún paso completado en esta etapa todavía</div>`
         : stageLogs.map(entry => {
             const auto = entry.auto
               ? `<span style="font-size:9px;background:rgba(21,134,236,0.1);color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600;margin-left:4px">VST</span>`
@@ -2186,7 +2039,7 @@ function renderLogs() {
             </div>
             <div style="display:flex;align-items:center;gap:8px">
               <span style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent)">${sPct}%</span>
-              <span id="arr-${accordId}" style="color:var(--text3);transition:transform 0.2s;display:inline-block">█</span>
+              <span id="arr-${accordId}" style="color:var(--text3);transition:transform 0.2s;display:inline-block">▾</span>
             </div>
           </div>
           <!-- Accordion body -->
@@ -2199,16 +2052,13 @@ function renderLogs() {
     return `
       <div class="log-card" style="margin-bottom:16px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:44px;height:44px;border-radius:50%;flex-shrink:0;background:${p.artwork ? 'url('+p.artwork+') center/cover' : 'var(--accent)'};display:flex;align-items:center;justify-content:center;font-size:18px">${p.artwork ? '' : '🎵'}</div>
-            <div>
-              <div style="font-size:16px;font-weight:700">${p.name}</div>
-              <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} | ${p.bpm} BPM | ${p.key}</div>
-            </div>
+          <div>
+            <div style="font-size:16px;font-weight:700">${p.name}</div>
+            <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.bpm} BPM · ${p.key}</div>
           </div>
           <div style="text-align:right">
             <div style="font-family:var(--mono);font-size:26px;font-weight:700;color:var(--accent);line-height:1">${pct}%</div>
-            <div style="font-size:10px;color:var(--text3);margin-top:1px">overall</div>
+            <div style="font-size:10px;color:var(--text3);margin-top:1px">total</div>
           </div>
         </div>
         <div class="log-bar" style="margin-bottom:14px"><div class="log-fill" style="width:${pct}%"></div></div>
@@ -2217,9 +2067,9 @@ function renderLogs() {
   }).join('');
 }
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  CHARTS
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Track which view each card is showing: 'eq' or 'pan'
 const cardViews = {};
 
@@ -2233,11 +2083,11 @@ function renderCharts(stage) {
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
       <div style="font-size:15px;font-weight:700;margin-bottom:2px">${projName}</div>
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} &#183; Tap card to toggle EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · Toca la tarjeta para cambiar EQ / Pan</div>
     </div>`;
   } else {
     header = `<div style="margin-bottom:14px">
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">Instrument Ranges &#183; Tap to toggle EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">Instrument Ranges · Tap to toggle EQ / Pan</div>
     </div>`;
   }
 
@@ -2250,40 +2100,27 @@ function buildCard(key) {
   const view = cardViews[key] || 'eq';
 
   if (view === 'eq') {
-    const W=300,H=110,MID=55,PAD=16;
-    const gains=inst.spectrum.map(v=>Math.round((v/100)*24-12));
-    const hobj=(inst.hotspots||[]).reduce((a,[i,l])=>{a[i]=l;return a},{});
-    const n=gains.length;
-    const pts=gains.map((g,i)=>[(PAD+(i/(n-1))*(W-PAD*2)), MID-(g/12)*(MID-14)]);
-    let pd='M '+pts[0][0]+' '+pts[0][1];
-    for(let i=0;i<pts.length-1;i++){const cx=(pts[i][0]+pts[i+1][0])/2;pd+=' C '+cx+' '+pts[i][1]+' '+cx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];}
-    const fd=pd+' L '+(W-PAD)+' '+H+' L '+PAD+' '+H+' Z';
-    const fl=['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
-    const ax=[1,2,4,6,8,10].map(i=>'<text x="'+pts[i][0]+'" y="'+(H+11)+'" text-anchor="middle" font-size="5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[i]+'</text>').join('');
-    const sig=gains.map((g,i)=>({i,g,x:pts[i][0]})).filter(({g})=>Math.abs(g)>=3).sort((a,b)=>Math.abs(b.g)-Math.abs(a.g));
-    const labeled=new Set();
-    sig.forEach(({i,x})=>{if(![...labeled].some(j=>Math.abs(pts[j][0]-x)<38))labeled.add(i);});
-    const dots=pts.map(([x,y],i)=>{
-      const g=gains[i]; if(Math.abs(g)<3)return '';
-      const anc=x<PAD+18?'start':x>W-PAD-18?'end':'middle';
-      const cx=x<PAD+18?x+2:x>W-PAD-18?x-2:x;
-      let out='<circle cx="'+x+'" cy="'+y+'" r="2" fill="'+inst.color+'"/>';
-      if(labeled.has(i)){
-        const sign=g>0?'+':'', dy=Math.max(8,Math.min(H-2,g>0?y-8:y+12));
-        out+='<text x="'+cx+'" y="'+dy+'" text-anchor="'+anc+'" font-size="5.5" fill="'+inst.color+'" opacity="0.9" font-family="Inter,sans-serif">'+sign+g+'dB</text>';
-        const lbl=hobj[i]||'';
-        if(lbl){const ly=Math.max(8,Math.min(H-2,g>0?y-16:y+21));out+='<text x="'+cx+'" y="'+ly+'" text-anchor="'+anc+'" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>';}
-      }
-      return out;
+    // ── EQ view: spectrum bars + hotspot labels ──────────────
+    const bands = ['20','40','80','160','315','630','1k','2k','4k','8k','16k','20k'];
+    const hotspotsMap = {};
+    (inst.hotspots || []).forEach(([bi, lbl]) => { hotspotsMap[bi] = lbl; });
+
+    const bars = inst.spectrum.map((val, i) => {
+      const barH = Math.round((val / 100) * 58);
+      const isHot = hotspotsMap[i] !== undefined;
+      const dot = isHot
+        ? `<div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:${inst.color};color:#fff;font-size:7px;font-weight:600;padding:1px 3px;border-radius:3px;white-space:nowrap;line-height:1.2">${hotspotsMap[i]}</div>`
+        : '';
+      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative">
+        ${dot}
+        <div style="width:100%;height:${barH}px;background:${inst.color};border-radius:2px 2px 0 0;opacity:${0.4+(val/100)*0.6}"></div>
+      </div>`;
     }).join('');
-    const svg='<svg viewBox="0 0 '+W+' '+(H+14)+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
-      +'<defs><linearGradient id="eqf'+key+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.3"/><stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.03"/></linearGradient></defs>'
-      +'<line x1="'+PAD+'" y1="'+MID+'" x2="'+(W-PAD)+'" y2="'+MID+'" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"/>'
-      +'<path d="'+fd+'" fill="url(#eqf'+key+')"/>'
-      +'<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.8"/>'
-      +dots+ax+'</svg>';
+
     return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
-      <div style="padding:10px 4px 0">${svg}</div>
+      <div style="background:var(--panel2);padding:20px 8px 4px;height:88px;display:flex;align-items:flex-end;gap:1px;overflow:hidden">
+        ${bars}
+      </div>
       <div class="chart-meta">
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:4px">
@@ -2295,6 +2132,7 @@ function buildCard(key) {
         <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${inst.range}</div>
       </div>
     </div>`;
+
   } else {
     // ── PAN view: stereo field visualizer ────────────────────
     // pan: -1=hard L, 0=center, 1=hard R, 2=full stereo
@@ -2348,7 +2186,7 @@ function buildCard(key) {
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">PAN</div>
         </div>
-        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${posLabel} &#183; ${inst.range}</div>
+        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${posLabel} · ${inst.range}</div>
       </div>
     </div>`;
   }
@@ -2366,13 +2204,15 @@ function openInstrumentDetail(key) {
   document.getElementById('det-icon').textContent    = inst.icon;
   document.getElementById('det-title').textContent   = inst.name;
   document.getElementById('det-stage').textContent   = inst.range;
+  document.getElementById('det-rms-min').textContent = inst.range.split('–')[0];
+  document.getElementById('det-rms-max').textContent = inst.range.split('–')[1] || '';
   document.getElementById('det-body').innerHTML      = '<p>' + inst.note + '</p>';
   document.getElementById('modal-detail').classList.add('open');
 }
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  VST / WebSocket
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function connectWS() {
   const isLocal = ['localhost','127.0.0.1'].includes(location.hostname)
     || /^192\./.test(location.hostname)
@@ -2381,20 +2221,13 @@ function connectWS() {
 }
 
 
-
-
 function handleVST(rms, peak) {
   state.rms = rms; state.peak = peak;
   state.vstOn = true; state.count++;
 
   // Header badge
-  document.getElementById('hdr-dot').className   = 'hdr-dot live';
-  document.getElementById('hdr-lbl').textContent  = 'VST LIVE';
 
   // Settings panel
-  const sr = document.getElementById('s-rms');
-  const sp = document.getElementById('s-peak');
-  const sc = document.getElementById('s-cnt');
   if (sr) sr.textContent = rms.toFixed(1)  + ' dBFS';
   if (sp) sp.textContent = peak.toFixed(1) + ' dBFS';
   if (sc) sc.textContent = state.count;
@@ -2434,9 +2267,9 @@ function logProgress(project, stepName) {
   project.logs.push({ step: stepName, ts: Date.now() });
 }
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  DARK MODE
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function toggleDark(on) {
   document.documentElement.setAttribute('data-theme', on ? 'dark' : '');
   localStorage.setItem('tew_dark', on ? '1' : '');
@@ -2448,21 +2281,200 @@ if (localStorage.getItem('tew_dark')) {
   document.getElementById('dark-toggle').checked = true;
 }
 
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  INIT
-// ═══════════════════════════════════════════════
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // If no Firebase, show app directly with local data
-document.addEventListener('DOMContentLoaded',()=>{ setSkin(currentSkin); setIdioma(currentLang); });
-
 if (!window._authSignIn) {
   const _ls = document.getElementById('login-modal');
   if (_ls) _ls.classList.remove('open');
   renderProjects();
   renderCharts(null);
 }
-// connectWS disabled on GitHub Pages
-
+connectWS();
 </script>
+
+
+
+<!-- Modal: Editar Proyecto -->
+<div class="modal-overlay" id="modal-edit-proj">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" data-i18n="editProject">Editar Proyecto</div>
+    <input type="hidden" id="ep-id">
+    <div class="form-group">
+      <label class="form-label" data-i18n="projectName">Nombre del Proyecto</label>
+      <input type="text" class="form-input" id="ep-name">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Genre</label>
+        <select class="form-input" id="ep-genre">
+          <option>Trap</option><option>R&amp;B</option><option>Pop</option>
+          <option>Hip-Hop</option><option>Electronic</option><option>Reggaeton</option>
+          <option>Afrobeats</option><option>Rock</option><option>Jazz</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">BPM</label>
+        <input type="number" class="form-input" id="ep-bpm" min="40" max="300">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Key</label>
+        <select class="form-input" id="ep-key">
+          <option>C</option><option>C#</option><option>D</option><option>D#</option>
+          <option>E</option><option>F</option><option>F#</option><option>G</option>
+          <option>G#</option><option>A</option><option>A#</option><option>B</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mode</label>
+        <select class="form-input" id="ep-mode"><option>Major</option><option>Minor</option></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="artist">Artista / Compositor</label>
+      <input type="text" class="form-input" id="ep-artist">
+    </div>
+    <div id="ep-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
+    <button class="btn-primary" onclick="saveEditProject()" data-i18n="save">Guardar Cambios</button>
+    <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px"
+      onclick="deleteProject(document.getElementById('ep-id').value)" data-i18n="delete">Eliminar Proyecto</button>
+    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')" data-i18n="cancel">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal: Editar Etapas -->
+<div class="modal-overlay" id="modal-edit-stages">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Editar Etapas</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Selecciona qué etapas aplican a este proyecto.</p>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+      <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
+        <input type="checkbox" id="es-production" style="width:18px;height:18px;accent-color:var(--accent)">
+        <div>
+          <div style="font-size:14px;font-weight:600">Production</div>
+          <div style="font-size:12px;color:var(--text2)">Estructura del beat, arreglos, diseño de sonido</div>
+        </div>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
+        <input type="checkbox" id="es-mix" style="width:18px;height:18px;accent-color:var(--accent)">
+        <div>
+          <div style="font-size:14px;font-weight:600">Mix</div>
+          <div style="font-size:12px;color:var(--text2)">EQ, compresión, routing, espacio</div>
+        </div>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
+        <input type="checkbox" id="es-mastering" style="width:18px;height:18px;accent-color:var(--accent)">
+        <div>
+          <div style="font-size:14px;font-weight:600">Mastering</div>
+          <div style="font-size:12px;color:var(--text2)">Limitación, LUFS, exportación final</div>
+        </div>
+      </label>
+    </div>
+    <button class="btn-primary" onclick="saveEditStages()">Guardar</button>
+    <button class="btn-ghost"   onclick="closeModal('modal-edit-stages')" data-i18n="cancel">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal: Step Details -->
+<div class="modal-overlay" id="modal-detail">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <div id="det-icon" style="width:40px;height:40px;border-radius:10px;background:rgba(21,134,236,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0"></div>
+      <div>
+        <div id="det-title" style="font-size:19px;font-weight:700"></div>
+        <div id="det-stage" style="font-size:11px;color:var(--text3);margin-top:1px;text-transform:uppercase;letter-spacing:0.8px"></div>
+      </div>
+    </div>
+    <div style="height:1px;background:var(--border);margin:14px 0"></div>
+    <div id="det-body" style="font-size:14px;line-height:1.7;color:var(--text2)"></div>
+    <div style="height:1px;background:var(--border);margin:16px 0"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--accent)" stroke-width="1.2"/><line x1="7" y1="5" x2="7" y2="9" stroke="var(--accent)" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="3.5" r="0.6" fill="var(--accent)"/></svg>
+      <span style="font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--accent)">Rango Objetivo VST</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+      <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Mín</div>
+        <div id="det-rms-min" style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--accent)"></div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">dBFS</div>
+      </div>
+      <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">RMS Máx</div>
+        <div id="det-rms-max" style="font-family:var(--mono);font-size:20px;font-weight:500;color:var(--accent)"></div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">dBFS</div>
+      </div>
+    </div>
+    <button class="btn-ghost" onclick="closeModal('modal-detail')">Cerrar</button>
+  </div>
+</div>
+
+
+
+<!-- ── Login Modal ──────────────────────────────── -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal" style="max-height:80dvh">
+    <div class="modal-handle"></div>
+
+    <!-- Logo -->
+    <div style="text-align:center;margin-bottom:24px">
+      <img src="data:image/png;base64,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"
+           style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;object-fit:cover"
+           alt="TEW Logo">
+      <div style="font-size:28px;font-weight:800;letter-spacing:-1px">TEW</div>
+      <div style="font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:3px">The Engineers Workpad</div>
+    </div>
+
+    <!-- Google Sign-In -->
+    <button onclick="window._authGoogle && window._authGoogle()"
+      style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+             background:#fff;color:#1f1f1f;border:1px solid #dadce0;border-radius:10px;
+             padding:12px;font-family:Inter,sans-serif;font-size:14px;font-weight:600;
+             cursor:pointer;margin-bottom:16px;transition:box-shadow 0.2s">
+      <svg width="18" height="18" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Continuar con Google
+    </button>
+
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+      <span style="font-size:11px;color:var(--text3);font-weight:500">or</span>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--panel3);border-radius:10px;padding:4px;margin-bottom:20px">
+      <button id="tab-signin" onclick="setAuthTab('signin')" style="border:none;border-radius:8px;padding:9px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff;transition:all 0.2s">Sign In</button>
+      <button id="tab-signup" onclick="setAuthTab('signup')" style="border:none;border-radius:8px;padding:9px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--text3);transition:all 0.2s">Sign Up</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input id="auth-email" type="email" class="form-input" placeholder="tu@correo.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input id="auth-pass" type="password" class="form-input" placeholder="••••••••">
+    </div>
+
+    <div style="text-align:right;margin-bottom:12px">
+      <span id="forgot-btn" onclick="forgotPassword()" style="font-size:12px;color:var(--accent);cursor:pointer" data-i18n="forgotPassword">¿Olvidaste tu contraseña?</span>
+    </div>
+
+    <div id="login-error" style="font-size:12px;min-height:16px;margin-bottom:10px;text-align:center;color:var(--danger)"></div>
+
+    <button id="auth-submit" onclick="submitAuth()" class="btn-primary">Sign In</button>
+  </div>
+</div>
 
 <script>
 // ── Login UI (non-module, simple DOM) ─────────────
@@ -2518,67 +2530,5 @@ document.addEventListener('keydown', e => {
 });
 </script>
 
-
-<div id="modal-complete" class="modal-overlay">
-  <div class="modal" style="max-width:340px;margin:auto;text-align:center">
-    <div class="modal-handle"></div>
-    <div style="font-size:52px;margin-bottom:12px">🏆</div>
-    <div id="complete-title" style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px">Stage Complete!</div>
-    <div id="complete-body" style="font-size:14px;line-height:1.6;color:var(--text2);margin-bottom:20px">You completed all steps. Time to move to the next stage.</div>
-    <button onclick="document.getElementById('modal-complete').classList.remove('open')"
-      style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)">
-      Let's go 🎵
-    </button>
-  </div>
-</div>
-
-
-<div class="modal-overlay" id="modal-edit-proj">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Edit Project</div>
-    <input type="hidden" id="ep-id">
-    <div class="form-group">
-      <label class="form-label">Project Name</label>
-      <input type="text" class="form-input" id="ep-name">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Genre</label>
-        <select class="form-input" id="ep-genre">
-          <option>Trap</option><option>R&amp;B</option><option>Pop</option>
-          <option>Hip-Hop</option><option>Electronic</option><option>Reggaeton</option>
-          <option>Afrobeats</option><option>Rock</option><option>Jazz</option><option>Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">BPM</label>
-        <input type="number" class="form-input" id="ep-bpm" min="40" max="300">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Key</label>
-        <select class="form-input" id="ep-key">
-          <option>C</option><option>C#</option><option>D</option><option>D#</option>
-          <option>E</option><option>F</option><option>F#</option><option>G</option>
-          <option>G#</option><option>A</option><option>A#</option><option>B</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Mode</label>
-        <select class="form-input" id="ep-mode"><option>Major</option><option>Minor</option></select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Artist / Composer</label>
-      <input type="text" class="form-input" id="ep-artist">
-    </div>
-    <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
-    <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px"
-      onclick="deleteProject(document.getElementById('ep-id').value)">Delete Project</button>
-    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancel</button>
-  </div>
-</div>
 </body>
 </html>
