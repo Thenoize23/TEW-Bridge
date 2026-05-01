@@ -1521,65 +1521,8 @@ function getSubgenreValue(prefix) {
   return (document.getElementById(prefix + '-subgenre') || {}).value || '';
 }
 
-function openEditProject(projectId) {
-  const p = state.projects.find(x => x.id === projectId);
-  if (!p) return;
-  document.getElementById('ep-name').value   = p.name   || '';
-  const epGenreInp = document.getElementById('ep-genre');
-  const epSubInp   = document.getElementById('ep-subgenre');
-  if (epGenreInp) epGenreInp.value = p.genre    || '';
-  if (epSubInp)   epSubInp.value   = p.subgenre || '';
-  setTimeout(() => updateSubgenre('ep'), 50);
-  document.getElementById('ep-bpm').value    = p.bpm    || '';
-  document.getElementById('ep-artist').value = p.artist || '';
-  // Set key/mode
-  const keyParts = (p.key || 'C Major').split(' ');
-  document.getElementById('ep-key').value  = keyParts[0] || 'C';
-  document.getElementById('ep-mode').value = keyParts[1] || 'Major';
-  document.getElementById('ep-id').value   = projectId;
-  document.getElementById('modal-edit-proj').classList.add('open');
-}
 
-function saveEditProject() {
-  const id = document.getElementById('ep-id').value;
-  const p  = state.projects.find(x => x.id === id);
-  if (!p) return;
-  const name = document.getElementById('ep-name').value.trim();
-  if (!name) { showFormError('proj-error', t('enterName')); return; }
-  if (state.projects.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-    showFormError('proj-error', t('duplicateName'));
-    return;
-  }
-  p.name   = name;
-  p.genre    = getGenreValue('ep');
-  p.subgenre = getSubgenreValue('ep');
-  p.bpm    = document.getElementById('ep-bpm').value || '—';
-  p.key    = document.getElementById('ep-key').value + ' ' + document.getElementById('ep-mode').value;
-  p.artist = document.getElementById('ep-artist').value.trim();
-  saveProjects();
-  renderProjects();
-  closeModal('modal-edit-proj');
-  // Update workspace header if this is the active project
-  if (state.active && state.active.id === id) {
-    const _wn = document.getElementById('ws-name');
-    if (_wn) _wn.textContent = p.name;
-  }
-}
 
-function deleteProject(projectId) {
-  state.projects = state.projects.filter(x => x.id !== projectId);
-  if (state.active && state.active.id === projectId) {
-    state.active = null;
-    var _ws = document.getElementById('workspace');
-    if (_ws) _ws.style.display = 'none';
-    document.getElementById('screen-projects').classList.add('active');
-    document.querySelector('[data-tab="projects"]').classList.add('active');
-    var _fb = document.getElementById('fab'); if(_fb) _fb.style.display = 'flex';
-  }
-  saveProjects();
-  renderProjects();
-  closeModal('modal-edit-proj');
-}
 
 function saveProjects() {
   localStorage.setItem('tew_projects', JSON.stringify(state.projects));
@@ -1668,12 +1611,6 @@ function renderProjects() {
     const pct = getProjectPct(p);
     return `
       <div class="card" style="position:relative">
-        <div style="position:absolute;top:12px;right:12px;z-index:2">
-          <button onclick="event.stopPropagation();openEditProject('${p.id}')"
-            style="background:var(--panel3);border:1px solid var(--border);border-radius:8px;
-                   width:30px;height:30px;cursor:pointer;color:var(--text2);font-size:14px;
-                   display:flex;align-items:center;justify-content:center">✎</button>
-        </div>
         <div style="cursor:pointer" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
         <div class="proj-name">${p.name}</div>
         <div class="proj-meta">
@@ -2171,8 +2108,7 @@ function buildCard(key) {
         </div>
         <div style="position:relative;height:14px;background:var(--panel3);border-radius:7px;overflow:hidden">
           <!-- center line -->
-          <div style="position:absolute;left:50%;top:0;width:1px;height:100%;background:var(--border2, rgba(0,0,0,0.2))"></div>
-          <!-- instrument position -->
+            <!-- instrument position -->
           <div style="position:absolute;top:2px;height:10px;border-radius:5px;background:${inst.color};left:${leftPct}%;width:${widthPct}%;opacity:0.85"></div>
         </div>
         <!-- Pan note -->
@@ -2297,88 +2233,6 @@ connectWS();
 
 
 <!-- Modal: Editar Proyecto -->
-<div class="modal-overlay" id="modal-edit-proj">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" data-i18n="editProject">Editar Proyecto</div>
-    <input type="hidden" id="ep-id">
-    <div class="form-group">
-      <label class="form-label" data-i18n="projectName">Nombre del Proyecto</label>
-      <input type="text" class="form-input" id="ep-name">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Genre</label>
-        <select class="form-input" id="ep-genre">
-          <option>Trap</option><option>R&amp;B</option><option>Pop</option>
-          <option>Hip-Hop</option><option>Electronic</option><option>Reggaeton</option>
-          <option>Afrobeats</option><option>Rock</option><option>Jazz</option><option>Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">BPM</label>
-        <input type="number" class="form-input" id="ep-bpm" min="40" max="300">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Key</label>
-        <select class="form-input" id="ep-key">
-          <option>C</option><option>C#</option><option>D</option><option>D#</option>
-          <option>E</option><option>F</option><option>F#</option><option>G</option>
-          <option>G#</option><option>A</option><option>A#</option><option>B</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Mode</label>
-        <select class="form-input" id="ep-mode"><option>Major</option><option>Minor</option></select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label" data-i18n="artist">Artista / Compositor</label>
-      <input type="text" class="form-input" id="ep-artist">
-    </div>
-    <div id="ep-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
-    <button class="btn-primary" onclick="saveEditProject()" data-i18n="save">Guardar Cambios</button>
-    <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px"
-      onclick="deleteProject(document.getElementById('ep-id').value)" data-i18n="delete">Eliminar Proyecto</button>
-    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')" data-i18n="cancel">Cancelar</button>
-  </div>
-</div>
-
-<!-- Modal: Editar Etapas -->
-<div class="modal-overlay" id="modal-edit-stages">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Editar Etapas</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Selecciona qué etapas aplican a este proyecto.</p>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
-      <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
-        <input type="checkbox" id="es-production" style="width:18px;height:18px;accent-color:var(--accent)">
-        <div>
-          <div style="font-size:14px;font-weight:600">Production</div>
-          <div style="font-size:12px;color:var(--text2)">Estructura del beat, arreglos, diseño de sonido</div>
-        </div>
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
-        <input type="checkbox" id="es-mix" style="width:18px;height:18px;accent-color:var(--accent)">
-        <div>
-          <div style="font-size:14px;font-weight:600">Mix</div>
-          <div style="font-size:12px;color:var(--text2)">EQ, compresión, routing, espacio</div>
-        </div>
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;background:var(--panel3);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer">
-        <input type="checkbox" id="es-mastering" style="width:18px;height:18px;accent-color:var(--accent)">
-        <div>
-          <div style="font-size:14px;font-weight:600">Mastering</div>
-          <div style="font-size:12px;color:var(--text2)">Limitación, LUFS, exportación final</div>
-        </div>
-      </label>
-    </div>
-    <button class="btn-primary" onclick="saveEditStages()">Guardar</button>
-    <button class="btn-ghost"   onclick="closeModal('modal-edit-stages')" data-i18n="cancel">Cancelar</button>
-  </div>
-</div>
 
 <!-- Modal: Step Details -->
 <div class="modal-overlay" id="modal-detail">
