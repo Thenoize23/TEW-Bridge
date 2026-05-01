@@ -2382,6 +2382,7 @@ function connectWS() {
 
 
 
+
 function handleVST(rms, peak) {
   state.rms = rms; state.peak = peak;
   state.vstOn = true; state.count++;
@@ -2389,8 +2390,6 @@ function handleVST(rms, peak) {
   // Header badge
   document.getElementById('hdr-dot').className   = 'hdr-dot live';
   document.getElementById('hdr-lbl').textContent  = 'VST LIVE';
-  document.getElementById('sdot-vst').className  = 'sdot sdot-g';
-  document.getElementById('slbl-vst').textContent = 'Connected';
 
   // Settings panel
   const sr = document.getElementById('s-rms');
