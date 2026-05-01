@@ -1997,7 +1997,7 @@ function renderSteps() {
         <div class="step-name">${s.name}</div>
         <div class="step-desc">${s.desc}</div>
       </div>
-      <button class="det-btn" onclick="openDetail('${s.id}')">
+      <button class="det-btn" onclick="event.stopPropagation();openDetail('${s.id}')">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.3"/>
           <line x1="8" y1="7" x2="8" y2="11.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
