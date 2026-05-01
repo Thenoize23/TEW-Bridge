@@ -1633,50 +1633,7 @@ function getSubgenreValue(prefix) {
   return (document.getElementById(prefix + '-subgenre') || {}).value || '';
 }
 
-function openEditProject(projectId) {
-  const p = state.projects.find(x => x.id === projectId);
-  if (!p) return;
-  document.getElementById('ep-name').value   = p.name   || '';
-  const epGenreInp = document.getElementById('ep-genre');
-  const epSubInp   = document.getElementById('ep-subgenre');
-  if (epGenreInp) epGenreInp.value = p.genre    || '';
-  if (epSubInp)   epSubInp.value   = p.subgenre || '';
-  setTimeout(() => updateSubgenre('ep'), 50);
-  document.getElementById('ep-bpm').value    = p.bpm    || '';
-  document.getElementById('ep-artist').value = p.artist || '';
-  // Set key/mode
-  const keyParts = (p.key || 'C Major').split(' ');
-  document.getElementById('ep-key').value  = keyParts[0] || 'C';
-  document.getElementById('ep-mode').value = keyParts[1] || 'Major';
-  document.getElementById('ep-id').value   = projectId;
-  document.getElementById('modal-edit-proj').classList.add('open');
-}
 
-function saveEditProject() {
-  const id = document.getElementById('ep-id').value;
-  const p  = state.projects.find(x => x.id === id);
-  if (!p) return;
-  const name = document.getElementById('ep-name').value.trim();
-  if (!name) { showFormError('proj-error', t('enterName')); return; }
-  if (state.projects.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-    showFormError('proj-error', t('duplicateName'));
-    return;
-  }
-  p.name   = name;
-  p.genre    = getGenreValue('ep');
-  p.subgenre = getSubgenreValue('ep');
-  p.bpm    = document.getElementById('ep-bpm').value || '—';
-  p.key    = document.getElementById('ep-key').value + ' ' + document.getElementById('ep-mode').value;
-  p.artist = document.getElementById('ep-artist').value.trim();
-  saveProjects();
-  renderProjects();
-  closeModal('modal-edit-proj');
-  // Update workspace header if this is the active project
-  if (state.active && state.active.id === id) {
-    const _wn = document.getElementById('ws-name');
-    if (_wn) _wn.textContent = p.name;
-  }
-}
 
 function deleteProject(projectId) {
   state.projects = state.projects.filter(x => x.id !== projectId);
@@ -1770,6 +1727,38 @@ function createProject() {
   showWorkspace(project);
 }
 
+
+function openEditProject(projectId) {
+  const p = state.projects.find(x => x.id === projectId);
+  if (!p) return;
+  document.getElementById('ep-id').value    = projectId;
+  document.getElementById('ep-name').value  = p.name   || '';
+  document.getElementById('ep-genre').value = p.genre  || '';
+  document.getElementById('ep-bpm').value   = p.bpm    || '';
+  document.getElementById('ep-key').value   = p.key    || '';
+  document.getElementById('ep-artist').value= p.artist || '';
+  document.getElementById('ep-error').textContent = '';
+  document.getElementById('modal-edit-proj').classList.add('open');
+}
+
+function saveEditProject() {
+  const id   = document.getElementById('ep-id').value;
+  const name = document.getElementById('ep-name').value.trim();
+  const p    = state.projects.find(x => x.id === id);
+  if (!p) return;
+  if (!name) { document.getElementById('ep-error').textContent = 'Project name required.'; return; }
+  const dup = state.projects.find(x => x.name === name && x.id !== id);
+  if (dup) { document.getElementById('ep-error').textContent = 'A project with that name already exists.'; return; }
+  p.name   = name;
+  p.genre  = document.getElementById('ep-genre').value.trim();
+  p.bpm    = document.getElementById('ep-bpm').value.trim();
+  p.key    = document.getElementById('ep-key').value.trim();
+  p.artist = document.getElementById('ep-artist').value.trim();
+  saveProjects();
+  renderProjects();
+  closeModal('modal-edit-proj');
+}
+
 function renderProjects() {
   const list = document.getElementById('proj-list');
   if (!state.projects.length) {
@@ -1780,11 +1769,10 @@ function renderProjects() {
     const pct = getProjectPct(p);
     return `
       <div class="card" style="position:relative">
-        <div style="position:absolute;top:12px;right:12px;z-index:2">
+
+        <div style="position:absolute;top:10px;right:10px;z-index:2">
           <button onclick="event.stopPropagation();openEditProject('${p.id}')"
-            style="background:var(--panel3);border:1px solid var(--border);border-radius:8px;
-                   width:30px;height:30px;cursor:pointer;color:var(--text2);font-size:14px;
-                   display:flex;align-items:center;justify-content:center">✓</button>
+            style="background:var(--panel3);border:1px solid var(--border);border-radius:8px;width:30px;height:30px;cursor:pointer;color:var(--text2);font-size:14px;display:flex;align-items:center;justify-content:center">✏️</button>
         </div>
         <div style="cursor:pointer;display:flex;align-items:center;gap:14px;padding:4px 0" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
           <div style="width:52px;height:52px;border-radius:50%;flex-shrink:0;background:${p.artwork ? 'url('+p.artwork+') center/cover' : 'var(--accent)'};display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid rgba(255,255,255,0.1)">${p.artwork ? '' : '🎵'}</div>
@@ -2540,5 +2528,29 @@ document.addEventListener('keydown', e => {
   </div>
 </div>
 
+
+<div id="modal-edit-proj" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Edit Project</div>
+    <input id="ep-name" type="text" placeholder="Project Name"
+      style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel3);color:var(--text);font-size:14px;font-family:var(--sans);margin-bottom:10px;outline:none"/>
+    <input id="ep-genre" type="text" placeholder="Genre"
+      style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel3);color:var(--text);font-size:14px;font-family:var(--sans);margin-bottom:10px;outline:none"/>
+    <input id="ep-bpm" type="number" placeholder="BPM"
+      style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel3);color:var(--text);font-size:14px;font-family:var(--sans);margin-bottom:10px;outline:none"/>
+    <input id="ep-key" type="text" placeholder="Key (e.g. C Major)"
+      style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel3);color:var(--text);font-size:14px;font-family:var(--sans);margin-bottom:10px;outline:none"/>
+    <input id="ep-artist" type="text" placeholder="Artist / Composer"
+      style="width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel3);color:var(--text);font-size:14px;font-family:var(--sans);margin-bottom:16px;outline:none"/>
+    <input type="hidden" id="ep-id"/>
+    <div id="ep-error" style="font-size:12px;color:var(--danger);min-height:16px;margin-bottom:8px"></div>
+    <button onclick="saveEditProject()"
+      style="width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-bottom:8px">Save Changes</button>
+    <button onclick="deleteProject(document.getElementById('ep-id').value)"
+      style="width:100%;padding:13px;background:transparent;color:var(--danger);border:1px solid var(--danger);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);margin-bottom:8px">Delete Project</button>
+    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancel</button>
+  </div>
+</div>
 </body>
 </html>
