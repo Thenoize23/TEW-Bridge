@@ -586,6 +586,7 @@ body {
           <div class="ws-name" id="ws-name">Project</div>
           <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px" id="ws-stage"></div>
         </div>
+        <button onclick="openEditStages()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:var(--sans);flex-shrink:0">Stages</button>
       </div>
       <!-- Stage tabs -->
       <div style="padding:0 16px 12px;background:var(--panel2)">
@@ -1674,6 +1675,34 @@ function deleteProject(projectId) {
   closeModal('modal-edit-proj');
 }
 
+function openEditStages() {
+  const p = state.active;
+  if (!p) return;
+  ['production','mix','mastering'].forEach(st => {
+    const cb = document.getElementById('es-' + st);
+    if (cb) cb.checked = p.stages && p.stages.includes(st);
+  });
+  const modal = document.getElementById('modal-edit-stages');
+  if (modal) modal.classList.add('open');
+}
+
+function saveEditStages() {
+  const p = state.active;
+  if (!p) return;
+  const selected = ['production','mix','mastering'].filter(st => {
+    const cb = document.getElementById('es-' + st);
+    return cb && cb.checked;
+  });
+  if (selected.length === 0) { alert('Select at least one stage'); return; }
+  p.stages = selected;
+  if (!selected.includes(p.stage)) p.stage = selected[0];
+  selected.forEach(st => { if (!p.stepsDone[st]) p.stepsDone[st] = {}; });
+  saveProjects();
+  renderStageTabs();
+  renderSteps();
+  closeModal('modal-edit-stages');
+}
+
 function renderProjects() {
   const list = document.getElementById('proj-list');
   if (!state.projects.length) {
@@ -2549,6 +2578,39 @@ document.addEventListener('keydown', e => {
     <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
     <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px" onclick="deleteProject(document.getElementById('ep-id').value)">Delete Project</button>
     <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancel</button>
+  </div>
+</div>
+
+<div id="modal-edit-stages" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Edit Stages</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Select the stages for this project.</p>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px">
+      <label style="display:flex;align-items:center;gap:12px;font-size:15px;color:var(--text);cursor:pointer">
+        <input type="checkbox" id="es-production" style="width:18px;height:18px;accent-color:var(--accent)">
+        <div>
+          <div style="font-weight:600">Production</div>
+          <div style="font-size:12px;color:var(--text3)">Composition, sound design, arrangement</div>
+        </div>
+      </label>
+      <label style="display:flex;align-items:center;gap:12px;font-size:15px;color:var(--text);cursor:pointer">
+        <input type="checkbox" id="es-mix" style="width:18px;height:18px;accent-color:var(--accent)">
+        <div>
+          <div style="font-weight:600">Mix</div>
+          <div style="font-size:12px;color:var(--text3)">Balance, EQ, compression, effects</div>
+        </div>
+      </label>
+      <label style="display:flex;align-items:center;gap:12px;font-size:15px;color:var(--text);cursor:pointer">
+        <input type="checkbox" id="es-mastering" style="width:18px;height:18px;accent-color:var(--accent)">
+        <div>
+          <div style="font-weight:600">Mastering</div>
+          <div style="font-size:12px;color:var(--text3)">Loudness, limiting, final export</div>
+        </div>
+      </label>
+    </div>
+    <button class="btn-primary" onclick="saveEditStages()">Save</button>
+    <button class="btn-ghost" onclick="closeModal('modal-edit-stages')">Cancel</button>
   </div>
 </div>
 </body>
