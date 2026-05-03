@@ -103,10 +103,10 @@ body {
 
 .hdr-label { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.6); font-family: var(--mono); }
 
-#content { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; background: var(--panel2); }
+#content { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; background: var(--panel2); padding-bottom: 68px; }
 
 /* ── Tab bar ─────────────────────────────────── */
-#tab-bar {
+#tab-bar { position:fixed; bottom:0; left:0; right:0; z-index:50;
   height: var(--tab-h);
   background: var(--tab-bg);
   display: flex;
