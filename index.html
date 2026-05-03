@@ -2131,66 +2131,72 @@ function buildCard(key) {
   const inst = INSTRUMENTS[key];
   if (!inst) return '';
   const view = cardViews[key] || 'eq';
-
   if (view === 'eq') {
     const W=300,H=120,MID=60,PAD=14;
     const gains=inst.spectrum.map(v=>((v-50)/50)*12);
     const n=gains.length;
     const pts=gains.map((g,i)=>[PAD+(i/(n-1))*(W-PAD*2),MID-(g/12)*(MID-12)]);
     let pd='M '+pts[0][0]+' '+pts[0][1];
-    for(let i=0;i<pts.length-1;i++){const cx=(pts[i][0]+pts[i+1][0])/2;pd+=' C '+cx+' '+pts[i][1]+' '+cx+' '+pts[i+1V�WJ��	����J�WV�J��	����J�WV�WN�B��ۜ��\
-��	���TQ
-J��	��RQ
-��	��Q
-��	��RQ
-�����ۜ�X\^�N�[��������JK��ܑXX�
-
-�KJOO��X\�WO[�JN�ۜ��ܝYSؚ�X���^\�X\
-K�X\
-OO��N��KΙ�Z[����WK����WV�_JJK��ܝ
-
-K�OO�X]�X�����KSX]�X��K��JN�ۜ�X�[YV�N��ܝY��ܑXX�
-][OO��Y�[X�[Y���YJO�X]�X���Z][K�
-O͊J[X�[Y�\�
-][JN�JN�ۜ��V�̌	�	�	�	��MI�	�Z��	���	�M���N��ۜ��OV���LN�ۜ�^Y�K�X\
-OO��^H�����WV�J�ȈOH���M
-J�Ȉ^X[��܏H�ZYH��۝\�^�OH�K�H��[H��\�K]^�H��۝Y�[Z[OH�[�\��[��\�\�Y����ٛٚK�[�^يJWJ���^��K���[�	��N�ۜ���\˛X\
-
-�WKJOO��ۜ��Y�Z[���WN�Y�X]�X���OJ\�]\��	���ۜ�[��^Q
-̌���\�	Ξ��TQL���[�	Ή�ZYI��ۜ�][O[X�[Y��[�
-O��OOOZJN]�]I��\��H�H���
-�Ȉ�OH���J�Ȉ�H������[H���[�����܊�ȋω�Y�][J^��ۜ��YۏYό���Ή����ۜ�OSX]�X^
-KX]�Z[�LNό�KNN�J�M
-JN�]
-�I�^H���
-�ȈOH���J�Ȉ^X[��܏H���[���Ȉ�۝\�^�OH�K�H��[H���[�����܊�Ȉ�X�]OH��H��۝Y�[Z[OH�[�\��[��\�\�Y������Yۊ�˝њ^Y
-
-J����^���ۜ��ZX\�W_	���Y��
-^��ۜ�OSX]�X^
-KX]�Z[�LNό�KLMΞJ̌�JN�]
-�I�^H���
-�ȈOH���J�Ȉ^X[��܏H���[���Ȉ�۝\�^�OH����۝]�ZY�H����[H���[�����܊�Ȉ�۝Y�[Z[OH�[�\��[��\�\�Y������
-���^���_B��]\���]�JK���[�	��N�ۜ�ݙ�I�ݙ��Y]Л�H�	�����	��
-�Ȉ[��H������˝�˛ܙ�̌�ݙȈ�[OH��Y�L	N�\�^N����ȏ�
-��Y�Ϗ[�X\�ܘYY[�YH�\Y����^J�ȈOH��LOH���H��L�H�H����ٙ��]H�	H���X��܏H���[�����܊�Ȉ��[�X�]OH��ȋϏ��ٙ��]H�L	H���X��܏H���[�����܊�Ȉ��[�X�]OH��H�Ϗ��ٙ��]H�L	H���X��܏H���[�����܊�Ȉ��[�X�]OH��MH�Ϗ�[�X\�ܘYY[���Y�ω
-��[�HOH���Q
-�ȈLOH���RQ
-�Ȉ�H����TQ
-J�ȈL�H���RQ
-�Ȉ����OH��\�KX�ܙ\�H�����K]�YH��Ȉ����KY\�\��^OH��ȋω
-��]H��ٙ
-�Ȉ�[H�\�
-�\Y����^J��H��X�]OH���ω
-��]H���
-�Ȉ�[H��ۙH�����OH���[�����܊�Ȉ����K]�YH�K������K[[�X�\H���[��ω
-����^
-���ݙω��]\��]��\��H��\�X�\��ۘ�X��H����P�\��Y]�	���^_I�H�YH��\�I��^_H���]��[OH�Y[�Ύ���ݙ�O�]���]��\��H��\�[Y]H���]��[OH�\�^N��^�[YۋZ][\Θ�[�\�ڝ\�Y�KX�۝[���X�KX�]�Y[����]��[OH�\�^N��^�[YۋZ][\Θ�[�\���\�����[��[OH��۝\�^�N�L����[���X�۟O��[���]��\��H��\�[����[����[Y_O�]����]���]��[OH��۝\�^�N�\ٛ۝]�ZY����]\�\�X�[�Ό�\���܎��\�K]^�N؛ܙ\��\��Y�\�KX�ܙ\�N؛ܙ\�\�Y]\΍�Y[�Ό\\��TO�]����]���]��\��H��\�\Ȉ�[OH���܎��[�����ܟNٛ۝]�ZY����X\��[�]������[����[��_O�]����]����]��H[�H�ۜ���XYJ[���[��Y��J�L�ۜ���ML
-�[���[�
-J�N�ۜ�Y��SX]�X^
-���\��XY
-N�ۜ��Y�SX]�Z[�M���XY
-��N�ۜ�[�Z[���[��ۜ���X�[\[�L�O��Y�	Μ[���O�ԚY�	Ί[���[��Y
-O������YIΉ��[�\���]\��]��\��H��\�X�\��ۘ�X��H����P�\��Y]�	���^_I�H�YH��\�I��^_H���]��[OH��X��ܛ�[���\�K\[�[�N�ZY���\�^N��^ٛ^Y\�X�[ێ���[[�ڝ\�Y�KX�۝[���[�\��Y[�Ό���]��[OH���][ێ��[]]�N�ZY���ؘX��ܛ�[���\�K\[�[�N؛ܙ\�\�Y]\ΌL�ݙ\���ΚY[����]��[OH���][ێ�X���]N�Y���Y��IN��Y���Y�IN�ZY��L	NؘX��ܛ�[���[�����ܟN؛ܙ\�\�Y]\ΌL��X�]N��H���]���]��[OH���][ێ�X���]N�Y��L	N���؛��N���Y�\ؘX��ܛ�[���\�KX�ܙ\�N��X�]N��H���]����]���]��[OH�\�^N��^ڝ\�Y�KX�۝[���X�KX�]�Y[���&v���F��G��f��B�6��S����6���#�f"���FW�C2��f��B�vV�v�C�c#��7�����7���7��3��7���7��#��7����F�c���F�c��F�b6�73�&6�'B��WF#��F�b7G��S�&F�7���f�W��Ɩv�֗FV�3�6V�FW#��W7F�g��6��FV�C�76R�&WGvVV�#��F�b7G��S�&F�7���f�W��Ɩv�֗FV�3�6V�FW#�v�G�#��7�7G��S�&f��B�6��S�'�#�G���7B�6�����7���F�b6�73�&6�'B��#�G���7B���W���F�c���F�c��F�b7G��S�&f��B�6��S����f��B�vV�v�C�c��WGFW"�76��s��W��6���#�f"���FW�C2��&�&FW#��6�ƖBf"���&�&FW"��&�&FW"�&F�W3�G��FF��s��W�#����F�c���F�c��F�b6�73�&6�'B�2"7G��S�&6���#�G���7B�6���'Ӷf��B�vV�v�C�c��&v���F��'�#�G��4�&V��+rG���7B�&�vW���F�c���F�c���F�c���ЧР
+    for(let i=0;i<pts.length-1;i++){const cx=(pts[i][0]+pts[i+1][0])/2;pd+=' C '+cx+' '+pts[i][1]+' '+cx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];}
+    const fd=pd+' L '+(W-PAD)+' '+MID+' L '+PAD+' '+MID+' Z';
+    const hmap={};(inst.hotspots||[]).forEach(([i,l])=>{hmap[i]=l;});
+    const sorted=Object.keys(hmap).map(i=>({i:+i,g:gains[+i],x:pts[+i][0]})).sort((a,b)=>Math.abs(b.g)-Math.abs(a.g));
+    const labeled=[];sorted.forEach(item=>{if(!labeled.some(l=>Math.abs(l.x-item.x)<36))labeled.push(item);});
+    const fl=['20','80','315','1k','4k','16k'];const fi=[0,2,4,6,8,10];
+    const ax=fi.map(i=>'<text x="'+pts[i][0]+'" y="'+(H-4)+'" text-anchor="middle" font-size="5.5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[fi.indexOf(i)]+'</text>').join('');
+    const dots=pts.map(([x,y],i)=>{
+      const g=gains[i];if(Math.abs(g)<1)return '';
+      const anc=x<PAD+20?'start':x>W-PAD-20?'end':'middle';
+      const litem=labeled.find(l=>l.i===i);
+      let out='<circle cx="'+x+'" cy="'+y+'" r="2.2" fill="'+inst.color+'"/>';
+      if(litem){const sign=g>0?'+':'';const dy=Math.max(9,Math.min(H-18,g>0?y-9:y+14));
+        out+='<text x="'+x+'" y="'+dy+'" text-anchor="'+anc+'" font-size="5.5" fill="'+inst.color+'" opacity="0.9" font-family="Inter,sans-serif">'+sign+g.toFixed(0)+'dB</text>';
+        const lbl=hmap[i]||'';if(lbl){const ly=Math.max(9,Math.min(H-18,g>0?y-17:y+23));
+          out+='<text x="'+x+'" y="'+ly+'" text-anchor="'+anc+'" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>';}}
+      return out;}).join('');
+    const svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
+      +'<defs><linearGradient id="eqg'+key+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.3"/><stop offset="50%" stop-color="'+inst.color+'" stop-opacity="0.05"/><stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.15"/></linearGradient></defs>'
+      +'<line x1="'+PAD+'" y1="'+MID+'" x2="'+(W-PAD)+'" y2="'+MID+'" stroke="var(--border)" stroke-width="0.7" stroke-dasharray="3,3"/>'
+      +'<path d="'+fd+'" fill="url(#eqg'+key+')" opacity="0.8"/>'
+      +'<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.8" stroke-linecap="round"/>'
+      +dots+ax+'</svg>';
+    return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
+      <div style="padding:8px 4px 0">${svg}</div>
+      <div class="chart-meta">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:4px">
+            <span style="font-size:12px">${inst.icon}</span>
+            <div class="chart-n">${inst.name}</div>
+          </div>
+          <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>
+        </div>
+        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${inst.range}</div>
+      </div>
+    </div>`;
+  } else {
+    const spread=(inst.panWidth||0.3)*50;
+    const pos=50+(inst.pan||0)*45;
+    const leftPct=Math.max(2,pos-spread);
+    const widthPct=Math.min(96,spread*2);
+    const pan=inst.pan||0;
+    const posLabel=pan<-0.5?'Left':pan>0.5?'Right':(inst.panWidth||0)>0.7?'Wide':'Center';
+    return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
+      <div style="background:var(--panel2);height:88px;display:flex;flex-direction:column;justify-content:center;padding:0 8px">
+        <div style="position:relative;height:20px;background:var(--panel3);border-radius:10px;overflow:hidden">
+          <div style="position:absolute;left:${leftPct}%;width:${widthPct}%;height:100%;background:${inst.color};border-radius:10px;opacity:0.85"></div>
+          <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border);opacity:0.5"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:8px;color:var(--text3);font-weight:600"><span>L</span><span>C</span><span>R</span></div>
+      </div>
+      <div class="chart-meta">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:4px">
+            <span style="font-size:12px">${inst.icon}</span>
+            <div class="chart-n">${inst.name}</div>
+          </div>
+          <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">PAN</div>
+        </div>
+        <div class="chart-s" style="color:${inst.color};font-we
 function toggleCardView(key) {
   cardViews[key] = (cardViews[key] === 'pan') ? 'eq' : 'pan';
   const card = document.getElementById('card-' + key);
