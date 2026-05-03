@@ -2196,7 +2196,12 @@ function buildCard(key) {
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">PAN</div>
         </div>
-        <div class="chart-s" style="color:${inst.color};font-we
+        <div class="chart-s" style="color:${inst.color};font-weight:600;margin-top:2px">${posLabel} · ${inst.range}</div>
+      </div>
+    </div>`;
+  }
+}
+
 function toggleCardView(key) {
   cardViews[key] = (cardViews[key] === 'pan') ? 'eq' : 'pan';
   const card = document.getElementById('card-' + key);
