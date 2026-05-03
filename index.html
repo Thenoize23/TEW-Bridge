@@ -1773,7 +1773,7 @@ function showWorkspace(project) {
   project.stages.forEach(s => { if (!project.stepsDone[s]) project.stepsDone[s] = {}; });
   if (!project.stages.includes(project.stage)) project.stage = project.stages[0];
 
-  document.getElementById('screen-projects').classList.remove('active');
+  document.getElementById('screen-projects').classList.remove('active');document.getElementById('screen-projects').style.display='none';
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   var _ws = document.getElementById('workspace'); if(_ws) _ws.style.display = 'block';
   var _fb = document.getElementById('fab');       if(_fb) _fb.style.display = 'none';
