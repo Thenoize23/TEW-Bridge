@@ -139,8 +139,8 @@ body {
 .tab-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
 
 /* ── Screens ─────────────────────────────────── */
-.screen { display: none; padding: 20px 16px; animation: fadeUp 0.2s ease; }
-.screen.active { display: block; }
+.screen { display: none !important; padding: 20px 16px; animation: fadeUp 0.2s ease; }
+.screen.active { display: block !important; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
 /* ── Section label ───────────────────────────── */
@@ -1513,9 +1513,9 @@ function switchTab(tab) {
   if (ws && ws.style.display === 'block') {
     if(ws) ws.style.display = 'none';
   }
-  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display=''; });
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('screen-' + tab).classList.add('active');
+  const activeScr=document.getElementById('screen-' + tab); if(activeScr){activeScr.classList.add('active');activeScr.style.display='block';}
   document.querySelector('[data-tab="' + tab + '"]').classList.add('active');
   var _t=document.getElementById('fab');if(_t)_t.style.display=tab === 'projects' ? 'flex' : 'none';
   if (tab === 'charts')   renderCharts(state.active ? state.active.stage : null);
