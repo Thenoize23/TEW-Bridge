@@ -2155,7 +2155,7 @@ function buildCard(key) {
   if (!inst) return '';
   const view = cardViews[key] || 'eq';
   if (view === 'eq') {
-    const W=300,H=120,MID=60,PAD=14;
+    const W=300,H=150,MID=70,PAD=14,LABEL_Y=130;
     const gains=inst.spectrum.map(v=>((v-50)/50)*12);
     const n=gains.length;
     const pts=gains.map((g,i)=>[PAD+(i/(n-1))*(W-PAD*2),MID-(g/12)*(MID-12)]);
@@ -2169,22 +2169,19 @@ function buildCard(key) {
     const ax=fi.map(i=>'<text x="'+pts[i][0]+'" y="'+(H-4)+'" text-anchor="middle" font-size="5.5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[fi.indexOf(i)]+'</text>').join('');
     const hotItems = labeled.map(item => {
       const x=pts[item.i][0], y=pts[item.i][1], g=item.g;
-      const anc=x<PAD+20?'start':x>W-PAD-20?'end':'middle';
-      return {x,y,g,anc,sign:g>=0?'+':'',above:g>=0,lbl:hmap[item.i]||''};
+      const sign=g>=0?'+':'';
+      return {x,y,g,sign,lbl:hmap[item.i]||''};
     });
     hotItems.sort((a,b)=>a.x-b.x);
-    const used=[];
-    hotItems.forEach(it=>{
-      let ly=it.above?it.y-20:it.y+24;
-      used.forEach(u=>{if(Math.abs(u.x-it.x)<55&&Math.abs(u.ly-ly)<16)ly=u.ly+(it.above?-16:16);});
-      it.ly=Math.max(8,Math.min(H-6,ly));
-      used.push(it);
-    });
+    // Spread label x positions evenly to avoid overlap
+    const spacing = (W-PAD*2)/(hotItems.length+1);
+    hotItems.forEach((it,i)=>{ it.lx = PAD + spacing*(i+1); });
     const dots=hotItems.map(it=>{
-      let out='<circle cx="'+it.x+'" cy="'+it.y+'" r="2.8" fill="'+inst.color+'" stroke="var(--bg)" stroke-width="1"/>';
-      out+='<line x1="'+it.x+'" y1="'+it.y+'" x2="'+it.x+'" y2="'+it.ly+'" stroke="'+inst.color+'" stroke-width="0.6" stroke-dasharray="2,2" opacity="0.5"/>';
-      if(it.lbl)out+='<text x="'+it.x+'" y="'+(it.ly-6)+'" text-anchor="'+it.anc+'" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+it.lbl+'</text>';
-      out+='<text x="'+it.x+'" y="'+it.ly+'" text-anchor="'+it.anc+'" font-size="5.5" fill="'+inst.color+'" opacity="0.8" font-family="Inter,sans-serif">'+it.sign+it.g.toFixed(0)+'dB</text>';
+      const anc=it.lx<PAD+30?'start':it.lx>W-PAD-30?'end':'middle';
+      let out='<circle cx="'+it.x+'" cy="'+it.y+'" r="3" fill="'+inst.color+'" stroke="var(--bg)" stroke-width="1.2"/>';
+      out+='<line x1="'+it.x+'" y1="'+(it.y+3)+'" x2="'+it.lx+'" y2="'+(LABEL_Y-18)+'" stroke="'+inst.color+'" stroke-width="0.7" stroke-dasharray="2,2" opacity="0.4"/>';
+      if(it.lbl)out+='<text x="'+it.lx+'" y="'+(LABEL_Y-8)+'" text-anchor="'+anc+'" font-size="6.5" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+it.lbl+'</text>';
+      out+='<text x="'+it.lx+'" y="'+LABEL_Y+'" text-anchor="'+anc+'" font-size="6" fill="'+inst.color+'" opacity="0.75" font-family="Inter,sans-serif">'+it.sign+it.g.toFixed(0)+'dB</text>';
       return out;
     }).join('');
     const svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
