@@ -306,6 +306,9 @@ body {
   background: var(--header-bg);
   padding: 16px 20px 20px;
   display: flex; align-items: flex-start; gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .back-btn {
@@ -555,7 +558,7 @@ body {
     </div>
 
     <!-- WORKSPACE -->
-    <div id="workspace" style="display:none;position:fixed;top:0;left:0;width:100%;height:calc(100% - 64px);z-index:100;overflow-y:auto;background:var(--bg)">
+    <div id="workspace" style="display:none;position:fixed;top:0;left:0;width:100%;height:calc(100% - 64px);z-index:100;overflow-y:auto;background:var(--panel2)">
       <div class="ws-header">
         <button class="back-btn" onclick="closeWorkspace()">←</button>
         <div style="flex:1;min-width:0">
