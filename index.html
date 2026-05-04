@@ -2167,16 +2167,26 @@ function buildCard(key) {
     const labeled=[];sorted.forEach(item=>{if(!labeled.some(l=>Math.abs(l.x-item.x)<36))labeled.push(item);});
     const fl=['20','80','315','1k','4k','16k'];const fi=[0,2,4,6,8,10];
     const ax=fi.map(i=>'<text x="'+pts[i][0]+'" y="'+(H-4)+'" text-anchor="middle" font-size="5.5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[fi.indexOf(i)]+'</text>').join('');
-    const dots=pts.map(([x,y],i)=>{
-      const g=gains[i];if(Math.abs(g)<1)return '';
+    const hotItems = labeled.map(item => {
+      const x=pts[item.i][0], y=pts[item.i][1], g=item.g;
       const anc=x<PAD+20?'start':x>W-PAD-20?'end':'middle';
-      const litem=labeled.find(l=>l.i===i);
-      let out='';
-      if(litem){out+='<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+inst.color+'"/>';const sign=g>0?'+':'';const dy=Math.max(9,Math.min(H-18,g>0?y-9:y+14));
-        out+='<text x="'+x+'" y="'+dy+'" text-anchor="'+anc+'" font-size="5.5" fill="'+inst.color+'" opacity="0.9" font-family="Inter,sans-serif">'+sign+g.toFixed(0)+'dB</text>';
-        const lbl=hmap[i]||'';if(lbl){const ly=Math.max(9,Math.min(H-18,g>0?y-17:y+23));
-          out+='<text x="'+x+'" y="'+ly+'" text-anchor="'+anc+'" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>';}}
-      return out;}).join('');
+      return {x,y,g,anc,sign:g>=0?'+':'',above:g>=0,lbl:hmap[item.i]||''};
+    });
+    hotItems.sort((a,b)=>a.x-b.x);
+    const used=[];
+    hotItems.forEach(it=>{
+      let ly=it.above?it.y-20:it.y+24;
+      used.forEach(u=>{if(Math.abs(u.x-it.x)<55&&Math.abs(u.ly-ly)<16)ly=u.ly+(it.above?-16:16);});
+      it.ly=Math.max(8,Math.min(H-6,ly));
+      used.push(it);
+    });
+    const dots=hotItems.map(it=>{
+      let out='<circle cx="'+it.x+'" cy="'+it.y+'" r="2.8" fill="'+inst.color+'" stroke="var(--bg)" stroke-width="1"/>';
+      out+='<line x1="'+it.x+'" y1="'+it.y+'" x2="'+it.x+'" y2="'+it.ly+'" stroke="'+inst.color+'" stroke-width="0.6" stroke-dasharray="2,2" opacity="0.5"/>';
+      if(it.lbl)out+='<text x="'+it.x+'" y="'+(it.ly-6)+'" text-anchor="'+it.anc+'" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+it.lbl+'</text>';
+      out+='<text x="'+it.x+'" y="'+it.ly+'" text-anchor="'+it.anc+'" font-size="5.5" fill="'+inst.color+'" opacity="0.8" font-family="Inter,sans-serif">'+it.sign+it.g.toFixed(0)+'dB</text>';
+      return out;
+    }).join('');
     const svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
       +'<defs><linearGradient id="eqg'+key+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.3"/><stop offset="50%" stop-color="'+inst.color+'" stop-opacity="0.05"/><stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.15"/></linearGradient></defs>'
       +'<line x1="'+PAD+'" y1="'+MID+'" x2="'+(W-PAD)+'" y2="'+MID+'" stroke="var(--border)" stroke-width="0.7" stroke-dasharray="3,3"/>'
