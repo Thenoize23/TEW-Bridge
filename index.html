@@ -2155,41 +2155,43 @@ function buildCard(key) {
   if (!inst) return '';
   const view = cardViews[key] || 'eq';
   if (view === 'eq') {
-    const W=300,H=150,MID=70,PAD=14,LABEL_Y=130;
+    const W=300,H=170,MID=60,PAD=14,CURVE_H=100,LABEL_Y=155;
     const gains=inst.spectrum.map(v=>((v-50)/50)*12);
     const n=gains.length;
     const pts=gains.map((g,i)=>[PAD+(i/(n-1))*(W-PAD*2),MID-(g/12)*(MID-12)]);
     let pd='M '+pts[0][0]+' '+pts[0][1];
     for(let i=0;i<pts.length-1;i++){const cx=(pts[i][0]+pts[i+1][0])/2;pd+=' C '+cx+' '+pts[i][1]+' '+cx+' '+pts[i+1][1]+' '+pts[i+1][0]+' '+pts[i+1][1];}
-    const fd=pd+' L '+(W-PAD)+' '+MID+' L '+PAD+' '+MID+' Z';
+    const fd=pd+' L '+(W-PAD)+' '+CURVE_H+' L '+PAD+' '+CURVE_H+' Z';
     const hmap={};(inst.hotspots||[]).forEach(([i,l])=>{hmap[i]=l;});
     const sorted=Object.keys(hmap).map(i=>({i:+i,g:gains[+i],x:pts[+i][0]})).sort((a,b)=>Math.abs(b.g)-Math.abs(a.g));
     const labeled=[];sorted.forEach(item=>{if(!labeled.some(l=>Math.abs(l.x-item.x)<36))labeled.push(item);});
     const fl=['20','80','315','1k','4k','16k'];const fi=[0,2,4,6,8,10];
-    const ax=fi.map(i=>'<text x="'+pts[i][0]+'" y="'+(H-4)+'" text-anchor="middle" font-size="5.5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[fi.indexOf(i)]+'</text>').join('');
+    const ax=fi.map(i=>'<text x="'+pts[i][0]+'" y="'+(CURVE_H+2)+'" text-anchor="middle" font-size="5.5" fill="var(--text3)" font-family="Inter,sans-serif">'+fl[fi.indexOf(i)]+'</text>').join('');
     const hotItems = labeled.map(item => {
       const x=pts[item.i][0], y=pts[item.i][1], g=item.g;
-      const sign=g>=0?'+':'';
-      return {x,y,g,sign,lbl:hmap[item.i]||''};
+      return {x,y,g,sign:g>=0?'+':'',lbl:hmap[item.i]||''};
     });
     hotItems.sort((a,b)=>a.x-b.x);
-    // Spread label x positions evenly to avoid overlap
-    const spacing = (W-PAD*2)/(hotItems.length+1);
-    hotItems.forEach((it,i)=>{ it.lx = PAD + spacing*(i+1); });
+    // Evenly distribute label anchors across full width
+    const spacing=(W-PAD*2)/(hotItems.length+1);
+    hotItems.forEach((it,i)=>{ it.lx=PAD+spacing*(i+1); });
+    const divLine='<line x1="'+PAD+'" y1="'+(CURVE_H+8)+'" x2="'+(W-PAD)+'" y2="'+(CURVE_H+8)+'" stroke="var(--border)" stroke-width="0.5" opacity="0.4"/>';
     const dots=hotItems.map(it=>{
       const anc=it.lx<PAD+30?'start':it.lx>W-PAD-30?'end':'middle';
       let out='<circle cx="'+it.x+'" cy="'+it.y+'" r="3" fill="'+inst.color+'" stroke="var(--bg)" stroke-width="1.2"/>';
-      out+='<line x1="'+it.x+'" y1="'+(it.y+3)+'" x2="'+it.lx+'" y2="'+(LABEL_Y-18)+'" stroke="'+inst.color+'" stroke-width="0.7" stroke-dasharray="2,2" opacity="0.4"/>';
-      if(it.lbl)out+='<text x="'+it.lx+'" y="'+(LABEL_Y-8)+'" text-anchor="'+anc+'" font-size="6.5" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+it.lbl+'</text>';
-      out+='<text x="'+it.lx+'" y="'+LABEL_Y+'" text-anchor="'+anc+'" font-size="6" fill="'+inst.color+'" opacity="0.75" font-family="Inter,sans-serif">'+it.sign+it.g.toFixed(0)+'dB</text>';
+      out+='<circle cx="'+it.lx+'" cy="'+(CURVE_H+12)+'" r="1.5" fill="'+inst.color+'" opacity="0.6"/>';
+      out+='<line x1="'+it.x+'" y1="'+(it.y+3)+'" x2="'+it.lx+'" y2="'+(CURVE_H+10)+'" stroke="'+inst.color+'" stroke-width="0.6" stroke-dasharray="2,2" opacity="0.35"/>';
+      if(it.lbl)out+='<text x="'+it.lx+'" y="'+(CURVE_H+24)+'" text-anchor="'+anc+'" font-size="6.5" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+it.lbl+'</text>';
+      out+='<text x="'+it.lx+'" y="'+(CURVE_H+34)+'" text-anchor="'+anc+'" font-size="5.8" fill="'+inst.color+'" opacity="0.7" font-family="Inter,sans-serif">'+it.sign+it.g.toFixed(0)+'dB</text>';
       return out;
     }).join('');
+    const dots2=divLine+dots;
     const svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">'
       +'<defs><linearGradient id="eqg'+key+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+inst.color+'" stop-opacity="0.3"/><stop offset="50%" stop-color="'+inst.color+'" stop-opacity="0.05"/><stop offset="100%" stop-color="'+inst.color+'" stop-opacity="0.15"/></linearGradient></defs>'
       +'<line x1="'+PAD+'" y1="'+MID+'" x2="'+(W-PAD)+'" y2="'+MID+'" stroke="var(--border)" stroke-width="0.7" stroke-dasharray="3,3"/>'
       +'<path d="'+fd+'" fill="url(#eqg'+key+')" opacity="0.8"/>'
       +'<path d="'+pd+'" fill="none" stroke="'+inst.color+'" stroke-width="1.8" stroke-linecap="round"/>'
-      +dots+ax+'</svg>';
+      +dots2+ax+'</svg>';
     return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
       <div style="padding:8px 4px 0">${svg}</div>
       <div class="chart-meta">
