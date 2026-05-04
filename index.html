@@ -852,6 +852,30 @@ if (auth) {
 </script>
 
 <script>
+const AI_SUGGESTIONS = {
+  production: [
+    { tip: "Check your kick drum sits between -6dB and -3dB before any processing.", icon: "🥁" },
+    { tip: "Use a high-pass filter on all non-bass elements — start at 80Hz.", icon: "🎛️" },
+    { tip: "Keep your lead vocal around -18 LUFS in the mix bus.", icon: "🎤" },
+    { tip: "Avoid clipping on individual tracks — leave headroom for mixing.", icon: "⚠️" },
+    { tip: "Group similar instruments (drums, synths, vocals) into buses early.", icon: "📦" }
+  ],
+  mix: [
+    { tip: "Aim for a mix bus level around -6dB before mastering.", icon: "🎚️" },
+    { tip: "Use parallel compression on drums to add punch without losing dynamics.", icon: "🔊" },
+    { tip: "Check your mix in mono — if it sounds good in mono, it will sound great in stereo.", icon: "🔁" },
+    { tip: "Automate your lead vocal volume for a more natural, dynamic feel.", icon: "📈" },
+    { tip: "Use reference tracks to compare your mix against commercial releases.", icon: "🎯" }
+  ],
+  mastering: [
+    { tip: "Target -14 LUFS integrated for streaming platforms like Spotify.", icon: "🎵" },
+    { tip: "Limit your true peak to -1dBTP to avoid distortion on lossy formats.", icon: "🚫" },
+    { tip: "Use a gentle multiband compressor to glue the mix before limiting.", icon: "🔗" },
+    { tip: "Check your master on multiple systems — earbuds, speakers, car audio.", icon: "🚗" },
+    { tip: "Leave a 0.5s silence at the start and end of the master.", icon: "⏱️" }
+  ]
+};
+
 // ── Translations ─────────────────────────────────────
 
 // Skins
