@@ -1835,8 +1835,7 @@ function renderAINotes() {
   const tips = AI_SUGGESTIONS[p.stage] || [];
   el.innerHTML = tips.map(t => `
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:#1586ec;margin-bottom:6px">${t.tip}</div>
-      <div style="font-size:13px;line-height:1.6;color:var(--text2)">${t.text}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:18px">${t.icon}</span><span style="font-size:13px;line-height:1.6;color:var(--text2)">${t.tip}</span></div>
     </div>`).join('');
 }
 
