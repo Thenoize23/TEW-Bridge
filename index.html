@@ -2172,7 +2172,7 @@ function buildCard(key) {
       const anc=x<PAD+20?'start':x>W-PAD-20?'end':'middle';
       const litem=labeled.find(l=>l.i===i);
       let out='';
-      if(litem){const sign=g>0?'+':'';const dy=Math.max(9,Math.min(H-18,g>0?y-9:y+14));
+      if(litem){out+='<circle cx="'+x+'" cy="'+y+'" r="2.5" fill="'+inst.color+'"/>';const sign=g>0?'+':'';const dy=Math.max(9,Math.min(H-18,g>0?y-9:y+14));
         out+='<text x="'+x+'" y="'+dy+'" text-anchor="'+anc+'" font-size="5.5" fill="'+inst.color+'" opacity="0.9" font-family="Inter,sans-serif">'+sign+g.toFixed(0)+'dB</text>';
         const lbl=hmap[i]||'';if(lbl){const ly=Math.max(9,Math.min(H-18,g>0?y-17:y+23));
           out+='<text x="'+x+'" y="'+ly+'" text-anchor="'+anc+'" font-size="6" font-weight="700" fill="'+inst.color+'" font-family="Inter,sans-serif">'+lbl+'</text>';}}
