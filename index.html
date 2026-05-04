@@ -598,7 +598,7 @@ body {
         <button id="itab-notes" onclick="switchInnerTab('notes')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
-                 background:transparent;color:rgba(255,255,255,0.45)">Other Notes</button>
+                 background:transparent;color:rgba(255,255,255,0.45)">Custom Notes</button>
       </div>
 
       <div class="ws-body">
@@ -903,7 +903,7 @@ function setSkin(k) {
 const LANG = {
   en: {
     projects:'Projects', charts:'Charts', logs:'Logs', settings:'Settings',
-    steps:'Steps', aiNotes:'AI Notes', otherNotes:'Other Notes',
+    steps:'Steps', aiNotes:'AI Notes', otherNotes:'Custom Notes',
     production:'Production', mix:'Mix', mastering:'Mastering',
     newProject:'New Project', projectName:'Project Name',
     genre:'Genre', subgenre:'Subgenre', bpm:'BPM', key:'Key', mode:'Mode',
@@ -1015,7 +1015,7 @@ const STEPS_ES = {
     { id:'pr9', name:'Automatizacion',          desc:'Agrega movimiento, dinamica y variacion en el tiempo',     rmsMin:-20, rmsMax:-6  },
   ],
   mix: [
-    { id:'mx1', name:'Composicion',             desc:'Asegurate de que todo suene limpio antes de mezclar',      rmsMin:-24, rmsMax:-14 },
+    { id:'mx1', name:'Balance General',             desc:'Asegurate de que todo suene limpio antes de mezclar',      rmsMin:-24, rmsMax:-14 },
     { id:'mx2', name:'Organizacion',            desc:'Etiqueta, colorea y agrupa todos los canales claramente',  rmsMin:-24, rmsMax:-14 },
     { id:'mx3', name:'Routing I/O',             desc:'Configura buses, envios y retornos correctamente',         rmsMin:-22, rmsMax:-12 },
     { id:'mx4', name:'Canales Aux',             desc:'Configura reverb, delay y canales paralelos',             rmsMin:-22, rmsMax:-12 },
