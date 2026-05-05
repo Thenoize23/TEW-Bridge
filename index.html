@@ -561,7 +561,7 @@ body {
     <div id="workspace" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:200;overflow:hidden;flex-direction:column;background:var(--panel2)">
       <div class="ws-header">
         <button class="back-btn" onclick="closeWorkspace()">←</button>
-        <img id="ws-artwork" style="width:38px;height:38px;border-radius:8px;flex-shrink:0;object-fit:cover;display:block" src="" onerror="this.style.display='none'">
+        <div id="ws-artwork" style="width:40px;height:40px;border-radius:10px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--panel3);font-size:20px"></div>
         <div style="flex:1;min-width:0">
           <div class="ws-name" id="ws-name">Project</div>
           <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px" id="ws-stage"></div>
@@ -1822,7 +1822,14 @@ function showWorkspace(project) {
   var _ws = document.getElementById('workspace'); if(_ws) _ws.style.display = 'flex';
   var _fb = document.getElementById('fab');       if(_fb) _fb.style.display = 'none';
   var _wn = document.getElementById('ws-name');   if(_wn) _wn.textContent  = project.name;
-  var _wa = document.getElementById('ws-artwork'); if(_wa){ _wa.src = project.artwork||''; _wa.style.display = project.artwork ? 'block' : 'none'; }
+  var _wa = document.getElementById('ws-artwork');
+  if(_wa){
+    if(project.artwork){
+      _wa.innerHTML = '<img src="'+project.artwork+'" style="width:100%;height:100%;object-fit:cover">';
+    } else {
+      _wa.innerHTML = '🎵';
+    }
+  }
   renderStageTabs();
   // Use rAF to ensure DOM is painted before rendering steps
   requestAnimationFrame(() => {
