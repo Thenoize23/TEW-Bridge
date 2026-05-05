@@ -485,6 +485,11 @@ body {
 .form-input { transition: border-color 0.2s ease, background 0.2s ease; }
 .form-input:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
 .form-input:focus { border-color: var(--accent); outline: none; }
+
+.swipe-wrapper { position:relative; overflow:hidden; border-radius:16px; margin-bottom:12px; }
+.swipe-delete-bg { position:absolute; right:0; top:0; bottom:0; width:80px; background:#e53935; display:flex; align-items:center; justify-content:center; font-size:22px; border-radius:16px; }
+.swipe-wrapper .card { margin-bottom:0; transform:translateX(0); transition:transform 0.2s ease; will-change:transform; }
+.swipe-wrapper.swiped .card { transform:translateX(-80px); }
 </style>
 </head>
 <body>
@@ -1770,6 +1775,8 @@ function renderProjects() {
   list.innerHTML = state.projects.map(p => {
     const pct = getProjectPct(p);
     return `
+      <div class="swipe-wrapper">
+      <div class="swipe-delete-bg" onclick="event.stopPropagation();deleteProject('${p.id}')">🗑️</div>
       <div class="card" style="position:relative">
         <button onclick="event.stopPropagation();openEditProject('${p.id}')" style="position:absolute;top:10px;right:10px;z-index:2;background:var(--panel3);border:1px solid var(--border);border-radius:8px;width:28px;height:28px;cursor:pointer;color:var(--text2);font-size:12px;display:flex;align-items:center;justify-content:center;padding:0">✏️</button>
         <div style="cursor:pointer;display:flex;align-items:flex-start;gap:12px" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
@@ -1784,8 +1791,9 @@ function renderProjects() {
         </div>
           <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
         </div></div>
-      </div>`;
+      </div></div>`;
   }).join('');
+  requestAnimationFrame(initSwipeToDelete);
 }
 
 function openProject(project) {
