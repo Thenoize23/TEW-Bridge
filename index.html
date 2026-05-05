@@ -747,14 +747,38 @@ body {
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Artwork URL</label>
-      <input type="text" class="form-input" id="f-artwork" placeholder="https://...">
+    <div class="form-group" style="display:flex;flex-direction:column;align-items:center;gap:8px">
+      <label class="form-label" style="align-self:flex-start">Artwork</label>
+      <div onclick="document.getElementById('f-artwork-file').click()"
+           style="width:90px;height:90px;border-radius:50%;border:2px dashed var(--border);
+                  background:var(--panel3);display:flex;align-items:center;justify-content:center;
+                  cursor:pointer;overflow:hidden;flex-shrink:0;position:relative">
+        <img id="f-artwork-preview" src="" style="width:100%;height:100%;object-fit:cover;display:none;position:absolute;top:0;left:0">
+        <svg id="f-artwork-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/>
+          <path d="M21 15l-5-5L5 21"/>
+        </svg>
+      </div>
+      <input type="file" id="f-artwork-file" accept="image/*" style="display:none"
+             onchange="
+               const file = this.files[0];
+               if(!file) return;
+               const reader = new FileReader();
+               reader.onload = e => {
+                 const prev = document.getElementById('f-artwork-preview');
+                 const icon = document.getElementById('f-artwork-icon');
+                 prev.src = e.target.result;
+                 prev.style.display = 'block';
+                 icon.style.display = 'none';
+                 window._artworkData = e.target.result;
+               };
+               reader.readAsDataURL(file);
+             ">
     </div>
 
     <div id="proj-error" style="display:none;color:var(--danger);font-size:12px;margin-bottom:8px;font-weight:500"></div>
     <button class="btn-primary" onclick="createProject()" data-i18n="create">Crear Proyecto</button>
-    <button class="btn-ghost"    onclick="closeModal('modal-proj')" data-i18n="cancel">Cancelar</button>
+    <button class="btn-ghost"    onclick="closeModal('modal-proj');window._artworkData=null;document.getElementById('f-artwork-preview').src='';document.getElementById('f-artwork-preview').style.display='none';document.getElementById('f-artwork-icon').style.display='block';" data-i18n="cancel">Cancelar</button>
   </div>
 </div>
 
@@ -1559,7 +1583,7 @@ function createProject() {
     bpm:         document.getElementById('f-bpm').value || '—',
     key:         document.getElementById('f-key').value + ' ' + document.getElementById('f-mode').value,
     artist:      document.getElementById('f-artist').value.trim(),
-    artwork:     document.getElementById('f-artwork').value.trim(),
+    artwork:     window._artworkData || '',
     stages:      checked,          // array of selected stages
     stage:       checked[0],       // active stage in workspace
     stepsDone:   {},               // { 'mix': {mx1:true}, 'production': {} }
