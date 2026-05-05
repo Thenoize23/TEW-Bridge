@@ -517,6 +517,8 @@ select.form-input option { background: var(--card-bg); color: var(--text); }
 select.form-input option:checked { background: var(--accent); color: #fff; }
 .tab-btn { transition: transform 0.15s ease, filter 0.15s ease; }
 .tab-btn:hover { transform: scale(1.12); filter: brightness(1.25); }
+.logs-back-btn { transition: transform 0.15s ease, color 0.15s ease; }
+.logs-back-btn:hover { transform: translateX(-3px); color: var(--accent) !important; filter: brightness(1.3); }
 </style>
 </head>
 <body>
@@ -2236,9 +2238,7 @@ function renderLogs(projectId) {
 
   list.innerHTML = `
     <div>
-      <button onclick="renderLogs()" style="display:flex;align-items:center;gap:6px;background:none;border:none;
-              color:var(--accent);font-family:var(--sans);font-size:13px;font-weight:600;
-              cursor:pointer;padding:0;margin-bottom:16px">
+      <button onclick="renderLogs()" class="logs-back-btn" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--accent);font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;padding:0;margin-bottom:16px">
         ← Volver
       </button>
       <div class="log-card" style="margin-bottom:16px">
