@@ -2551,6 +2551,28 @@ document.addEventListener('keydown', e => {
       <label class="form-label">Artist / Composer</label>
       <input type="text" class="form-input" id="ep-artist" placeholder="Artist name">
     </div>
+
+    <div class="form-group" style="display:flex;flex-direction:column;align-items:center;gap:8px">
+      <label class="form-label" style="align-self:flex-start">Artwork</label>
+      <div onclick="document.getElementById('ep-artwork-file').click()"
+           style="width:90px;height:90px;border-radius:50%;border:2px dashed var(--border);background:var(--panel3);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0;position:relative">
+        <img id="ep-artwork-preview" src="" style="width:100%;height:100%;object-fit:cover;display:none;position:absolute;top:0;left:0">
+        <span id="ep-artwork-icon" style="font-size:32px;line-height:1">🎵</span>
+      </div>
+      <input type="file" id="ep-artwork-file" accept="image/*" style="display:none"
+             onchange="const file=this.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{const prev=document.getElementById('ep-artwork-preview');const icon=document.getElementById('ep-artwork-icon');prev.src=e.target.result;prev.style.display='block';icon.style.display='none';window._editArtworkData=e.target.result;};reader.readAsDataURL(file);">
+    </div>
+
+    <div class="form-group" style="display:flex;flex-direction:column;align-items:center;gap:8px">
+      <label class="form-label" style="align-self:flex-start">Artwork</label>
+      <div onclick="document.getElementById('ep-artwork-file').click()"
+           style="width:90px;height:90px;border-radius:50%;border:2px dashed var(--border);background:var(--panel3);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0;position:relative">
+        <img id="ep-artwork-preview" src="" style="width:100%;height:100%;object-fit:cover;display:none;position:absolute;top:0;left:0">
+        <span id="ep-artwork-icon" style="font-size:32px;line-height:1">🎵</span>
+      </div>
+      <input type="file" id="ep-artwork-file" accept="image/*" style="display:none"
+             onchange="const file=this.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{const prev=document.getElementById('ep-artwork-preview');const icon=document.getElementById('ep-artwork-icon');prev.src=e.target.result;prev.style.display='block';icon.style.display='none';window._editArtworkData=e.target.result;};reader.readAsDataURL(file);">
+    </div>
     <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
     <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px" onclick="deleteProject(document.getElementById('ep-id').value)">Delete Project</button>
     <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancel</button>
