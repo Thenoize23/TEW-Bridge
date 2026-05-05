@@ -487,8 +487,10 @@ body {
 .form-input:focus { border-color: var(--accent); outline: none; }
 
 
-.step-check:hover { background: var(--accent) !important; opacity:0.85; transform:scale(1.12); }
 .step-row:hover { background: rgba(255,255,255,0.04); border-radius:10px; }
+.step-box { transition: background 0.18s ease, transform 0.15s ease; }
+.step-box:hover { background: rgba(255,255,255,0.08) !important; transform: scale(1.1); }
+.step-row.done .step-box:hover { background: rgba(255,255,255,0.15) !important; }
 </style>
 </head>
 <body>
