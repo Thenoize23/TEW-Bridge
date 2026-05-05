@@ -1901,8 +1901,13 @@ function switchStage(stage) {
 
 function closeWorkspace() {
   var _t=document.getElementById('workspace');if(_t)_t.style.display='none';
+  // Ocultar todos los screens y deactivar todos los tabs
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  // Activar solo projects
   document.getElementById('screen-projects').classList.add('active');
-  document.querySelector('[data-tab="projects"]').classList.add('active');
+  var activeTab = document.querySelector('[data-tab="projects"]');
+  if (activeTab) activeTab.classList.add('active');
   var _t=document.getElementById('fab');if(_t)_t.style.display='flex';
   renderProjects();
 }
