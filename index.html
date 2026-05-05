@@ -1787,7 +1787,7 @@ function renderProjects() {
     const pct = getProjectPct(p);
     return `
       <div class="card" style="position:relative">
-        <button onclick="event.stopPropagation();openEditProject('${p.id}')" style="position:absolute;top:10px;right:10px;z-index:2;background:var(--panel3);border:1px solid var(--border);border-radius:8px;width:28px;height:28px;cursor:pointer;color:var(--text2);font-size:12px;display:flex;align-items:center;justify-content:center;padding:0">✏️</button>
+        <button onclick="event.stopPropagation();openEditProject('${p.id}')" style="position:absolute;top:10px;right:10px;z-index:2;background:var(--panel3);border:1px solid var(--border);border-radius:8px;width:28px;height:28px;cursor:pointer;color:var(--text2);font-size:12px;display:flex;align-items:center;justify-content:center;padding:0;transition:background 0.18s ease,transform 0.15s ease" onmouseover="this.style.background='var(--accent)';this.style.transform='scale(1.1)'" onmouseout="this.style.background='var(--panel3)';this.style.transform=''">✏️</button>
         <div style="cursor:pointer;display:flex;align-items:flex-start;gap:12px" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
         <div style="width:48px;height:48px;border-radius:12px;flex-shrink:0;overflow:hidden;background:var(--panel3);display:flex;align-items:center;justify-content:center;font-size:22px">${p.artwork ? '<img src="'+p.artwork+'" style="width:100%;height:100%;object-fit:cover">' : '🎵'}</div>
         <div style="flex:1;min-width:0">
