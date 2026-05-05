@@ -558,7 +558,7 @@ body {
     </div>
 
     <!-- WORKSPACE -->
-    <div id="workspace" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:200;overflow:hidden;display:flex;flex-direction:column;background:var(--panel2)">
+    <div id="workspace" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:200;overflow:hidden;flex-direction:column;background:var(--panel2)">
       <div class="ws-header">
         <button class="back-btn" onclick="closeWorkspace()">←</button>
         <img id="ws-artwork" style="width:38px;height:38px;border-radius:8px;flex-shrink:0;object-fit:cover;display:block" src="" onerror="this.style.display='none'">
@@ -1819,7 +1819,7 @@ function showWorkspace(project) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   var _hdr = document.getElementById('header'); if(_hdr) _hdr.style.display = 'none';
   var _tb = document.getElementById('tab-bar');  if(_tb)  _tb.style.display  = 'none';
-  var _ws = document.getElementById('workspace'); if(_ws) _ws.style.display = 'block';
+  var _ws = document.getElementById('workspace'); if(_ws) _ws.style.display = 'flex';
   var _fb = document.getElementById('fab');       if(_fb) _fb.style.display = 'none';
   var _wn = document.getElementById('ws-name');   if(_wn) _wn.textContent  = project.name;
   var _wa = document.getElementById('ws-artwork'); if(_wa){ _wa.src = project.artwork||''; _wa.style.display = project.artwork ? 'block' : 'none'; }
