@@ -1786,6 +1786,8 @@ function showWorkspace(project) {
 
   document.getElementById('screen-projects').classList.remove('active');document.getElementById('screen-projects').style.display='none';
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  var _hdr = document.getElementById('header'); if(_hdr) _hdr.style.display = 'none';
+  var _tb = document.getElementById('tab-bar');  if(_tb)  _tb.style.display  = 'none';
   var _ws = document.getElementById('workspace'); if(_ws) _ws.style.display = 'block';
   var _fb = document.getElementById('fab');       if(_fb) _fb.style.display = 'none';
   var _wn = document.getElementById('ws-name');   if(_wn) _wn.textContent  = project.name;
@@ -1910,6 +1912,8 @@ function closeWorkspace() {
   sp.classList.add('active');
   var activeTab = document.querySelector('[data-tab="projects"]');
   if (activeTab) activeTab.classList.add('active');
+  var _hdr = document.getElementById('header'); if(_hdr) _hdr.style.display = '';
+  var _tb = document.getElementById('tab-bar');  if(_tb)  _tb.style.display  = '';
   var _t=document.getElementById('fab');if(_t)_t.style.display='flex';
   renderProjects();
 }
