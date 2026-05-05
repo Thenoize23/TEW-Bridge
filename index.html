@@ -156,7 +156,7 @@ body {
 }
 
 /* ── Cards ───────────────────────────────────── */
-.card {
+.card { transition: background 0.2s ease, transform 0.15s ease;
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -481,6 +481,7 @@ body {
   transition: background 0.2s ease;
 }
 .btn-danger:hover { background: rgba(220,53,69,0.22); }
+.card:hover { background: var(--card-hover, rgba(255,255,255,0.06)); transform: translateY(-1px); cursor: pointer; }
 </style>
 </head>
 <body>
