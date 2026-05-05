@@ -2562,8 +2562,10 @@ document.addEventListener('keydown', e => {
       <input type="file" id="ep-artwork-file" accept="image/*" style="display:none"
              onchange="const file=this.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{const prev=document.getElementById('ep-artwork-preview');const icon=document.getElementById('ep-artwork-icon');prev.src=e.target.result;prev.style.display='block';icon.style.display='none';window._editArtworkData=e.target.result;};reader.readAsDataURL(file);">
     </div>
-
-    
+    <button class="btn-primary" onclick="saveEditProject()">Save Changes</button>
+    <button class="btn-ghost" style="color:var(--danger);border-color:var(--danger);margin-top:8px" onclick="deleteProject(document.getElementById('ep-id').value)">Delete Project</button>
+    <button class="btn-ghost" onclick="closeModal('modal-edit-proj')">Cancel</button>
+  </div>
 </div>
 
 <div id="modal-edit-stages" class="modal-overlay">
