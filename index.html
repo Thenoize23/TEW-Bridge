@@ -172,8 +172,7 @@ body {
 .proj-name {
   font-size: 16px; font-weight: 700; margin-bottom: 5px;
   overflow: hidden; white-space: nowrap; position: relative;
-  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 88%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 88%, transparent 100%);
+  
 }
 .proj-meta {
   display: flex; gap: 10px; flex-wrap: wrap;
@@ -324,7 +323,7 @@ body {
   flex-shrink: 0; margin-top: 2px;
 }
 
-.ws-name { font-size: 20px; font-weight: 700; color: #fff; overflow: hidden; white-space: nowrap; position: relative; }
+.ws-name { font-size: 20px; font-weight: 700; color: #fff; overflow: hidden; white-space: nowrap; position: relative;  }
 .ws-name-inner { display: inline-block; white-space: nowrap; }
 .ws-name-inner.scrolling { animation: ws-marquee var(--marquee-dur,8s) linear infinite; }
 @keyframes ws-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(var(--marquee-shift)); } }
