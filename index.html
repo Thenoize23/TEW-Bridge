@@ -319,7 +319,24 @@ body {
   flex-shrink: 0; margin-top: 2px;
 }
 
-.ws-name { font-size: 20px; font-weight: 700; color: #fff; }
+.ws-name {
+  font-size: 20px; font-weight: 700; color: #fff;
+  overflow: hidden; white-space: nowrap;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 88%, transparent 100%);
+}
+.ws-name-inner {
+  display: inline-block;
+  white-space: nowrap;
+}
+.ws-name-inner.scrolling {
+  animation: ws-marquee var(--marquee-dur, 8s) linear infinite;
+}
+@keyframes ws-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(var(--marquee-shift)); }
+}
 .ws-stage { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
 
 .ws-body { padding: 16px; flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; min-height:0; }
@@ -621,7 +638,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         <button class="back-btn" onclick="closeWorkspace()">←</button>
         <div id="ws-artwork" style="width:40px;height:40px;border-radius:10px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--panel3);font-size:20px"></div>
         <div style="flex:1;min-width:0">
-          <div class="ws-name" id="ws-name">Project</div>
+          <div class="ws-name" id="ws-name"><span class="ws-name-inner" id="ws-name-inner">Project</span></div>
           <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px" id="ws-stage"></div>
         </div>
         <button onclick="openEditStages()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:var(--sans);flex-shrink:0">Stages</button>
@@ -1699,7 +1716,7 @@ function saveEditProject() {
   closeModal('modal-edit-proj');
   if (state.active && state.active.id === id) {
     const _wn = document.getElementById('ws-name');
-    if (_wn) _wn.textContent = p.name;
+    if (_wn) setMarqueeTitle(_wn, p.name);
   }
 }
 
@@ -1751,7 +1768,7 @@ function saveEditProject() {
   closeModal('modal-edit-proj');
   if (state.active && state.active.id === id) {
     const wn = document.getElementById('ws-name');
-    if (wn) wn.textContent = p.name;
+    if (wn) setMarqueeTitle(wn, p.name);
   }
 }
 
@@ -1887,7 +1904,7 @@ function showWorkspace(project) {
   var _tb = document.getElementById('tab-bar');  if(_tb)  _tb.style.display  = 'none';
   var _ws = document.getElementById('workspace'); if(_ws) _ws.style.display = 'flex';
   var _fb = document.getElementById('fab');       if(_fb) _fb.style.display = 'none';
-  var _wn = document.getElementById('ws-name');   if(_wn) _wn.textContent  = project.name;
+  var _wn = document.getElementById('ws-name');   if(_wn) setMarqueeTitle(_wn, project.name);
   var _wa = document.getElementById('ws-artwork');
   if(_wa){
     if(project.artwork){
@@ -2615,6 +2632,26 @@ document.addEventListener('keydown', e => {
     if (ls && ls.style.display !== 'none') submitAuth();
   }
 });
+
+function setMarqueeTitle(container, text) {
+  if (!container) return;
+  var inner = container.querySelector('.ws-name-inner') || container;
+  inner.textContent = text;
+  inner.classList.remove('scrolling');
+  // Check if text overflows after a brief paint
+  requestAnimationFrame(function() {
+    var cw = container.offsetWidth;
+    var iw = inner.scrollWidth;
+    if (iw > cw) {
+      var extra = iw - cw;
+      var dur = Math.max(4, extra / 40);
+      container.style.setProperty('--marquee-dur', dur + 's');
+      container.style.setProperty('--marquee-shift', '-' + (iw + 32) + 'px');
+      inner.textContent = text + '     ' + text;
+      inner.classList.add('scrolling');
+    }
+  });
+}
 </script>
 
 
