@@ -727,7 +727,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <line x1="7" y1="14" x2="12" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
-      Process
+      Progress
     </button>
     <button class="tab-btn" data-tab="settings" onclick="switchTab('settings')">
       <div class="tab-icon">
@@ -982,7 +982,7 @@ function setSkin(k) {
 }
 const LANG = {
   en: {
-    projects:'Projects', charts:'Charts', logs:'Process', settings:'Settings',
+    projects:'Projects', charts:'Charts', logs:'Progress', settings:'Settings',
     steps:'Steps', aiNotes:'AI Notes', otherNotes:'Custom Notes',
     production:'Production', mix:'Mix', mastering:'Mastering',
     newProject:'New Project', projectName:'Project Name',
@@ -1439,12 +1439,21 @@ window._loginOk = (msg) => {
 
 
 function toggleAccordion(id) {
-  const el  = document.getElementById(id);
-  const arr = document.getElementById('arr-' + id);
-  if (!el) return;
-  const open = el.style.display !== 'none';
-  el.style.display  = open ? 'none' : 'block';
-  if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
+  const el=document.getElementById(id);
+  const arr=document.getElementById('arr-'+id);
+  if(!el)return;
+  const open=el.style.maxHeight&&el.style.maxHeight!=='0px';
+  if(arr){arr.style.transition='transform 0.3s ease';arr.style.transform=open?'':'rotate(180deg)';}
+  if(open){
+    el.style.transition='max-height 0.3s ease,opacity 0.25s ease';
+    el.style.maxHeight=el.scrollHeight+'px';
+    requestAnimationFrame(()=>{el.style.maxHeight='0px';el.style.opacity='0';});
+    setTimeout(()=>{el.style.display='none';el.style.opacity='';},320);
+  }else{
+    el.style.display='block';el.style.maxHeight='0px';el.style.opacity='0';
+    requestAnimationFrame(()=>{el.style.transition='max-height 0.3s ease,opacity 0.25s ease';el.style.maxHeight=el.scrollHeight+'px';el.style.opacity='1';});
+    setTimeout(()=>{el.style.maxHeight='none';},320);
+  }
 }
 
 function populateClearSelect() {
