@@ -2130,7 +2130,7 @@ function timeAgo(ts) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  LOGS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function renderLogs() {
+function renderLogs(projectId) {
   const list = document.getElementById('logs-list');
   if (!list) return;
   const all = state.projects.filter(p => p.stage);
@@ -2140,66 +2140,106 @@ function renderLogs() {
     return;
   }
 
-  list.innerHTML = all.map(p => {
-    const stages = p.stages || (p.stage ? [p.stage] : []);
-    let totalSteps = 0, doneSteps = 0;
-    stages.forEach(s => {
-      totalSteps += (STEPS[s]||[]).length;
-      const sd = p.stepsDone && (p.stepsDone[s] || {});
-      doneSteps += (STEPS[s]||[]).filter(st => sd[st.id]).length;
-    });
-    const pct = totalSteps > 0 ? Math.round((doneSteps/totalSteps)*100) : 0;
-
-    // Build stage accordion sections
-    const stageAccordions = stages.map((stage, si) => {
-      const stageLogs  = (p.sessionLogs||[]).filter(e => e.stage === stage).slice().reverse();
-      const stageSteps = STEPS[stage] || [];
-      const stageDone  = p.stepsDone && (p.stepsDone[stage] || {});
-      const sDone      = stageSteps.filter(st => stageDone[st.id] === true).length;
-      const sTotal     = stageSteps.length;
-      const sPct       = getStagePct(p, stage);
-      const pill       = PILL_CLASS[stage] || 'pill-mix';
-      const accordId   = 'acc-' + p.id + '-' + stage;
-
-      // Step rows inside accordion
-      const stepRows = stageLogs.length === 0
-        ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">Ningún paso completado en esta etapa todavía</div>`
-        : stageLogs.map(entry => {
-            const auto = entry.auto
-              ? `<span style="font-size:9px;background:rgba(21,134,236,0.1);color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600;margin-left:4px">VST</span>`
-              : '';
-            return `<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
-              <div style="width:6px;height:6px;border-radius:50%;background:var(--success);flex-shrink:0;margin-top:5px"></div>
-              <div style="flex:1">
-                <div style="font-size:13px;font-weight:600">${entry.stepName}${auto}</div>
-                <div style="font-size:11px;color:var(--text3);margin-top:2px">${timeAgo(entry.ts)}</div>
+  // ── LEVEL 1: project picker ───────────────────────────────
+  if (!projectId) {
+    list.innerHTML = `
+      <div id="logs-proj-list">
+        ${all.map(p => {
+          const stages = p.stages || (p.stage ? [p.stage] : []);
+          let total = 0, done = 0;
+          stages.forEach(s => {
+            total += (STEPS[s]||[]).length;
+            const sd = (p.stepsDone && p.stepsDone[s]) || {};
+            done += (STEPS[s]||[]).filter(st => sd[st.id]).length;
+          });
+          const pct = total > 0 ? Math.round((done/total)*100) : 0;
+          const art = p.artwork
+            ? `<img src="${p.artwork}" style="width:100%;height:100%;object-fit:cover">`
+            : '🎵';
+          return `
+            <div class="log-card" onclick="renderLogs('${p.id}')"
+                 style="display:flex;align-items:center;gap:14px;cursor:pointer;margin-bottom:12px">
+              <div style="width:52px;height:52px;border-radius:14px;flex-shrink:0;overflow:hidden;
+                          background:var(--panel3);display:flex;align-items:center;
+                          justify-content:center;font-size:24px">${art}</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+                <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.key}</div>
+                <div style="margin-top:6px;height:4px;border-radius:2px;background:var(--panel3);overflow:hidden">
+                  <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:2px"></div>
+                </div>
               </div>
+              <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--accent);flex-shrink:0">${pct}%</div>
             </div>`;
-          }).join('');
+        }).join('')}
+      </div>`;
+    return;
+  }
 
-      return `
-        <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px">
-          <!-- Accordion header -->
-          <div onclick="toggleAccordion('${accordId}')"
-               style="display:flex;align-items:center;justify-content:space-between;
-                      padding:12px 14px;cursor:pointer;background:var(--panel2)">
-            <div style="display:flex;align-items:center;gap:8px">
-              <span class="stage-pill ${pill}" style="margin:0">${STAGE_LABELS[stage]}</span>
-              <span style="font-size:12px;color:var(--text2)">${sDone}/${sTotal} steps</span>
+  // ── LEVEL 2: project detail ───────────────────────────────
+  const p = state.projects.find(x => x.id === projectId);
+  if (!p) { renderLogs(); return; }
+
+  const stages = p.stages || (p.stage ? [p.stage] : []);
+  let totalSteps = 0, doneSteps = 0;
+  stages.forEach(s => {
+    totalSteps += (STEPS[s]||[]).length;
+    const sd = (p.stepsDone && p.stepsDone[s]) || {};
+    doneSteps += (STEPS[s]||[]).filter(st => sd[st.id]).length;
+  });
+  const pct = totalSteps > 0 ? Math.round((doneSteps/totalSteps)*100) : 0;
+
+  const stageAccordions = stages.map((stage, si) => {
+    const stageLogs  = (p.sessionLogs||[]).filter(e => e.stage === stage).slice().reverse();
+    const stageSteps = STEPS[stage] || [];
+    const stageDone  = (p.stepsDone && p.stepsDone[stage]) || {};
+    const sDone      = stageSteps.filter(st => stageDone[st.id] === true).length;
+    const sTotal     = stageSteps.length;
+    const sPct       = getStagePct(p, stage);
+    const pill       = PILL_CLASS[stage] || 'pill-mix';
+    const accordId   = 'acc-' + p.id + '-' + stage;
+
+    const stepRows = stageLogs.length === 0
+      ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">Ningún paso completado todavía</div>`
+      : stageLogs.map(entry => {
+          const auto = entry.auto
+            ? `<span style="font-size:9px;background:rgba(21,134,236,0.1);color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600;margin-left:4px">VST</span>`
+            : '';
+          return `<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--success);flex-shrink:0;margin-top:5px"></div>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600">${entry.stepName}${auto}</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px">${timeAgo(entry.ts)}</div>
             </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <span style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent)">${sPct}%</span>
-              <span id="arr-${accordId}" style="color:var(--text3);transition:transform 0.2s;display:inline-block">▾</span>
-            </div>
-          </div>
-          <!-- Accordion body -->
-          <div id="${accordId}" style="display:${si===0?'block':'none'};padding:0 14px;background:var(--card-bg)">
-            ${stepRows}
-          </div>
-        </div>`;
-    }).join('');
+          </div>`;
+        }).join('');
 
     return `
+      <div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px">
+        <div onclick="toggleAccordion('${accordId}')"
+             style="display:flex;align-items:center;justify-content:space-between;
+                    padding:12px 14px;cursor:pointer;background:var(--panel2)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="stage-pill ${pill}" style="margin:0">${STAGE_LABELS[stage]}</span>
+            <span style="font-size:12px;color:var(--text2)">${sDone}/${sTotal} steps</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent)">${sPct}%</span>
+            <span id="arr-${accordId}" style="color:var(--text3);transition:transform 0.2s;display:inline-block">▾</span>
+          </div>
+        </div>
+        <div id="${accordId}" style="display:${si===0?'block':'none'};padding:0 14px;background:var(--card-bg)">
+          ${stepRows}
+        </div>
+      </div>`;
+  }).join('');
+
+  list.innerHTML = `
+    <div>
+      <button class="logs-back-btn" onclick="renderLogs()"
+              style="display:flex;align-items:center;gap:6px;background:none;border:none;
+                     color:var(--accent);font-family:var(--sans);font-size:13px;font-weight:600;
+                     cursor:pointer;padding:0;margin-bottom:16px">←</button>
       <div class="log-card" style="margin-bottom:16px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
           <div>
@@ -2213,9 +2253,10 @@ function renderLogs() {
         </div>
         <div class="log-bar" style="margin-bottom:14px"><div class="log-fill" style="width:${pct}%"></div></div>
         ${stageAccordions}
-      </div>`;
-  }).join('');
+      </div>
+    </div>`;
 }
+
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  CHARTS
