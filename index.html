@@ -1218,6 +1218,9 @@ function applyIdioma() {
 }
 
 
+let currentLang=localStorage.getItem('tew_lang')||'en';
+function setLanguage(lang){currentLang=lang;localStorage.setItem('tew_lang',lang);const e=document.getElementById('lang-en'),s=document.getElementById('lang-es');if(e){e.style.background=lang==='en'?'var(--accent)':'var(--panel3)';e.style.color=lang==='en'?'#fff':'var(--text2)';}if(s){s.style.background=lang==='es'?'var(--accent)':'var(--panel3)';s.style.color=lang==='es'?'#fff':'var(--text2)';}}
+
 function getProjectPct(p) {
   const stages = Array.isArray(p.stages) && p.stages.length ? p.stages : ['mix'];
   let total = 0, done = 0;
