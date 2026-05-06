@@ -2639,6 +2639,7 @@ function setMarqueeTitle(container, text) {
   if (!container) return;
   var inner = container.querySelector('.ws-name-inner');
   if (!inner) { container.textContent = text; return; }
+  // Reset
   inner.classList.remove('scrolling');
   inner.textContent = text;
   container.style.removeProperty('--marquee-dur');
@@ -2646,9 +2647,10 @@ function setMarqueeTitle(container, text) {
   container.style.removeProperty('mask-image');
   container.style.removeProperty('-webkit-mask-image');
   setTimeout(function(){
-    var cw = container.offsetWidth;
-    var iw = inner.scrollWidth;
-    if (iw > cw) {
+    var cw = container.getBoundingClientRect().width;
+    inner.textContent = text;
+    var iw = inner.getBoundingClientRect().width;
+    if (iw > cw + 2) {
       inner.textContent = text + '     ' + text;
       var halfW = inner.scrollWidth / 2;
       container.style.setProperty('mask-image', 'linear-gradient(to right, black 80%, transparent 100%)');
@@ -2656,8 +2658,12 @@ function setMarqueeTitle(container, text) {
       container.style.setProperty('--marquee-dur', Math.max(4, halfW/50) + 's');
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
       inner.classList.add('scrolling');
+    } else {
+      // Ensure mask is gone for short titles
+      container.style.removeProperty('mask-image');
+      container.style.removeProperty('-webkit-mask-image');
     }
-  }, 50);
+  }, 200);
 }
 </script>
 
