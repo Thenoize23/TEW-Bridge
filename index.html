@@ -326,6 +326,7 @@ body {
 .ws-name { font-size: 20px; font-weight: 700; color: #fff; overflow: hidden; white-space: nowrap; position: relative;  }
 .ws-name-inner { display: inline-block; white-space: nowrap; }
 .ws-name-inner.scrolling { animation: ws-marquee var(--marquee-dur,8s) linear infinite; }
+.proj-name.fading::after, .ws-name.fading::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 48px; background: linear-gradient(to right, transparent, var(--card-bg, #12122a)); pointer-events: none; }
 @keyframes ws-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(var(--marquee-shift)); } }
 .ws-stage { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
 
@@ -2640,27 +2641,22 @@ function setMarqueeTitle(container, text) {
   var inner = container.querySelector('.ws-name-inner');
   if (!inner) { container.textContent = text; return; }
   inner.classList.remove('scrolling');
+  container.classList.remove('fading');
   inner.textContent = text;
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
-  container.style.removeProperty('mask-image');
-  container.style.removeProperty('-webkit-mask-image');
   setTimeout(function(){
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
     if (iw > cw + 2) {
       inner.textContent = text + '     ' + text;
       var halfW = inner.scrollWidth / 2;
-      container.style.setProperty('mask-image', 'linear-gradient(to left, transparent 0%, black 15%)');
-      container.style.setProperty('-webkit-mask-image', 'linear-gradient(to left, transparent 0%, black 15%)');
       container.style.setProperty('--marquee-dur', Math.max(4, halfW/50) + 's');
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
       inner.classList.add('scrolling');
-    } else {
-      container.style.removeProperty('mask-image');
-      container.style.removeProperty('-webkit-mask-image');
+      container.classList.add('fading');
     }
-  }, 200);
+  }, 300);
 }
 </script>
 
