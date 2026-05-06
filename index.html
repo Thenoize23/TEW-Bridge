@@ -326,7 +326,7 @@ body {
 .ws-name { font-size: 20px; font-weight: 700; color: #fff; overflow: hidden; white-space: nowrap; position: relative;  }
 .ws-name-inner { display: inline-block; white-space: nowrap; }
 .ws-name-inner.scrolling { animation: ws-marquee var(--marquee-dur,8s) linear infinite; }
-.proj-name.fading::after {
+.proj-name.fading::after, .log-proj-name.fading::after {
   content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 48px;
   background: linear-gradient(to right, transparent, var(--card-bg, #fff));
   pointer-events: none;
