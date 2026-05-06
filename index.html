@@ -2666,9 +2666,10 @@ function setMarqueeTitle(container, text) {
       inner.classList.add('scrolling');
       var fade = document.createElement('div');
       fade.className = 'marquee-fade';
-      var bg=getComputedStyle(container.parentNode).getPropertyValue('background-color');if(!bg||bg==='rgba(0, 0, 0, 0)'||bg==='transparent'){bg=getComputedStyle(document.documentElement).getPropertyValue('--card-bg')||'#1e1e2e';}fade.style.background='linear-gradient(to right, transparent, '+bg+')';
-      container.parentNode.style.position = 'relative';
-      container.parentNode.insertBefore(fade, container.nextSibling);
+      var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
+      fade.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:52px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent,' + bgVar + ')';
+      container.style.position = 'relative';
+      container.insertBefore(fade, null);
     }
   }, 300);
 }
