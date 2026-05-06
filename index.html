@@ -2697,6 +2697,28 @@ document.addEventListener('keydown', e => {
     <button class="btn-ghost" onclick="closeModal('modal-edit-stages')">Cancel</button>
   </div>
 </div>
+
+<div id="modal-disclaimer" class="modal-overlay open">
+  <div class="modal" style="max-width:340px;margin:auto">
+    <div class="modal-handle"></div>
+    <div style="font-size:28px;text-align:center;margin-bottom:12px">⚠️</div>
+    <div style="font-size:17px;font-weight:700;color:var(--text);text-align:center;margin-bottom:10px">Before you start</div>
+    <div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px;text-align:center">TEW is a guide to help you through the production process. The steps, tips and AI notes are references — not rules. Every track is different. Trust your ears above all.</div>
+    <button id="disclaimer-btn" style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)">Got it</button>
+  </div>
+</div>
+<script>
+(function(){
+  var seen = localStorage.getItem('tew_seen_disclaimer');
+  var modal = document.getElementById('modal-disclaimer');
+  if(seen && modal) modal.classList.remove('open');
+  var btn = document.getElementById('disclaimer-btn');
+  if(btn) btn.addEventListener('click', function(){
+    if(modal) modal.classList.remove('open');
+    localStorage.setItem('tew_seen_disclaimer','1');
+  });
+})();
+</script>
 </body>
 </html>function renderProjects() {
   const list = document.getElementById('proj-list');
@@ -3560,6 +3582,28 @@ document.addEventListener('keydown', e => {
     <button class="btn-ghost" onclick="closeModal('modal-edit-stages')">Cancel</button>
   </div>
 </div>
+
+<div id="modal-disclaimer" class="modal-overlay open">
+  <div class="modal" style="max-width:340px;margin:auto">
+    <div class="modal-handle"></div>
+    <div style="font-size:28px;text-align:center;margin-bottom:12px">⚠️</div>
+    <div style="font-size:17px;font-weight:700;color:var(--text);text-align:center;margin-bottom:10px">Before you start</div>
+    <div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px;text-align:center">TEW is a guide to help you through the production process. The steps, tips and AI notes are references — not rules. Every track is different. Trust your ears above all.</div>
+    <button id="disclaimer-btn" style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)">Got it</button>
+  </div>
+</div>
+<script>
+(function(){
+  var seen = localStorage.getItem('tew_seen_disclaimer');
+  var modal = document.getElementById('modal-disclaimer');
+  if(seen && modal) modal.classList.remove('open');
+  var btn = document.getElementById('disclaimer-btn');
+  if(btn) btn.addEventListener('click', function(){
+    if(modal) modal.classList.remove('open');
+    localStorage.setItem('tew_seen_disclaimer','1');
+  });
+})();
+</script>
 </body>
 </html>function renderProjects() {
   const list = document.getElementById('proj-list');
@@ -4423,5 +4467,27 @@ document.addEventListener('keydown', e => {
     <button class="btn-ghost" onclick="closeModal('modal-edit-stages')">Cancel</button>
   </div>
 </div>
+
+<div id="modal-disclaimer" class="modal-overlay open">
+  <div class="modal" style="max-width:340px;margin:auto">
+    <div class="modal-handle"></div>
+    <div style="font-size:28px;text-align:center;margin-bottom:12px">⚠️</div>
+    <div style="font-size:17px;font-weight:700;color:var(--text);text-align:center;margin-bottom:10px">Before you start</div>
+    <div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px;text-align:center">TEW is a guide to help you through the production process. The steps, tips and AI notes are references — not rules. Every track is different. Trust your ears above all.</div>
+    <button id="disclaimer-btn" style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans)">Got it</button>
+  </div>
+</div>
+<script>
+(function(){
+  var seen = localStorage.getItem('tew_seen_disclaimer');
+  var modal = document.getElementById('modal-disclaimer');
+  if(seen && modal) modal.classList.remove('open');
+  var btn = document.getElementById('disclaimer-btn');
+  if(btn) btn.addEventListener('click', function(){
+    if(modal) modal.classList.remove('open');
+    localStorage.setItem('tew_seen_disclaimer','1');
+  });
+})();
+</script>
 </body>
 </html>
