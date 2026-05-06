@@ -2190,7 +2190,7 @@ function renderLogs(projectId) {
                           background:var(--panel3);display:flex;align-items:center;
                           justify-content:center;font-size:24px">${art}</div>
               <div style="flex:1;min-width:0">
-                <div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+                <div class="log-proj-name" id="lpn-${p.id}" style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
                 <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.key}</div>
                 <div style="margin-top:6px;height:4px;border-radius:2px;background:var(--panel3);overflow:hidden">
                   <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:2px"></div>
@@ -2200,6 +2200,11 @@ function renderLogs(projectId) {
             </div>`;
         }).join('')}
       </div>`;
+    setTimeout(function(){
+      document.querySelectorAll('.log-proj-name').forEach(function(el){
+        var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);
+      });
+    },300);
     return;
   }
 
@@ -2270,7 +2275,7 @@ function renderLogs(projectId) {
       <div class="log-card" style="margin-bottom:16px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
           <div>
-            <div style="font-size:16px;font-weight:700">${p.name}</div>
+            <div class="log-proj-name" id="lpn2-${p.id}" style="font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
             <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.bpm} BPM · ${p.key}</div>
           </div>
           <div style="text-align:right">
@@ -2639,31 +2644,29 @@ function setMarqueeTitle(container, text) {
   if (!container) return;
   var inner = container.querySelector('.ws-name-inner');
   if (!inner) { container.textContent = text; return; }
-  // Reset
   inner.classList.remove('scrolling');
   inner.textContent = text;
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
-  container.style.removeProperty('mask-image');
-  container.style.removeProperty('-webkit-mask-image');
+  var oldFade = container.nextElementSibling;
+  if (oldFade && oldFade.classList.contains('marquee-fade')) oldFade.parentNode.removeChild(oldFade);
   setTimeout(function(){
-    var cw = container.getBoundingClientRect().width;
-    inner.textContent = text;
-    var iw = inner.getBoundingClientRect().width;
+    var cw = container.offsetWidth;
+    var iw = inner.scrollWidth;
     if (iw > cw + 2) {
       inner.textContent = text + '     ' + text;
       var halfW = inner.scrollWidth / 2;
-      container.style.setProperty('mask-image', 'linear-gradient(to right, black 80%, transparent 100%)');
-      container.style.setProperty('-webkit-mask-image', 'linear-gradient(to right, black 80%, transparent 100%)');
       container.style.setProperty('--marquee-dur', Math.max(4, halfW/50) + 's');
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
       inner.classList.add('scrolling');
-    } else {
-      // Ensure mask is gone for short titles
-      container.style.removeProperty('mask-image');
-      container.style.removeProperty('-webkit-mask-image');
+      var fade = document.createElement('div');
+      fade.className = 'marquee-fade';
+      var bg = getComputedStyle(container.parentNode).backgroundColor;
+      fade.style.background = 'linear-gradient(to right, transparent, ' + bg + ')';
+      container.parentNode.style.position = 'relative';
+      container.parentNode.insertBefore(fade, container.nextSibling);
     }
-  }, 200);
+  }, 300);
 }
 </script>
 
