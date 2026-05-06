@@ -2131,6 +2131,7 @@ function timeAgo(ts) {
 //  LOGS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function renderLogs(projectId) {
+  document.title = projectId ? state.projects.find(p => p.id === projectId)?.name || "TEW" : "TEW";
   const list = document.getElementById('logs-list');
   if (!list) return;
   const all = state.projects.filter(p => p.stage);
