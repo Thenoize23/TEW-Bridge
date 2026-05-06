@@ -2286,7 +2286,7 @@ function renderLogs(projectId) {
       <div class="log-card" style="margin-bottom:16px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
           <div>
-            <div style="font-size:16px;font-weight:700">${p.name}</div>
+            <div class="log-proj-name" id="lpn2-${p.id}" style="font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
             <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.bpm} BPM · ${p.key}</div>
           </div>
           <div style="text-align:right">
@@ -2298,6 +2298,10 @@ function renderLogs(projectId) {
         ${stageAccordions}
       </div>
     </div>`;
+  setTimeout(function(){
+    var el=document.getElementById('lpn2-'+projectId);
+    if(el){var inner=el.querySelector('.ws-name-inner');if(inner)setMarqueeTitle(el,inner.textContent);}
+  },300);
 }
 
 
