@@ -387,7 +387,7 @@ body {
 }
 .step-range.lit { color: var(--accent); }
 
-/* ── Logs tab ────────────────────────────────── */
+/* ── Process tab ────────────────────────────────── */
 .log-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -605,7 +605,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         </div>
       </div>
 
-      <p class="sec-label" id="sec-projlogs" data-i18n="projectLogs">Registros de Proyecto</p>
+      <p class="sec-label" id="sec-projlogs" data-i18n="projectProcess">Registros de Proyecto</p>
       <div class="set-group">
         <div class="set-row" id="clear-logs-row" style="cursor:pointer;display:block;padding:0">
           <div style="padding:14px 16px">
@@ -613,7 +613,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
             <select class="form-input" id="clear-logs-select" style="margin-bottom:10px" onchange="void(0)">
               <option value="">— Selecciona proyecto —</option>
             </select>
-            <button onclick="onClearLogsClick()" class="btn-danger">Limpiar Registros y Resetear</button>
+            <button onclick="onClearProcessClick()" class="btn-danger">Limpiar Registros y Resetear</button>
           </div>
         </div>
         <div class="set-row" style="padding:14px 16px;border-top:1px solid var(--border)">
@@ -727,7 +727,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <line x1="7" y1="14" x2="12" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
-      Logs
+      Process
     </button>
     <button class="tab-btn" data-tab="settings" onclick="switchTab('settings')">
       <div class="tab-icon">
@@ -982,7 +982,7 @@ function setSkin(k) {
 }
 const LANG = {
   en: {
-    projects:'Projects', charts:'Charts', logs:'Logs', settings:'Settings',
+    projects:'Projects', charts:'Charts', logs:'Process', settings:'Settings',
     steps:'Steps', aiNotes:'AI Notes', otherNotes:'Custom Notes',
     production:'Production', mix:'Mix', mastering:'Mastering',
     newProject:'New Project', projectName:'Project Name',
@@ -991,14 +991,14 @@ const LANG = {
     save:'Save Changes', delete:'Delete Project', editProject:'Edit Project',
     stages:'Stages', stageProgress:'Stage Progress', overall:'overall', achieved:'achieved',
     noProjects:'No projects yet', noProjectsSub:'Tap + to create your first project',
-    noLogs:'No logs yet', noLogsSub:'Check off steps to start logging',
+    noProcess:'No logs yet', noProcessSub:'Check off steps to start logging',
     addNote:'+ Add Note', writeNote:'Write your note here...', noNotes:'No notes yet',
     noSteps:'No steps completed yet',
     appearance:'Appearance', darkMode:'Dark Mode', language:'Language', theme:'Theme',
     vst:'Plugin VST3', vstBridge:'WebSocket Bridge', vstPort:'UDP Port',
     liveMetrics:'Live Metrics', account:'Account', received:'Samples received',
-    signOut:'Sign Out', projectLogs:'Project Logs',
-    clearLogs:'Clear Logs & Reset Steps', resetAll:'Reset All Projects',
+    signOut:'Sign Out', projectProcess:'Project Process',
+    clearProcess:'Clear Process & Reset Steps', resetAll:'Reset All Projects',
     selectProject:'— Select project —', connection:'VST Connection',
     signIn:'Sign In', signUp:'Sign Up', continueGoogle:'Continue with Google',
     forgotPassword:'Forgot password?', email:'Email', password:'Password',
@@ -1019,14 +1019,14 @@ const LANG = {
     save:'Guardar Cambios', delete:'Eliminar Proyecto', editProject:'Editar Proyecto',
     stages:'Etapas', stageProgress:'Progreso de Etapa', overall:'total', achieved:'logrado',
     noProjects:'Sin proyectos todavía', noProjectsSub:'Toca + para crear tu primer proyecto',
-    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos para comenzar',
+    noProcess:'Sin registros todavía', noProcessSub:'Marca pasos para comenzar',
     addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...', noNotes:'Sin notas todavía',
     noSteps:'Ningún paso completado todavía',
     appearance:'Apariencia', darkMode:'Modo Oscuro', language:'Idioma', theme:'Tema',
     vst:'Plugin VST3', vstBridge:'Puente WebSocket', vstPort:'Puerto UDP',
     liveMetrics:'Métricas en Vivo', account:'Cuenta', received:'Muestras recibidas',
-    signOut:'Cerrar Sesión', projectLogs:'Registros de Proyecto',
-    clearLogs:'Limpiar Registros y Resetear', resetAll:'Resetear Todos los Proyectos',
+    signOut:'Cerrar Sesión', projectProcess:'Registros de Proyecto',
+    clearProcess:'Limpiar Registros y Resetear', resetAll:'Resetear Todos los Proyectos',
     selectProject:'— Selecciona proyecto —', connection:'Conexión VST',
     signIn:'Iniciar Sesión', signUp:'Registrarse', continueGoogle:'Continuar con Google',
     forgotPassword:'¿Olvidaste tu contraseña?', email:'Correo', password:'Contraseña',
@@ -1223,7 +1223,7 @@ function applyIdioma() {
   if (slblWs)  slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
   // Re-render dynamic lists
   renderProjects();
-  renderLogs();
+  renderProcess();
   if (state.active) {
     renderStageTabs();
     renderSteps();
@@ -1452,7 +1452,7 @@ function populateClearSelect() {
   if (!sel) return;
   sel.innerHTML = '<option value="">— Selecciona proyecto —</option>' +
     state.projects.map(p =>
-      `<option value="${p.id}">${p.name}${p.sessionLogs && p.sessionLogs.length ? ' (' + p.sessionLogs.length + ' entries)' : ''}</option>`
+      `<option value="${p.id}">${p.name}${p.sessionProcess && p.sessionProcess.length ? ' (' + p.sessionProcess.length + ' entries)' : ''}</option>`
     ).join('');
 }
 
@@ -1460,7 +1460,7 @@ function resetAllProjects() {
   state.projects.forEach(p => {
     p.stages    = p.stages || ['production','mix','mastering'];
     p.stepsDone = { production:{}, mix:{}, mastering:{} };
-    p.sessionLogs = [];
+    p.sessionProcess = [];
     p.stage     = p.stages[0];
   });
   saveProjects();
@@ -1480,23 +1480,23 @@ function resetAllProjects() {
   }
 }
 
-function onClearLogsClick() {
+function onClearProcessClick() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel || !sel.value) {
     alert('Por favor selecciona un proyecto primero.');
     return;
   }
-  clearProjectLogs(sel.value);
+  clearProjectProcess(sel.value);
 }
 
-function clearProjectLogs(projectId) {
+function clearProjectProcess(projectId) {
   const p = state.projects.find(x => x.id === projectId);
   if (!p) return;
-  p.sessionLogs = [];
+  p.sessionProcess = [];
   p.stepsDone   = {};
   saveProjects();
   renderProjects();
-  renderLogs();
+  renderProcess();
   populateClearSelect();
   if (state.active && state.active.id === projectId) renderSteps();
   // Show feedback
@@ -1609,7 +1609,7 @@ function switchTab(tab) {
   document.querySelector('[data-tab="' + tab + '"]').classList.add('active');
   var _t=document.getElementById('fab');if(_t)_t.style.display=tab === 'projects' ? 'flex' : 'none';
   if (tab === 'charts')   renderCharts(state.active ? state.active.stage : null);
-  if (tab === 'logs')     renderLogs();
+  if (tab === 'logs')     renderProcess();
   if (tab === 'settings') populateClearSelect();
 }
 
@@ -1650,7 +1650,7 @@ function createProject() {
     stages:      checked,          // array of selected stages
     stage:       checked[0],       // active stage in workspace
     stepsDone:   {},               // { 'mix': {mx1:true}, 'production': {} }
-    sessionLogs: [],
+    sessionProcess: [],
     createdAt:   Date.now(),
   };
 
@@ -1859,7 +1859,7 @@ function openProject(project) {
       mix:        oldStage === 'mix'        ? cleanDone : {},
       mastering:  oldStage === 'mastering'  ? cleanDone : {},
     };
-    project.sessionLogs = [];
+    project.sessionProcess = [];
     saveProjects();
   }
 
@@ -2078,15 +2078,15 @@ function toggleStep(stepId) {
 
   if (p.stepsDone[stage][stepId]) {
     delete p.stepsDone[stage][stepId];
-    if (p.sessionLogs) {
-      p.sessionLogs = p.sessionLogs.filter(e => !(e.stepId === stepId && e.stage === stage));
+    if (p.sessionProcess) {
+      p.sessionProcess = p.sessionProcess.filter(e => !(e.stepId === stepId && e.stage === stage));
     }
   } else {
     p.stepsDone[stage][stepId] = true;
-    if (!p.sessionLogs) p.sessionLogs = [];
+    if (!p.sessionProcess) p.sessionProcess = [];
     const steps = STEPS[stage] || [];
     const step  = steps.find(s => s.id === stepId);
-    p.sessionLogs.push({
+    p.sessionProcess.push({
       stepId,
       stepName: step ? step.name : stepId,
       stage,
@@ -2095,7 +2095,7 @@ function toggleStep(stepId) {
   }
   saveProjects();
   renderSteps();
-  renderLogs();
+  renderProcess();
 }
 
 function openDetail(stepId) {
@@ -2157,14 +2157,14 @@ function timeAgo(ts) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  LOGS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function renderLogs(projectId) {
+function renderProcess(projectId) {
   document.title = projectId ? state.projects.find(p => p.id === projectId)?.name || "TEW" : "TEW";
   const list = document.getElementById('logs-list');
   if (!list) return;
   const all = state.projects.filter(p => p.stage);
 
   if (!all.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-ico">📋</div><div class="empty-ttl">${t('noLogs')}</div><div class="empty-sub">${t('noLogsSub')}</div></div>`;
+    list.innerHTML = `<div class="empty"><div class="empty-ico">📋</div><div class="empty-ttl">${t('noProcess')}</div><div class="empty-sub">${t('noProcessSub')}</div></div>`;
     return;
   }
 
@@ -2185,7 +2185,7 @@ function renderLogs(projectId) {
             ? `<img src="${p.artwork}" style="width:100%;height:100%;object-fit:cover">`
             : '🎵';
           return `
-            <div class="log-card" onclick="renderLogs('${p.id}')"
+            <div class="log-card" onclick="renderProcess('${p.id}')"
                  style="display:flex;align-items:center;gap:14px;cursor:pointer;margin-bottom:12px">
               <div style="width:52px;height:52px;border-radius:14px;flex-shrink:0;overflow:hidden;
                           background:var(--panel3);display:flex;align-items:center;
@@ -2211,7 +2211,7 @@ function renderLogs(projectId) {
 
   // ── LEVEL 2: project detail ───────────────────────────────
   const p = state.projects.find(x => x.id === projectId);
-  if (!p) { renderLogs(); return; }
+  if (!p) { renderProcess(); return; }
 
   const stages = p.stages || (p.stage ? [p.stage] : []);
   let totalSteps = 0, doneSteps = 0;
@@ -2223,7 +2223,7 @@ function renderLogs(projectId) {
   const pct = totalSteps > 0 ? Math.round((doneSteps/totalSteps)*100) : 0;
 
   const stageAccordions = stages.map((stage, si) => {
-    const stageLogs  = (p.sessionLogs||[]).filter(e => e.stage === stage).slice().reverse();
+    const stageProcess  = (p.sessionProcess||[]).filter(e => e.stage === stage).slice().reverse();
     const stageSteps = STEPS[stage] || [];
     const stageDone  = (p.stepsDone && p.stepsDone[stage]) || {};
     const sDone      = stageSteps.filter(st => stageDone[st.id] === true).length;
@@ -2232,9 +2232,9 @@ function renderLogs(projectId) {
     const pill       = PILL_CLASS[stage] || 'pill-mix';
     const accordId   = 'acc-' + p.id + '-' + stage;
 
-    const stepRows = stageLogs.length === 0
+    const stepRows = stageProcess.length === 0
       ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">Ningún paso completado todavía</div>`
-      : stageLogs.map(entry => {
+      : stageProcess.map(entry => {
           const auto = entry.auto
             ? `<span style="font-size:9px;background:rgba(21,134,236,0.1);color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600;margin-left:4px">VST</span>`
             : '';
@@ -2269,7 +2269,7 @@ function renderLogs(projectId) {
 
   list.innerHTML = `
     <div>
-      <button class="logs-back-btn" onclick="renderLogs()"
+      <button class="logs-back-btn" onclick="renderProcess()"
               style="display:flex;align-items:center;gap:6px;background:none;border:none;
                      color:var(--accent);font-family:var(--sans);font-size:13px;font-weight:600;
                      cursor:pointer;padding:0;margin-bottom:16px">←</button>
