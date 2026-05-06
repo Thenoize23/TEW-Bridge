@@ -2288,6 +2288,10 @@ function renderLogs(projectId) {
         ${stageAccordions}
       </div>
     </div>`;
+  setTimeout(function(){
+    var el=document.getElementById('lpn2-'+projectId);
+    if(el){var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);}
+  },300);
 }
 
 
