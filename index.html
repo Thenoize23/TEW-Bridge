@@ -178,6 +178,22 @@ body {
   display: flex; gap: 10px; flex-wrap: wrap;
   font-size: 12px; color: var(--text2); margin-bottom: 10px;
 }
+.proj-artist {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex-shrink: 1;
+}
+.proj-artist {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex-shrink: 1;
+}
 
 .stage-pill {
   display: inline-block;
@@ -628,7 +644,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
       <div class="ws-header">
         <button class="back-btn" onclick="closeWorkspace()">←</button>
         <div id="ws-artwork" style="width:40px;height:40px;border-radius:10px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--panel3);font-size:20px"></div>
-        <div style="flex:1;min-width:0;padding-right:44px">
+        <div style="flex:1;min-width:0;">
           <div class="ws-name" id="ws-name"><span class="ws-name-inner" id="ws-name-inner">Project</span></div>
           <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px" id="ws-stage"></div>
         </div>
@@ -1833,7 +1849,7 @@ function renderProjects() {
         <div style="flex:1;min-width:0">
         <div class="proj-name" id="pn-${p.id}"><span class="ws-name-inner">${p.name}</span></div>
         <div class="proj-meta">
-          <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
+          <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span class="proj-artist">' + p.artist + '</span>' : ''}
         </div>
         <div>
           ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">Sin etapa seleccionada</span>'}
@@ -2688,7 +2704,7 @@ function setMarqueeTitle(container, text) {
       container.style.position = 'relative';
       container.insertBefore(fade, null);
     }
-  }, 300);
+  }, 500);
 }
 </script>
 
