@@ -327,6 +327,7 @@ body {
 .ws-name-inner { display: inline-block; white-space: nowrap; }
 .ws-name-inner.scrolling { animation: ws-marquee var(--marquee-dur,8s) linear infinite; }
 @keyframes ws-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(var(--marquee-shift)); } }
+.marquee-fade { position: absolute; right: 0; top: 0; bottom: 0; width: 52px; pointer-events: none; z-index: 2; }
 .ws-stage { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
 
 .ws-body { padding: 16px; flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; min-height:0; }
@@ -386,7 +387,7 @@ body {
 }
 .step-range.lit { color: var(--accent); }
 
-/* ── Logs tab ────────────────────────────────── */
+/* ── Process tab ────────────────────────────────── */
 .log-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -461,7 +462,7 @@ body {
 
 /* ── Empty ───────────────────────────────────── */
 .empty { text-align: center; padding: 60px 20px; }
-.empty-ico { font-size: 38px; opacity: 0.3; margin-bottom: 14px; }
+.empty-ico { margin-bottom:14px;display:flex;justify-content:center; }
 .empty-ttl { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
 .empty-sub { font-size: 13px; color: var(--text2); }
 
@@ -604,7 +605,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         </div>
       </div>
 
-      <p class="sec-label" id="sec-projlogs" data-i18n="projectLogs">Registros de Proyecto</p>
+      <p class="sec-label" id="sec-projlogs" data-i18n="projectProcess">Registros de Proyecto</p>
       <div class="set-group">
         <div class="set-row" id="clear-logs-row" style="cursor:pointer;display:block;padding:0">
           <div style="padding:14px 16px">
@@ -612,7 +613,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
             <select class="form-input" id="clear-logs-select" style="margin-bottom:10px" onchange="void(0)">
               <option value="">— Selecciona proyecto —</option>
             </select>
-            <button onclick="onClearLogsClick()" class="btn-danger">Limpiar Registros y Resetear</button>
+            <button onclick="onClearProcessClick()" class="btn-danger">Limpiar Registros y Resetear</button>
           </div>
         </div>
         <div class="set-row" style="padding:14px 16px;border-top:1px solid var(--border)">
@@ -627,7 +628,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
       <div class="ws-header">
         <button class="back-btn" onclick="closeWorkspace()">←</button>
         <div id="ws-artwork" style="width:40px;height:40px;border-radius:10px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--panel3);font-size:20px"></div>
-        <div style="flex:1;min-width:0">
+        <div style="flex:1;min-width:0;padding-right:44px">
           <div class="ws-name" id="ws-name"><span class="ws-name-inner" id="ws-name-inner">Project</span></div>
           <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px" id="ws-stage"></div>
         </div>
@@ -726,7 +727,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <line x1="7" y1="14" x2="12" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
-      Logs
+      Progress
     </button>
     <button class="tab-btn" data-tab="settings" onclick="switchTab('settings')">
       <div class="tab-icon">
@@ -981,7 +982,7 @@ function setSkin(k) {
 }
 const LANG = {
   en: {
-    projects:'Projects', charts:'Charts', logs:'Logs', settings:'Settings',
+    projects:'Projects', charts:'Charts', logs:'Progress', settings:'Settings',
     steps:'Steps', aiNotes:'AI Notes', otherNotes:'Custom Notes',
     production:'Production', mix:'Mix', mastering:'Mastering',
     newProject:'New Project', projectName:'Project Name',
@@ -990,14 +991,14 @@ const LANG = {
     save:'Save Changes', delete:'Delete Project', editProject:'Edit Project',
     stages:'Stages', stageProgress:'Stage Progress', overall:'overall', achieved:'achieved',
     noProjects:'No projects yet', noProjectsSub:'Tap + to create your first project',
-    noLogs:'No logs yet', noLogsSub:'Check off steps to start logging',
+    noProcess:'No logs yet', noProcessSub:'Check off steps to start logging',
     addNote:'+ Add Note', writeNote:'Write your note here...', noNotes:'No notes yet',
     noSteps:'No steps completed yet',
     appearance:'Appearance', darkMode:'Dark Mode', language:'Language', theme:'Theme',
     vst:'Plugin VST3', vstBridge:'WebSocket Bridge', vstPort:'UDP Port',
     liveMetrics:'Live Metrics', account:'Account', received:'Samples received',
-    signOut:'Sign Out', projectLogs:'Project Logs',
-    clearLogs:'Clear Logs & Reset Steps', resetAll:'Reset All Projects',
+    signOut:'Sign Out', projectProcess:'Project Process',
+    clearProcess:'Clear Process & Reset Steps', resetAll:'Reset All Projects',
     selectProject:'— Select project —', connection:'VST Connection',
     signIn:'Sign In', signUp:'Sign Up', continueGoogle:'Continue with Google',
     forgotPassword:'Forgot password?', email:'Email', password:'Password',
@@ -1018,14 +1019,14 @@ const LANG = {
     save:'Guardar Cambios', delete:'Eliminar Proyecto', editProject:'Editar Proyecto',
     stages:'Etapas', stageProgress:'Progreso de Etapa', overall:'total', achieved:'logrado',
     noProjects:'Sin proyectos todavía', noProjectsSub:'Toca + para crear tu primer proyecto',
-    noLogs:'Sin registros todavía', noLogsSub:'Marca pasos para comenzar',
+    noProcess:'Sin registros todavía', noProcessSub:'Marca pasos para comenzar',
     addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...', noNotes:'Sin notas todavía',
     noSteps:'Ningún paso completado todavía',
     appearance:'Apariencia', darkMode:'Modo Oscuro', language:'Idioma', theme:'Tema',
     vst:'Plugin VST3', vstBridge:'Puente WebSocket', vstPort:'Puerto UDP',
     liveMetrics:'Métricas en Vivo', account:'Cuenta', received:'Muestras recibidas',
-    signOut:'Cerrar Sesión', projectLogs:'Registros de Proyecto',
-    clearLogs:'Limpiar Registros y Resetear', resetAll:'Resetear Todos los Proyectos',
+    signOut:'Cerrar Sesión', projectProcess:'Registros de Proyecto',
+    clearProcess:'Limpiar Registros y Resetear', resetAll:'Resetear Todos los Proyectos',
     selectProject:'— Selecciona proyecto —', connection:'Conexión VST',
     signIn:'Iniciar Sesión', signUp:'Registrarse', continueGoogle:'Continuar con Google',
     forgotPassword:'¿Olvidaste tu contraseña?', email:'Correo', password:'Contraseña',
@@ -1222,7 +1223,7 @@ function applyIdioma() {
   if (slblWs)  slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
   // Re-render dynamic lists
   renderProjects();
-  renderLogs();
+  renderProcess();
   if (state.active) {
     renderStageTabs();
     renderSteps();
@@ -1438,12 +1439,21 @@ window._loginOk = (msg) => {
 
 
 function toggleAccordion(id) {
-  const el  = document.getElementById(id);
-  const arr = document.getElementById('arr-' + id);
-  if (!el) return;
-  const open = el.style.display !== 'none';
-  el.style.display  = open ? 'none' : 'block';
-  if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
+  const el=document.getElementById(id);
+  const arr=document.getElementById('arr-'+id);
+  if(!el)return;
+  const open=el.style.maxHeight&&el.style.maxHeight!=='0px';
+  if(arr){arr.style.transition='transform 0.3s ease';arr.style.transform=open?'':'rotate(180deg)';}
+  if(open){
+    el.style.transition='max-height 0.3s ease,opacity 0.25s ease';
+    el.style.maxHeight=el.scrollHeight+'px';
+    requestAnimationFrame(()=>{el.style.maxHeight='0px';el.style.opacity='0';});
+    setTimeout(()=>{el.style.display='none';el.style.opacity='';},320);
+  }else{
+    el.style.display='block';el.style.maxHeight='0px';el.style.opacity='0';
+    requestAnimationFrame(()=>{el.style.transition='max-height 0.3s ease,opacity 0.25s ease';el.style.maxHeight=el.scrollHeight+'px';el.style.opacity='1';});
+    setTimeout(()=>{el.style.maxHeight='none';},320);
+  }
 }
 
 function populateClearSelect() {
@@ -1451,7 +1461,7 @@ function populateClearSelect() {
   if (!sel) return;
   sel.innerHTML = '<option value="">— Selecciona proyecto —</option>' +
     state.projects.map(p =>
-      `<option value="${p.id}">${p.name}${p.sessionLogs && p.sessionLogs.length ? ' (' + p.sessionLogs.length + ' entries)' : ''}</option>`
+      `<option value="${p.id}">${p.name}${p.sessionProcess && p.sessionProcess.length ? ' (' + p.sessionProcess.length + ' entries)' : ''}</option>`
     ).join('');
 }
 
@@ -1459,7 +1469,7 @@ function resetAllProjects() {
   state.projects.forEach(p => {
     p.stages    = p.stages || ['production','mix','mastering'];
     p.stepsDone = { production:{}, mix:{}, mastering:{} };
-    p.sessionLogs = [];
+    p.sessionProcess = [];
     p.stage     = p.stages[0];
   });
   saveProjects();
@@ -1479,23 +1489,23 @@ function resetAllProjects() {
   }
 }
 
-function onClearLogsClick() {
+function onClearProcessClick() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel || !sel.value) {
     alert('Por favor selecciona un proyecto primero.');
     return;
   }
-  clearProjectLogs(sel.value);
+  clearProjectProcess(sel.value);
 }
 
-function clearProjectLogs(projectId) {
+function clearProjectProcess(projectId) {
   const p = state.projects.find(x => x.id === projectId);
   if (!p) return;
-  p.sessionLogs = [];
+  p.sessionProcess = [];
   p.stepsDone   = {};
   saveProjects();
   renderProjects();
-  renderLogs();
+  renderProcess();
   populateClearSelect();
   if (state.active && state.active.id === projectId) renderSteps();
   // Show feedback
@@ -1608,7 +1618,7 @@ function switchTab(tab) {
   document.querySelector('[data-tab="' + tab + '"]').classList.add('active');
   var _t=document.getElementById('fab');if(_t)_t.style.display=tab === 'projects' ? 'flex' : 'none';
   if (tab === 'charts')   renderCharts(state.active ? state.active.stage : null);
-  if (tab === 'logs')     renderLogs();
+  if (tab === 'logs')     renderProcess();
   if (tab === 'settings') populateClearSelect();
 }
 
@@ -1649,7 +1659,7 @@ function createProject() {
     stages:      checked,          // array of selected stages
     stage:       checked[0],       // active stage in workspace
     stepsDone:   {},               // { 'mix': {mx1:true}, 'production': {} }
-    sessionLogs: [],
+    sessionProcess: [],
     createdAt:   Date.now(),
   };
 
@@ -1810,7 +1820,7 @@ function saveEditStages() {
 function renderProjects() {
   const list = document.getElementById('proj-list');
   if (!state.projects.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-ico">🎚</div><div class="empty-ttl">${t('noProjects')}</div><div class="empty-sub">${t('noProjectsSub')}</div></div>`;
+    list.innerHTML = `<div class="empty"><div class="empty-ico"><img src="data:image/jpeg;base64,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" style="width:90px;height:90px;border-radius:50%;object-fit:cover;opacity:0.75;margin-bottom:4px"></div><div class="empty-ttl">${t('noProjects')}</div><div class="empty-sub">${t('noProjectsSub')}</div></div>`;
     return;
   }
   list.innerHTML = state.projects.map(p => {
@@ -1858,7 +1868,7 @@ function openProject(project) {
       mix:        oldStage === 'mix'        ? cleanDone : {},
       mastering:  oldStage === 'mastering'  ? cleanDone : {},
     };
-    project.sessionLogs = [];
+    project.sessionProcess = [];
     saveProjects();
   }
 
@@ -2077,15 +2087,15 @@ function toggleStep(stepId) {
 
   if (p.stepsDone[stage][stepId]) {
     delete p.stepsDone[stage][stepId];
-    if (p.sessionLogs) {
-      p.sessionLogs = p.sessionLogs.filter(e => !(e.stepId === stepId && e.stage === stage));
+    if (p.sessionProcess) {
+      p.sessionProcess = p.sessionProcess.filter(e => !(e.stepId === stepId && e.stage === stage));
     }
   } else {
     p.stepsDone[stage][stepId] = true;
-    if (!p.sessionLogs) p.sessionLogs = [];
+    if (!p.sessionProcess) p.sessionProcess = [];
     const steps = STEPS[stage] || [];
     const step  = steps.find(s => s.id === stepId);
-    p.sessionLogs.push({
+    p.sessionProcess.push({
       stepId,
       stepName: step ? step.name : stepId,
       stage,
@@ -2094,7 +2104,7 @@ function toggleStep(stepId) {
   }
   saveProjects();
   renderSteps();
-  renderLogs();
+  renderProcess();
 }
 
 function openDetail(stepId) {
@@ -2156,14 +2166,14 @@ function timeAgo(ts) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  LOGS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function renderLogs(projectId) {
+function renderProcess(projectId) {
   document.title = projectId ? state.projects.find(p => p.id === projectId)?.name || "TEW" : "TEW";
   const list = document.getElementById('logs-list');
   if (!list) return;
   const all = state.projects.filter(p => p.stage);
 
   if (!all.length) {
-    list.innerHTML = `<div class="empty"><div class="empty-ico">📋</div><div class="empty-ttl">${t('noLogs')}</div><div class="empty-sub">${t('noLogsSub')}</div></div>`;
+    list.innerHTML = `<div class="empty"><div class="empty-ico">📋</div><div class="empty-ttl">${t('noProcess')}</div><div class="empty-sub">${t('noProcessSub')}</div></div>`;
     return;
   }
 
@@ -2184,13 +2194,13 @@ function renderLogs(projectId) {
             ? `<img src="${p.artwork}" style="width:100%;height:100%;object-fit:cover">`
             : '🎵';
           return `
-            <div class="log-card" onclick="renderLogs('${p.id}')"
+            <div class="log-card" onclick="renderProcess('${p.id}')"
                  style="display:flex;align-items:center;gap:14px;cursor:pointer;margin-bottom:12px">
               <div style="width:52px;height:52px;border-radius:14px;flex-shrink:0;overflow:hidden;
                           background:var(--panel3);display:flex;align-items:center;
                           justify-content:center;font-size:24px">${art}</div>
               <div style="flex:1;min-width:0">
-                <div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+                <div class="log-proj-name" id="lpn-${p.id}" style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
                 <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.key}</div>
                 <div style="margin-top:6px;height:4px;border-radius:2px;background:var(--panel3);overflow:hidden">
                   <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:2px"></div>
@@ -2200,12 +2210,17 @@ function renderLogs(projectId) {
             </div>`;
         }).join('')}
       </div>`;
+    setTimeout(function(){
+      document.querySelectorAll('.log-proj-name').forEach(function(el){
+        var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);
+      });
+    },300);
     return;
   }
 
   // ── LEVEL 2: project detail ───────────────────────────────
   const p = state.projects.find(x => x.id === projectId);
-  if (!p) { renderLogs(); return; }
+  if (!p) { renderProcess(); return; }
 
   const stages = p.stages || (p.stage ? [p.stage] : []);
   let totalSteps = 0, doneSteps = 0;
@@ -2217,7 +2232,7 @@ function renderLogs(projectId) {
   const pct = totalSteps > 0 ? Math.round((doneSteps/totalSteps)*100) : 0;
 
   const stageAccordions = stages.map((stage, si) => {
-    const stageLogs  = (p.sessionLogs||[]).filter(e => e.stage === stage).slice().reverse();
+    const stageProcess  = (p.sessionProcess||[]).filter(e => e.stage === stage).slice().reverse();
     const stageSteps = STEPS[stage] || [];
     const stageDone  = (p.stepsDone && p.stepsDone[stage]) || {};
     const sDone      = stageSteps.filter(st => stageDone[st.id] === true).length;
@@ -2226,9 +2241,9 @@ function renderLogs(projectId) {
     const pill       = PILL_CLASS[stage] || 'pill-mix';
     const accordId   = 'acc-' + p.id + '-' + stage;
 
-    const stepRows = stageLogs.length === 0
+    const stepRows = stageProcess.length === 0
       ? `<div style="font-size:12px;color:var(--text3);padding:10px 0 4px">Ningún paso completado todavía</div>`
-      : stageLogs.map(entry => {
+      : stageProcess.map(entry => {
           const auto = entry.auto
             ? `<span style="font-size:9px;background:rgba(21,134,236,0.1);color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600;margin-left:4px">VST</span>`
             : '';
@@ -2263,14 +2278,14 @@ function renderLogs(projectId) {
 
   list.innerHTML = `
     <div>
-      <button class="logs-back-btn" onclick="renderLogs()"
+      <button class="logs-back-btn" onclick="renderProcess()"
               style="display:flex;align-items:center;gap:6px;background:none;border:none;
                      color:var(--accent);font-family:var(--sans);font-size:13px;font-weight:600;
                      cursor:pointer;padding:0;margin-bottom:16px">←</button>
       <div class="log-card" style="margin-bottom:16px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
-          <div>
-            <div style="font-size:16px;font-weight:700">${p.name}</div>
+          <div style="min-width:0;overflow:hidden;flex:1">
+            <div class="log-proj-name" id="lpn2-${p.id}" style="font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
             <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.bpm} BPM · ${p.key}</div>
           </div>
           <div style="text-align:right">
@@ -2282,6 +2297,10 @@ function renderLogs(projectId) {
         ${stageAccordions}
       </div>
     </div>`;
+  setTimeout(function(){
+    var el=document.getElementById('lpn2-'+projectId);
+    if(el){var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);}
+  },300);
 }
 
 
@@ -2639,31 +2658,29 @@ function setMarqueeTitle(container, text) {
   if (!container) return;
   var inner = container.querySelector('.ws-name-inner');
   if (!inner) { container.textContent = text; return; }
-  // Reset
   inner.classList.remove('scrolling');
   inner.textContent = text;
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
-  container.style.removeProperty('mask-image');
-  container.style.removeProperty('-webkit-mask-image');
+  var oldFade = container.nextElementSibling;
+  if (oldFade && oldFade.classList.contains('marquee-fade')) oldFade.parentNode.removeChild(oldFade);
   setTimeout(function(){
-    var cw = container.getBoundingClientRect().width;
-    inner.textContent = text;
-    var iw = inner.getBoundingClientRect().width;
+    var cw = container.offsetWidth;
+    var iw = inner.scrollWidth;
     if (iw > cw + 2) {
       inner.textContent = text + '     ' + text;
       var halfW = inner.scrollWidth / 2;
-      container.style.setProperty('mask-image', 'linear-gradient(to right, black 80%, transparent 100%)');
-      container.style.setProperty('-webkit-mask-image', 'linear-gradient(to right, black 80%, transparent 100%)');
       container.style.setProperty('--marquee-dur', Math.max(4, halfW/50) + 's');
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
       inner.classList.add('scrolling');
-    } else {
-      // Ensure mask is gone for short titles
-      container.style.removeProperty('mask-image');
-      container.style.removeProperty('-webkit-mask-image');
+      var fade = document.createElement('div');
+      fade.className = 'marquee-fade';
+      var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
+      fade.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:44px;pointer-events:none;z-index:1;background:linear-gradient(to right,transparent,' + bgVar + ')';
+      container.style.position = 'relative';
+      container.insertBefore(fade, null);
     }
-  }, 200);
+  }, 300);
 }
 </script>
 
