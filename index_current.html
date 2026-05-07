@@ -1838,7 +1838,7 @@ function renderProjects() {
         <button onclick="event.stopPropagation();openEditProject('${p.id}')" style="position:absolute;top:10px;right:10px;z-index:2;background:var(--panel3);border:1px solid var(--border);border-radius:8px;width:28px;height:28px;cursor:pointer;color:var(--text2);font-size:12px;display:flex;align-items:center;justify-content:center;padding:0;transition:background 0.18s ease,transform 0.15s ease" onmouseover="this.style.background='var(--accent)';this.style.transform='scale(1.1)'" onmouseout="this.style.background='var(--panel3)';this.style.transform=''">✏️</button>
         <div style="cursor:pointer;display:flex;align-items:flex-start;gap:12px" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
         <div style="width:48px;height:48px;border-radius:12px;flex-shrink:0;overflow:hidden;background:var(--panel3);display:flex;align-items:center;justify-content:center;font-size:22px">${p.artwork ? '<img src="'+p.artwork+'" style="width:100%;height:100%;object-fit:cover">' : '🎵'}</div>
-        <div style="flex:1;min-width:0">
+        <div style="flex:1;min-width:0;padding-right:44px">
         <div class="proj-name" id="pn-${p.id}"><span class="ws-name-inner">${p.name}</span></div>
         <div class="proj-meta">
           <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span class="proj-artist">' + p.artist + '</span>' : ''}
@@ -2319,8 +2319,16 @@ function renderProcess(projectId) {
 const cardViews = {};
 
 function renderCharts(stage) {
-  const keys = STAGE_INSTRUMENTS[stage] || STAGE_INSTRUMENTS.default;
   const grid = document.getElementById('charts-grid');
+  if (!state.projects || state.projects.length === 0) {
+    grid.innerHTML = `<div class="empty" style="padding-top:40px">
+      <div class="empty-ico" style="font-size:36px;opacity:0.3;margin-bottom:14px">📊</div>
+      <div class="empty-ttl">No charts to display</div>
+      <div class="empty-sub">Tap <strong>+</strong> to create a new project</div>
+    </div>`;
+    return;
+  }
+  const keys = STAGE_INSTRUMENTS[stage] || STAGE_INSTRUMENTS.default;
   const stageLabel = stage ? STAGE_LABELS[stage] : null;
   const projName   = state.active ? state.active.name : null;
 
@@ -2670,25 +2678,28 @@ function setMarqueeTitle(container, text) {
   inner.textContent = text;
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
-  var oldFade = container.nextElementSibling;
-  if (oldFade && oldFade.classList.contains('marquee-fade')) oldFade.parentNode.removeChild(oldFade);
+  Array.from(container.querySelectorAll('.marquee-fade')).forEach(function(f){ f.parentNode.removeChild(f); });
   setTimeout(function(){
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
     if (iw > cw + 2) {
-      inner.textContent = text + '     ' + text;
+      inner.textContent = text + '  •  ' + text;
       var halfW = inner.scrollWidth / 2;
-      container.style.setProperty('--marquee-dur', Math.max(4, halfW/50) + 's');
+      container.style.setProperty('--marquee-dur', Math.max(5, halfW/45) + 's');
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
       inner.classList.add('scrolling');
-      var fade = document.createElement('div');
-      fade.className = 'marquee-fade';
-      var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
-      fade.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:44px;pointer-events:none;z-index:1;background:linear-gradient(to right,transparent,' + bgVar + ')';
       container.style.position = 'relative';
-      container.insertBefore(fade, null);
+      var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
+      var fadeR = document.createElement('div');
+      fadeR.className = 'marquee-fade';
+      fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
+      container.appendChild(fadeR);
+      var fadeL = document.createElement('div');
+      fadeL.className = 'marquee-fade';
+      fadeL.style.cssText = 'position:absolute;left:0;top:0;bottom:0;width:20px;pointer-events:none;z-index:2;background:linear-gradient(to left,transparent 0%,' + bgVar + ' 70%)';
+      container.appendChild(fadeL);
     }
-  }, 300);
+  }, 500);
 }
 </script>
 
