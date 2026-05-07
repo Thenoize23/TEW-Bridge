@@ -949,11 +949,9 @@ const AI_SUGGESTIONS = {
     { tip: "Group similar instruments (drums, synths, vocals) into buses early.", icon: "📦" }
   ],
   mix: [
-    { tip: "Aim for a mix bus level around -6dB before mastering.", icon: "🎚️" },
-    { tip: "Use parallel compression on drums to add punch without losing dynamics.", icon: "🔊" },
-    { tip: "Check your mix in mono — if it sounds good in mono, it will sound great in stereo.", icon: "🔁" },
-    { tip: "Automate your lead vocal volume for a more natural, dynamic feel.", icon: "📈" },
-    { tip: "Use reference tracks to compare your mix against commercial releases.", icon: "🎯" }
+    { id:'mx1', name:'Mezcla Base', desc:'Asegurate de que todo suene limpio antes de mezclar' },
+    { id:'mx2', name:'Comp Paralela', desc:'Anade pegada y consistencia sin perder la vida' },
+    { id:'mx3', name:'Division Freq', desc:'Satura bandas especificas y complementa con la original' }
   ],
   mastering: [
     { tip: "Target -14 LUFS integrated for streaming platforms like Spotify.", icon: "🎵" },
@@ -1055,7 +1053,7 @@ function t(key) { return LANG[currentLang][key] || LANG.en[key] || key; }
 // ════════════════════════════════════════════════
 const STEPS_EN = {
   production: [
-    { id:'pr1', name:'Reference Track',     desc:'Load a commercial reference to guide your sound',           rmsMin:-30, rmsMax:-12 },
+    { id:'pr1', name:'Session Prep',     desc:'Load a commercial reference to guide your sound',           rmsMin:-30, rmsMax:-12 },
     { id:'pr2', name:'Tempo & Key',          desc:'Lock in BPM and musical key before building',               rmsMin:-30, rmsMax:-12 },
     { id:'pr3', name:'Drum Programming',     desc:'Build the rhythmic foundation of the track',                rmsMin:-28, rmsMax:-10 },
     { id:'pr4', name:'Bass Line',            desc:'Establish the low-end groove and root movement',            rmsMin:-26, rmsMax:-10 },
@@ -1066,17 +1064,9 @@ const STEPS_EN = {
     { id:'pr9', name:'Automation',           desc:'Add movement, dynamics and variation over time',            rmsMin:-20, rmsMax:-6  },
   ],
   mix: [
-    { id:'mx1', name:'Base Mix',               desc:'Make sure everything sounds clean before you start' },
-    { id:'mx2', name:'Parallel Comp',           desc:'Add punch and consistency without losing life' },
-    { id:'mx3', name:'Frequency Split',          desc:'Saturate specific bands and blend with the original' },
-    { id:'mx2', name:'Organization',         desc:'Label, color-code and group all tracks clearly',            rmsMin:-24, rmsMax:-14 },
-    { id:'mx3', name:'Routing I/O',          desc:'Set up buses, sends and returns correctly',                 rmsMin:-22, rmsMax:-12 },
-    { id:'mx4', name:'Sends/Aux Channels',   desc:'Configure reverb, delay and parallel channels',            rmsMin:-22, rmsMax:-12 },
-    { id:'mx5', name:'EQ',                   desc:'Cut problem frequencies, shape tonal balance',              rmsMin:-20, rmsMax:-10 },
-    { id:'mx6', name:'Gain Staging',         desc:'Target -18 dBFS RMS per channel for headroom',             rmsMin:-20, rmsMax:-16 },
-    { id:'mx7', name:'Compression',          desc:'Control dynamics and glue elements together',               rmsMin:-18, rmsMax:-8  },
-    { id:'mx8', name:'Delay',                desc:'Add rhythmic space and depth with delay effects',           rmsMin:-18, rmsMax:-8  },
-    { id:'mx9', name:'Saturation',           desc:'Add harmonic warmth if needed — subtle is key',            rmsMin:-16, rmsMax:-6  },
+    { id:'mx1', name:'Mezcla Base', desc:'Asegurate de que todo suene limpio antes de mezclar' },
+    { id:'mx2', name:'Comp Paralela', desc:'Anade pegada y consistencia sin perder la vida' },
+    { id:'mx3', name:'Division Freq', desc:'Satura bandas especificas y complementa con la original' }
   ],
   mastering: [
     { id:'ms1', name:'Reference Track',      desc:'Compare against a commercial master at matched loudness',   rmsMin:-16, rmsMax:-10 },
@@ -1094,7 +1084,7 @@ const STEPS_EN = {
 
 const STEPS_ES = {
   production: [
-    { id:'pr1', name:'Track de Referencia',    desc:'Carga una referencia comercial para guiar tu sonido',       rmsMin:-30, rmsMax:-12 },
+    { id:'pr1', name:'Session Prep',    desc:'Carga una referencia comercial para guiar tu sonido',       rmsMin:-30, rmsMax:-12 },
     { id:'pr2', name:'Tempo y Tonalidad',       desc:'Fija el BPM y la tonalidad antes de construir',             rmsMin:-30, rmsMax:-12 },
     { id:'pr3', name:'Programacion de Bateria', desc:'Construye la base ritmica del track',                       rmsMin:-28, rmsMax:-10 },
     { id:'pr4', name:'Linea de Bajo',           desc:'Establece el groove del bajo y el movimiento armonico',     rmsMin:-26, rmsMax:-10 },
@@ -1105,17 +1095,9 @@ const STEPS_ES = {
     { id:'pr9', name:'Automatizacion',          desc:'Agrega movimiento, dinamica y variacion en el tiempo',     rmsMin:-20, rmsMax:-6  },
   ],
   mix: [
-    { id:'mx1', name:'Mezcla Base',               desc:'Asegurate de que todo suene limpio antes de mezclar' },
-    { id:'mx2', name:'Comp Paralela',           desc:'Anade pegada y consistencia sin perder la vida' },
-    { id:'mx3', name:'Division Freq',            desc:'Satura bandas especificas y complementa con la original' },
-    { id:'mx2', name:'Organizacion',            desc:'Etiqueta, colorea y agrupa todos los canales claramente',  rmsMin:-24, rmsMax:-14 },
-    { id:'mx3', name:'Routing I/O',             desc:'Configura buses, envios y retornos correctamente',         rmsMin:-22, rmsMax:-12 },
-    { id:'mx4', name:'Canales Aux',             desc:'Configura reverb, delay y canales paralelos',             rmsMin:-22, rmsMax:-12 },
-    { id:'mx5', name:'EQ',                      desc:'Corta frecuencias problematicas y da forma tonal',         rmsMin:-20, rmsMax:-10 },
-    { id:'mx6', name:'Gain Staging',            desc:'Objetivo -18 dBFS RMS por canal para headroom',           rmsMin:-20, rmsMax:-16 },
-    { id:'mx7', name:'Compresion',              desc:'Controla la dinamica y une los elementos de la mezcla',   rmsMin:-18, rmsMax:-8  },
-    { id:'mx8', name:'Delay',                   desc:'Agrega espacio ritmico y profundidad con delay',           rmsMin:-18, rmsMax:-8  },
-    { id:'mx9', name:'Saturacion',              desc:'Agrega calidez armonica si es necesario - se sutil',      rmsMin:-16, rmsMax:-6  },
+    { id:'mx1', name:'Mezcla Base', desc:'Asegurate de que todo suene limpio antes de mezclar' },
+    { id:'mx2', name:'Comp Paralela', desc:'Anade pegada y consistencia sin perder la vida' },
+    { id:'mx3', name:'Division Freq', desc:'Satura bandas especificas y complementa con la original' }
   ],
   mastering: [
     { id:'ms1', name:'Track de Referencia',     desc:'Compara con un master comercial a igual loudness',         rmsMin:-16, rmsMax:-10 },
