@@ -186,14 +186,6 @@ body {
   min-width: 0;
   flex-shrink: 1;
 }
-.proj-artist {
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-  flex-shrink: 1;
-}
 
 .stage-pill {
   display: inline-block;
@@ -2686,23 +2678,26 @@ function setMarqueeTitle(container, text) {
   inner.textContent = text;
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
-  var oldFade = container.nextElementSibling;
-  if (oldFade && oldFade.classList.contains('marquee-fade')) oldFade.parentNode.removeChild(oldFade);
+  Array.from(container.querySelectorAll('.marquee-fade')).forEach(function(f){ f.parentNode.removeChild(f); });
   setTimeout(function(){
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
     if (iw > cw + 2) {
-      inner.textContent = text + '     ' + text;
+      inner.textContent = text + '  •  ' + text;
       var halfW = inner.scrollWidth / 2;
-      container.style.setProperty('--marquee-dur', Math.max(4, halfW/50) + 's');
+      container.style.setProperty('--marquee-dur', Math.max(5, halfW/45) + 's');
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
       inner.classList.add('scrolling');
-      var fade = document.createElement('div');
-      fade.className = 'marquee-fade';
-      var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
-      fade.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:44px;pointer-events:none;z-index:1;background:linear-gradient(to right,transparent,' + bgVar + ')';
       container.style.position = 'relative';
-      container.insertBefore(fade, null);
+      var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
+      var fadeR = document.createElement('div');
+      fadeR.className = 'marquee-fade';
+      fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:52px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent,' + bgVar + ')';
+      container.appendChild(fadeR);
+      var fadeL = document.createElement('div');
+      fadeL.className = 'marquee-fade';
+      fadeL.style.cssText = 'position:absolute;left:0;top:0;bottom:0;width:20px;pointer-events:none;z-index:2;background:linear-gradient(to left,transparent,' + bgVar + ')';
+      container.appendChild(fadeL);
     }
   }, 500);
 }
