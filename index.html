@@ -178,6 +178,14 @@ body {
   display: flex; gap: 10px; flex-wrap: wrap;
   font-size: 12px; color: var(--text2); margin-bottom: 10px;
 }
+.proj-artist {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex-shrink: 1;
+}
 
 .stage-pill {
   display: inline-block;
@@ -1833,7 +1841,7 @@ function renderProjects() {
         <div style="flex:1;min-width:0">
         <div class="proj-name" id="pn-${p.id}"><span class="ws-name-inner">${p.name}</span></div>
         <div class="proj-meta">
-          <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span>' + p.artist + '</span>' : ''}
+          <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span class="proj-artist">' + p.artist + '</span>' : ''}
         </div>
         <div>
           ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">Sin etapa seleccionada</span>'}
