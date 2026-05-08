@@ -209,6 +209,37 @@ body {
 .proc-slide-out-left  { animation: slideOutLeft  0.18s cubic-bezier(.25,.8,.25,1) both; }
 .proc-slide-out-right { animation: slideOutRight 0.18s cubic-bezier(.25,.8,.25,1) both; }
 
+/* ── Completion Modals ─────────────────────────── */
+@keyframes modalPop {
+  0%   { opacity:0; transform:scale(0.85) translateY(20px); }
+  70%  { transform:scale(1.04) translateY(-2px); }
+  100% { opacity:1; transform:scale(1) translateY(0); }
+}
+.completion-modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.75);
+  z-index:99999; display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.completion-modal-box {
+  background:var(--surface,#1e1e2e); border-radius:24px; padding:32px 24px;
+  text-align:center; max-width:320px; width:100%;
+  box-shadow:0 24px 60px rgba(0,0,0,0.5);
+  animation:modalPop 0.4s cubic-bezier(.25,.8,.25,1) both;
+  position:relative; overflow:hidden;
+}
+.cm-bar { position:absolute; top:0; left:0; right:0; height:4px;
+  background:linear-gradient(to right,var(--accent),#a855f7,#ec4899,var(--accent));
+  border-radius:24px 24px 0 0; }
+.cm-emoji { font-size:52px; margin-bottom:12px; display:block; }
+.cm-title { font-size:20px; font-weight:800; color:var(--text,#fff); margin-bottom:8px; }
+.cm-msg   { font-size:14px; color:var(--text2,#aaa); line-height:1.6; margin-bottom:24px; }
+.cm-btn   { width:100%; padding:15px; border:none; border-radius:14px;
+  font-size:15px; font-weight:700; cursor:pointer;
+  background:var(--accent,#1586ec); color:#fff; transition:opacity 0.15s; }
+.cm-btn:active { opacity:0.8; }
+.cm-btn-sec { width:100%; padding:12px; border:none; border-radius:14px;
+  font-size:14px; font-weight:600; cursor:pointer; margin-top:10px;
+  background:rgba(255,255,255,0.07); color:var(--text2,#aaa); }
+
 /* ── FAB ─────────────────────────────────────── */
 .fab {
   position: fixed;
@@ -2074,7 +2105,6 @@ function closeWorkspace() {
 function renderSteps() {
   const p = state.active;
   if (!p) return;
-  var _wb=document.querySelector('.ws-body');if(_wb)_wb.scrollTop=0;
   const stage     = p.stage || 'mix';
   const steps     = STEPS[stage] || [];
   const _sd       = (p.stepsDone && typeof p.stepsDone[stage] === 'object') ? p.stepsDone[stage] : {};
@@ -2096,6 +2126,64 @@ function renderSteps() {
         </svg>
       </button>
     </div>`).join('');
+}
+
+
+function _closeCompletionModal() {
+  var el = document.getElementById('cm-overlay');
+  if (!el) return;
+  el.style.opacity = '0';
+  el.style.transition = 'opacity 0.25s';
+  setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 250);
+}
+
+function _showCompletionModal(html) {
+  var old = document.getElementById('cm-overlay');
+  if (old) old.parentNode.removeChild(old);
+  var el = document.createElement('div');
+  el.id = 'cm-overlay';
+  el.className = 'completion-modal-overlay';
+  el.innerHTML = html;
+  el.addEventListener('click', function(e){ if (e.target === el) _closeCompletionModal(); });
+  document.body.appendChild(el);
+}
+
+function showStageCompleteModal(stage, project) {
+  var emojis  = { production:'🎛️', mix:'🎚️', mastering:'💿' };
+  var msgs    = {
+    production: 'Your production is locked in. Time to shape the sound.',
+    mix:        "The mix is dialed. Let's push it to the finish line.",
+    mastering:  'All stages complete. Ready to export.'
+  };
+  var labels  = { production:'Producción', mix:'Mezcla', mastering:'Mastering' };
+  var stages  = project.stages || ['production','mix','mastering'];
+  var idx     = stages.indexOf(stage);
+  var next    = idx >= 0 && idx < stages.length - 1 ? stages[idx + 1] : null;
+  var primaryBtn = next
+    ? '<button class="cm-btn" onclick="_closeCompletionModal();switchStage(\"' + next + '\")">Jump to ' + labels[next] + ' →</button>'
+    : '<button class="cm-btn" onclick="_closeCompletionModal()">Close</button>';
+  var secBtn = next ? '<button class="cm-btn-sec" onclick="_closeCompletionModal()">Stay here</button>' : '';
+  _showCompletionModal(
+    '<div class="completion-modal-box">'
+    + '<div class="cm-bar"></div>'
+    + '<span class="cm-emoji">' + (emojis[stage] || '✅') + '</span>'
+    + '<div class="cm-title">' + (labels[stage] || stage) + ' Complete!</div>'
+    + '<div class="cm-msg">' + (msgs[stage] || 'Great work. Keep going.') + '</div>'
+    + primaryBtn + secBtn
+    + '</div>'
+  );
+}
+
+function showSongCompleteModal(projectName) {
+  _showCompletionModal(
+    '<div class="completion-modal-box">'
+    + '<div class="cm-bar"></div>'
+    + '<span class="cm-emoji">🏆</span>'
+    + '<div class="cm-title">Track Complete!</div>'
+    + '<div class="cm-msg">Congratulations on finishing <strong>' + projectName + '</strong>. Every step done, every stage locked. Time to share it with the world.</div>'
+    + '<button class="cm-btn" onclick="_closeCompletionModal()">Let's go 🚀</button>'
+    + '</div>'
+  );
 }
 
 function toggleStep(stepId) {
@@ -2124,6 +2212,23 @@ function toggleStep(stepId) {
   saveProjects();
   renderSteps();
   renderProcess();
+
+  // Completion check — only when marking as DONE
+  if (p.stepsDone[stage] && p.stepsDone[stage][stepId]) {
+    var stageSteps = STEPS[stage] || [];
+    var allInStage = stageSteps.every(function(s){ return p.stepsDone[stage][s.id]; });
+    if (allInStage) {
+      var allDone = (p.stages || []).every(function(st){
+        var ss = STEPS[st] || [];
+        var sd = p.stepsDone[st] || {};
+        return ss.every(function(s){ return sd[s.id]; });
+      });
+      setTimeout(function(){
+        if (allDone) showSongCompleteModal(p.name);
+        else showStageCompleteModal(stage, p);
+      }, 500);
+    }
+  }
 }
 
 function openDetail(stepId) {
