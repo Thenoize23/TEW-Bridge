@@ -540,6 +540,21 @@ select.form-input option { background: var(--card-bg); color: var(--text); }
 select.form-input option:checked { background: var(--accent); color: #fff; }
 .tab-btn { transition: transform 0.15s ease, filter 0.15s ease; }
 .tab-btn:hover { transform: scale(1.12); filter: brightness(1.25); }
+/* Transiciones para que el cambio de nivel sea fluido */
+.level-view {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-out {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
 </style>
 </head>
 <body>
