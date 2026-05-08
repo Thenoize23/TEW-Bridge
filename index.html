@@ -1624,20 +1624,23 @@ function saveProjects() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  TABS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function switchTab(tab) {
-  // Always hide workspace when switching tabs
-  const ws = document.getElementById('workspace');
-  if (ws && ws.style.display === 'block') {
-    if(ws) ws.style.display = 'none';
-  }
-  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  const activeScr=document.getElementById('screen-' + tab); if(activeScr){activeScr.classList.add('active');activeScr.style.display='block';}
-  document.querySelector('[data-tab="' + tab + '"]').classList.add('active');
-  var _t=document.getElementById('fab');if(_t)_t.style.display=tab === 'projects' ? 'flex' : 'none';
-  if (tab === 'charts')   renderCharts(state.active ? state.active.stage : null);
-  if (tab === 'logs')     renderProcess();
-  if (tab === 'settings') populateClearSelect();
+var _currentTab='projects';
+var _tabOrder=['projects','charts','logs','settings'];
+function switchTab(tab){
+  const ws=document.getElementById('workspace');
+  if(ws&&ws.style.display==='block')ws.style.display='none';
+  var prevIdx=_tabOrder.indexOf(_currentTab),nextIdx=_tabOrder.indexOf(tab);
+  var inC=nextIdx>prevIdx?'tab-slide-in-right':'tab-slide-in-left';
+  _currentTab=tab;
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active','tab-slide-in-right','tab-slide-in-left');s.style.display='none';});
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  var scr=document.getElementById('screen-'+tab);
+  if(scr){scr.classList.add('active');scr.style.display='block';void scr.offsetWidth;scr.classList.add(inC);setTimeout(()=>scr.classList.remove(inC),300);}
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  var _t=document.getElementById('fab');if(_t)_t.style.display=tab==='projects'?'flex':'none';
+  if(tab==='charts')renderCharts(state.active?state.active.stage:null);
+  if(tab==='logs')renderProcess();
+  if(tab==='settings')populateClearSelect();
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
