@@ -2377,6 +2377,10 @@ function renderCharts(stage) {
   const cards = keys.map(key => buildCard(key)).join('');
   grid.innerHTML = header + '<div class="charts-grid" id="inner-grid">' + cards + '</div>';
   setTimeout(function(){
+    var el=document.getElementById('charts-proj-title');
+    if(el){var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);}
+  },400);
+  setTimeout(function(){
     var el = document.getElementById('charts-proj-title');
     if (el) { var inn = el.querySelector('.ws-name-inner'); if (inn) setMarqueeTitle(el, inn.textContent); }
     document.querySelectorAll('.chart-n').forEach(function(n){
