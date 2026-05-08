@@ -2170,7 +2170,7 @@ function showStageCompleteModal(stage, project) {
   var idx     = stages.indexOf(stage);
   var next    = idx >= 0 && idx < stages.length - 1 ? stages[idx + 1] : null;
   var primaryBtn = next
-    ? '<button class="cm-btn" onclick="_closeCompletionModal();switchStage(\"' + next + '\")">Jump to ' + labels[next] + ' →</button>'
+    ? '<button class="cm-btn" onclick="_closeCompletionModal();switchStage(\'' + next + '\')">Jump to ' + labels[next] + ' →</button>'
     : '<button class="cm-btn" onclick="_closeCompletionModal()">Close</button>';
   var secBtn = next ? '<button class="cm-btn-sec" onclick="_closeCompletionModal()">Stay here</button>' : '';
   _showCompletionModal(
