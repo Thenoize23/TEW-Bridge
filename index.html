@@ -2836,7 +2836,9 @@ function setMarqueeTitle(container, text) {
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
   Array.from(container.querySelectorAll('.marquee-fade')).forEach(function(f){ f.parentNode.removeChild(f); });
-  setTimeout(function(){
+  // Hide immediately to prevent flash before fades are applied
+  inner.style.opacity = '0';
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
     if (iw > cw + 2) {
@@ -2856,7 +2858,8 @@ function setMarqueeTitle(container, text) {
       fadeL.style.cssText = 'position:absolute;left:0;top:0;bottom:0;width:20px;pointer-events:none;z-index:2;background:linear-gradient(to left,transparent 0%,' + bgVar + ' 70%)';
       container.appendChild(fadeL);
     }
-  }, 500);
+    inner.style.opacity = '1';
+  });});
 }
 </script>
 
