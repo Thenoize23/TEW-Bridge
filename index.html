@@ -438,7 +438,7 @@ body {
 .chart-vis { height: 72px; background: var(--panel2); display: flex; align-items: flex-end; padding: 8px 6px 4px; gap: 2px; }
 .chart-b { flex: 1; border-radius: 2px 2px 0 0; opacity: 0.75; }
 .chart-meta { padding: 9px 10px 11px; }
-.chart-n { font-size: 12px; font-weight: 600; margin-bottom: 1px; white-space:nowrap; overflow:hidden; position:relative; }
+.chart-n { font-size: 12px; font-weight: 600; margin-bottom: 1px; }
 .chart-s { font-size: 10px; color: var(--text2); }
 
 /* ── Settings ────────────────────────────────── */
@@ -2365,7 +2365,7 @@ function renderCharts(stage) {
   let header = '';
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
-      <div style="font-size:15px;font-weight:700;margin-bottom:2px">${projName}</div>
+      <div id="charts-proj-title" style="font-size:15px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${projName}</span></div>
       <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · Toca la tarjeta para cambiar EQ / Pan</div>
     </div>`;
   } else {
@@ -2377,9 +2377,10 @@ function renderCharts(stage) {
   const cards = keys.map(key => buildCard(key)).join('');
   grid.innerHTML = header + '<div class="charts-grid" id="inner-grid">' + cards + '</div>';
   setTimeout(function(){
-    document.querySelectorAll('.chart-n').forEach(function(el){
-      var inn = el.querySelector('.ws-name-inner');
-      if (inn) setMarqueeTitle(el, inn.textContent);
+    var el = document.getElementById('charts-proj-title');
+    if (el) { var inn = el.querySelector('.ws-name-inner'); if (inn) setMarqueeTitle(el, inn.textContent); }
+    document.querySelectorAll('.chart-n').forEach(function(n){
+      var inn = n.querySelector('.ws-name-inner'); if (inn) setMarqueeTitle(n, inn.textContent);
     });
   }, 300);
 }
@@ -2432,7 +2433,7 @@ function buildCard(key) {
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:4px">
             <span style="font-size:12px">${inst.icon}</span>
-            <div class="chart-n" id="cn-${key}"><span class="ws-name-inner">${inst.name}</span></div>
+            <div class="chart-n">${inst.name}</div>
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>
         </div>
@@ -2458,7 +2459,7 @@ function buildCard(key) {
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:4px">
             <span style="font-size:12px">${inst.icon}</span>
-            <div class="chart-n" id="cn-${key}"><span class="ws-name-inner">${inst.name}</span></div>
+            <div class="chart-n">${inst.name}</div>
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">PAN</div>
         </div>
