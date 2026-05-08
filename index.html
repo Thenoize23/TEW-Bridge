@@ -1515,16 +1515,26 @@ function populateClearSelect() {
 }
 
 function resetAllProjects() {
+  if (!confirm('¿Resetear los pasos de todos los proyectos? Esto no borra los proyectos.')) return;
   state.projects.forEach(p => {
-    p.stages    = p.stages || ['production','mix','mastering'];
-    p.stepsDone = { production:{}, mix:{}, mastering:{} };
+    p.stages         = p.stages || ['production','mix','mastering'];
+    p.stepsDone      = { production:{}, mix:{}, mastering:{} };
     p.sessionProcess = [];
-    p.stage     = p.stages[0];
+    p.stage          = p.stages[0];
   });
+  state.active = null;
   saveProjects();
-  // Reload page to guarantee fresh state from storage
-  setTimeout(() => location.reload(), 300);
-  // Visual feedback
+  renderProjects();
+  renderProcess();
+  renderCharts(null);
+  const ws = document.getElementById('workspace');
+  if (ws) ws.style.display = 'none';
+  const hdr = document.getElementById('header');
+  if (hdr) hdr.style.display = '';
+  const tb = document.getElementById('tab-bar');
+  if (tb) tb.style.display = '';
+  const fab = document.getElementById('fab');
+  if (fab) fab.style.display = 'flex';
   const btn = document.getElementById('reset-all-btn');
   if (btn) {
     btn.textContent = '¡Todo Reseteado!';
