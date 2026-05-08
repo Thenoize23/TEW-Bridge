@@ -597,7 +597,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 
     <!-- PROJECTS -->
     <div id="screen-projects" class="screen active">
-      <p class="sec-label">My Projects</p>
+      <p class="sec-label" data-i18n="projects">My Projects</p>
       <div id="proj-list"></div>
       <div class="spacer"></div>
     </div>
@@ -649,7 +649,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <span class="set-val" id="set-email">—</span>
         </div>
         <div class="set-row" style="cursor:pointer" onclick="if(window._authSignOut){window._authSignOut();}">
-          <span class="set-lbl" style="color:var(--danger)">Cerrar Sesión</span>
+          <span class="set-lbl" style="color:var(--danger)" data-i18n="signOut">Cerrar Sesión</span>
           <span style="color:var(--danger);font-size:16px">→</span>
         </div>
       </div>
@@ -734,7 +734,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
             data-i18n="writeNote" placeholder="Escribe tu nota aquí..."
             style="width:100%;min-height:100px;margin-bottom:8px"></textarea>
           <button onclick="addNote()" class="btn-primary" style="margin-bottom:20px" data-i18n="addNote">+ Agregar Nota</button>
-          <p class="sec-label">Your Notes</p>
+          <p class="sec-label" data-i18n="yourNotes">Your Notes</p>
           <div id="notes-list"></div>
           <div class="spacer"></div>
         </div><!-- /inner-notes -->
@@ -901,15 +901,15 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
     <div class="modal-title"><span data-i18n="stageQuestion">¿En qué etapa trabajas hoy?</span></div>
     <div class="stage-opt" onclick="selectStage('production')">
       <div class="stage-ico ico-prod">🎹</div>
-      <div class="stage-info"><h3>Production</h3><p>Estructura del beat, arreglos, diseño de sonido</p></div>
+      <div class="stage-info"><h3 data-i18n="production">Production</h3><p data-i18n="prodDesc">Beat structure, arrangements, sound design</p></div>
     </div>
     <div class="stage-opt" onclick="selectStage('mix')">
       <div class="stage-ico ico-mix">🎚</div>
-      <div class="stage-info"><h3>Mix</h3><p>EQ, compresión, routing, espacio</p></div>
+      <div class="stage-info"><h3 data-i18n="mix">Mix</h3><p data-i18n="mixDesc">EQ, compression, routing, space</p></div>
     </div>
     <div class="stage-opt" onclick="selectStage('mastering')">
       <div class="stage-ico ico-mast">💿</div>
-      <div class="stage-info"><h3>Mastering</h3><p>Limitación, LUFS, exportación final</p></div>
+      <div class="stage-info"><h3 data-i18n="mastering">Mastering</h3><p data-i18n="mastDesc">Limiting, LUFS, final export</p></div>
     </div>
     <button class="btn-ghost" onclick="closeModal('modal-stage')" data-i18n="cancel">Cancelar</button>
   </div>
@@ -1057,6 +1057,14 @@ const LANG = {
     enterName:'Please enter a project name.', selectStage:'Select at least one stage.',
     stageQuestion:'What stage are you working on?',
     spectrumRef:'Spectrum References', tapToggle:'Tap card to toggle EQ / Pan',
+    yourNotes:'Your Notes', editStages:'Edit Stages',
+    selectStages:'Select the stages for this project.',
+    prodDesc:'Beat structure, arrangements, sound design',
+    mixDesc:'EQ, compression, routing, space',
+    mastDesc:'Limiting, LUFS, final export',
+    resetConfirm:'Reset all project steps? This does not delete projects.',
+    panLeft:'Left', panRight:'Right', panWide:'Wide', panCenter:'Center',
+    instRanges:'Instrument Ranges',
   },
   es: {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
@@ -1085,11 +1093,20 @@ const LANG = {
     enterName:'Escribe el nombre del proyecto.', selectStage:'Selecciona al menos una etapa.',
     stageQuestion:'¿En qué etapa trabajas hoy?',
     spectrumRef:'Referencias de Espectro', tapToggle:'Toca la tarjeta para cambiar EQ / Pan',
+    yourNotes:'Tus Notas', editStages:'Editar Etapas',
+    selectStages:'Selecciona las etapas para este proyecto.',
+    prodDesc:'Estructura del beat, arreglos, diseño de sonido',
+    mixDesc:'EQ, compresión, routing, espacio',
+    mastDesc:'Limitación, LUFS, exportación final',
+    resetConfirm:'¿Resetear los pasos de todos los proyectos? Esto no borra los proyectos.',
+    panLeft:'Izquierda', panRight:'Derecha', panWide:'Amplio', panCenter:'Centro',
+    instRanges:'Rangos de Instrumentos',
   }
 };
 
 let currentLang = localStorage.getItem('tew_lang') || 'en';
 function t(key) { return LANG[currentLang][key] || LANG.en[key] || key; }
+function instName(inst) { return currentLang === 'es' ? inst.name : (inst.nameEn || inst.name); }
 
 // ════════════════════════════════════════════════
 //  STEPS — bilingual
@@ -1279,6 +1296,8 @@ function applyIdioma() {
     renderAINotes();
     renderManualNotes();
   }
+  // Re-render charts so instrument names and labels update
+  renderCharts(state.active ? state.active.stage : null);
 }
 
 
@@ -1321,7 +1340,7 @@ function safeEl(id) {
 
 
 
-const STAGE_LABELS = { production:'Producción', mix:'Mezcla', mastering:'Mastering' };
+function STAGE_LABELS(s) { return {production:t('production'),mix:t('mix'),mastering:t('mastering')}[s] || s; }
 const PILL_CLASS   = { production:'pill-prod', mix:'pill-mix', mastering:'pill-mast' };
 
 // spectrum: 12 bands 20Hz→20kHz (heights 0-100)
@@ -1334,84 +1353,84 @@ const INSTRUMENTS = {
     note:'The kick drum is the anchor of your low end. Keep it mono and centered at all times.',
     spectrum:[95,92,82,62,42,28,18,12,8,5,3,2],
     hotspots:[[0,'Sub 40Hz'],[2,'Punch 80Hz'],[3,'Body 160Hz'],[5,'Click 600Hz']],
-    pan:0, panWidth:0.05, panLabel:'Centro — siempre mono'
+    pan:0, panWidth:0.05, panLabel:'Centro — siempre mono', nameEn:'Kick'
   },
   snare:   {
     name:'Caja', icon:'🪘', range:'150 Hz–8 kHz', color:'#7c3aed',
     note:'The snare defines the backbeat. Its crack cuts through a dense mix with presence around 2–5 kHz.',
     spectrum:[10,22,52,82,62,48,72,92,88,72,42,18],
     hotspots:[[3,'Body 160Hz'],[6,'Crack 1kHz'],[7,'Snap 2kHz'],[9,'Air 8kHz']],
-    pan:0, panWidth:0.08, panLabel:'Centro — ligera variación aceptable'
+    pan:0, panWidth:0.08, panLabel:'Centro — ligera variación aceptable', nameEn:'Snare'
   },
   bass:    {
     name:'Bajo', icon:'🎸', range:'40–400 Hz', color:'#0ea5e9',
     note:'Bass must be mono below 120 Hz for reliable translation on all systems — from club to phone speaker.',
     spectrum:[88,92,90,78,58,32,18,12,8,5,2,1],
     hotspots:[[0,'Sub 40Hz'],[1,'Root 60Hz'],[2,'Thump 80Hz'],[4,'Tone 300Hz']],
-    pan:0, panWidth:0.0, panLabel:'Centro — mono estricto bajo 120Hz'
+    pan:0, panWidth:0.0, panLabel:'Centro — mono estricto bajo 120Hz', nameEn:'Bass'
   },
   hihat:   {
     name:'Hi-Hat', icon:'🎶', range:'6k–16 kHz', color:'#10b981',
     note:'Hi-hats live in the high frequency air zone. Panning them slightly off-center adds stereo width without compromising the mix center.',
     spectrum:[2,2,3,4,5,8,15,25,42,82,92,72],
     hotspots:[[8,'Closed 4kHz'],[9,'Open 8kHz'],[10,'Splash 16kHz']],
-    pan:0.35, panWidth:0.3, panLabel:'Slight right (closed) / left (open)'
+    pan:0.35, panWidth:0.3, panLabel:'Slight right (closed) / left (open)', nameEn:'Hi-Hat'
   },
   vocals:  {
     name:'Vocales', icon:'🎤', range:'80 Hz–12 kHz', color:'#f59e0b',
     note:'Lead vocals always sit center. Double-tracked or backing vocals can be panned wide for space and depth.',
     spectrum:[15,22,38,58,68,72,82,92,90,72,48,22],
     hotspots:[[2,'Body 80Hz'],[4,'Warmth 400Hz'],[6,'Presence 1kHz'],[8,'Sibilance 5kHz']],
-    pan:0, panWidth:0.1, panLabel:'Lead: centro / BVs: ancho L+R'
+    pan:0, panWidth:0.1, panLabel:'Lead: centro / BVs: ancho L+R', nameEn:'Vocals'
   },
   guitar:  {
     name:'Guitarra', icon:'🎸', range:'80 Hz–5 kHz', color:'#ef4444',
     note:'Rhythm guitars are typically panned wide left and right to create space for the vocals and lead in the center.',
     spectrum:[8,16,42,78,88,82,72,62,52,38,16,5],
     hotspots:[[2,'Warmth 80Hz'],[3,'Body 200Hz'],[5,'Definition 630Hz'],[7,'Presence 3kHz']],
-    pan:0.75, panWidth:0.25, panLabel:'Hard L / Hard R (par rítmico)'
+    pan:0.75, panWidth:0.25, panLabel:'Hard L / Hard R (par rítmico)', nameEn:'Guitar'
   },
   piano:   {
     name:'Piano', icon:'🎹', range:'28 Hz–4 kHz', color:'#8b5cf6',
     note:'Piano spans the full frequency range. Position it slightly off-center to avoid competing with lead vocals in the center.',
     spectrum:[62,72,68,62,58,52,58,62,58,42,22,8],
     hotspots:[[0,'Low A 28Hz'],[2,'Mid 80Hz'],[5,'Tone 630Hz'],[7,'Keys 2kHz']],
-    pan:0.2, panWidth:0.4, panLabel:'Ligeramente fuera del centro'
+    pan:0.2, panWidth:0.4, panLabel:'Ligeramente fuera del centro', nameEn:'Piano'
   },
   pad:     {
     name:'Pad Sintetizador', icon:'🎛️', range:'200 Hz–8 kHz', color:'#06b6d4',
     note:'Pads exist to fill space. Make them wide — they should live on the sides, leaving the center clean for leads and vocals.',
     spectrum:[5,8,15,42,68,78,72,62,58,48,32,12],
     hotspots:[[3,'Body 200Hz'],[5,'Mid 630Hz'],[7,'Air 2kHz'],[9,'Shimmer 8kHz']],
-    pan:0, panWidth:0.9, panLabel:'Amplitud estéreo completa — L y R'
+    pan:0, panWidth:0.9, panLabel:'Amplitud estéreo completa — L y R', nameEn:'Synth Pad'
   },
   lead:    {
     name:'Lead Sintetizador', icon:'🎵', range:'200 Hz–6 kHz', color:'#ec4899',
     note:'Lead synths sit center like a vocal. Use subtle stereo width from a chorus or reverb send — not from panning.',
     spectrum:[8,12,26,58,82,88,82,72,62,42,20,6],
     hotspots:[[3,'Body 200Hz'],[5,'Fundamental 630Hz'],[7,'Bite 3kHz'],[8,'Presence 5kHz']],
-    pan:0, panWidth:0.15, panLabel:'Centro con coro sutil'
+    pan:0, panWidth:0.15, panLabel:'Centro con coro sutil', nameEn:'Lead Synth'
   },
   perc:    {
     name:'Percusión', icon:'🪇', range:'200 Hz–10 kHz', color:'#f97316',
     note:'Percussion elements can be scattered across the stereo field to create movement and a sense of three-dimensional space.',
     spectrum:[5,8,18,36,52,62,72,78,82,72,48,22],
     hotspots:[[3,'Attack 200Hz'],[6,'Color 1kHz'],[8,'Crack 5kHz']],
-    pan:0.5, panWidth:0.6, panLabel:'Disperso L-C-R para espacio'
+    pan:0.5, panWidth:0.6, panLabel:'Disperso L-C-R para espacio', nameEn:'Percussion'
   },
   strings: {
     name:'Cuerdas', icon:'🎻', range:'196 Hz–4 kHz', color:'#84cc16',
     note:'String sections are naturally wide from the recording process. Keep them wide in the mix to preserve the orchestral depth.',
     spectrum:[6,12,30,62,80,82,78,70,58,40,20,6],
     hotspots:[[3,'Rich 200Hz'],[5,'Warmth 630Hz'],[7,'Bow 2kHz'],[8,'Presence 4kHz']],
-    pan:0, panWidth:0.85, panLabel:'Estéreo amplio — distribución orquestal'
+    pan:0, panWidth:0.85, panLabel:'Estéreo amplio — distribución orquestal', nameEn:'Strings'
   },
   brass:   {
     name:'Metales', icon:'🎺', range:'100 Hz–8 kHz', color:'#eab308',
     note:'Brass instruments have significant energy through the midrange. Pan sections slightly off-center to avoid masking vocals.',
     spectrum:[10,26,58,82,88,82,72,62,68,58,32,10],
     hotspots:[[2,'Body 80Hz'],[3,'Power 200Hz'],[5,'Bite 630Hz'],[8,'Bright 5kHz']],
-    pan:0.3, panWidth:0.5, panLabel:'Ligera distribución, evita el centro exacto'
+    pan:0.3, panWidth:0.5, panLabel:'Ligera distribución, evita el centro exacto', nameEn:'Brass'
   },
 };
 
@@ -1508,14 +1527,14 @@ function toggleAccordion(id) {
 function populateClearSelect() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel) return;
-  sel.innerHTML = '<option value="">— Selecciona proyecto —</option>' +
+  sel.innerHTML = '<option value="">' + t('selectProject') + '</option>' +
     state.projects.map(p =>
       `<option value="${p.id}">${p.name}${p.sessionProcess && p.sessionProcess.length ? ' (' + p.sessionProcess.length + ' entries)' : ''}</option>`
     ).join('');
 }
 
 function resetAllProjects() {
-  if (!confirm('¿Resetear los pasos de todos los proyectos? Esto no borra los proyectos.')) return;
+  if (!confirm(t('resetConfirm'))) return;
   state.projects.forEach(p => {
     p.stages         = p.stages || ['production','mix','mastering'];
     p.stepsDone      = { production:{}, mix:{}, mastering:{} };
@@ -1895,7 +1914,7 @@ function renderProjects() {
           <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span class="proj-artist">' + p.artist + '</span>' : ''}
         </div>
         <div>
-          ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS[p.stage]}</span>` : '<span style="font-size:12px;color:var(--text3)">Sin etapa seleccionada</span>'}
+          ${p.stage ? `<span class="stage-pill ${PILL_CLASS[p.stage]}">${STAGE_LABELS(p.stage)}</span>` : '<span style="font-size:12px;color:var(--text3)">Sin etapa seleccionada</span>'}
         </div>
           <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
         </div></div>
@@ -2078,7 +2097,7 @@ function renderStageTabs() {
       + 'font-family:Inter,sans-serif;font-size:11px;font-weight:700;'
       + 'letter-spacing:0.3px;cursor:pointer;transition:all 0.2s;'
       + 'background:' + bg + ';color:' + fg + '">'
-      + STAGE_LABELS[s] + '</button>';
+      + STAGE_LABELS(s) + '</button>';
   }).join('');
 }
 
@@ -2258,7 +2277,7 @@ function openDetail(stepId) {
   console.log('step found:', !!step, step);
   if (!step) { console.warn('Step not found in STEPS for', stepId); return; }
 
-  const stageName = state.active ? STAGE_LABELS[state.active.stage] : '';
+  const stageName = state.active ? STAGE_LABELS(state.active.stage) : '';
   document.getElementById('det-icon').textContent    = det.icon;
   document.getElementById('det-title').textContent   = step.name;
   document.getElementById('det-stage').textContent   = stageName;
@@ -2416,7 +2435,7 @@ function _doRenderProcess(projectId, list, inClass) {
              style="display:flex;align-items:center;justify-content:space-between;
                     padding:12px 14px;cursor:pointer;background:var(--panel2)">
           <div style="display:flex;align-items:center;gap:8px">
-            <span class="stage-pill ${pill}" style="margin:0">${STAGE_LABELS[stage]}</span>
+            <span class="stage-pill ${pill}" style="margin:0">${STAGE_LABELS(stage)}</span>
             <span style="font-size:12px;color:var(--text2)">${sDone}/${sTotal} steps</span>
           </div>
           <div style="display:flex;align-items:center;gap:8px">
@@ -2475,18 +2494,18 @@ function renderCharts(stage) {
     return;
   }
   const keys = STAGE_INSTRUMENTS[stage] || STAGE_INSTRUMENTS.default;
-  const stageLabel = stage ? STAGE_LABELS[stage] : null;
+  const stageLabel = stage ? STAGE_LABELS(stage) : null;
   const projName   = state.active ? state.active.name : null;
 
   let header = '';
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
       <div id="charts-proj-title" style="font-size:15px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner" style="opacity:0">${projName}</span></div>
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · Toca la tarjeta para cambiar EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · ${t('tapToggle')}</div>
     </div>`;
   } else {
     header = `<div style="margin-bottom:14px">
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">Instrument Ranges · Tap to toggle EQ / Pan</div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${t('instRanges')} · ${t('tapToggle')}</div>
     </div>`;
   }
 
@@ -2553,7 +2572,7 @@ function buildCard(key) {
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:4px">
             <span style="font-size:12px">${inst.icon}</span>
-            <div class="chart-n">${inst.name}</div>
+            <div class="chart-n">${instName(inst)}</div>
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>
         </div>
@@ -2566,7 +2585,7 @@ function buildCard(key) {
     const leftPct=Math.max(2,pos-spread);
     const widthPct=Math.min(96,spread*2);
     const pan=inst.pan||0;
-    const posLabel=pan<-0.5?'Left':pan>0.5?'Right':(inst.panWidth||0)>0.7?'Wide':'Center';
+    const posLabel=pan<-0.5?t('panLeft'):pan>0.5?t('panRight'):(inst.panWidth||0)>0.7?t('panWide'):t('panCenter');
     return `<div class="chart-card" onclick="toggleCardView('${key}')" id="card-${key}">
       <div style="background:var(--panel2);height:88px;display:flex;flex-direction:column;justify-content:center;padding:0 8px">
         <div style="position:relative;height:20px;background:var(--panel3);border-radius:10px;overflow:hidden">
@@ -2579,7 +2598,7 @@ function buildCard(key) {
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:4px">
             <span style="font-size:12px">${inst.icon}</span>
-            <div class="chart-n">${inst.name}</div>
+            <div class="chart-n">${instName(inst)}</div>
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">PAN</div>
         </div>
@@ -2603,7 +2622,7 @@ function openInstrumentDetail(key) {
   const inst = INSTRUMENTS[key];
   if (!inst) return;
   document.getElementById('det-icon').textContent    = inst.icon;
-  document.getElementById('det-title').textContent   = inst.name;
+  document.getElementById('det-title').textContent   = instName(inst);
   document.getElementById('det-stage').textContent   = inst.range;
   document.getElementById('det-body').innerHTML      = '<p>' + inst.note + '</p>';
   document.getElementById('modal-detail').classList.add('open');
@@ -2925,8 +2944,8 @@ function setMarqueeTitle(container, text) {
 <div id="modal-edit-stages" class="modal-overlay">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Edit Stages</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Select the stages for this project.</p>
+    <div class="modal-title" data-i18n="editStages">Edit Stages</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px" data-i18n="selectStages">Select the stages for this project.</p>
     <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px">
       <label style="display:flex;align-items:center;gap:12px;font-size:15px;color:var(--text);cursor:pointer">
         <input type="checkbox" id="es-production" style="width:18px;height:18px;accent-color:var(--accent)">
