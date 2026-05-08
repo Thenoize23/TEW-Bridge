@@ -199,6 +199,16 @@ body {
 .mini-bar { height: 4px; background: var(--panel3); border-radius: 2px; overflow: hidden; margin-top: 8px; }
 .mini-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.6s ease; }
 
+/* ── Process level transitions ─────────────────── */
+@keyframes slideInRight  { from { opacity:0; transform:translateX(32px);  } to { opacity:1; transform:translateX(0); } }
+@keyframes slideInLeft   { from { opacity:0; transform:translateX(-32px); } to { opacity:1; transform:translateX(0); } }
+@keyframes slideOutLeft  { from { opacity:1; transform:translateX(0); } to { opacity:0; transform:translateX(-32px); } }
+@keyframes slideOutRight { from { opacity:1; transform:translateX(0); } to { opacity:0; transform:translateX(32px);  } }
+.proc-slide-in-right  { animation: slideInRight  0.22s cubic-bezier(.25,.8,.25,1) both; }
+.proc-slide-in-left   { animation: slideInLeft   0.22s cubic-bezier(.25,.8,.25,1) both; }
+.proc-slide-out-left  { animation: slideOutLeft  0.18s cubic-bezier(.25,.8,.25,1) both; }
+.proc-slide-out-right { animation: slideOutRight 0.18s cubic-bezier(.25,.8,.25,1) both; }
+
 /* ── FAB ─────────────────────────────────────── */
 .fab {
   position: fixed;
@@ -540,21 +550,6 @@ select.form-input option { background: var(--card-bg); color: var(--text); }
 select.form-input option:checked { background: var(--accent); color: #fff; }
 .tab-btn { transition: transform 0.15s ease, filter 0.15s ease; }
 .tab-btn:hover { transform: scale(1.12); filter: brightness(1.25); }
-/* Transiciones para que el cambio de nivel sea fluido */
-.level-view {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.fade-out {
-    opacity: 0;
-    transform: translateY(10px);
-    pointer-events: none;
-}
-
-.fade-in {
-    opacity: 1;
-    transform: translateY(0);
-}
 </style>
 </head>
 <body>
@@ -1081,68 +1076,64 @@ const STEPS_EN = {
     { id:'pr9', name:'Automation',           desc:'Add movement, dynamics and variation over time',            rmsMin:-20, rmsMax:-6  },
   ],
   mix: [
-    { id:'mx1', name:'Base Mix',               desc:'Make sure everything sounds clean before you start' },
-    { id:'mx2', name:'Parallel Comp',           desc:'Add punch and consistency without losing life' },
-    { id:'mx3', name:'Frequency Split',          desc:'Saturate specific bands and blend with the original' },
-    { id:'mx4', name:'Session Prep',         desc:'Route, color and organize your session before starting', },
-    { id:'mx5', name:'Routing I/O',          desc:'Set up buses, sends and returns correctly', },
-    { id:'mx6', name:'Sends/Aux Channels',   desc:'Configure reverb, delay and parallel channels', },
-    { id:'mx7', name:'EQ',                   desc:'Cut problem frequencies, shape tonal balance', },
-    { id:'mx8', name:'Gain Staging',         desc:'Target -18 dBFS RMS per channel for headroom', },
-    { id:'mx9', name:'Compression',          desc:'Control dynamics and glue elements together', },
-    { id:'mx10', name:'Delay',                desc:'Add rhythmic space and depth with delay effects', },
-    { id:'mx11', name:'Saturation',           desc:'Add harmonic warmth if needed — subtle is key', },
+    { id:'mx1', name:'Compose',              desc:'Make sure everything sounds clean before you start',        rmsMin:-24, rmsMax:-14 },
+    { id:'mx2', name:'Organization',         desc:'Label, color-code and group all tracks clearly',            rmsMin:-24, rmsMax:-14 },
+    { id:'mx3', name:'Routing I/O',          desc:'Set up buses, sends and returns correctly',                 rmsMin:-22, rmsMax:-12 },
+    { id:'mx4', name:'Sends/Aux Channels',   desc:'Configure reverb, delay and parallel channels',            rmsMin:-22, rmsMax:-12 },
+    { id:'mx5', name:'EQ',                   desc:'Cut problem frequencies, shape tonal balance',              rmsMin:-20, rmsMax:-10 },
+    { id:'mx6', name:'Gain Staging',         desc:'Target -18 dBFS RMS per channel for headroom',             rmsMin:-20, rmsMax:-16 },
+    { id:'mx7', name:'Compression',          desc:'Control dynamics and glue elements together',               rmsMin:-18, rmsMax:-8  },
+    { id:'mx8', name:'Delay',                desc:'Add rhythmic space and depth with delay effects',           rmsMin:-18, rmsMax:-8  },
+    { id:'mx9', name:'Saturation',           desc:'Add harmonic warmth if needed — subtle is key',            rmsMin:-16, rmsMax:-6  },
   ],
   mastering: [
-    { id:'ms1', name:'Reference Track',      desc:'Compare against a commercial master at matched loudness', },
-    { id:'ms2', name:'Gain Staging',         desc:'Set input gain so the chain has proper headroom', },
-    { id:'ms3', name:'EQ',                   desc:'Broad tonal shaping — subtle moves of 1-2 dB max', },
-    { id:'ms4', name:'Compression',           desc:'Glue the master: ratio 2:1, slow attack, mid release', },
-    { id:'ms5', name:'Stereo Enhancement',   desc:'Widen highs, keep lows mono for translation', },
-    { id:'ms6', name:'Saturation',           desc:'Add analog character and perceived loudness', },
-    { id:'ms7', name:'Limiter',              desc:'Set true peak ceiling at -1 dBTP, target your LUFS', },
-    { id:'ms8', name:'LUFS Check',           desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9', },
-    { id:'ms9', name:'Dithering',            desc:'Apply TPDF dither when reducing to 16-bit', },
-    { id:'ms10',name:'Final Export',         desc:'Export WAV 24-bit 44.1kHz per platform spec', },
+    { id:'ms1', name:'Reference Track',      desc:'Compare against a commercial master at matched loudness',   rmsMin:-16, rmsMax:-10 },
+    { id:'ms2', name:'Gain Staging',         desc:'Set input gain so the chain has proper headroom',           rmsMin:-16, rmsMax:-10 },
+    { id:'ms3', name:'EQ',                   desc:'Broad tonal shaping — subtle moves of 1-2 dB max',         rmsMin:-14, rmsMax:-8  },
+    { id:'ms4', name:'Compressor',           desc:'Glue the master: ratio 2:1, slow attack, mid release',      rmsMin:-14, rmsMax:-8  },
+    { id:'ms5', name:'Stereo Enhancement',   desc:'Widen highs, keep lows mono for translation',              rmsMin:-12, rmsMax:-6  },
+    { id:'ms6', name:'Saturation',           desc:'Add analog character and perceived loudness',               rmsMin:-12, rmsMax:-6  },
+    { id:'ms7', name:'Limiter',              desc:'Set true peak ceiling at -1 dBTP, target your LUFS',       rmsMin:-10, rmsMax:-2  },
+    { id:'ms8', name:'LUFS Check',           desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',            rmsMin:-10, rmsMax:-2  },
+    { id:'ms9', name:'Dithering',            desc:'Apply TPDF dither when reducing to 16-bit',                rmsMin:-10, rmsMax:-2  },
+    { id:'ms10',name:'Final Export',         desc:'Export WAV 24-bit 44.1kHz per platform spec',              rmsMin:-10, rmsMax:-2  },
   ],
 };
 
 const STEPS_ES = {
   production: [
-    { id:'pr1', name:'Track de Referencia',    desc:'Carga una referencia comercial para guiar tu sonido', },
-    { id:'pr2', name:'Tempo y Tonalidad',       desc:'Fija el BPM y la tonalidad antes de construir', },
-    { id:'pr3', name:'Programación de Batería', desc:'Construye la base rítmica del track', },
-    { id:'pr4', name:'Línea de Bajo',           desc:'Establece el groove del bajo y el movimiento armonico', },
-    { id:'pr5', name:'Progresión de Acordes',   desc:'Define la estructura armónica y el estado emocional', },
-    { id:'pr6', name:'Melodía / Lead',          desc:'Crea el gancho melódico o vocal principal', },
-    { id:'pr7', name:'Diseño de Sonido',        desc:'Da forma a cada sonido con procesamiento creativo', },
-    { id:'pr8', name:'Arreglos',                desc:'Estructura intro, verso, coro, bridge y outro', },
-    { id:'pr9', name:'Automatización',          desc:'Agrega movimiento, dinámica y variacion en el tiempo', },
+    { id:'pr1', name:'Track de Referencia',    desc:'Carga una referencia comercial para guiar tu sonido',       rmsMin:-30, rmsMax:-12 },
+    { id:'pr2', name:'Tempo y Tonalidad',       desc:'Fija el BPM y la tonalidad antes de construir',             rmsMin:-30, rmsMax:-12 },
+    { id:'pr3', name:'Programacion de Bateria', desc:'Construye la base ritmica del track',                       rmsMin:-28, rmsMax:-10 },
+    { id:'pr4', name:'Linea de Bajo',           desc:'Establece el groove del bajo y el movimiento armonico',     rmsMin:-26, rmsMax:-10 },
+    { id:'pr5', name:'Progresion de Acordes',   desc:'Define la estructura armonica y el estado emocional',      rmsMin:-24, rmsMax:-8  },
+    { id:'pr6', name:'Melodia / Lead',          desc:'Crea el gancho melodico o vocal principal',                 rmsMin:-22, rmsMax:-8  },
+    { id:'pr7', name:'Diseno de Sonido',        desc:'Da forma a cada sonido con procesamiento creativo',         rmsMin:-22, rmsMax:-8  },
+    { id:'pr8', name:'Arreglos',                desc:'Estructura intro, verso, coro, bridge y outro',            rmsMin:-20, rmsMax:-6  },
+    { id:'pr9', name:'Automatizacion',          desc:'Agrega movimiento, dinamica y variacion en el tiempo',     rmsMin:-20, rmsMax:-6  },
   ],
   mix: [
-    { id:'mx1', name:'Mezcla Base',               desc:'Asegúrate de que todo suene limpio antes de mezclar' },
-    { id:'mx2', name:'Compresión Paralela',           desc:'Añade pegada y consistencia sin perder la vida' },
-    { id:'mx3', name:'División Freq',            desc:'Satura bandas específicas y complementa con la original' },
-    { id:'mx4', name:'Preparación de Sesión',            desc:'Etiqueta, colorea y organiza tu sesión antes de empezar', },
-    { id:'mx5', name:'Routing I/O',             desc:'Configura buses, envíos y retornos correctamente', },
-    { id:'mx6', name:'Canales Aux',             desc:'Configura reverb, delay y canales paralelos', },
-    { id:'mx7', name:'EQ',                      desc:'Corta frecuencias problemáticas y da forma tonal', },
-    { id:'mx8', name:'Gain Staging',            desc:'Objetivo -18 dBFS RMS por canal para headroom', },
-    { id:'mx9', name:'Compresión',              desc:'Controla la dinámica y une los elementos de la mezcla', },
-    { id:'mx10', name:'Delay',                   desc:'Agrega espacio rítmico y profundidad con delay', },
-    { id:'mx11', name:'Saturación',              desc:'Agrega calidez armónica si es necesario - sé sutil', },
+    { id:'mx1', name:'Balance General',             desc:'Asegurate de que todo suene limpio antes de mezclar',      rmsMin:-24, rmsMax:-14 },
+    { id:'mx2', name:'Organizacion',            desc:'Etiqueta, colorea y agrupa todos los canales claramente',  rmsMin:-24, rmsMax:-14 },
+    { id:'mx3', name:'Routing I/O',             desc:'Configura buses, envios y retornos correctamente',         rmsMin:-22, rmsMax:-12 },
+    { id:'mx4', name:'Canales Aux',             desc:'Configura reverb, delay y canales paralelos',             rmsMin:-22, rmsMax:-12 },
+    { id:'mx5', name:'EQ',                      desc:'Corta frecuencias problematicas y da forma tonal',         rmsMin:-20, rmsMax:-10 },
+    { id:'mx6', name:'Gain Staging',            desc:'Objetivo -18 dBFS RMS por canal para headroom',           rmsMin:-20, rmsMax:-16 },
+    { id:'mx7', name:'Compresion',              desc:'Controla la dinamica y une los elementos de la mezcla',   rmsMin:-18, rmsMax:-8  },
+    { id:'mx8', name:'Delay',                   desc:'Agrega espacio ritmico y profundidad con delay',           rmsMin:-18, rmsMax:-8  },
+    { id:'mx9', name:'Saturacion',              desc:'Agrega calidez armonica si es necesario - se sutil',      rmsMin:-16, rmsMax:-6  },
   ],
   mastering: [
-    { id:'ms1', name:'Track de Referencia',     desc:'Compara con un máster comercial a igual loudness', },
-    { id:'ms2', name:'Gain Staging',            desc:'Ajusta la ganancia de entrada para headroom suficiente', },
-    { id:'ms3', name:'EQ',                      desc:'Ajustes tonales suaves - máximo 1-2 dB', },
-    { id:'ms4', name:'Compresor',               desc:'Glue: ratio 2:1, ataque lento, release medio', },
-    { id:'ms5', name:'Mejora Estéreo',          desc:'Amplía agudos, mantén graves en mono', },
-    { id:'ms6', name:'Saturacion',              desc:'Agrega caracter analógico y loudness percibida', },
-    { id:'ms7', name:'Limitador',               desc:'Ceiling -1 dBTP, alcanza tu objetivo de LUFS', },
-    { id:'ms8', name:'Revisión de LUFS',        desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9', },
-    { id:'ms9', name:'Dithering',               desc:'Aplica dither TPDF al reducir a 16 bits', },
-    { id:'ms10',name:'Exportación Final',       desc:'Exporta WAV 24-bit 44.1kHz por specs de la plataforma', },
+    { id:'ms1', name:'Track de Referencia',     desc:'Compara con un master comercial a igual loudness',         rmsMin:-16, rmsMax:-10 },
+    { id:'ms2', name:'Gain Staging',            desc:'Ajusta la ganancia de entrada para headroom suficiente',   rmsMin:-16, rmsMax:-10 },
+    { id:'ms3', name:'EQ',                      desc:'Ajustes tonales suaves - maximo 1-2 dB',                  rmsMin:-14, rmsMax:-8  },
+    { id:'ms4', name:'Compresor',               desc:'Glue: ratio 2:1, ataque lento, release medio',             rmsMin:-14, rmsMax:-8  },
+    { id:'ms5', name:'Mejora Estereo',          desc:'Amplia agudos, manten graves en mono',                    rmsMin:-12, rmsMax:-6  },
+    { id:'ms6', name:'Saturacion',              desc:'Agrega caracter analogico y loudness percibida',           rmsMin:-12, rmsMax:-6  },
+    { id:'ms7', name:'Limitador',               desc:'Ceiling -1 dBTP, alcanza tu objetivo de LUFS',            rmsMin:-10, rmsMax:-2  },
+    { id:'ms8', name:'Revision de LUFS',        desc:'Spotify -14 / Apple -16 / YouTube -14 / CD -9',           rmsMin:-10, rmsMax:-2  },
+    { id:'ms9', name:'Dithering',               desc:'Aplica dither TPDF al reducir a 16 bits',                 rmsMin:-10, rmsMax:-2  },
+    { id:'ms10',name:'Exportacion Final',       desc:'Exporta WAV 24-bit 44.1kHz por specs de la plataforma',   rmsMin:-10, rmsMax:-2  },
   ],
 };
 
@@ -1171,8 +1162,6 @@ const STEP_DETAILS_EN2 = {
   mx7:{icon:'⚙️',detail:'Compression controls dynamic range and helps elements sit together as a cohesive mix. For transient elements like drums use faster attack times. For sustained elements like pads and vocals use slower attacks to preserve the natural transient feel. Use parallel compression to retain punch while achieving density.'},
   mx8:{icon:'🔁',detail:'Delay adds rhythmic interest, depth, and space without muddying the low-end. Sync delay times to the project tempo. Use high-pass and low-pass filters on delay returns to prevent repeats from cluttering the frequency range of the dry signal.'},
   mx9:{icon:'🔥',detail:'Saturation adds even-order harmonic distortion that mimics the warmth of analog equipment. Used subtly, it adds perceived loudness and glues elements together. Apply to the drum bus for cohesion, to the bass for harmonics on small speakers, and sparingly to synths and vocals for character.'},
-  mx10:{icon:'🔁',detail:'Delay adds rhythmic interest, depth, and space without muddying the low-end. Sync delay times to the project tempo. Use high-pass and low-pass filters on delay returns to prevent repeats from cluttering the frequency range of the dry signal.'},
-  mx11:{icon:'🔥',detail:'Saturation adds even-order harmonic distortion that mimics the warmth of analog equipment. Used subtly, it adds perceived loudness and glues elements together. Apply to the drum bus for cohesion, to the bass for harmonics on small speakers, and sparingly to synths and vocals for character.'},
   ms1:{icon:'🎧',detail:'Your reference track is the most important tool in mastering. Choose a commercially released master in the same genre. Match its loudness using a LUFS meter before comparing. Listen critically to the low-end balance, high-frequency air, stereo width, and overall density.'},
   ms2:{icon:'📊',detail:'Before any mastering processing, set the input gain so the loudest section peaks between -6 and -3 dBFS. This gives your entire chain sufficient headroom to operate cleanly. Avoid pushing the gain to make it sound louder at this point — loudness comes at the end through the limiter.'},
   ms3:{icon:'🎚️',detail:'Mastering EQ is about broad, gentle tonal shaping — not corrective surgery. Make final adjustments of 1 to 2 dB using wide, musical curves. A gentle high shelf boost above 12 kHz adds air and presence. Use linear phase EQ to avoid phase artifacts in the full-mix context.'},
@@ -1186,36 +1175,34 @@ const STEP_DETAILS_EN2 = {
 };
 
 const STEP_DETAILS_ES2 = {
-  pr1:{icon:'🎧',detail:'El track de referencia es una de las herramientas más poderosas en tu flujo de trabajo. Elige una canción publicada profesionalmente en el mismo género que representa el sonido que quieres lograr. Cárgala a loudness igualado (alrededor de -14 LUFS) y usala durante toda la sesión para comparar balance de frecuencias, amplitud estéreo, dinámica y energía general.'},
-  pr2:{icon:'🎵',detail:'Antes de colocar cualquier elemento, fija el tempo y la tonalidad en la configuración del proyecto. Todo lo que construyas estara anclado a estos dos parametros. Elegir la tonalidad incorrecta o derivar el tempo a mitad del proyecto genera retrabajos costosos. Ajusta el BPM en el transporte del DAW y afina todos los instrumentos virtuales a la nota raíz.'},
-  pr3:{icon:'🥁',detail:'La base de batería define el groove y la energía de todo el track. Comienza con el kick y el snare para establecer el pulso, luego agrega hi-hats y percusión. Introduce variaciones sutiles de velocidad y timing para dar una sensacion natural y respirada al rítmo — una cuadricula perfectamente cuantizada suena robotica.'},
-  pr4:{icon:'🎸',detail:'El bassline trabaja junto al kick para formar la base de bajos. Mantenlo en mono por debajo de 80 Hz para máxima traslación en todos los sistemas de reproducción. Deja headroom en esta etapa — daras forma al bajo durante la mezcla con compresión sidechain y EQ.'},
-  pr5:{icon:'🎹',detail:'Los acordes proveen el contexto emocional y el movimiento armónico de tu track. Prueba inversiones y voicings para evitar la saturación de frecuencias — distribuye los acórdes en el registro medio y agudo y deja el extremo grave para el bajo y el kick.'},
-  pr6:{icon:'🎤',detail:'La melodía lead o el gancho vocal es lo que los oyentes recordarán. Escribe o graba la melodía con la progresión de acordes sonando para que se sienta conectada armónicamente. El fraseo es tan importante como las notas mismas — donde respira y descansa la melodía define su caracter.'},
-  pr7:{icon:'🔊',detail:'El diseño de sonido es donde tu track obtiene su caracter único. Usa sintesis, sampling, resampling y procesamiento para esculpir cada elemento. Elimina frecuencias no deseadas en la fuente antes de que se conviertan en problemas durante la mezcla.'},
-  pr8:{icon:'📐',detail:'El arreglo es la arquitectura de tu track. Mapea tus secciones (intro, verso, coro, bridge, outro) y asegúrate de que cada una tenga un proposito claro. Usa adiciones y retiros de elementos, sweeps de filtro y automatizacion de volumen para crear transiciones naturales.'},
-  pr9:{icon:'📈',detail:'La automatizacion transforma una mezcla estatica en un track vivo y en evolucion. Agrega automatizacion de volumen para crear dinámica, de filtros para construir y liberar tensión, y de parametros de efectos para agregar movimiento e interés. Enfocate en la automatización macro que da forma a la energía de secciones enteras.'},
-  mx1:{icon:'👂',detail:'Antes de tocar un solo fader o plugin, siéntate y escucha la sesión cruda de principio a fín. Toma notas sobre problemas obvios — niveles, frecuencias que chocan, problemas de timing. Asegúrate de que todos los clips esten limpios y que todas las pistas esten nombradas y organizadas correctamente.'},
-  mx2:{icon:'🗂️',detail:'La mezcla profesional comienza con una sesión profesional. Colorea tus canales por categoría — batería, bajo, teclados, guitarras, vocales, FX. Agrupa los canales relacionados en buses para procesarlos juntos de manera eficiente. Una sesión bien organizada ahorra horas y mantiene tus oídos frescos para las decisiones creativas.'},
-  mx3:{icon:'🔌',detail:'El routing es la columna vertebral de tu infraestructura de mezcla. Cada canal debe alimentar un bus de grupo apropiado, y cada bus debe ir al fader máster a traves de una cadena de señal clara y lógica. Verifica que ninguna señal este doblemente ruteada o ausente de la salida master.'},
-  mx4:{icon:'🎛️',detail:'Los canales de envío te permiten aplicar un solo reverb o delay a múltiples canales simultáneamente, ahorrando CPU y creando un sentido coherente de espacio. Crea al menos un envío de reverb de sala, uno de sala grande para leads y vocales, y uno de delay sincronizado al tempo. Ajusta cada retorno al 100% húmedo.'},
-  mx5:{icon:'🎚️',detail:'El EQ es tu herramienta principal para crear separación y claridad. Primero, aplica un filtro pasa-altos en cada canal que no necesite energia sub. Luego identifica y corta resonancias problematicas. Cada instrumento debe ocupar su propia zona de frecuencias para que la mezcla se traduzca claramente en cualquier sistema de reproduccion.'},
-  mx6:{icon:'📊',detail:'El gain staging es la disciplina de gestionar los niveles de señal a través de toda tu cadena. Apunta a aproximadamente -18 dBFS RMS por canal — esto te da headroom consistente, mantiene tus plugíns operando en su rango óptimo y asegura que tu bus máster reciba una señal limpia.'},
-  mx7:{icon:'⚙️',detail:'La compresión controla el rango dinamico de los elementos individuales y ayuda a que se asienten juntos como una mezcla cohesiva. Para elementos transitorios como batería usa ataques rapidos. Para elementos sostenidos como pads y vocales usa ataques lentos para preservar el transitorio natural.'},
-  mx8:{icon:'🔁',detail:'El delay agrega interés rítmico, profundidad y espacio sin ensuciar el extremo bajo. Sincroniza tus tiempos de delay al tempo del proyecto. Usa filtros pasa-altos y pasa-bajos en tus retornos de delay para evitar que las repeticiones ensucien el rango de frecuencias de la señal seca.'},
-  mx9:{icon:'🔥',detail:'La saturación agrega distorsión armonica de orden par que imita la calidez del equipo analogico. Usada sutilmente, agrega loudness percibida y une elementos. Aplicala al bus de batería para cohesión, al bajo para armónicos en bocinas pequeñas, y con moderacion a sintetizadores y vocales para caracter.'},
-  mx10:{icon:'🔁',detail:'El delay agrega interés rítmico, profundidad y espacio sin ensuciar el extremo bajo. Sincroniza tus tiempos de delay al tempo del proyecto. Usa filtros pasa-altos y pasa-bajos en tus retornos de delay para evitar que las repeticiones ensucien el rango de frecuencias de la señal seca.'},
-  mx11:{icon:'🔥',detail:'La saturación agrega distorsión armonica de orden par que imita la calidez del equipo analogico. Usada sutilmente, agrega loudness percibida y une elementos. Aplicala al bus de batería para cohesión, al bajo para armónicos en bocinas pequeñas, y con moderacion a sintetizadores y vocales para caracter.'},
-  ms1:{icon:'🎧',detail:'Tu track de referencia es la herramienta más importante en el mastering. Elige un máster publicado comercialmente en el mismo genero. Iguala su loudness usando un medidor de LUFS antes de comparar. Escucha críticamente el balance del extremo bajo, el aire en frecuencias altas, la amplitud estéreo y la densidad general.'},
-  ms2:{icon:'📊',detail:'Antes de cualquier procesamiento de mastering, ajusta la ganancia de entrada para que la sección más fuerte del track alcance entre -6 y -3 dBFS. Esto le da a toda tu cadena headroom suficiente para operar límpiamente. Evita empujar la ganancia para que suene más fuerte en este punto — la loudness llega al final a traves del limitador.'},
-  ms3:{icon:'🎚️',detail:'El EQ de mastering se trata de dar forma tonal amplia y suave — no de cirugía correctiva. Haz ajustes finales de 1 a 2 dB usando curvas ámplias y musicales. Un boost suave de shelf alto por encima de 12 kHz agrega aire y presencia. Usa EQ de fase lineal para evitar artefactos de fase en el contexto de la mezcla completa.'},
-  ms4:{icon:'⚙️',detail:'Un compresor de mastering a ratio 2:1 con ataque lento y release medio actúa como pegamento que une la mezcla estéreo. Ajusta el ataque lo suficientemente lento (30-50ms) para que los transitorios pasen sin afectarse. Apunta a 2-4 dB de reducción de ganancia en promedio — más de 6 dB aplastara la dinamica visiblemente.'},
-  ms5:{icon:'↔️',detail:'La mejora estéreo debe aplicarse con cuidado. Usa un procesador mid/side para impulsar el contenido de alta frecuencia del canal lateral. Nunca amplies las frecuencias sub — el bajo por debajo de 120 Hz debe permanecer en mono para una traslación confiable en todos los sistemas de reproducción.'},
-  ms6:{icon:'🔥',detail:'Un saturador de cinta o excitador armónico agrega calidez analógica y aumenta la loudness percibida sin reducir el rango dinámico. Impulsa el saturador suavemente para que agregue contenido armónico sin distorsión obvia — el efecto debe sentirse más que escucharse. Compara con el plugin desactivado para confirmar la mejora.'},
-  ms7:{icon:'🔒',detail:'El limitador es la etapa final y más crítica. Ajusta tu ceiling de true peak a -1 dBTP para prevenir picos entre muestras que recorten durante la codificacion a MP3 o AAC. Si el limitador trabaja más de 3-4 dB consistentemente, tu mezcla necesita más control dinamico antes del mastering.'},
-  ms8:{icon:'📏',detail:'Los LUFS integrados son el estandar global para la normalizacion de loudness en plataformas de streaming. Spotify apunta a -14 LUFS, Apple Music a -16 LUFS, YouTube a -14 LUFS. Si entregas más alto que el objetivo de la plataforma, lo bajaran automaticamente reduciendo la calidad percibida.'},
-  ms9:{icon:'🎛️',detail:'El dithering es necesario al reducir la profundidad de bits de 24 a 16 bits. Sin dither, la reducción introduce distorsión de cuantización — un artefacto digital aspero. El dither TPDF agrega una pequena cantidad de ruido aleatorio que enmascara esta distorsión. Aplicalo solo una vez, como el último proceso en tu cadena.'},
-  ms10:{icon:'📦',detail:'La exportación final es tu entregable al mundo. Exporta WAV de 24 bits 44.1 kHz para distribución en streaming. Para duplicación de CD, exporta WAV de 16 bits 44.1 kHz con dither aplicado. Nombra tus archivos claramente con el nombre del artista, titulo de la pista y especificación de formato.'},
+  pr1:{icon:'🎧',detail:'El track de referencia es una de las herramientas mas poderosas en tu flujo de trabajo. Elige una cancion publicada profesionalmente en el mismo genero que representa el sonido que quieres lograr. Cargala a loudness igualado (alrededor de -14 LUFS) y usala durante toda la sesion para comparar balance de frecuencias, amplitud estereo, dinamica y energia general.'},
+  pr2:{icon:'🎵',detail:'Antes de colocar cualquier elemento, fija el tempo y la tonalidad en la configuracion del proyecto. Todo lo que construyas estara anclado a estos dos parametros. Elegir la tonalidad incorrecta o derivar el tempo a mitad del proyecto genera retrabajos costosos. Ajusta el BPM en el transporte del DAW y afina todos los instrumentos virtuales a la nota raiz.'},
+  pr3:{icon:'🥁',detail:'La base de bateria define el groove y la energia de todo el track. Comienza con el kick y el snare para establecer el pulso, luego agrega hi-hats y percusion. Introduce variaciones sutiles de velocidad y timing para dar una sensacion natural y respirada al ritmo — una cuadricula perfectamente cuantizada suena robotica.'},
+  pr4:{icon:'🎸',detail:'El bassline trabaja junto al kick para formar la base de bajos. Mantenlo en mono por debajo de 80 Hz para maxima traslacion en todos los sistemas de reproduccion. Deja headroom en esta etapa — daras forma al bajo durante la mezcla con compresion sidechain y EQ.'},
+  pr5:{icon:'🎹',detail:'Los acordes proveen el contexto emocional y el movimiento armonico de tu track. Prueba inversiones y voicings para evitar la saturacion de frecuencias — distribuye los acordes en el registro medio y agudo y deja el extremo grave para el bajo y el kick.'},
+  pr6:{icon:'🎤',detail:'La melodia lead o el gancho vocal es lo que los oyentes recordaran. Escribe o graba la melodia con la progresion de acordes sonando para que se sienta conectada armonicamente. El fraseo es tan importante como las notas mismas — donde respira y descansa la melodia define su caracter.'},
+  pr7:{icon:'🔊',detail:'El diseno de sonido es donde tu track obtiene su caracter unico. Usa sintesis, sampling, resampling y procesamiento para esculpir cada elemento. Elimina frecuencias no deseadas en la fuente antes de que se conviertan en problemas durante la mezcla.'},
+  pr8:{icon:'📐',detail:'El arreglo es la arquitectura de tu track. Mapea tus secciones (intro, verso, coro, bridge, outro) y asegurate de que cada una tenga un proposito claro. Usa adiciones y retiros de elementos, sweeps de filtro y automatizacion de volumen para crear transiciones naturales.'},
+  pr9:{icon:'📈',detail:'La automatizacion transforma una mezcla estatica en un track vivo y en evolucion. Agrega automatizacion de volumen para crear dinamica, de filtros para construir y liberar tension, y de parametros de efectos para agregar movimiento e interes. Enfocate en la automatizacion macro que da forma a la energia de secciones enteras.'},
+  mx1:{icon:'👂',detail:'Antes de tocar un solo fader o plugin, sientate y escucha la sesion cruda de principio a fin. Toma notas sobre problemas obvios — niveles, frecuencias que chocan, problemas de timing. Asegurate de que todos los clips esten limpios y que todas las pistas esten nombradas y organizadas correctamente.'},
+  mx2:{icon:'🗂️',detail:'La mezcla profesional comienza con una sesion profesional. Colorea tus canales por categoria — bateria, bajo, teclados, guitarras, vocales, FX. Agrupa los canales relacionados en buses para procesarlos juntos de manera eficiente. Una sesion bien organizada ahorra horas y mantiene tus oidos frescos para las decisiones creativas.'},
+  mx3:{icon:'🔌',detail:'El routing es la columna vertebral de tu infraestructura de mezcla. Cada canal debe alimentar un bus de grupo apropiado, y cada bus debe ir al fader master a traves de una cadena de senal clara y logica. Verifica que ninguna senal este doblemente ruteada o ausente de la salida master.'},
+  mx4:{icon:'🎛️',detail:'Los canales de envio te permiten aplicar un solo reverb o delay a multiples canales simultaneamente, ahorrando CPU y creando un sentido coherente de espacio. Crea al menos un envio de reverb de sala, uno de sala grande para leads y vocales, y uno de delay sincronizado al tempo. Ajusta cada retorno al 100% humedo.'},
+  mx5:{icon:'🎚️',detail:'El EQ es tu herramienta principal para crear separacion y claridad. Primero, aplica un filtro pasa-altos en cada canal que no necesite energia sub. Luego identifica y corta resonancias problematicas. Cada instrumento debe ocupar su propia zona de frecuencias para que la mezcla se traduzca claramente en cualquier sistema de reproduccion.'},
+  mx6:{icon:'📊',detail:'El gain staging es la disciplina de gestionar los niveles de senal a traves de toda tu cadena. Apunta a aproximadamente -18 dBFS RMS por canal — esto te da headroom consistente, mantiene tus plugins operando en su rango optimo y asegura que tu bus master reciba una senal limpia.'},
+  mx7:{icon:'⚙️',detail:'La compresion controla el rango dinamico de los elementos individuales y ayuda a que se asienten juntos como una mezcla cohesiva. Para elementos transitorios como bateria usa ataques rapidos. Para elementos sostenidos como pads y vocales usa ataques lentos para preservar el transitorio natural.'},
+  mx8:{icon:'🔁',detail:'El delay agrega interes ritmico, profundidad y espacio sin ensuciar el extremo bajo. Sincroniza tus tiempos de delay al tempo del proyecto. Usa filtros pasa-altos y pasa-bajos en tus retornos de delay para evitar que las repeticiones ensucien el rango de frecuencias de la senal seca.'},
+  mx9:{icon:'🔥',detail:'La saturacion agrega distorsion armonica de orden par que imita la calidez del equipo analogico. Usada sutilmente, agrega loudness percibida y une elementos. Aplicala al bus de bateria para cohesion, al bajo para armonicos en bocinas pequenas, y con moderacion a sintetizadores y vocales para caracter.'},
+  ms1:{icon:'🎧',detail:'Tu track de referencia es la herramienta mas importante en el mastering. Elige un master publicado comercialmente en el mismo genero. Iguala su loudness usando un medidor de LUFS antes de comparar. Escucha criticamente el balance del extremo bajo, el aire en frecuencias altas, la amplitud estereo y la densidad general.'},
+  ms2:{icon:'📊',detail:'Antes de cualquier procesamiento de mastering, ajusta la ganancia de entrada para que la seccion mas fuerte del track alcance entre -6 y -3 dBFS. Esto le da a toda tu cadena headroom suficiente para operar limpiamente. Evita empujar la ganancia para que suene mas fuerte en este punto — la loudness llega al final a traves del limitador.'},
+  ms3:{icon:'🎚️',detail:'El EQ de mastering se trata de dar forma tonal amplia y suave — no de cirugia correctiva. Haz ajustes finales de 1 a 2 dB usando curvas amplias y musicales. Un boost suave de shelf alto por encima de 12 kHz agrega aire y presencia. Usa EQ de fase lineal para evitar artefactos de fase en el contexto de la mezcla completa.'},
+  ms4:{icon:'⚙️',detail:'Un compresor de mastering a ratio 2:1 con ataque lento y release medio actua como pegamento que une la mezcla estereo. Ajusta el ataque lo suficientemente lento (30-50ms) para que los transitorios pasen sin afectarse. Apunta a 2-4 dB de reduccion de ganancia en promedio — mas de 6 dB aplastara la dinamica visiblemente.'},
+  ms5:{icon:'↔️',detail:'La mejora estereo debe aplicarse con cuidado. Usa un procesador mid/side para impulsar el contenido de alta frecuencia del canal lateral. Nunca amplies las frecuencias sub — el bajo por debajo de 120 Hz debe permanecer en mono para una traslacion confiable en todos los sistemas de reproduccion.'},
+  ms6:{icon:'🔥',detail:'Un saturador de cinta o excitador armonico agrega calidez analogica y aumenta la loudness percibida sin reducir el rango dinamico. Impulsa el saturador suavemente para que agregue contenido armonico sin distorsion obvia — el efecto debe sentirse mas que escucharse. Compara con el plugin desactivado para confirmar la mejora.'},
+  ms7:{icon:'🔒',detail:'El limitador es la etapa final y mas critica. Ajusta tu ceiling de true peak a -1 dBTP para prevenir picos entre muestras que recorten durante la codificacion a MP3 o AAC. Si el limitador trabaja mas de 3-4 dB consistentemente, tu mezcla necesita mas control dinamico antes del mastering.'},
+  ms8:{icon:'📏',detail:'Los LUFS integrados son el estandar global para la normalizacion de loudness en plataformas de streaming. Spotify apunta a -14 LUFS, Apple Music a -16 LUFS, YouTube a -14 LUFS. Si entregas mas alto que el objetivo de la plataforma, lo bajaran automaticamente reduciendo la calidad percibida.'},
+  ms9:{icon:'🎛️',detail:'El dithering es necesario al reducir la profundidad de bits de 24 a 16 bits. Sin dither, la reduccion introduce distorsion de cuantizacion — un artefacto digital aspero. El dither TPDF agrega una pequena cantidad de ruido aleatorio que enmascara esta distorsion. Aplicalo solo una vez, como el ultimo proceso en tu cadena.'},
+  ms10:{icon:'📦',detail:'La exportacion final es tu entregable al mundo. Exporta WAV de 24 bits 44.1 kHz para distribucion en streaming. Para duplicacion de CD, exporta WAV de 16 bits 44.1 kHz con dither aplicado. Nombra tus archivos claramente con el nombre del artista, titulo de la pista y especificacion de formato.'},
 };
 
 function getSTEP_DETAILS2() { return currentLang === 'es' ? STEP_DETAILS_ES2 : STEP_DETAILS_EN2; }
@@ -2201,10 +2188,29 @@ function renderProcess(projectId) {
   document.title = projectId ? state.projects.find(p => p.id === projectId)?.name || "TEW" : "TEW";
   const list = document.getElementById('logs-list');
   if (!list) return;
+  // Determine direction: going deeper = slide right in, going back = slide left in
+  const goingDeep = !!projectId;
+  const outClass = goingDeep ? 'proc-slide-out-left' : 'proc-slide-out-right';
+  const inClass  = goingDeep ? 'proc-slide-in-right' : 'proc-slide-in-left';
+  // If list has content, animate out first
+  if (list.innerHTML.trim()) {
+    list.classList.add(outClass);
+    setTimeout(function() {
+      list.classList.remove(outClass);
+      _doRenderProcess(projectId, list, inClass);
+    }, 180);
+  } else {
+    _doRenderProcess(projectId, list, inClass);
+  }
+}
+function _doRenderProcess(projectId, list, inClass) {
+  list.classList.remove('proc-slide-in-right','proc-slide-in-left');
+  // inClass applied after render below
   const all = state.projects.filter(p => p.stage);
 
   if (!all.length) {
     list.innerHTML = `<div class="empty"><div class="empty-ico">📋</div><div class="empty-ttl">${t('noProcess')}</div><div class="empty-sub">${t('noProcessSub')}</div></div>`;
+    void list.offsetWidth; list.classList.add(inClass); setTimeout(()=>list.classList.remove(inClass),300);
     return;
   }
 
@@ -2246,6 +2252,7 @@ function renderProcess(projectId) {
         var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);
       });
     },300);
+    void list.offsetWidth; list.classList.add(inClass); setTimeout(()=>list.classList.remove(inClass),300);
     return;
   }
 
