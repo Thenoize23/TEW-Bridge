@@ -438,7 +438,7 @@ body {
 .chart-vis { height: 72px; background: var(--panel2); display: flex; align-items: flex-end; padding: 8px 6px 4px; gap: 2px; }
 .chart-b { flex: 1; border-radius: 2px 2px 0 0; opacity: 0.75; }
 .chart-meta { padding: 9px 10px 11px; }
-.chart-n { font-size: 12px; font-weight: 600; margin-bottom: 1px; }
+.chart-n { font-size: 12px; font-weight: 600; margin-bottom: 1px; white-space:nowrap; overflow:hidden; position:relative; }
 .chart-s { font-size: 10px; color: var(--text2); }
 
 /* ── Settings ────────────────────────────────── */
@@ -1076,17 +1076,15 @@ const STEPS_EN = {
     { id:'pr9', name:'Automation',           desc:'Add movement, dynamics and variation over time',            rmsMin:-20, rmsMax:-6  },
   ],
   mix: [
-    { id:'mx1',  name:'Base Mix',            desc:'Build a static rough balance with faders and panning before any processing', rmsMin:-24, rmsMax:-14 },
-    { id:'mx2',  name:'Parallel Comp',       desc:'Blend heavy compression in parallel to add punch without losing dynamics',   rmsMin:-24, rmsMax:-14 },
-    { id:'mx3',  name:'Frequency Split',     desc:'Split the spectrum into bands for targeted processing per frequency range',  rmsMin:-22, rmsMax:-12 },
-    { id:'mx4',  name:'Session Prep',        desc:'Label, color-code and route all tracks before mixing',                       rmsMin:-22, rmsMax:-12 },
-    { id:'mx5',  name:'Routing I/O',         desc:'Set up buses, sends and returns correctly',                                  rmsMin:-22, rmsMax:-12 },
-    { id:'mx6',  name:'Sends/Aux Channels',  desc:'Configure reverb, delay and parallel channels',                             rmsMin:-22, rmsMax:-12 },
-    { id:'mx7',  name:'EQ',                  desc:'Cut problem frequencies, shape tonal balance',                               rmsMin:-20, rmsMax:-10 },
-    { id:'mx8',  name:'Gain Staging',        desc:'Target -18 dBFS RMS per channel for headroom',                              rmsMin:-20, rmsMax:-16 },
-    { id:'mx9',  name:'Compression',         desc:'Control dynamics and glue elements together',                                rmsMin:-18, rmsMax:-8  },
-    { id:'mx10', name:'Delay',               desc:'Add rhythmic space and depth with delay effects',                            rmsMin:-18, rmsMax:-8  },
-    { id:'mx11', name:'Saturation',          desc:'Add harmonic warmth if needed — subtle is key',                             rmsMin:-16, rmsMax:-6  },
+    { id:'mx1', name:'Compose',              desc:'Make sure everything sounds clean before you start',        rmsMin:-24, rmsMax:-14 },
+    { id:'mx2', name:'Organization',         desc:'Label, color-code and group all tracks clearly',            rmsMin:-24, rmsMax:-14 },
+    { id:'mx3', name:'Routing I/O',          desc:'Set up buses, sends and returns correctly',                 rmsMin:-22, rmsMax:-12 },
+    { id:'mx4', name:'Sends/Aux Channels',   desc:'Configure reverb, delay and parallel channels',            rmsMin:-22, rmsMax:-12 },
+    { id:'mx5', name:'EQ',                   desc:'Cut problem frequencies, shape tonal balance',              rmsMin:-20, rmsMax:-10 },
+    { id:'mx6', name:'Gain Staging',         desc:'Target -18 dBFS RMS per channel for headroom',             rmsMin:-20, rmsMax:-16 },
+    { id:'mx7', name:'Compression',          desc:'Control dynamics and glue elements together',               rmsMin:-18, rmsMax:-8  },
+    { id:'mx8', name:'Delay',                desc:'Add rhythmic space and depth with delay effects',           rmsMin:-18, rmsMax:-8  },
+    { id:'mx9', name:'Saturation',           desc:'Add harmonic warmth if needed — subtle is key',            rmsMin:-16, rmsMax:-6  },
   ],
   mastering: [
     { id:'ms1', name:'Reference Track',      desc:'Compare against a commercial master at matched loudness',   rmsMin:-16, rmsMax:-10 },
@@ -1115,17 +1113,15 @@ const STEPS_ES = {
     { id:'pr9', name:'Automatizacion',          desc:'Agrega movimiento, dinamica y variacion en el tiempo',     rmsMin:-20, rmsMax:-6  },
   ],
   mix: [
-    { id:'mx1',  name:'Mezcla Base',              desc:'Construye un balance estatico con faders y paneo antes de cualquier procesamiento', rmsMin:-24, rmsMax:-14 },
-    { id:'mx2',  name:'Compresion Paralela',       desc:'Mezcla compresion pesada en paralelo para agregar pegada sin perder dinamica',     rmsMin:-24, rmsMax:-14 },
-    { id:'mx3',  name:'Division de Frecuencias',   desc:'Divide el espectro en bandas para procesar cada rango por separado',              rmsMin:-22, rmsMax:-12 },
-    { id:'mx4',  name:'Preparacion de Sesion',     desc:'Etiqueta, colorea y enruta todos los canales antes de mezclar',                   rmsMin:-22, rmsMax:-12 },
-    { id:'mx5',  name:'Routing I/O',               desc:'Configura buses, envios y retornos correctamente',                                rmsMin:-22, rmsMax:-12 },
-    { id:'mx6',  name:'Canales Aux',               desc:'Configura reverb, delay y canales paralelos',                                     rmsMin:-22, rmsMax:-12 },
-    { id:'mx7',  name:'EQ',                        desc:'Corta frecuencias problematicas y da forma tonal',                                rmsMin:-20, rmsMax:-10 },
-    { id:'mx8',  name:'Gain Staging',              desc:'Objetivo -18 dBFS RMS por canal para headroom',                                   rmsMin:-20, rmsMax:-16 },
-    { id:'mx9',  name:'Compresion',                desc:'Controla la dinamica y une los elementos de la mezcla',                          rmsMin:-18, rmsMax:-8  },
-    { id:'mx10', name:'Delay',                     desc:'Agrega espacio ritmico y profundidad con delay',                                  rmsMin:-18, rmsMax:-8  },
-    { id:'mx11', name:'Saturacion',                desc:'Agrega calidez armonica si es necesario - se sutil',                             rmsMin:-16, rmsMax:-6  },
+    { id:'mx1', name:'Balance General',             desc:'Asegurate de que todo suene limpio antes de mezclar',      rmsMin:-24, rmsMax:-14 },
+    { id:'mx2', name:'Organizacion',            desc:'Etiqueta, colorea y agrupa todos los canales claramente',  rmsMin:-24, rmsMax:-14 },
+    { id:'mx3', name:'Routing I/O',             desc:'Configura buses, envios y retornos correctamente',         rmsMin:-22, rmsMax:-12 },
+    { id:'mx4', name:'Canales Aux',             desc:'Configura reverb, delay y canales paralelos',             rmsMin:-22, rmsMax:-12 },
+    { id:'mx5', name:'EQ',                      desc:'Corta frecuencias problematicas y da forma tonal',         rmsMin:-20, rmsMax:-10 },
+    { id:'mx6', name:'Gain Staging',            desc:'Objetivo -18 dBFS RMS por canal para headroom',           rmsMin:-20, rmsMax:-16 },
+    { id:'mx7', name:'Compresion',              desc:'Controla la dinamica y une los elementos de la mezcla',   rmsMin:-18, rmsMax:-8  },
+    { id:'mx8', name:'Delay',                   desc:'Agrega espacio ritmico y profundidad con delay',           rmsMin:-18, rmsMax:-8  },
+    { id:'mx9', name:'Saturacion',              desc:'Agrega calidez armonica si es necesario - se sutil',      rmsMin:-16, rmsMax:-6  },
   ],
   mastering: [
     { id:'ms1', name:'Track de Referencia',     desc:'Compara con un master comercial a igual loudness',         rmsMin:-16, rmsMax:-10 },
@@ -1157,17 +1153,15 @@ const STEP_DETAILS_EN2 = {
   pr7:{icon:'🔊',detail:'Sound design is where your track gets its unique character. Use synthesis, sampling, resampling, and processing to sculpt each element. Remove unwanted frequencies at the source before they become problems in the mix.'},
   pr8:{icon:'📐',detail:'Arrangement is the architecture of your track. Map out your sections (intro, verse, chorus, bridge, outro) and make sure each one has a clear purpose. Use element additions and removals, filter sweeps, and volume automation to create natural transitions.'},
   pr9:{icon:'📈',detail:'Automation transforms a static mix into a living, evolving track. Add volume automation for dynamics, filter automation for tension and release, and effect parameter automation for movement. Focus on macro automation that shapes the energy of entire sections.'},
-  mx1:{icon:'🎚️',detail:'Start by setting rough fader levels and panning with no plugins active. The goal is a static balance where every element is audible and placed in the stereo field. A solid base mix makes every subsequent step easier and reveals which tracks need the most attention.'},
-  mx2:{icon:'🔀',detail:'Parallel compression blends a heavily compressed duplicate of a signal with the dry original. This technique adds punch, density and consistency to drums, bass and even full mixes without sacrificing the natural transient feel. Use a send to a compressed return and blend in gradually until you feel the added weight.'},
-  mx3:{icon:'🎛️',detail:'Frequency splitting divides the signal into separate low, mid and high bands for targeted processing. Apply different EQ, compression or saturation to each band independently, then recombine. This gives you surgical control over the tonal character of complex elements like drums, bass and full mixes.'},
-  mx4:{icon:'🗂️',detail:'Before touching any plugin, invest time in session organization. Label every track clearly, assign color codes by instrument category, route related tracks into group buses, and name all sends and returns. A structured session reduces decision fatigue, speeds up your workflow, and prevents costly routing errors later.'},
-  mx5:{icon:'🔌',detail:'Routing is the backbone of your mix infrastructure. Every track should feed into an appropriate group bus, and every bus should route to the master fader through a clear, logical signal chain. Verify that no signal is accidentally double-routed or missing from the master output.'},
-  mx6:{icon:'🎛️',detail:'Send channels allow you to apply a single reverb or delay to multiple tracks simultaneously, saving CPU and creating a cohesive sense of space. Create at least one room reverb send, one hall send for leads and vocals, and one tempo-synced delay. Set each return to 100% wet.'},
-  mx7:{icon:'🎚️',detail:'EQ is your primary tool for creating separation and clarity. First, high-pass filter every track that does not need low-end energy. Then identify and cut narrow problem resonances. Each instrument should occupy its own frequency zone so the mix translates clearly on any speaker system.'},
-  mx8:{icon:'📊',detail:'Gain staging means managing signal levels throughout your entire chain. Target approximately -18 dBFS RMS per channel — this gives you consistent headroom, keeps plugins operating in their optimal range, and ensures your master bus receives a clean signal.'},
-  mx9:{icon:'⚙️',detail:'Compression controls dynamic range and helps elements sit together as a cohesive mix. For transient elements like drums use faster attack times. For sustained elements like pads and vocals use slower attacks to preserve the natural transient feel. Use parallel compression to retain punch while achieving density.'},
-  mx10:{icon:'🔁',detail:'Delay adds rhythmic interest, depth, and space without muddying the low-end. Sync delay times to the project tempo. Use high-pass and low-pass filters on delay returns to prevent repeats from cluttering the frequency range of the dry signal.'},
-  mx11:{icon:'🔥',detail:'Saturation adds even-order harmonic distortion that mimics the warmth of analog equipment. Used subtly, it adds perceived loudness and glues elements together. Apply to the drum bus for cohesion, to the bass for harmonics on small speakers, and sparingly to synths and vocals for character.'},
+  mx1:{icon:'👂',detail:'Before touching a fader or plugin, listen to the raw session from start to finish. Take notes on obvious problems — levels, frequency clashes, timing issues. Make sure all clips are trimmed cleanly and all tracks are properly named and organized.'},
+  mx2:{icon:'🗂️',detail:'Professional mixing starts with a professional session layout. Color-code tracks by category — drums, bass, keys, guitars, vocals, FX. Group related tracks into buses so you can process them together efficiently. A well-organized session saves hours and keeps your ears fresh.'},
+  mx3:{icon:'🔌',detail:'Routing is the backbone of your mix infrastructure. Every track should feed into an appropriate group bus, and every bus should route to the master fader through a clear, logical signal chain. Verify that no signal is accidentally double-routed or missing from the master output.'},
+  mx4:{icon:'🎛️',detail:'Send channels allow you to apply a single reverb or delay to multiple tracks simultaneously, saving CPU and creating a cohesive sense of space. Create at least one room reverb send, one hall send for leads and vocals, and one tempo-synced delay. Set each return to 100% wet.'},
+  mx5:{icon:'🎚️',detail:'EQ is your primary tool for creating separation and clarity. First, high-pass filter every track that does not need low-end energy. Then identify and cut narrow problem resonances. Each instrument should occupy its own frequency zone so the mix translates clearly on any speaker system.'},
+  mx6:{icon:'📊',detail:'Gain staging means managing signal levels throughout your entire chain. Target approximately -18 dBFS RMS per channel — this gives you consistent headroom, keeps plugins operating in their optimal range, and ensures your master bus receives a clean signal.'},
+  mx7:{icon:'⚙️',detail:'Compression controls dynamic range and helps elements sit together as a cohesive mix. For transient elements like drums use faster attack times. For sustained elements like pads and vocals use slower attacks to preserve the natural transient feel. Use parallel compression to retain punch while achieving density.'},
+  mx8:{icon:'🔁',detail:'Delay adds rhythmic interest, depth, and space without muddying the low-end. Sync delay times to the project tempo. Use high-pass and low-pass filters on delay returns to prevent repeats from cluttering the frequency range of the dry signal.'},
+  mx9:{icon:'🔥',detail:'Saturation adds even-order harmonic distortion that mimics the warmth of analog equipment. Used subtly, it adds perceived loudness and glues elements together. Apply to the drum bus for cohesion, to the bass for harmonics on small speakers, and sparingly to synths and vocals for character.'},
   ms1:{icon:'🎧',detail:'Your reference track is the most important tool in mastering. Choose a commercially released master in the same genre. Match its loudness using a LUFS meter before comparing. Listen critically to the low-end balance, high-frequency air, stereo width, and overall density.'},
   ms2:{icon:'📊',detail:'Before any mastering processing, set the input gain so the loudest section peaks between -6 and -3 dBFS. This gives your entire chain sufficient headroom to operate cleanly. Avoid pushing the gain to make it sound louder at this point — loudness comes at the end through the limiter.'},
   ms3:{icon:'🎚️',detail:'Mastering EQ is about broad, gentle tonal shaping — not corrective surgery. Make final adjustments of 1 to 2 dB using wide, musical curves. A gentle high shelf boost above 12 kHz adds air and presence. Use linear phase EQ to avoid phase artifacts in the full-mix context.'},
@@ -2382,6 +2376,12 @@ function renderCharts(stage) {
 
   const cards = keys.map(key => buildCard(key)).join('');
   grid.innerHTML = header + '<div class="charts-grid" id="inner-grid">' + cards + '</div>';
+  setTimeout(function(){
+    document.querySelectorAll('.chart-n').forEach(function(el){
+      var inn = el.querySelector('.ws-name-inner');
+      if (inn) setMarqueeTitle(el, inn.textContent);
+    });
+  }, 300);
 }
 
 function buildCard(key) {
@@ -2432,7 +2432,7 @@ function buildCard(key) {
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:4px">
             <span style="font-size:12px">${inst.icon}</span>
-            <div class="chart-n">${inst.name}</div>
+            <div class="chart-n" id="cn-${key}"><span class="ws-name-inner">${inst.name}</span></div>
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">EQ</div>
         </div>
@@ -2458,7 +2458,7 @@ function buildCard(key) {
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:4px">
             <span style="font-size:12px">${inst.icon}</span>
-            <div class="chart-n">${inst.name}</div>
+            <div class="chart-n" id="cn-${key}"><span class="ws-name-inner">${inst.name}</span></div>
           </div>
           <div style="font-size:9px;font-weight:600;letter-spacing:0.5px;color:var(--text3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">PAN</div>
         </div>
