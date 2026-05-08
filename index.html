@@ -2074,6 +2074,7 @@ function closeWorkspace() {
 function renderSteps() {
   const p = state.active;
   if (!p) return;
+  var _wb=document.querySelector('.ws-body');if(_wb)_wb.scrollTop=0;
   const stage     = p.stage || 'mix';
   const steps     = STEPS[stage] || [];
   const _sd       = (p.stepsDone && typeof p.stepsDone[stage] === 'object') ? p.stepsDone[stage] : {};
