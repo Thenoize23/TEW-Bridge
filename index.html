@@ -2405,11 +2405,11 @@ function _doRenderProcess(projectId, list, inClass) {
             </div>`;
         }).join('')}
       </div>`;
-    setTimeout(function(){
+    requestAnimationFrame(function(){
       document.querySelectorAll('.log-proj-name').forEach(function(el){
         var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);
       });
-    },300);
+    });
     void list.offsetWidth; list.classList.add(inClass); setTimeout(()=>list.classList.remove(inClass),300);
     return;
   }
@@ -2493,10 +2493,10 @@ function _doRenderProcess(projectId, list, inClass) {
         ${stageAccordions}
       </div>
     </div>`;
-  setTimeout(function(){
+  requestAnimationFrame(function(){
     var el=document.getElementById('lpn2-'+projectId);
     if(el){var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);}
-  },300);
+  });
 }
 
 
@@ -2534,17 +2534,13 @@ function renderCharts(stage) {
 
   const cards = keys.map(key => buildCard(key)).join('');
   grid.innerHTML = header + '<div class="charts-grid" id="inner-grid">' + cards + '</div>';
-  setTimeout(function(){
-    var el=document.getElementById('charts-proj-title');
-    if(el){var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);}
-  },400);
-  setTimeout(function(){
+  requestAnimationFrame(function(){
     var el = document.getElementById('charts-proj-title');
     if (el) { var inn = el.querySelector('.ws-name-inner'); if (inn) setMarqueeTitle(el, inn.textContent); }
     document.querySelectorAll('.chart-n').forEach(function(n){
       var inn = n.querySelector('.ws-name-inner'); if (inn) setMarqueeTitle(n, inn.textContent);
     });
-  }, 300);
+  });
 }
 
 function buildCard(key) {
@@ -2873,7 +2869,7 @@ function setMarqueeTitle(container, text) {
   if (!container) return;
   var inner = container.querySelector('.ws-name-inner');
   if (!inner) { container.textContent = text; return; }
-  // Reset scroll state
+  // Reset
   inner.classList.remove('scrolling');
   inner.style.animationDelay = '';
   inner.style.opacity = '1';
@@ -2881,15 +2877,14 @@ function setMarqueeTitle(container, text) {
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
   container.style.position = 'relative';
-  // Remove old fades
   Array.from(container.querySelectorAll('.marquee-fade')).forEach(function(f){ f.parentNode.removeChild(f); });
-  // Add right fade immediately so it appears with the text
+  // Add right fade immediately with the text
   var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
   var fadeR = document.createElement('div');
   fadeR.className = 'marquee-fade';
   fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
   container.appendChild(fadeR);
-  // Measure in next frame — set up scroll if text overflows, remove fade if not
+  // Measure next frame — set up scroll or remove fade if text fits
   requestAnimationFrame(function(){ requestAnimationFrame(function(){
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
@@ -2901,7 +2896,6 @@ function setMarqueeTitle(container, text) {
       inner.style.animationDelay = '2s';
       inner.classList.add('scrolling');
     } else {
-      // Text fits — no need for fade
       if (fadeR.parentNode) fadeR.parentNode.removeChild(fadeR);
     }
   });});
