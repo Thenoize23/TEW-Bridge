@@ -2019,6 +2019,9 @@ function switchInnerTab(tab) {
     btn.style.background  = active ? '#1586ec' : 'transparent';
     btn.style.color       = active ? '#fff'    : 'rgba(255,255,255,0.45)';
   });
+  // Always scroll to top when switching tabs
+  const wb = document.querySelector('.ws-body');
+  if (wb) wb.scrollTop = 0;
   if (tab === 'ai')    renderAINotes();
   if (tab === 'notes') renderManualNotes();
 }
