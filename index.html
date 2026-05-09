@@ -2873,15 +2873,23 @@ function setMarqueeTitle(container, text) {
   if (!container) return;
   var inner = container.querySelector('.ws-name-inner');
   if (!inner) { container.textContent = text; return; }
-  // Show text immediately
+  // Reset scroll state
   inner.classList.remove('scrolling');
   inner.style.animationDelay = '';
   inner.style.opacity = '1';
   inner.textContent = text;
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
+  container.style.position = 'relative';
+  // Remove old fades
   Array.from(container.querySelectorAll('.marquee-fade')).forEach(function(f){ f.parentNode.removeChild(f); });
-  // Measure layout in next frame, then set up scroll if needed
+  // Add right fade immediately so it appears with the text
+  var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
+  var fadeR = document.createElement('div');
+  fadeR.className = 'marquee-fade';
+  fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
+  container.appendChild(fadeR);
+  // Measure in next frame — set up scroll if text overflows, remove fade if not
   requestAnimationFrame(function(){ requestAnimationFrame(function(){
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
@@ -2892,12 +2900,9 @@ function setMarqueeTitle(container, text) {
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
       inner.style.animationDelay = '2s';
       inner.classList.add('scrolling');
-      container.style.position = 'relative';
-      var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
-      var fadeR = document.createElement('div');
-      fadeR.className = 'marquee-fade';
-      fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
-      container.appendChild(fadeR);
+    } else {
+      // Text fits — no need for fade
+      if (fadeR.parentNode) fadeR.parentNode.removeChild(fadeR);
     }
   });});
 }
