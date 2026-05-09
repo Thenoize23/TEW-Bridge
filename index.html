@@ -2179,19 +2179,42 @@ function _showCompletionModal(html) {
 
 function showStageCompleteModal(stage, project) {
   var emojis  = { production:'🎛️', mix:'🎚️', mastering:'💿' };
-  var msgs    = {
-    production: 'Your production is locked in. Time to shape the sound.',
-    mix:        "The mix is dialed. Let's push it to the finish line.",
-    mastering:  'All stages complete. Ready to export.'
-  };
-  var labels  = { production:'Producción', mix:'Mezcla', mastering:'Mastering' };
+  var labels  = { production:t('production'), mix:t('mix'), mastering:t('mastering') };
   var stages  = project.stages || ['production','mix','mastering'];
-  var idx     = stages.indexOf(stage);
-  var next    = idx >= 0 && idx < stages.length - 1 ? stages[idx + 1] : null;
-  var primaryBtn = next
-    ? '<button class="cm-btn" onclick="_closeCompletionModal();switchStage(\'' + next + '\')">Jump to ' + labels[next] + ' →</button>'
-    : '<button class="cm-btn" onclick="_closeCompletionModal()">Close</button>';
-  var secBtn = next ? '<button class="cm-btn-sec" onclick="_closeCompletionModal()">Stay here</button>' : '';
+
+  // Find stages that are still incomplete (excluding current one just finished)
+  var pendingStages = stages.filter(function(st) {
+    if (st === stage) return false;
+    var ss = STEPS[st] || [];
+    var sd = project.stepsDone && project.stepsDone[st] ? project.stepsDone[st] : {};
+    return !ss.every(function(s){ return sd[s.id]; });
+  });
+
+  // Build message based on what's still pending
+  var msgs = {
+    production: currentLang === 'es'
+      ? 'Producción lista. Hora de darle forma al sonido.'
+      : 'Production locked in. Time to shape the sound.',
+    mix: currentLang === 'es'
+      ? 'La mezcla está lista. Llevémosla a la línea final.'
+      : "Mix dialed in. Let's push it to the finish line.",
+    mastering: pendingStages.length > 0
+      ? (currentLang === 'es'
+          ? 'Mastering listo. Aún pendiente: ' + pendingStages.map(function(s){ return labels[s]; }).join(' & ') + '.'
+          : 'Mastering done. Still pending: ' + pendingStages.map(function(s){ return labels[s]; }).join(' & ') + '.')
+      : (currentLang === 'es'
+          ? 'Todas las etapas completas. Lista para exportar.'
+          : 'All stages complete. Ready to export.')
+  };
+
+  // Primary button: go to first pending stage, or close if none
+  var firstPending = pendingStages.length > 0 ? pendingStages[0] : null;
+  var primaryBtn = firstPending
+    ? '<button class="cm-btn" onclick="_closeCompletionModal();switchStage(\'' + firstPending + '\')">'      + (currentLang === 'es' ? 'Ir a ' : 'Go to ') + labels[firstPending] + ' →</button>'
+    : '<button class="cm-btn" onclick="_closeCompletionModal()">' + (currentLang === 'es' ? 'Cerrar' : 'Close') + '</button>';
+  var secBtn = firstPending
+    ? '<button class="cm-btn-sec" onclick="_closeCompletionModal()">' + (currentLang === 'es' ? 'Quedarme aquí' : 'Stay here') + '</button>'
+    : '';
   _showCompletionModal(
     '<div class="completion-modal-box">'
     + '<div class="cm-bar"></div>'
