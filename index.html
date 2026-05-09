@@ -2115,7 +2115,6 @@ function switchStage(stage) {
 
 function closeWorkspace() {
   document.title = 'TEW';
-  state.active = null;
   var _t=document.getElementById('workspace');if(_t)_t.style.display='none';
   // Ocultar todos los screens y deactivar todos los tabs
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -2130,7 +2129,6 @@ function closeWorkspace() {
   var _tb = document.getElementById('tab-bar');  if(_tb)  _tb.style.display  = '';
   var _t=document.getElementById('fab');if(_t)_t.style.display='flex';
   renderProjects();
-  renderCharts(null);
 }
 
 function renderSteps() {
@@ -2518,16 +2516,10 @@ function renderCharts(stage) {
     </div>`;
     return;
   }
-  if (!state.active) {
-    grid.innerHTML = `<div class="empty" style="padding-top:40px">
-      <div class="empty-ico" style="font-size:36px;opacity:0.3;margin-bottom:14px">📊</div>
-      <div class="empty-ttl">${currentLang === 'es' ? 'Ningún proyecto seleccionado' : 'No project selected'}</div>
-      <div class="empty-sub">${currentLang === 'es' ? 'Selecciona un proyecto para ver los charts' : 'Select a project to view its charts'}</div>
-    </div>`;
-    return;
-  }
-  const keys = STAGE_INSTRUMENTS[stage] || STAGE_INSTRUMENTS.default;
-  const stageLabel = stage ? STAGE_LABELS(stage) : null;
+  // Use active project's stage as fallback when stage arg is null
+  const effectiveStage = stage || (state.active ? state.active.stage : null);
+  const keys = STAGE_INSTRUMENTS[effectiveStage] || STAGE_INSTRUMENTS.default;
+  const stageLabel = effectiveStage ? STAGE_LABELS(effectiveStage) : null;
   const projName   = state.active ? state.active.name : null;
 
   let header = '';
