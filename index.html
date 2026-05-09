@@ -1909,7 +1909,7 @@ function renderProjects() {
         <div style="cursor:pointer;display:flex;align-items:flex-start;gap:12px" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
         <div style="width:48px;height:48px;border-radius:12px;flex-shrink:0;overflow:hidden;background:var(--panel3);display:flex;align-items:center;justify-content:center;font-size:22px">${p.artwork ? '<img src="'+p.artwork+'" style="width:100%;height:100%;object-fit:cover">' : '🎵'}</div>
         <div style="flex:1;min-width:0;padding-right:44px">
-        <div class="proj-name" id="pn-${p.id}"><span class="ws-name-inner" style="opacity:0">${p.name}</span></div>
+        <div class="proj-name" id="pn-${p.id}"><span class="ws-name-inner">${p.name}</span></div>
         <div class="proj-meta">
           <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span class="proj-artist">' + p.artist + '</span>' : ''}
         </div>
@@ -2395,7 +2395,7 @@ function _doRenderProcess(projectId, list, inClass) {
                           background:var(--panel3);display:flex;align-items:center;
                           justify-content:center;font-size:24px">${art}</div>
               <div style="flex:1;min-width:0">
-                <div class="log-proj-name" id="lpn-${p.id}" style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner" style="opacity:0">${p.name}</span></div>
+                <div class="log-proj-name" id="lpn-${p.id}" style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
                 <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.key}</div>
                 <div style="margin-top:6px;height:4px;border-radius:2px;background:var(--panel3);overflow:hidden">
                   <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:2px"></div>
@@ -2405,11 +2405,11 @@ function _doRenderProcess(projectId, list, inClass) {
             </div>`;
         }).join('')}
       </div>`;
-    requestAnimationFrame(function(){
+    setTimeout(function(){
       document.querySelectorAll('.log-proj-name').forEach(function(el){
         var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);
       });
-    });
+    },300);
     void list.offsetWidth; list.classList.add(inClass); setTimeout(()=>list.classList.remove(inClass),300);
     return;
   }
@@ -2481,7 +2481,7 @@ function _doRenderProcess(projectId, list, inClass) {
       <div class="log-card" style="margin-bottom:16px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
           <div style="min-width:0;overflow:hidden;flex:1">
-            <div class="log-proj-name" id="lpn2-${p.id}" style="font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner" style="opacity:0">${p.name}</span></div>
+            <div class="log-proj-name" id="lpn2-${p.id}" style="font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
             <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.bpm} BPM · ${p.key}</div>
           </div>
           <div style="text-align:right">
@@ -2493,10 +2493,10 @@ function _doRenderProcess(projectId, list, inClass) {
         ${stageAccordions}
       </div>
     </div>`;
-  requestAnimationFrame(function(){
+  setTimeout(function(){
     var el=document.getElementById('lpn2-'+projectId);
     if(el){var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);}
-  });
+  },300);
 }
 
 
@@ -2523,7 +2523,7 @@ function renderCharts(stage) {
   let header = '';
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
-      <div id="charts-proj-title" style="font-size:15px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner" style="opacity:0">${projName}</span></div>
+      <div id="charts-proj-title" style="font-size:15px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${projName}</span></div>
       <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · ${t('tapToggle')}</div>
     </div>`;
   } else {
@@ -2534,13 +2534,17 @@ function renderCharts(stage) {
 
   const cards = keys.map(key => buildCard(key)).join('');
   grid.innerHTML = header + '<div class="charts-grid" id="inner-grid">' + cards + '</div>';
-  requestAnimationFrame(function(){
+  setTimeout(function(){
+    var el=document.getElementById('charts-proj-title');
+    if(el){var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);}
+  },400);
+  setTimeout(function(){
     var el = document.getElementById('charts-proj-title');
     if (el) { var inn = el.querySelector('.ws-name-inner'); if (inn) setMarqueeTitle(el, inn.textContent); }
     document.querySelectorAll('.chart-n').forEach(function(n){
       var inn = n.querySelector('.ws-name-inner'); if (inn) setMarqueeTitle(n, inn.textContent);
     });
-  });
+  }, 300);
 }
 
 function buildCard(key) {
@@ -2869,13 +2873,23 @@ function setMarqueeTitle(container, text) {
   if (!container) return;
   var inner = container.querySelector('.ws-name-inner');
   if (!inner) { container.textContent = text; return; }
+  // Reset scroll state
   inner.classList.remove('scrolling');
+  inner.style.animationDelay = '';
+  inner.style.opacity = '1';
   inner.textContent = text;
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
+  container.style.position = 'relative';
+  // Remove old fades
   Array.from(container.querySelectorAll('.marquee-fade')).forEach(function(f){ f.parentNode.removeChild(f); });
-  // Hide immediately to prevent flash before fades are applied
-  inner.style.opacity = '0';
+  // Add right fade immediately so it appears with the text
+  var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
+  var fadeR = document.createElement('div');
+  fadeR.className = 'marquee-fade';
+  fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
+  container.appendChild(fadeR);
+  // Measure in next frame — set up scroll if text overflows, remove fade if not
   requestAnimationFrame(function(){ requestAnimationFrame(function(){
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
@@ -2884,19 +2898,12 @@ function setMarqueeTitle(container, text) {
       var halfW = inner.scrollWidth / 2;
       container.style.setProperty('--marquee-dur', Math.max(5, halfW/45) + 's');
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
+      inner.style.animationDelay = '2s';
       inner.classList.add('scrolling');
-      container.style.position = 'relative';
-      var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
-      var fadeR = document.createElement('div');
-      fadeR.className = 'marquee-fade';
-      fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
-      container.appendChild(fadeR);
-      var fadeL = document.createElement('div');
-      fadeL.className = 'marquee-fade';
-      fadeL.style.cssText = 'position:absolute;left:0;top:0;bottom:0;width:20px;pointer-events:none;z-index:2;background:linear-gradient(to left,transparent 0%,' + bgVar + ' 70%)';
-      container.appendChild(fadeL);
+    } else {
+      // Text fits — no need for fade
+      if (fadeR.parentNode) fadeR.parentNode.removeChild(fadeR);
     }
-    inner.style.opacity = '1';
   });});
 }
 </script>
