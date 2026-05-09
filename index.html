@@ -2869,7 +2869,7 @@ function setMarqueeTitle(container, text) {
   if (!container) return;
   var inner = container.querySelector('.ws-name-inner');
   if (!inner) { container.textContent = text; return; }
-  // Reset
+  // Reset scroll state
   inner.classList.remove('scrolling');
   inner.style.animationDelay = '';
   inner.style.opacity = '1';
@@ -2877,14 +2877,15 @@ function setMarqueeTitle(container, text) {
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
   container.style.position = 'relative';
+  // Remove old fades
   Array.from(container.querySelectorAll('.marquee-fade')).forEach(function(f){ f.parentNode.removeChild(f); });
-  // Add right fade immediately with the text
+  // Add right fade immediately so it appears with the text
   var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
   var fadeR = document.createElement('div');
   fadeR.className = 'marquee-fade';
   fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
   container.appendChild(fadeR);
-  // Measure next frame — set up scroll or remove fade if text fits
+  // Measure in next frame — set up scroll if text overflows, remove fade if not
   requestAnimationFrame(function(){ requestAnimationFrame(function(){
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
@@ -2896,6 +2897,7 @@ function setMarqueeTitle(container, text) {
       inner.style.animationDelay = '2s';
       inner.classList.add('scrolling');
     } else {
+      // Text fits — no need for fade
       if (fadeR.parentNode) fadeR.parentNode.removeChild(fadeR);
     }
   });});
