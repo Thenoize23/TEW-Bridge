@@ -1292,9 +1292,12 @@ function applyIdioma() {
     el.title = t(el.getAttribute('data-i18n-title'));
   });
   // VST live status (dynamic — override with current state)
-  if (hdrLbl) hdrLbl.textContent = state.vstOn ? t('vstLive') : t('vstOffline');
-  if (slblVst) slblVst.textContent = state.vstOn ? t('vstConnected') : t('vstDisconnected');
-  if (slblWs)  slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
+  var _hdrLbl = document.getElementById('hdr-vst-lbl');
+  var _slblVst = document.getElementById('slbl-vst');
+  var _slblWs  = document.getElementById('slbl-ws');
+  if (_hdrLbl) _hdrLbl.textContent = state.vstOn ? t('vstLive') : t('vstOffline');
+  if (_slblVst) _slblVst.textContent = state.vstOn ? t('vstConnected') : t('vstDisconnected');
+  if (_slblWs)  _slblWs.textContent  = state.wsOn  ? t('vstConnected') : t('noConnection');
   // Re-render dynamic lists
   renderProjects();
   renderProcess();
