@@ -865,7 +865,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
     <div class="form-group" style="display:flex;flex-direction:column;align-items:center;gap:8px">
       <label class="form-label" style="align-self:flex-start">Artwork</label>
       <div onclick="document.getElementById('f-artwork-file').click()"
-           style="width:90px;height:90px;border-radius:50%;border:2px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0;position:relative;transition:transform 0.2s ease,filter 0.2s ease"
+           style="width:90px;height:90px;border-radius:14px;border:1px solid var(--border);background:var(--panel3);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0;position:relative;transition:transform 0.2s ease,filter 0.2s ease"
            onmouseover="this.style.transform='scale(1.08)';this.style.filter='brightness(1.2)'"
            onmouseout="this.style.transform='';this.style.filter=''">
         <img id="f-artwork-preview" src="" style="width:100%;height:100%;object-fit:cover;display:none;position:absolute;top:0;left:0">
@@ -1837,6 +1837,13 @@ function openEditProject(projectId) {
   _s('ep-id',   projectId);
   const gEl = document.getElementById('ep-genre');
   if (gEl) gEl.value = p.genre || gEl.options[0].value;
+  window._editArtworkData = p.artwork || null;
+  const epPrev = document.getElementById('ep-artwork-preview');
+  const epIcon = document.getElementById('ep-artwork-icon');
+  if (epPrev && epIcon) {
+    if (p.artwork) { epPrev.src = p.artwork; epPrev.style.display = 'block'; epIcon.style.display = 'none'; }
+    else { epPrev.src = ''; epPrev.style.display = 'none'; epIcon.style.display = 'block'; }
+  }
   const modal = document.getElementById('modal-edit-proj');
   if (modal) modal.classList.add('open');
 }
@@ -1851,12 +1858,18 @@ function saveEditProject() {
   p.genre  = document.getElementById('ep-genre').value;
   p.key    = (document.getElementById('ep-key').value||'C')+' '+(document.getElementById('ep-mode').value||'Major');
   p.artist = document.getElementById('ep-artist').value.trim();
+  if (window._editArtworkData !== undefined) p.artwork = window._editArtworkData || p.artwork || '';
   saveProjects();
   renderProjects();
   closeModal('modal-edit-proj');
   if (state.active && state.active.id === id) {
     const wn = document.getElementById('ws-name');
     if (wn) wn.textContent = p.name;
+    const wa = document.getElementById('ws-artwork');
+    if (wa) {
+      if (p.artwork) wa.innerHTML = '<img src="'+p.artwork+'" style="width:100%;height:100%;object-fit:cover">';
+      else wa.innerHTML = '🎵';
+    }
   }
 }
 
@@ -2908,7 +2921,7 @@ function setMarqueeTitle(container, text) {
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
     if (iw > cw + 2) {
-      inner.textContent = text + '  •  ' + text;
+      inner.textContent = text + '            ' + text;
       var halfW = inner.scrollWidth / 2;
       container.style.setProperty('--marquee-dur', Math.max(5, halfW/45) + 's');
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
@@ -2966,7 +2979,7 @@ function setMarqueeTitle(container, text) {
     <div class="form-group" style="display:flex;flex-direction:column;align-items:center;gap:8px">
       <label class="form-label" style="align-self:flex-start">Artwork</label>
       <div onclick="document.getElementById('ep-artwork-file').click()"
-           style="width:90px;height:90px;border-radius:50%;border:2px solid transparent;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0;position:relative;transition:transform 0.2s ease,filter 0.2s ease"
+           style="width:90px;height:90px;border-radius:14px;border:1px solid var(--border);background:var(--panel3);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0;position:relative;transition:transform 0.2s ease,filter 0.2s ease"
            onmouseover="this.style.transform='scale(1.08)';this.style.filter='brightness(1.2)'"
            onmouseout="this.style.transform='';this.style.filter=''">
         <img id="ep-artwork-preview" src="" style="width:100%;height:100%;object-fit:cover;display:none;position:absolute;top:0;left:0">
