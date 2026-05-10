@@ -2754,14 +2754,14 @@ if (!window._authSignIn) {
   renderProjects();
   renderCharts(null);
 }
-// Apply saved language on load
-applyIdioma();
-(function(){
-  const enBtn = document.getElementById('lang-en');
-  const esBtn = document.getElementById('lang-es');
-  if (enBtn) { enBtn.style.background = currentLang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = currentLang==='en' ? '#fff' : 'var(--text2)'; }
-  if (esBtn) { esBtn.style.background = currentLang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = currentLang==='es' ? '#fff' : 'var(--text2)'; }
-})();
+// Apply saved language after all scripts load
+setTimeout(function(){
+  applyIdioma();
+  var enBtn=document.getElementById('lang-en');
+  var esBtn=document.getElementById('lang-es');
+  if(enBtn){enBtn.style.background=currentLang==='en'?'var(--accent)':'var(--panel3)';enBtn.style.color=currentLang==='en'?'#fff':'var(--text2)';}
+  if(esBtn){esBtn.style.background=currentLang==='es'?'var(--accent)':'var(--panel3)';esBtn.style.color=currentLang==='es'?'#fff':'var(--text2)';}
+},0);
 connectWS();
 </script>
 
