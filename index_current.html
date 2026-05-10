@@ -617,7 +617,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 
     <!-- SETTINGS -->
     <div id="screen-settings" class="screen">
-      <p class="sec-label" id="lbl-appearance">Apariencia</p>
+      <p class="sec-label" id="lbl-appearance" data-i18n="appearance">Appearance</p>
       <div class="set-group">
         <div class="set-row">
           <span class="set-lbl" data-i18n="darkMode">Modo Oscuro</span>
@@ -642,7 +642,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         </div>
       </div>
 
-      <p class="sec-label">Account</p>
+      <p class="sec-label" data-i18n="account">Account</p>
       <div class="set-group">
         <div class="set-row">
           <span class="set-lbl">Email</span>
@@ -658,11 +658,11 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
       <div class="set-group">
         <div class="set-row" id="clear-logs-row" style="cursor:pointer;display:block;padding:0">
           <div style="padding:14px 16px">
-            <div style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px">Clear logs for</div>
+            <div style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px" data-i18n="clearLogsFor">Clear logs for</div>
             <select class="form-input" id="clear-logs-select" style="margin-bottom:10px" onchange="void(0)">
               <option value="">— Selecciona proyecto —</option>
             </select>
-            <button onclick="onClearProcessClick()" class="btn-danger">Limpiar Registros y Resetear</button>
+            <button onclick="onClearProcessClick()" class="btn-danger" data-i18n="clearProcess">Clear Process &amp; Reset Steps</button>
           </div>
         </div>
         <div class="set-row" style="padding:14px 16px;border-top:1px solid var(--border)">
@@ -681,7 +681,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <div class="ws-name" id="ws-name"><span class="ws-name-inner" id="ws-name-inner">Project</span></div>
           <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px" id="ws-stage"></div>
         </div>
-        <button onclick="openEditStages()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:var(--sans);flex-shrink:0">Stages</button>
+        <button onclick="openEditStages()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:var(--sans);flex-shrink:0" data-i18n="stagesBtn">Stages</button>
       </div>
       <!-- Stage tabs -->
       <div style="padding:0 16px 12px;background:var(--panel2)">
@@ -693,15 +693,15 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         <button id="itab-steps" onclick="switchInnerTab('steps')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
-                 background:var(--accent);color:#fff">Steps</button>
+                 background:var(--accent);color:#fff" data-i18n="stepsLabel">Steps</button>
         <button id="itab-ai" onclick="switchInnerTab('ai')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
-                 background:transparent;color:rgba(255,255,255,0.45);margin:0 4px">AI Notes</button>
+                 background:transparent;color:rgba(255,255,255,0.45);margin:0 4px" data-i18n="aiNotesTab">AI Notes</button>
         <button id="itab-notes" onclick="switchInnerTab('notes')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
-                 background:transparent;color:rgba(255,255,255,0.45)">Custom Notes</button>
+                 background:transparent;color:rgba(255,255,255,0.45)" data-i18n="customNotesTab">Custom Notes</button>
       </div>
 
       <div class="ws-body">
@@ -1065,6 +1065,10 @@ const LANG = {
     resetConfirm:'Reset all project steps? This does not delete projects.',
     panLeft:'Left', panRight:'Right', panWide:'Wide', panCenter:'Center',
     instRanges:'Instrument Ranges',
+    logsHeader:'Progress Log', stepsLabel:'Steps', addNoteLabel:'Add Note',
+    resetDone:'All Reset!', cleanDone:'Cleared!', selectFirst:'Please select a project first.',
+    clearLogsFor:'Clear logs for', stagesBtn:'Stages',
+    aiNotesTab:'AI Notes', customNotesTab:'Custom Notes',
   },
   es: {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
@@ -1101,6 +1105,10 @@ const LANG = {
     resetConfirm:'¿Resetear los pasos de todos los proyectos? Esto no borra los proyectos.',
     panLeft:'Izquierda', panRight:'Derecha', panWide:'Amplio', panCenter:'Centro',
     instRanges:'Rangos de Instrumentos',
+    logsHeader:'Registros de Progreso', stepsLabel:'Pasos', addNoteLabel:'Agregar Nota',
+    resetDone:'¡Todo Reseteado!', cleanDone:'¡Limpiado!', selectFirst:'Por favor selecciona un proyecto primero.',
+    clearLogsFor:'Limpiar registros de', stagesBtn:'Etapas',
+    aiNotesTab:'Notas IA', customNotesTab:'Otras Notas',
   }
 };
 
@@ -1298,6 +1306,8 @@ function applyIdioma() {
   }
   // Re-render charts so instrument names and labels update
   renderCharts(state.active ? state.active.stage : null);
+  // Refresh the project select in settings
+  populateClearSelect();
 }
 
 
@@ -1909,7 +1919,7 @@ function renderProjects() {
         <div style="cursor:pointer;display:flex;align-items:flex-start;gap:12px" onclick="openProject(state.projects.find(x=>x.id==='${p.id}'))">
         <div style="width:48px;height:48px;border-radius:12px;flex-shrink:0;overflow:hidden;background:var(--panel3);display:flex;align-items:center;justify-content:center;font-size:22px">${p.artwork ? '<img src="'+p.artwork+'" style="width:100%;height:100%;object-fit:cover">' : '🎵'}</div>
         <div style="flex:1;min-width:0;padding-right:44px">
-        <div class="proj-name" id="pn-${p.id}"><span class="ws-name-inner" style="opacity:0">${p.name}</span></div>
+        <div class="proj-name" id="pn-${p.id}"><span class="ws-name-inner">${p.name}</span></div>
         <div class="proj-meta">
           <span>${p.genre}${p.subgenre ? ' · ' + p.subgenre : ''}</span><span>${p.bpm} BPM</span><span>${p.key}</span>${p.artist ? '<span class="proj-artist">' + p.artist + '</span>' : ''}
         </div>
@@ -2179,19 +2189,42 @@ function _showCompletionModal(html) {
 
 function showStageCompleteModal(stage, project) {
   var emojis  = { production:'🎛️', mix:'🎚️', mastering:'💿' };
-  var msgs    = {
-    production: 'Your production is locked in. Time to shape the sound.',
-    mix:        "The mix is dialed. Let's push it to the finish line.",
-    mastering:  'All stages complete. Ready to export.'
-  };
-  var labels  = { production:'Producción', mix:'Mezcla', mastering:'Mastering' };
+  var labels  = { production:t('production'), mix:t('mix'), mastering:t('mastering') };
   var stages  = project.stages || ['production','mix','mastering'];
-  var idx     = stages.indexOf(stage);
-  var next    = idx >= 0 && idx < stages.length - 1 ? stages[idx + 1] : null;
-  var primaryBtn = next
-    ? '<button class="cm-btn" onclick="_closeCompletionModal();switchStage(\'' + next + '\')">Jump to ' + labels[next] + ' →</button>'
-    : '<button class="cm-btn" onclick="_closeCompletionModal()">Close</button>';
-  var secBtn = next ? '<button class="cm-btn-sec" onclick="_closeCompletionModal()">Stay here</button>' : '';
+
+  // Find stages that are still incomplete (excluding current one just finished)
+  var pendingStages = stages.filter(function(st) {
+    if (st === stage) return false;
+    var ss = STEPS[st] || [];
+    var sd = project.stepsDone && project.stepsDone[st] ? project.stepsDone[st] : {};
+    return !ss.every(function(s){ return sd[s.id]; });
+  });
+
+  // Build message based on what's still pending
+  var msgs = {
+    production: currentLang === 'es'
+      ? 'Producción lista. Hora de darle forma al sonido.'
+      : 'Production locked in. Time to shape the sound.',
+    mix: currentLang === 'es'
+      ? 'La mezcla está lista. Llevémosla a la línea final.'
+      : "Mix dialed in. Let's push it to the finish line.",
+    mastering: pendingStages.length > 0
+      ? (currentLang === 'es'
+          ? 'Mastering listo. Aún pendiente: ' + pendingStages.map(function(s){ return labels[s]; }).join(' & ') + '.'
+          : 'Mastering done. Still pending: ' + pendingStages.map(function(s){ return labels[s]; }).join(' & ') + '.')
+      : (currentLang === 'es'
+          ? 'Todas las etapas completas. Lista para exportar.'
+          : 'All stages complete. Ready to export.')
+  };
+
+  // Primary button: go to first pending stage, or close if none
+  var firstPending = pendingStages.length > 0 ? pendingStages[0] : null;
+  var primaryBtn = firstPending
+    ? '<button class="cm-btn" onclick="_closeCompletionModal();switchStage(\'' + firstPending + '\')">'      + (currentLang === 'es' ? 'Ir a ' : 'Go to ') + labels[firstPending] + ' →</button>'
+    : '<button class="cm-btn" onclick="_closeCompletionModal()">' + (currentLang === 'es' ? 'Cerrar' : 'Close') + '</button>';
+  var secBtn = firstPending
+    ? '<button class="cm-btn-sec" onclick="_closeCompletionModal()">' + (currentLang === 'es' ? 'Quedarme aquí' : 'Stay here') + '</button>'
+    : '';
   _showCompletionModal(
     '<div class="completion-modal-box">'
     + '<div class="cm-bar"></div>'
@@ -2372,7 +2405,7 @@ function _doRenderProcess(projectId, list, inClass) {
                           background:var(--panel3);display:flex;align-items:center;
                           justify-content:center;font-size:24px">${art}</div>
               <div style="flex:1;min-width:0">
-                <div class="log-proj-name" id="lpn-${p.id}" style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner" style="opacity:0">${p.name}</span></div>
+                <div class="log-proj-name" id="lpn-${p.id}" style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
                 <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.key}</div>
                 <div style="margin-top:6px;height:4px;border-radius:2px;background:var(--panel3);overflow:hidden">
                   <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:2px"></div>
@@ -2382,11 +2415,11 @@ function _doRenderProcess(projectId, list, inClass) {
             </div>`;
         }).join('')}
       </div>`;
-    setTimeout(function(){
+    requestAnimationFrame(function(){
       document.querySelectorAll('.log-proj-name').forEach(function(el){
         var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);
       });
-    },300);
+    });
     void list.offsetWidth; list.classList.add(inClass); setTimeout(()=>list.classList.remove(inClass),300);
     return;
   }
@@ -2458,7 +2491,7 @@ function _doRenderProcess(projectId, list, inClass) {
       <div class="log-card" style="margin-bottom:16px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
           <div style="min-width:0;overflow:hidden;flex:1">
-            <div class="log-proj-name" id="lpn2-${p.id}" style="font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner" style="opacity:0">${p.name}</span></div>
+            <div class="log-proj-name" id="lpn2-${p.id}" style="font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
             <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.bpm} BPM · ${p.key}</div>
           </div>
           <div style="text-align:right">
@@ -2470,10 +2503,10 @@ function _doRenderProcess(projectId, list, inClass) {
         ${stageAccordions}
       </div>
     </div>`;
-  setTimeout(function(){
+  requestAnimationFrame(function(){
     var el=document.getElementById('lpn2-'+projectId);
     if(el){var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);}
-  },300);
+  });
 }
 
 
@@ -2500,7 +2533,7 @@ function renderCharts(stage) {
   let header = '';
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
-      <div id="charts-proj-title" style="font-size:15px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner" style="opacity:0">${projName}</span></div>
+      <div id="charts-proj-title" style="font-size:15px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${projName}</span></div>
       <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · ${t('tapToggle')}</div>
     </div>`;
   } else {
@@ -2511,17 +2544,13 @@ function renderCharts(stage) {
 
   const cards = keys.map(key => buildCard(key)).join('');
   grid.innerHTML = header + '<div class="charts-grid" id="inner-grid">' + cards + '</div>';
-  setTimeout(function(){
-    var el=document.getElementById('charts-proj-title');
-    if(el){var inn=el.querySelector('.ws-name-inner');if(inn)setMarqueeTitle(el,inn.textContent);}
-  },400);
-  setTimeout(function(){
+  requestAnimationFrame(function(){
     var el = document.getElementById('charts-proj-title');
     if (el) { var inn = el.querySelector('.ws-name-inner'); if (inn) setMarqueeTitle(el, inn.textContent); }
     document.querySelectorAll('.chart-n').forEach(function(n){
       var inn = n.querySelector('.ws-name-inner'); if (inn) setMarqueeTitle(n, inn.textContent);
     });
-  }, 300);
+  });
 }
 
 function buildCard(key) {
@@ -2709,6 +2738,14 @@ if (!window._authSignIn) {
   renderProjects();
   renderCharts(null);
 }
+// Apply saved language on load
+applyIdioma();
+(function(){
+  const enBtn = document.getElementById('lang-en');
+  const esBtn = document.getElementById('lang-es');
+  if (enBtn) { enBtn.style.background = currentLang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = currentLang==='en' ? '#fff' : 'var(--text2)'; }
+  if (esBtn) { esBtn.style.background = currentLang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = currentLang==='es' ? '#fff' : 'var(--text2)'; }
+})();
 connectWS();
 </script>
 
@@ -2850,13 +2887,23 @@ function setMarqueeTitle(container, text) {
   if (!container) return;
   var inner = container.querySelector('.ws-name-inner');
   if (!inner) { container.textContent = text; return; }
+  // Reset scroll state
   inner.classList.remove('scrolling');
+  inner.style.animationDelay = '';
+  inner.style.opacity = '1';
   inner.textContent = text;
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
+  container.style.position = 'relative';
+  // Remove old fades
   Array.from(container.querySelectorAll('.marquee-fade')).forEach(function(f){ f.parentNode.removeChild(f); });
-  // Hide immediately to prevent flash before fades are applied
-  inner.style.opacity = '0';
+  // Add right fade immediately so it appears with the text
+  var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
+  var fadeR = document.createElement('div');
+  fadeR.className = 'marquee-fade';
+  fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
+  container.appendChild(fadeR);
+  // Measure in next frame — set up scroll if text overflows, remove fade if not
   requestAnimationFrame(function(){ requestAnimationFrame(function(){
     var cw = container.offsetWidth;
     var iw = inner.scrollWidth;
@@ -2865,19 +2912,12 @@ function setMarqueeTitle(container, text) {
       var halfW = inner.scrollWidth / 2;
       container.style.setProperty('--marquee-dur', Math.max(5, halfW/45) + 's');
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
+      inner.style.animationDelay = '2s';
       inner.classList.add('scrolling');
-      container.style.position = 'relative';
-      var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
-      var fadeR = document.createElement('div');
-      fadeR.className = 'marquee-fade';
-      fadeR.style.cssText = 'position:absolute;right:0;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
-      container.appendChild(fadeR);
-      var fadeL = document.createElement('div');
-      fadeL.className = 'marquee-fade';
-      fadeL.style.cssText = 'position:absolute;left:0;top:0;bottom:0;width:20px;pointer-events:none;z-index:2;background:linear-gradient(to left,transparent 0%,' + bgVar + ' 70%)';
-      container.appendChild(fadeL);
+    } else {
+      // Text fits — no need for fade
+      if (fadeR.parentNode) fadeR.parentNode.removeChild(fadeR);
     }
-    inner.style.opacity = '1';
   });});
 }
 </script>
