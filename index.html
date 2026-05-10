@@ -923,8 +923,6 @@ import { getAuth, signInWithEmailAndPassword,
          createUserWithEmailAndPassword,
          sendPasswordResetEmail,
          GoogleAuthProvider, signInWithPopup,
-         signInWithRedirect, getRedirectResult,
-         browserLocalPersistence, setPersistence,
          onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js';
 
 const firebaseConfig = {
@@ -942,7 +940,6 @@ try {
   const fbApp = initializeApp(firebaseConfig);
   db   = getFirestore(fbApp);
   auth = getAuth(fbApp);
-  await setPersistence(auth, browserLocalPersistence);
 } catch(e) { console.warn('Firebase:', e); }
 
 window._fbSave = async (uid, p) => {
@@ -965,30 +962,11 @@ window._authGoogle = async () => {
   if (!auth) return;
   try {
     const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account' });
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-      await signInWithRedirect(auth, provider);
-    } else {
-      await signInWithPopup(auth, provider);
-    }
+    await signInWithPopup(auth, provider);
   } catch(err) {
     window._loginErr && window._loginErr(err.code);
   }
 };
-
-// Handle redirect result on page load (mobile Google sign-in)
-if (auth) {
-  getRedirectResult(auth).then(result => {
-    if (result && result.user) {
-      // onAuthStateChanged will fire automatically
-    }
-  }).catch(err => {
-    if (err.code !== 'auth/no-auth-event') {
-      window._loginErr && window._loginErr(err.code);
-    }
-  });
-}
 
 if (auth) {
   onAuthStateChanged(auth, async (user) => {
@@ -3048,5 +3026,122 @@ function setMarqueeTitle(container, text) {
     <button class="btn-ghost" onclick="closeModal('modal-edit-stages')">Cancel</button>
   </div>
 </div>
+<script id="tew-onboarding-script">
+(function(){
+  if(localStorage.getItem("tew_seen_onboarding"))return;
+  var slides=[
+    {icon:"🎛️",title:"Welcome to TEW",sub:"The Engineer&#39;s Workpad",body:"Your complete production companion — from first idea to final master. Built for producers who take their craft seriously.",accent:"#1586ec"},
+    {icon:"📐",title:"Work in Order,<br>Save Hours",sub:"Production → Mix → Mastering",body:"Skipping steps creates costly rework. TEW guides you through the right sequence so every decision lands at the right time.",accent:"#1586ec"},
+    {icon:"✅",title:"Never Lose<br>Your Progress",sub:"Step-by-step checklists",body:"Each stage has a proven checklist. Check off steps as you go and always know exactly where you are in the process.",accent:"#10b981"},
+    {icon:"📊",title:"Reference-Grade<br>Charts",sub:"EQ & Pan for every instrument",body:"See exactly where each instrument sits in frequency and stereo space. Stop guessing — start placing with confidence.",accent:"#7c3aed"},
+    {icon:"🤖",title:"AI Notes &amp;<br>Smart Logging",sub:"Learn as you build",body:"Stage-specific AI tips and a full progress log for every project. Review, learn, and repeat what wins.",accent:"#f59e0b"},
+  ];
+  var plans=[
+    {id:"monthly",label:"Monthly",price:"$9.99",per:"/mo",total:"",badge:"",color:"#1586ec"},
+    {id:"biannual",label:"6 Months",price:"$6.99",per:"/mo",total:"Billed $41.94",badge:"SAVE 30%",color:"#10b981"},
+    {id:"annual",label:"Annual",price:"$4.99",per:"/mo",total:"Billed $59.88",badge:"BEST VALUE",color:"#7c3aed"},
+  ];
+  var current=0,selectedPlan="annual",TOTAL=slides.length+1;
+
+  function dismiss(){
+    localStorage.setItem("tew_seen_onboarding","1");
+    var el=document.getElementById("tew-ob");
+    if(!el)return;
+    el.style.transition="opacity 0.4s";el.style.opacity="0";
+    setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},420);
+  }
+
+  function dots(){
+    var h="";
+    for(var i=0;i<TOTAL;i++){
+      h+='<div style="width:'+(i===current?"22px":"7px")+';height:7px;border-radius:4px;background:'+(i===current?"#1586ec":"rgba(255,255,255,0.2)")+';transition:all 0.3s;margin:0 3px"></div>';
+    }
+    return h;
+  }
+
+  function slideHTML(s){
+    return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:0 28px;text-align:center">'
+      +'<div style="width:88px;height:88px;border-radius:24px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-size:42px;margin-bottom:28px;border:1px solid rgba(255,255,255,0.1)">'+s.icon+'</div>'
+      +'<div style="font-size:24px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:8px;letter-spacing:-0.3px">'+s.title+'</div>'
+      +'<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:'+s.accent+';margin-bottom:18px">'+s.sub+'</div>'
+      +'<div style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.6);max-width:300px">'+s.body+'</div>'
+      +'</div>';
+  }
+
+  function pricingHTML(){
+    var h='<div style="display:flex;flex-direction:column;align-items:center;flex:1;padding:0 20px 8px;width:100%;box-sizing:border-box;overflow-y:auto">'
+      +'<div style="font-size:22px;font-weight:800;color:#fff;text-align:center;margin-bottom:4px;margin-top:4px">Choose Your Plan</div>'
+      +'<div style="font-size:13px;color:rgba(255,255,255,0.45);text-align:center;margin-bottom:20px">7-day free trial · Cancel anytime</div>';
+    plans.forEach(function(p){
+      var sel=selectedPlan===p.id;
+      h+='<div id="ob-plan-'+p.id+'" onclick="window._tewPlan(\''+p.id+'\')"'
+        +' style="width:100%;box-sizing:border-box;border-radius:16px;padding:16px 18px;margin-bottom:10px;cursor:pointer;'
+        +'background:'+(sel?"rgba(21,134,236,0.12)":"rgba(255,255,255,0.05)")+';'
+        +'border:2px solid '+(sel?"#1586ec":"rgba(255,255,255,0.1)")+';'
+        +'display:flex;align-items:center;justify-content:space-between;transition:all 0.2s">'
+        +'<div style="display:flex;flex-direction:column;gap:3px">'
+        +'<div style="display:flex;align-items:center;gap:8px">'
+        +'<span style="font-size:15px;font-weight:700;color:#fff">'+p.label+'</span>'
+        +(p.badge?'<span style="font-size:9px;font-weight:800;letter-spacing:0.8px;background:'+p.color+';color:#fff;padding:3px 8px;border-radius:6px">'+p.badge+'</span>':"")
+        +'</div>'
+        +(p.total?'<div style="font-size:11px;color:rgba(255,255,255,0.4)">'+p.total+'</div>':"")
+        +'</div>'
+        +'<div style="text-align:right">'
+        +'<span style="font-size:22px;font-weight:800;color:#fff">'+p.price+'</span>'
+        +'<span style="font-size:11px;color:rgba(255,255,255,0.45)">'+p.per+'</span>'
+        +'</div></div>';
+    });
+    h+='<div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;margin-top:8px">🔒 Secure payment · No commitment</div>';
+    h+='</div>';
+    return h;
+  }
+
+  function render(){
+    var body=document.getElementById("tew-ob-body");
+    var dotsEl=document.getElementById("tew-ob-dots");
+    var btn=document.getElementById("tew-ob-btn");
+    if(!body)return;
+    var isPricing=current===slides.length;
+    body.style.opacity="0";body.style.transform="translateY(10px)";
+    setTimeout(function(){
+      body.innerHTML=isPricing?pricingHTML():slideHTML(slides[current]);
+      body.style.transition="opacity 0.28s,transform 0.28s";
+      body.style.opacity="1";body.style.transform="translateY(0)";
+      if(dotsEl)dotsEl.innerHTML=dots();
+      if(btn)btn.textContent=isPricing?"Start Free Trial \u2192":(current===slides.length-1?"See Plans \u2192":"Next \u2192");
+    },140);
+  }
+
+  window._tewPlan=function(id){
+    selectedPlan=id;
+    plans.forEach(function(p){
+      var el=document.getElementById("ob-plan-"+p.id);
+      if(!el)return;
+      var sel=p.id===id;
+      el.style.background=sel?"rgba(21,134,236,0.12)":"rgba(255,255,255,0.05)";
+      el.style.border="2px solid "+(sel?"#1586ec":"rgba(255,255,255,0.1)");
+    });
+  };
+
+  window._tewNext=function(){if(current<TOTAL-1){current++;render();}else{dismiss();}};
+  window._tewSkip=dismiss;
+
+  var el=document.createElement("div");
+  el.id="tew-ob";
+  el.style.cssText="position:fixed;inset:0;background:#0a1628;z-index:2147483646;display:flex;flex-direction:column;align-items:center;font-family:-apple-system,BlinkMacSystemFont,Inter,sans-serif";
+  el.innerHTML='<div style="width:100%;max-width:420px;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden">'
+    +'<button onclick="window._tewSkip()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.08);border:none;border-radius:10px;color:rgba(255,255,255,0.45);font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;z-index:2;font-family:inherit">Skip</button>'
+    +'<div style="padding:20px 24px 0;display:flex;align-items:center;gap:8px;flex-shrink:0">'
+    +'<div style="width:32px;height:32px;border-radius:8px;background:#1586ec;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff">T</div>'
+    +'<span style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.5px">The Engineer&#39;s Workpad</span>'
+    +'</div>'
+    +'<div id="tew-ob-body" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;min-height:0;overflow:hidden">'+slideHTML(slides[0])+'</div>'
+    +'<div style="padding:16px 24px 40px;display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;box-sizing:border-box;flex-shrink:0">'
+    +'<div id="tew-ob-dots" style="display:flex;align-items:center">'+dots()+'</div>'
+    +'<button id="tew-ob-btn" onclick="window._tewNext()" style="width:100%;padding:16px;background:#1586ec;border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.2s" onmouseover="this.style.opacity=\'0.88\'" onmouseout="this.style.opacity=\'1\'">Next \u2192</button>'
+    +'</div></div>';
+  document.body.appendChild(el);
+})();
+</script>
 <script>(function(){function showDisclaimer(){if(localStorage.getItem('tew_seen_disclaimer'))return;if(document.getElementById('modal-disclaimer'))return;var el=document.createElement('div');el.id='modal-disclaimer';el.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:2147483647;display:flex;align-items:center;justify-content:center;';el.innerHTML='<div style="max-width:340px;width:90%;background:#1e1e2e;border-radius:20px;padding:28px 24px;text-align:center;"><div style="font-size:28px;margin-bottom:12px">&#9888;</div><div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:10px">Before you start</div><div style="font-size:13px;line-height:1.6;color:#aaa;margin-bottom:20px">TEW is a guide to help you through the production process. The steps, tips and AI notes are references - not rules. Every track is different. Trust your ears above all.</div><button id="disclaimer-ok" style="width:100%;padding:14px;background:#6c63ff;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;">Got it</button></div>';document.body.appendChild(el);document.getElementById('disclaimer-ok').addEventListener('click',function(){el.style.display='none';localStorage.setItem('tew_seen_disclaimer','1');});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(showDisclaimer,800);});}else{setTimeout(showDisclaimer,800);}})();</script></body>
 </html>
