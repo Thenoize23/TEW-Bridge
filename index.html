@@ -923,6 +923,8 @@ import { getAuth, signInWithEmailAndPassword,
          createUserWithEmailAndPassword,
          sendPasswordResetEmail,
          GoogleAuthProvider, signInWithPopup,
+         signInWithRedirect, getRedirectResult,
+         browserLocalPersistence, setPersistence,
          onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js';
 
 const firebaseConfig = {
@@ -940,6 +942,7 @@ try {
   const fbApp = initializeApp(firebaseConfig);
   db   = getFirestore(fbApp);
   auth = getAuth(fbApp);
+  await setPersistence(auth, browserLocalPersistence);
 } catch(e) { console.warn('Firebase:', e); }
 
 window._fbSave = async (uid, p) => {
@@ -962,11 +965,30 @@ window._authGoogle = async () => {
   if (!auth) return;
   try {
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    provider.setCustomParameters({ prompt: 'select_account' });
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      await signInWithRedirect(auth, provider);
+    } else {
+      await signInWithPopup(auth, provider);
+    }
   } catch(err) {
     window._loginErr && window._loginErr(err.code);
   }
 };
+
+// Handle redirect result on page load (mobile Google sign-in)
+if (auth) {
+  getRedirectResult(auth).then(result => {
+    if (result && result.user) {
+      // onAuthStateChanged will fire automatically
+    }
+  }).catch(err => {
+    if (err.code !== 'auth/no-auth-event') {
+      window._loginErr && window._loginErr(err.code);
+    }
+  });
+}
 
 if (auth) {
   onAuthStateChanged(auth, async (user) => {
