@@ -617,7 +617,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 
     <!-- SETTINGS -->
     <div id="screen-settings" class="screen">
-      <p class="sec-label" id="lbl-appearance">Apariencia</p>
+      <p class="sec-label" id="lbl-appearance" data-i18n="appearance">Appearance</p>
       <div class="set-group">
         <div class="set-row">
           <span class="set-lbl" data-i18n="darkMode">Modo Oscuro</span>
@@ -642,7 +642,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         </div>
       </div>
 
-      <p class="sec-label">Account</p>
+      <p class="sec-label" data-i18n="account">Account</p>
       <div class="set-group">
         <div class="set-row">
           <span class="set-lbl">Email</span>
@@ -658,11 +658,11 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
       <div class="set-group">
         <div class="set-row" id="clear-logs-row" style="cursor:pointer;display:block;padding:0">
           <div style="padding:14px 16px">
-            <div style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px">Clear logs for</div>
+            <div style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px" data-i18n="clearLogsFor">Clear logs for</div>
             <select class="form-input" id="clear-logs-select" style="margin-bottom:10px" onchange="void(0)">
               <option value="">— Selecciona proyecto —</option>
             </select>
-            <button onclick="onClearProcessClick()" class="btn-danger">Limpiar Registros y Resetear</button>
+            <button onclick="onClearProcessClick()" class="btn-danger" data-i18n="clearProcess">Clear Process &amp; Reset Steps</button>
           </div>
         </div>
         <div class="set-row" style="padding:14px 16px;border-top:1px solid var(--border)">
@@ -681,7 +681,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <div class="ws-name" id="ws-name"><span class="ws-name-inner" id="ws-name-inner">Project</span></div>
           <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px" id="ws-stage"></div>
         </div>
-        <button onclick="openEditStages()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:var(--sans);flex-shrink:0">Stages</button>
+        <button onclick="openEditStages()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:var(--sans);flex-shrink:0" data-i18n="stagesBtn">Stages</button>
       </div>
       <!-- Stage tabs -->
       <div style="padding:0 16px 12px;background:var(--panel2)">
@@ -693,15 +693,15 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         <button id="itab-steps" onclick="switchInnerTab('steps')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
-                 background:var(--accent);color:#fff">Steps</button>
+                 background:var(--accent);color:#fff" data-i18n="stepsLabel">Steps</button>
         <button id="itab-ai" onclick="switchInnerTab('ai')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
-                 background:transparent;color:rgba(255,255,255,0.45);margin:0 4px">AI Notes</button>
+                 background:transparent;color:rgba(255,255,255,0.45);margin:0 4px" data-i18n="aiNotesTab">AI Notes</button>
         <button id="itab-notes" onclick="switchInnerTab('notes')"
           style="flex:1;border:none;border-radius:8px;padding:8px 4px;font-family:Inter,sans-serif;
                  font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;
-                 background:transparent;color:rgba(255,255,255,0.45)">Custom Notes</button>
+                 background:transparent;color:rgba(255,255,255,0.45)" data-i18n="customNotesTab">Custom Notes</button>
       </div>
 
       <div class="ws-body">
@@ -1065,6 +1065,10 @@ const LANG = {
     resetConfirm:'Reset all project steps? This does not delete projects.',
     panLeft:'Left', panRight:'Right', panWide:'Wide', panCenter:'Center',
     instRanges:'Instrument Ranges',
+    logsHeader:'Progress Log', stepsLabel:'Steps', addNoteLabel:'Add Note',
+    resetDone:'All Reset!', cleanDone:'Cleared!', selectFirst:'Please select a project first.',
+    clearLogsFor:'Clear logs for', stagesBtn:'Stages',
+    aiNotesTab:'AI Notes', customNotesTab:'Custom Notes',
   },
   es: {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
@@ -1101,6 +1105,10 @@ const LANG = {
     resetConfirm:'¿Resetear los pasos de todos los proyectos? Esto no borra los proyectos.',
     panLeft:'Izquierda', panRight:'Derecha', panWide:'Amplio', panCenter:'Centro',
     instRanges:'Rangos de Instrumentos',
+    logsHeader:'Registros de Progreso', stepsLabel:'Pasos', addNoteLabel:'Agregar Nota',
+    resetDone:'¡Todo Reseteado!', cleanDone:'¡Limpiado!', selectFirst:'Por favor selecciona un proyecto primero.',
+    clearLogsFor:'Limpiar registros de', stagesBtn:'Etapas',
+    aiNotesTab:'Notas IA', customNotesTab:'Otras Notas',
   }
 };
 
@@ -1298,6 +1306,8 @@ function applyIdioma() {
   }
   // Re-render charts so instrument names and labels update
   renderCharts(state.active ? state.active.stage : null);
+  // Refresh the project select in settings
+  populateClearSelect();
 }
 
 
@@ -2728,9 +2738,8 @@ if (!window._authSignIn) {
   renderProjects();
   renderCharts(null);
 }
-// Apply saved language on every load (translates all data-i18n elements)
+// Apply saved language on load
 applyIdioma();
-// Sync language button highlight
 (function(){
   const enBtn = document.getElementById('lang-en');
   const esBtn = document.getElementById('lang-es');
