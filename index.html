@@ -610,14 +610,14 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 
     <!-- LOGS -->
     <div id="screen-logs" class="screen">
-      <p class="sec-label" data-i18n="logsHeader">Progress Log</p>
+      <p class="sec-label">Registros de Progreso</p>
       <div id="logs-list"></div>
       <div class="spacer"></div>
     </div>
 
     <!-- SETTINGS -->
     <div id="screen-settings" class="screen">
-      <p class="sec-label" id="lbl-appearance" data-i18n="appearance">Appearance</p>
+      <p class="sec-label" id="lbl-appearance">Apariencia</p>
       <div class="set-group">
         <div class="set-row">
           <span class="set-lbl" data-i18n="darkMode">Modo Oscuro</span>
@@ -642,7 +642,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         </div>
       </div>
 
-      <p class="sec-label" data-i18n="account">Account</p>
+      <p class="sec-label">Account</p>
       <div class="set-group">
         <div class="set-row">
           <span class="set-lbl">Email</span>
@@ -712,7 +712,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 
         <!-- Progress -->
 
-        <p class="sec-label" data-i18n="stepsLabel">Steps</p>
+        <p class="sec-label">Steps</p>
         <div id="steps-list"></div>
         <div class="spacer"></div>
         </div><!-- /inner-steps -->
@@ -729,7 +729,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 
         <!-- MANUAL NOTES TAB -->
         <div id="inner-notes" style="display:none">
-          <p class="sec-label" data-i18n="addNoteLabel">Add Note</p>
+          <p class="sec-label">Add Note</p>
           <textarea id="note-input" class="notes-area"
             data-i18n="writeNote" placeholder="Escribe tu nota aquí..."
             style="width:100%;min-height:100px;margin-bottom:8px"></textarea>
@@ -1065,9 +1065,6 @@ const LANG = {
     resetConfirm:'Reset all project steps? This does not delete projects.',
     panLeft:'Left', panRight:'Right', panWide:'Wide', panCenter:'Center',
     instRanges:'Instrument Ranges',
-    logsHeader:'Progress Log', stepsLabel:'Steps', addNoteLabel:'Add Note',
-    resetDone:'All Reset!', cleanDone:'Cleared!',
-    selectFirst:'Please select a project first.',
   },
   es: {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
@@ -1104,9 +1101,6 @@ const LANG = {
     resetConfirm:'¿Resetear los pasos de todos los proyectos? Esto no borra los proyectos.',
     panLeft:'Izquierda', panRight:'Derecha', panWide:'Amplio', panCenter:'Centro',
     instRanges:'Rangos de Instrumentos',
-    logsHeader:'Registros de Progreso', stepsLabel:'Pasos', addNoteLabel:'Agregar Nota',
-    resetDone:'¡Todo Reseteado!', cleanDone:'¡Limpiado!',
-    selectFirst:'Por favor selecciona un proyecto primero.',
   }
 };
 
@@ -1562,11 +1556,11 @@ function resetAllProjects() {
   if (fab) fab.style.display = 'flex';
   const btn = document.getElementById('reset-all-btn');
   if (btn) {
-    btn.textContent = t('resetDone');
+    btn.textContent = '¡Todo Reseteado!';
     btn.style.borderColor = 'var(--success)';
     btn.style.color = 'var(--success)';
     setTimeout(() => {
-      btn.textContent = t('resetAll');
+      btn.textContent = 'Resetear Todos los Proyectos';
       btn.style.borderColor = 'var(--danger)';
       btn.style.color = 'var(--danger)';
     }, 2000);
@@ -1576,7 +1570,7 @@ function resetAllProjects() {
 function onClearProcessClick() {
   const sel = document.getElementById('clear-logs-select');
   if (!sel || !sel.value) {
-    alert(t('selectFirst'));
+    alert('Por favor selecciona un proyecto primero.');
     return;
   }
   clearProjectProcess(sel.value);
@@ -1596,7 +1590,7 @@ function clearProjectProcess(projectId) {
   const btn = document.querySelector('#clear-logs-row button');
   if (btn) {
     const orig = btn.textContent;
-    btn.textContent = t('cleanDone');
+    btn.textContent = '¡Limpiado!';
     btn.style.borderColor = 'var(--success)';
     btn.style.color = 'var(--success)';
     setTimeout(() => {
@@ -2734,6 +2728,15 @@ if (!window._authSignIn) {
   renderProjects();
   renderCharts(null);
 }
+// Apply saved language on every load (translates all data-i18n elements)
+applyIdioma();
+// Sync language button highlight
+(function(){
+  const enBtn = document.getElementById('lang-en');
+  const esBtn = document.getElementById('lang-es');
+  if (enBtn) { enBtn.style.background = currentLang==='en' ? 'var(--accent)' : 'var(--panel3)'; enBtn.style.color = currentLang==='en' ? '#fff' : 'var(--text2)'; }
+  if (esBtn) { esBtn.style.background = currentLang==='es' ? 'var(--accent)' : 'var(--panel3)'; esBtn.style.color = currentLang==='es' ? '#fff' : 'var(--text2)'; }
+})();
 connectWS();
 </script>
 
