@@ -3040,11 +3040,11 @@ function setMarqueeTitle(container, text) {
     {icon:"🤖",title:"AI Notes &amp;<br>Smart Logging",sub:"Learn as you build",body:"Stage-specific AI tips and a full progress log for every project. Review, learn, and repeat what wins.",accent:"#f59e0b"},
   ];
   var plans=[
-    {id:"monthly",label:"Monthly",price:"$9.99",per:"/mo",total:"",badge:"",color:"#1586ec"},
-    {id:"biannual",label:"6 Months",price:"$6.99",per:"/mo",total:"Billed $41.94",badge:"SAVE 30%",color:"#10b981"},
-    {id:"annual",label:"Annual",price:"$4.99",per:"/mo",total:"Billed $59.88",badge:"BEST VALUE",color:"#7c3aed"},
+    {id:"perproject",label:"Pay Per Project",price:"$4.99",per:" one-time",total:"1 project, no subscription",badge:"",color:"#64748b"},
+    {id:"learner",label:"The Learner",price:"$9.99",per:"/mo",total:"Up to 10 projects · $7.99/mo billed annually",badge:"MOST POPULAR",color:"#1586ec"},
+    {id:"professional",label:"The Professional",price:"$19.99",per:"/mo",total:"Unlimited projects · $15.99/mo billed annually",badge:"",color:"#7c3aed"},
   ];
-  var current=0,selectedPlan="annual",TOTAL=slides.length+1;
+  var current=0,selectedPlan="learner",TOTAL=slides.length+1;
 
   function dismiss(){
     localStorage.setItem("tew_seen_onboarding","1");
@@ -3074,7 +3074,8 @@ function setMarqueeTitle(container, text) {
   function pricingHTML(){
     var h='<div style="display:flex;flex-direction:column;align-items:center;flex:1;padding:0 20px 8px;width:100%;box-sizing:border-box;overflow-y:auto">'
       +'<div style="font-size:22px;font-weight:800;color:#fff;text-align:center;margin-bottom:4px;margin-top:4px">Choose Your Plan</div>'
-      +'<div style="font-size:13px;color:rgba(255,255,255,0.45);text-align:center;margin-bottom:20px">7-day free trial · Cancel anytime</div>';
+      +'<div style="font-size:13px;color:rgba(255,255,255,0.45);text-align:center;margin-bottom:4px">Free plan included · Cancel anytime</div>'
+      +'<div style="font-size:11px;color:#10b981;font-weight:600;text-align:center;margin-bottom:16px">✓ 7-day free trial on all plans</div>';
     plans.forEach(function(p){
       var sel=selectedPlan===p.id;
       h+='<div id="ob-plan-'+p.id+'" onclick="window._tewPlan(\''+p.id+'\')"'
