@@ -3116,7 +3116,7 @@ function setMarqueeTitle(container, text) {
     },140);
   }
 
-  window._tewPlan=function(id){
+  window._tewPlan=function(id){ stopAuto();
     selectedPlan=id;
     plans.forEach(function(p){
       var el=document.getElementById("ob-plan-"+p.id);
@@ -3127,8 +3127,39 @@ function setMarqueeTitle(container, text) {
     });
   };
 
-  window._tewNext=function(){if(current<TOTAL-1){current++;render();}else{dismiss();}};
-  window._tewSkip=dismiss;
+  var _autoTimer=null;
+
+  function startAuto(){
+    stopAuto();
+    // Only auto-scroll through slides, pause on pricing
+    if(current>=slides.length)return;
+    _autoTimer=setInterval(function(){
+      if(current<slides.length-1){ current++; render(); }
+      else { current=0; render(); } // cycle back to first slide
+    },3500);
+  }
+
+  function stopAuto(){ if(_autoTimer){clearInterval(_autoTimer);_autoTimer=null;} }
+
+  window._tewNext=function(){
+    stopAuto();
+    if(current<TOTAL-1){ current++; render(); }
+    else{ dismiss(); return; }
+    // Resume auto only if still on slides
+    if(current<slides.length) startAuto();
+  };
+
+  window._tewBack=function(){
+    stopAuto();
+    if(current>0){ current--; render(); }
+    else{ current=slides.length-1; render(); } // cycle back to last slide
+    if(current<slides.length) startAuto();
+  };
+
+  window._tewSkip=function(){ stopAuto(); dismiss(); };
+
+  // Start auto-scroll on load
+  startAuto();
 
   var el=document.createElement("div");
   el.id="tew-ob";
