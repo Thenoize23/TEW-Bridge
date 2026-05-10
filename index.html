@@ -1837,6 +1837,13 @@ function openEditProject(projectId) {
   _s('ep-id',   projectId);
   const gEl = document.getElementById('ep-genre');
   if (gEl) gEl.value = p.genre || gEl.options[0].value;
+  window._editArtworkData = p.artwork || null;
+  const epPrev = document.getElementById('ep-artwork-preview');
+  const epIcon = document.getElementById('ep-artwork-icon');
+  if (epPrev && epIcon) {
+    if (p.artwork) { epPrev.src = p.artwork; epPrev.style.display = 'block'; epIcon.style.display = 'none'; }
+    else { epPrev.src = ''; epPrev.style.display = 'none'; epIcon.style.display = 'block'; }
+  }
   const modal = document.getElementById('modal-edit-proj');
   if (modal) modal.classList.add('open');
 }
@@ -1851,12 +1858,18 @@ function saveEditProject() {
   p.genre  = document.getElementById('ep-genre').value;
   p.key    = (document.getElementById('ep-key').value||'C')+' '+(document.getElementById('ep-mode').value||'Major');
   p.artist = document.getElementById('ep-artist').value.trim();
+  if (window._editArtworkData !== undefined) p.artwork = window._editArtworkData || p.artwork || '';
   saveProjects();
   renderProjects();
   closeModal('modal-edit-proj');
   if (state.active && state.active.id === id) {
     const wn = document.getElementById('ws-name');
     if (wn) wn.textContent = p.name;
+    const wa = document.getElementById('ws-artwork');
+    if (wa) {
+      if (p.artwork) wa.innerHTML = '<img src="'+p.artwork+'" style="width:100%;height:100%;object-fit:cover">';
+      else wa.innerHTML = '🎵';
+    }
   }
 }
 
