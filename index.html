@@ -3173,7 +3173,10 @@ function setMarqueeTitle(container, text) {
     +'<div id="tew-ob-body" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;min-height:0;overflow:hidden">'+slideHTML(slides[0])+'</div>'
     +'<div style="padding:16px 24px 40px;display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;box-sizing:border-box;flex-shrink:0">'
     +'<div id="tew-ob-dots" style="display:flex;align-items:center">'+dots()+'</div>'
-    +'<button id="tew-ob-btn" onclick="window._tewNext()" style="width:100%;padding:16px;background:#1586ec;border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.2s" onmouseover="this.style.opacity=\'0.88\'" onmouseout="this.style.opacity=\'1\'">Next \u2192</button>'
+    +'<div style="display:flex;gap:10px;width:100%">'
+    +'<button onclick="window._tewBack()" style="padding:16px 22px;background:rgba(255,255,255,0.08);border:none;border-radius:14px;color:rgba(255,255,255,0.75);font-size:18px;cursor:pointer;font-family:inherit">←</button>'
+    +'<button id="tew-ob-btn" onclick="window._tewNext()" style="flex:1;padding:16px;background:#1586ec;border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit">Next →</button>'
+    +'</div>'
     +'</div></div>';
   document.body.appendChild(el);
 })();
