@@ -28,7 +28,7 @@
   --text3:       #a0adc4;
   --accent:      #1586ec;
   --accent2:     #0ea5e9;
-  --success:     #10b981;
+  --success:     #059669;
   --warning:     #f59e0b;
   --danger:      #ef4444;
   --header-bg:   #0f1f3d;
@@ -432,7 +432,8 @@ html:not([data-theme="dark"]) .step-row.done .step-name {
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; font-size: 13px; transition: all 0.25s;
 }
-.step-row.done .step-box { background: var(--success); border-color: var(--success); color: #fff; }
+.step-row.done .step-box { background: var(--success); border-color: var(--success); color: #fff; font-weight: 900; font-size: 15px; }
+html:not([data-theme="dark"]) .step-row.done .step-box { box-shadow: 0 0 0 1px var(--success); }
 
 .step-body { flex: 1; }
 .step-name { font-size: 14px; font-weight: 600; }
@@ -562,6 +563,7 @@ html:not([data-theme="dark"]) .step-row.done .step-name {
 .step-box { transition: background 0.18s ease, transform 0.15s ease; }
 .step-box:hover { background: rgba(255,255,255,0.08) !important; transform: scale(1.1); }
 .step-row.done .step-box:hover { background: rgba(255,255,255,0.15) !important; }
+html:not([data-theme="dark"]) .step-box:not(.done) { border-color: #c5cfe0; }
 .fab { transition: transform 0.18s ease, filter 0.18s ease; }
 .fab:hover { transform: scale(1.1); filter: brightness(1.2); }
 .btn-primary { transition: filter 0.18s ease, transform 0.15s ease; }
