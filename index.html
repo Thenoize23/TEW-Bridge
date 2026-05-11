@@ -3125,9 +3125,27 @@ function setMarqueeTitle(container, text) {
   function dots(){
     var h="";
     for(var i=0;i<TOTAL;i++){
-      h+='<div style="width:'+(i===current?"22px":"7px")+';height:7px;border-radius:4px;background:'+(i===current?"#1586ec":"rgba(255,255,255,0.2)")+';transition:all 0.3s;margin:0 3px"></div>';
+      h+='<div class="ob-dot" style="width:'+(i===current?"22px":"7px")+';height:7px;border-radius:4px;background:'+(i===current?"#1586ec":"rgba(255,255,255,0.2)")+';transition:width 0.35s cubic-bezier(0.4,0,0.2,1),background 0.35s ease;margin:0 3px;flex-shrink:0"></div>';
     }
     return h;
+  }
+
+  function updateDots(){
+    var dotsEl=document.getElementById("tew-ob-dots");
+    if(!dotsEl)return;
+    var existing=dotsEl.querySelectorAll(".ob-dot");
+    if(existing.length!==TOTAL){
+      // First render — build them
+      dotsEl.innerHTML=dots();
+      return;
+    }
+    // Update in-place so CSS transition fires
+    for(var i=0;i<TOTAL;i++){
+      var d=existing[i];
+      var active=i===current;
+      d.style.width=active?"22px":"7px";
+      d.style.background=active?"#1586ec":"rgba(255,255,255,0.2)";
+    }
   }
 
   function slideHTML(s){
@@ -3179,7 +3197,7 @@ function setMarqueeTitle(container, text) {
       body.innerHTML=isPricing?pricingHTML():slideHTML(slides[current]);
       body.style.transition="opacity 0.28s,transform 0.28s";
       body.style.opacity="1";body.style.transform="translateY(0)";
-      if(dotsEl)dotsEl.innerHTML=dots();
+      updateDots();
       if(btn)btn.textContent=isPricing?"Start Free Trial \u2192":(current===slides.length-1?"See Plans \u2192":"Next \u2192");
     },140);
   }
