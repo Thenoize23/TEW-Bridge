@@ -1775,87 +1775,112 @@ function closeModal(id) {
 
 
 function showUpgradeModal() {
-  // Reuse onboarding pricing screen directly
-  if (typeof pricingHTML === 'function' && typeof selectedPlan !== 'undefined') {
-    var ex = document.getElementById('modal-upgrade');
-    if (ex) ex.parentNode.removeChild(ex);
-    var overlay = document.createElement('div');
-    overlay.id = 'modal-upgrade';
-    overlay.style.cssText = 'position:fixed;inset:0;background:#0a1628;z-index:9999;display:flex;flex-direction:column;align-items:center;font-family:-apple-system,BlinkMacSystemFont,Inter,sans-serif';
-    var wrap = document.createElement('div');
-    wrap.style.cssText = 'width:100%;max-width:420px;height:100%;display:flex;flex-direction:column;overflow:hidden';
-    // Header
-    var hdr = document.createElement('div');
-    hdr.style.cssText = 'padding:20px 24px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0';
-    hdr.innerHTML = '<div style="font-size:17px;font-weight:800;color:#fff">'+t('upgradeTitle')+'</div>'
-      +'<button id="upg-close-btn" style="background:rgba(255,255,255,0.08);border:none;border-radius:10px;color:rgba(255,255,255,0.5);font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;font-family:inherit">'+t('upgradeDismiss')+'</button>';
-    wrap.appendChild(hdr);
-    // Pricing content
-    var body = document.createElement('div');
-    body.style.cssText = 'flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto;padding:16px 0';
-    body.innerHTML = pricingHTML();
-    wrap.appendChild(body);
-    // Subscribe button
-    var foot = document.createElement('div');
-    foot.style.cssText = 'padding:16px 24px 40px;flex-shrink:0';
-    var btn = document.createElement('button');
-    btn.style.cssText = 'width:100%;padding:16px;background:#1586ec;border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit';
-    btn.textContent = 'Subscribe →';
-    btn.addEventListener('click', function(){
-      var LINKS = {
-        perproject:'https://buy.stripe.com/test_4gM6oJ1ym57bgc42WK1wY00',
-        learner:'https://buy.stripe.com/test_7sYbJ3el87fj5xqfJw1wY01',
-        professional:'https://buy.stripe.com/test_7sY6oJ0ui6bf1ha7d01wY02'
-      };
-      var link = LINKS[selectedPlan];
-      if (link && selectedPlan !== 'free') window.location.href = link;
-      else overlay.remove();
-    });
-    foot.appendChild(btn);
-    wrap.appendChild(foot);
-    overlay.appendChild(wrap);
-    document.body.appendChild(overlay);
-    document.getElementById('upg-close-btn').addEventListener('click', function(){ overlay.remove(); });
-    return;
-  }
-  // fallback original modal below
-  var _fallback = true;
-  if (!_fallback) {
-  var ex=document.getElementById('modal-upgrade');
-  if(ex)ex.parentNode.removeChild(ex);
-  var el=document.createElement('div');
-  el.id='modal-upgrade';
-  el.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
-  var PAYMENT_LINKS={
+  var ex = document.getElementById('modal-upgrade');
+  if (ex) ex.parentNode.removeChild(ex);
+
+  var LINKS = {
     perproject:'https://buy.stripe.com/test_4gM6oJ1ym57bgc42WK1wY00',
     learner:'https://buy.stripe.com/test_7sYbJ3el87fj5xqfJw1wY01',
     professional:'https://buy.stripe.com/test_7sY6oJ0ui6bf1ha7d01wY02'
   };
-  var plans=[
-    {id:'perproject',label:'Pay Per Project',price:'$4.99',color:'#64748b',desc:'1 project · all features · no subscription'},
-    {id:'learner',label:'The Learner',price:'$9.99/mo',color:'#1586ec',desc:'Up to 10 projects'},
-    {id:'professional',label:'The Professional',price:'$19.99/mo',color:'#7c3aed',desc:'Unlimited projects'},
+  var plans = [
+    {id:'free',       label:'Free',             price:'$0',      per:'/mo',  total:'1 active project · Basic tools', badge:'',            color:'#10b981'},
+    {id:'perproject', label:'Pay Per Project',   price:'$4.99',   per:' once',total:'1 project · Full features',     badge:'',            color:'#64748b'},
+    {id:'learner',    label:'The Learner',       price:'$9.99',   per:'/mo',  total:'Up to 10 projects',                  badge:'MOST POPULAR', color:'#1586ec'},
+    {id:'professional',label:'The Professional', price:'$19.99',  per:'/mo',  total:'Unlimited projects',                 badge:'',            color:'#7c3aed'},
   ];
-  var plansHTML=plans.map(function(p){
-    return '<a href="'+PAYMENT_LINKS[p.id]+'" target="_blank" rel="noopener"'
-      +' style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 16px;margin-bottom:8px;cursor:pointer;text-decoration:none">'
-      +'<div><div style="font-size:14px;font-weight:700;color:#fff">'+p.label+'</div>'
-      +'<div style="font-size:11px;color:rgba(255,255,255,0.5)">'+p.desc+'</div></div>'
-      +'<div style="font-size:15px;font-weight:800;color:'+p.color+'">'+p.price+'</div></a>';
-  }).join('');
-  el.innerHTML='<div style="width:100%;max-width:360px;background:#0f1f3d;border:1px solid #243358;border-radius:20px;padding:24px;text-align:center">'
-    +'<div style="font-size:32px;margin-bottom:12px">🚀</div>'
-    +'<div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:8px">'+t('upgradeTitle')+'</div>'
-    +'<div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:20px">'+t('upgradeBody')+'</div>'
-    +plansHTML
-    +'<div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:12px;margin-bottom:8px">After payment email <span style="color:#1586ec">theengineersworkpad@gmail.com</span></div>'
-    +'<button id="upgrade-dismiss-btn" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:12px;color:rgba(255,255,255,0.5);font-size:14px;cursor:pointer;font-family:inherit">'+t('upgradeDismiss')+'</button>'
-    +'</div>';
-  document.body.appendChild(el);
+  var selected = 'learner';
 
-  document.getElementById('upgrade-dismiss-btn').addEventListener('click',function(){el.remove();});
-  el.addEventListener('click',function(e){if(e.target===el)el.remove();});
+  var overlay = document.createElement('div');
+  overlay.id = 'modal-upgrade';
+  overlay.style.cssText = 'position:fixed;inset:0;background:#0a1628;z-index:9999;display:flex;flex-direction:column;align-items:center;font-family:-apple-system,BlinkMacSystemFont,Inter,sans-serif;overflow-y:auto';
+
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'width:100%;max-width:420px;min-height:100%;display:flex;flex-direction:column;padding:0 0 40px';
+
+  // Header
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:20px 24px 0;flex-shrink:0';
+  hdr.innerHTML = '<div style="font-size:17px;font-weight:800;color:#fff">'+t('upgradeTitle')+'</div>';
+  var closeBtn = document.createElement('button');
+  closeBtn.style.cssText = 'background:rgba(255,255,255,0.08);border:none;border-radius:10px;color:rgba(255,255,255,0.5);font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;font-family:inherit';
+  closeBtn.textContent = t('upgradeDismiss');
+  closeBtn.addEventListener('click', function(){ overlay.remove(); });
+  hdr.appendChild(closeBtn);
+  wrap.appendChild(hdr);
+
+  // Subtitle
+  var sub = document.createElement('div');
+  sub.style.cssText = 'font-size:13px;color:rgba(255,255,255,0.45);text-align:center;margin:8px 24px 20px';
+  sub.textContent = t('upgradeBody');
+  wrap.appendChild(sub);
+
+  // Plan cards
+  var cardsWrap = document.createElement('div');
+  cardsWrap.style.cssText = 'padding:0 20px;flex:1';
+
+  function updateCards() {
+    cardsWrap.querySelectorAll('.upg-plan-card').forEach(function(card) {
+      var sel = card.dataset.id === selected;
+      card.style.background = sel ? 'rgba(21,134,236,0.12)' : 'rgba(255,255,255,0.05)';
+      card.style.border = '2px solid ' + (sel ? '#1586ec' : 'rgba(255,255,255,0.1)');
+    });
+  }
+
+  plans.forEach(function(p) {
+    var card = document.createElement('div');
+    card.className = 'upg-plan-card';
+    card.dataset.id = p.id;
+    card.style.cssText = 'display:flex;align-items:center;justify-content:space-between;border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.1)';
+    var left = document.createElement('div');
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:2px';
+    var lbl = document.createElement('span');
+    lbl.style.cssText = 'font-size:15px;font-weight:700;color:#fff';
+    lbl.textContent = p.label;
+    row.appendChild(lbl);
+    if (p.badge) {
+      var badge = document.createElement('span');
+      badge.style.cssText = 'font-size:9px;font-weight:800;letter-spacing:0.8px;background:'+p.color+';color:#fff;padding:3px 8px;border-radius:6px';
+      badge.textContent = p.badge;
+      row.appendChild(badge);
+    }
+    var desc = document.createElement('div');
+    desc.style.cssText = 'font-size:11px;color:rgba(255,255,255,0.4)';
+    desc.textContent = p.total;
+    left.appendChild(row);
+    left.appendChild(desc);
+    var right = document.createElement('div');
+    right.style.cssText = 'text-align:right';
+    right.innerHTML = '<span style="font-size:20px;font-weight:800;color:#fff">'+p.price+'</span>'
+      +'<span style="font-size:11px;color:rgba(255,255,255,0.45)">'+p.per+'</span>';
+    card.appendChild(left);
+    card.appendChild(right);
+    card.addEventListener('click', function() { selected = p.id; updateCards(); });
+    cardsWrap.appendChild(card);
+  });
+
+  wrap.appendChild(cardsWrap);
+  updateCards();
+
+  // Subscribe button
+  var foot = document.createElement('div');
+  foot.style.cssText = 'padding:16px 20px 0;flex-shrink:0';
+  var subBtn = document.createElement('button');
+  subBtn.style.cssText = 'width:100%;padding:16px;background:#1586ec;border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit';
+  subBtn.textContent = 'Subscribe →';
+  subBtn.addEventListener('click', function() {
+    if (selected === 'free') { overlay.remove(); return; }
+    var link = LINKS[selected];
+    if (link) window.location.href = link;
+  });
+  foot.appendChild(subBtn);
+  wrap.appendChild(foot);
+
+  overlay.appendChild(wrap);
+  document.body.appendChild(overlay);
 }
+
 
 function canCreateProject(){
   var limit=PLAN_LIMITS[state.plan]!==undefined?PLAN_LIMITS[state.plan]:1;
