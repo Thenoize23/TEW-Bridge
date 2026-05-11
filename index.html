@@ -927,7 +927,9 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 <script type="module">
 import { initializeApp }          from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js';
 import { getFirestore, collection,
-         getDocs, doc, setDoc }   from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js';
+         getDocs, doc, setDoc, getDoc,
+         deleteDoc, serverTimestamp }
+                                   from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js';
 import { getAuth, signInWithEmailAndPassword,
          createUserWithEmailAndPassword,
          sendPasswordResetEmail,
@@ -962,6 +964,27 @@ window._fbLoad = async (uid) => {
     return s.docs.map(d => ({ ...d.data(), id: d.id }));
   } catch(e) { return []; }
 };
+window._fbGetPlan = async (uid) => {
+  if (!db) return 'free';
+  try {
+    const snap = await getDoc(doc(db, 'users', uid));
+    if (snap.exists()) return snap.data().plan || 'free';
+    await setDoc(doc(db, 'users', uid), { plan: 'free', createdAt: serverTimestamp() }, { merge: true });
+    return 'free';
+  } catch(e) { return 'free'; }
+};
+window._fbSetPlan = async (uid, plan) => {
+  if (!db) return;
+  try { await setDoc(doc(db, 'users', uid), { plan }, { merge: true }); } catch(e) {}
+};
+window._fbDeleteProject = async (uid, projectId) => {
+  if (!db) return;
+  try { await deleteDoc(doc(db, 'users', uid, 'projects', projectId)); } catch(e) {}
+};
+window._fbGetProjectCount = async (uid) => {
+  if (!db) return 0;
+  try { const s = await getDocs(collection(db, 'users', uid, 'projects')); return s.size; } catch(e) { return 0; }
+};
 window._authSignIn  = async (e,p) => { try { await signInWithEmailAndPassword(auth,e,p); } catch(err) { window._loginErr(err.code); } };
 window._authSignUp  = async (e,p) => { try { await createUserWithEmailAndPassword(auth,e,p); } catch(err) { window._loginErr(err.code); } };
 window._authReset   = async (e)   => { try { await sendPasswordResetEmail(auth,e); window._loginOk('Reset email sent!'); } catch(err) { window._loginErr('reset_fail'); } };
@@ -981,7 +1004,8 @@ if (auth) {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const remote = await window._fbLoad(user.uid);
-      window._onLogin && window._onLogin(user, remote);
+      const plan   = await window._fbGetPlan(user.uid);
+      window._onLogin && window._onLogin(user, remote, plan);
     } else {
       window._onLogout && window._onLogout();
     }
@@ -1074,6 +1098,10 @@ const LANG = {
     resetConfirm:'Reset all project steps? This does not delete projects.',
     panLeft:'Left', panRight:'Right', panWide:'Wide', panCenter:'Center',
     instRanges:'Instrument Ranges',
+    upgradeTitle:'Upgrade Your Plan',
+    upgradeBody:'You\'ve reached the project limit for your current plan.',
+    upgradeBtn:'See Plans',
+    upgradeDismiss:'Maybe later',
     stepBackTitle:'Step Back?',
     stepBackBody:'Mark this step as incomplete?',
     stepBackConfirm:'Yes, undo it',
@@ -1118,6 +1146,10 @@ const LANG = {
     resetConfirm:'¿Resetear los pasos de todos los proyectos? Esto no borra los proyectos.',
     panLeft:'Izquierda', panRight:'Derecha', panWide:'Amplio', panCenter:'Centro',
     instRanges:'Rangos de Instrumentos',
+    upgradeTitle:'Mejora tu Plan',
+    upgradeBody:'Alcanzaste el límite de proyectos de tu plan actual.',
+    upgradeBtn:'Ver Planes',
+    upgradeDismiss:'Quizás después',
     stepBackTitle:'¿Retroceder?',
     stepBackBody:'¿Marcar este paso como incompleto?',
     stepBackConfirm:'Sí, deshacer',
@@ -1474,10 +1506,13 @@ const STAGE_INSTRUMENTS = {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  STATE
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const PLAN_LIMITS = { free:1, perproject:1, learner:10, professional:Infinity };
+
 const state = {
   projects: JSON.parse(localStorage.getItem('tew_projects') || '[]'),
   active:   null,
   uid:      null,
+  plan:     localStorage.getItem('tew_plan') || 'free',
   rms:      null,
   peak:     null,
   vstOn:    false,
@@ -1487,7 +1522,9 @@ const state = {
 
 // ── Auth callbacks (called from module script) ────
 // Called by Firebase module when auth state changes
-window._onLogin = async (user, remoteProjects) => {
+window._onLogin = async (user, remoteProjects, plan) => {
+  state.plan = plan || 'free';
+  localStorage.setItem('tew_plan', state.plan);
   if (window.showDisclaimer) setTimeout(window.showDisclaimer, 700);
   state.uid = user.uid;
   if (remoteProjects && remoteProjects.length > 0) {
@@ -1742,7 +1779,41 @@ function closeModal(id) {
   document.getElementById(id).classList.remove('open');
 }
 
+
+function showUpgradeModal() {
+  var ex = document.getElementById('modal-upgrade');
+  if (ex) ex.parentNode.removeChild(ex);
+  var el = document.createElement('div');
+  el.id = 'modal-upgrade';
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
+  var plansHTML = [
+    {label:'The Learner',     price:'$9.99/mo',  color:'#1586ec', desc:'Up to 10 projects'},
+    {label:'The Professional',price:'$19.99/mo', color:'#7c3aed', desc:'Unlimited projects'},
+  ].map(function(p){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 16px;margin-bottom:8px">'
+      +'<div><div style="font-size:14px;font-weight:700;color:#fff">'+p.label+'</div>'
+      +'<div style="font-size:11px;color:rgba(255,255,255,0.5)">'+p.desc+'</div></div>'
+      +'<div style="font-size:15px;font-weight:800;color:'+p.color+'">'+p.price+'</div></div>';
+  }).join('');
+  el.innerHTML = '<div style="width:100%;max-width:360px;background:#0f1f3d;border:1px solid #243358;border-radius:20px;padding:24px;text-align:center">'
+    +'<div style="font-size:32px;margin-bottom:12px">🚀</div>'
+    +'<div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:8px">'+t('upgradeTitle')+'</div>'
+    +'<div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:20px">'+t('upgradeBody')+'</div>'
+    +plansHTML
+    +'<button id="upgrade-dismiss-btn" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:12px;color:rgba(255,255,255,0.5);font-size:14px;cursor:pointer;margin-top:8px;font-family:inherit">'+t('upgradeDismiss')+'</button>'
+    +'</div>';
+  document.body.appendChild(el);
+  document.getElementById('upgrade-dismiss-btn').addEventListener('click', function(){ el.remove(); });
+  el.addEventListener('click', function(e){ if(e.target===el) el.remove(); });
+}
+
+function canCreateProject() {
+  var limit = PLAN_LIMITS[state.plan] !== undefined ? PLAN_LIMITS[state.plan] : 1;
+  return state.projects.length < limit;
+}
+
 function createProject() {
+  if (!canCreateProject()) { closeModal('modal-new-proj'); showUpgradeModal(); return; }
   const name = document.getElementById('f-name').value.trim();
   if (!name) { showFormError('proj-error', t('enterName')); return; }
   if (state.projects.some(p => p.name.toLowerCase() === name.toLowerCase())) {
