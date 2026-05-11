@@ -2918,7 +2918,7 @@ function setMarqueeTitle(container, text) {
   var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
   var fadeR = document.createElement('div');
   fadeR.className = 'marquee-fade';
-  fadeR.style.cssText = 'position:absolute;right:-3px;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,' + bgVar + ' 70%)';
+  fadeR.style.cssText = 'position:absolute;right:-3px;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,transparent 15%,' + bgVar + ' 80%)';
   container.appendChild(fadeR);
   // Measure in next frame — set up scroll if text overflows, remove fade if not
   requestAnimationFrame(function(){ requestAnimationFrame(function(){
