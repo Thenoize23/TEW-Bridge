@@ -416,8 +416,12 @@ body {
 }
 .step-row:active { opacity: 0.8; }
 .step-row.done {
-  border-color: rgba(16,185,129,0.3);
-  background: rgba(16,185,129,0.04);
+  border-color: rgba(16,185,129,0.45);
+  background: rgba(16,185,129,0.08);
+}
+body.light-mode .step-row.done {
+  border-color: rgba(16,185,129,0.6);
+  background: rgba(16,185,129,0.12);
 }
 .step-box {
   width: 26px; height: 26px; border-radius: 7px;
