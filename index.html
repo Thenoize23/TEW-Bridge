@@ -2071,6 +2071,8 @@ function renderAINotes() {
   const p   = state.active;
   const el  = document.getElementById('ai-suggestions-list');
   if (!el || !p) return;
+  const wb = document.querySelector('.ws-body');
+  if (wb) wb.scrollTop = 0;
   const tips = AI_SUGGESTIONS[p.stage] || [];
   el.innerHTML = tips.map(t => `
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
@@ -2146,6 +2148,8 @@ function renderStageTabs() {
 }
 
 function switchStage(stage) {
+  const _wb = document.querySelector('.ws-body');
+  if (_wb) _wb.scrollTop = 0;
   const p = state.active;
   if (!p) return;
   p.stage = stage;
