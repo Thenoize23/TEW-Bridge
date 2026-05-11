@@ -1066,8 +1066,8 @@ const LANG = {
     panLeft:'Left', panRight:'Right', panWide:'Wide', panCenter:'Center',
     instRanges:'Instrument Ranges',
     stepBackTitle:'Step Back?',
-    stepBackBody:'Mark this step as incomplete and remove it from your progress log?',
-    stepBackConfirm:'Yes, step back',
+    stepBackBody:'Mark this step as incomplete?',
+    stepBackConfirm:'Yes, undo it',
     stepBackCancel:'Keep it done',
     logsHeader:'Progress Log', stepsLabel:'Steps', addNoteLabel:'Add Note',
     resetDone:'All Reset!', cleanDone:'Cleared!', selectFirst:'Please select a project first.',
@@ -1110,8 +1110,8 @@ const LANG = {
     panLeft:'Izquierda', panRight:'Derecha', panWide:'Amplio', panCenter:'Centro',
     instRanges:'Rangos de Instrumentos',
     stepBackTitle:'¿Retroceder?',
-    stepBackBody:'¿Marcar este paso como incompleto y quitarlo del registro de progreso?',
-    stepBackConfirm:'Sí, retroceder',
+    stepBackBody:'¿Marcar este paso como incompleto?',
+    stepBackConfirm:'Sí, deshacer',
     stepBackCancel:'Dejarlo hecho',
     logsHeader:'Registros de Progreso', stepsLabel:'Pasos', addNoteLabel:'Agregar Nota',
     resetDone:'¡Todo Reseteado!', cleanDone:'¡Limpiado!', selectFirst:'Por favor selecciona un proyecto primero.',
@@ -2273,51 +2273,41 @@ function showSongCompleteModal(projectName) {
   );
 }
 
+
 function showStepBackModal(stepId) {
-  const p = state.active;
+  var p = state.active;
   if (!p) return;
-  const stage = p.stage;
-  const steps = STEPS[stage] || [];
-  const step  = steps.find(s => s.id === stepId);
-  const name  = step ? step.name : stepId;
-
-  // Remove existing modal if any
-  const existing = document.getElementById('modal-stepback');
-  if (existing) existing.parentNode.removeChild(existing);
-
-  const el = document.createElement('div');
+  var stage = p.stage;
+  var steps = STEPS[stage] || [];
+  var step  = steps.find(function(s){ return s.id === stepId; });
+  var name  = step ? step.name : stepId;
+  var ex = document.getElementById('modal-stepback');
+  if (ex) ex.parentNode.removeChild(ex);
+  var el = document.createElement('div');
   el.id = 'modal-stepback';
   el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
-  el.innerHTML = `
-    <div style="width:100%;max-width:340px;background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:24px;text-align:center">
-      <div style="font-size:28px;margin-bottom:12px">↩️</div>
-      <div style="font-size:17px;font-weight:700;color:var(--text1);margin-bottom:8px">${t('stepBackTitle')}</div>
-      <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px">${name}</div>
-      <div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px">${t('stepBackBody')}</div>
-      <button onclick="window._confirmStepBack('${stepId}')"
-        style="width:100%;padding:13px;background:var(--danger,#e53e3e);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit">
-        ${t('stepBackConfirm')}
-      </button>
-      <button onclick="document.getElementById('modal-stepback').remove()"
-        style="width:100%;padding:13px;background:var(--panel3);border:1px solid var(--border);border-radius:12px;color:var(--text1);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit">
-        ${t('stepBackCancel')}
-      </button>
-    </div>`;
+  el.innerHTML = '<div style="width:100%;max-width:340px;background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:24px;text-align:center">'
+    + '<div style="font-size:28px;margin-bottom:12px">↩️</div>'
+    + '<div style="font-size:17px;font-weight:700;color:var(--text1);margin-bottom:8px">'+t('stepBackTitle')+'</div>'
+    + '<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px">'+name+'</div>'
+    + '<div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px">'+t('stepBackBody')+'</div>'
+    + '<button onclick="window._confirmStepBack(''+stepId+'')" style="width:100%;padding:13px;background:#e53e3e;border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit">'+t('stepBackConfirm')+'</button>'
+    + '<button onclick="document.getElementById('modal-stepback').remove()" style="width:100%;padding:13px;background:var(--panel3);border:1px solid var(--border);border-radius:12px;color:var(--text1);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit">'+t('stepBackCancel')+'</button>'
+    + '</div>';
   document.body.appendChild(el);
-  // Close on backdrop tap
   el.addEventListener('click', function(e){ if(e.target===el) el.remove(); });
 }
 
 window._confirmStepBack = function(stepId) {
-  const modal = document.getElementById('modal-stepback');
+  var modal = document.getElementById('modal-stepback');
   if (modal) modal.remove();
-  const p = state.active;
+  var p = state.active;
   if (!p) return;
-  const stage = p.stage;
+  var stage = p.stage;
   if (!p.stepsDone[stage]) return;
   delete p.stepsDone[stage][stepId];
   if (p.sessionProcess) {
-    p.sessionProcess = p.sessionProcess.filter(e => !(e.stepId === stepId && e.stage === stage));
+    p.sessionProcess = p.sessionProcess.filter(function(e){ return !(e.stepId === stepId && e.stage === stage); });
   }
   saveProjects();
   renderSteps();
@@ -2331,7 +2321,6 @@ function toggleStep(stepId) {
   if (!p.stepsDone[stage]) p.stepsDone[stage] = {};
 
   if (p.stepsDone[stage][stepId]) {
-    // Step already done — ask for confirmation before unchecking
     showStepBackModal(stepId);
     return;
   } else {
