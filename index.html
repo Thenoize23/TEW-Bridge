@@ -2283,6 +2283,7 @@ function showStepBackModal(stepId) {
   var name  = step ? step.name : stepId;
   var ex = document.getElementById('modal-stepback');
   if (ex) ex.parentNode.removeChild(ex);
+  window._pendingStepBack = stepId;
   var el = document.createElement('div');
   el.id = 'modal-stepback';
   el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
@@ -2291,20 +2292,25 @@ function showStepBackModal(stepId) {
     + '<div style="font-size:17px;font-weight:700;color:var(--text1);margin-bottom:8px">'+t('stepBackTitle')+'</div>'
     + '<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px">'+name+'</div>'
     + '<div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px">'+t('stepBackBody')+'</div>'
-    + '<button onclick="window._confirmStepBack(''+stepId+'')" style="width:100%;padding:13px;background:#e53e3e;border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit">'+t('stepBackConfirm')+'</button>'
-    + '<button onclick="document.getElementById('modal-stepback').remove()" style="width:100%;padding:13px;background:var(--panel3);border:1px solid var(--border);border-radius:12px;color:var(--text1);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit">'+t('stepBackCancel')+'</button>'
+    + '<button id="stepback-confirm-btn" style="width:100%;padding:13px;background:#e53e3e;border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit">'+t('stepBackConfirm')+'</button>'
+    + '<button id="stepback-cancel-btn" style="width:100%;padding:13px;background:var(--panel3);border:1px solid var(--border);border-radius:12px;color:var(--text1);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit">'+t('stepBackCancel')+'</button>'
     + '</div>';
   document.body.appendChild(el);
+  document.getElementById('stepback-confirm-btn').addEventListener('click', window._confirmStepBack);
+  document.getElementById('stepback-cancel-btn').addEventListener('click', function(){ el.remove(); });
   el.addEventListener('click', function(e){ if(e.target===el) el.remove(); });
 }
 
-window._confirmStepBack = function(stepId) {
+window._confirmStepBack = function() {
   var modal = document.getElementById('modal-stepback');
   if (modal) modal.remove();
+  var stepId = window._pendingStepBack;
+  if (!stepId) return;
+  window._pendingStepBack = null;
   var p = state.active;
   if (!p) return;
   var stage = p.stage;
-  if (!p.stepsDone[stage]) return;
+  if (!p.stepsDone || !p.stepsDone[stage]) return;
   delete p.stepsDone[stage][stepId];
   if (p.sessionProcess) {
     p.sessionProcess = p.sessionProcess.filter(function(e){ return !(e.stepId === stepId && e.stage === stage); });
