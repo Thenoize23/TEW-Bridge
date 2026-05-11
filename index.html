@@ -419,9 +419,12 @@ body {
   border-color: rgba(16,185,129,0.45);
   background: rgba(16,185,129,0.08);
 }
-body.light-mode .step-row.done {
-  border-color: rgba(16,185,129,0.6);
-  background: rgba(16,185,129,0.12);
+html:not([data-theme="dark"]) .step-row.done {
+  border-color: rgba(16,185,129,0.55);
+  background: rgba(16,185,129,0.13);
+}
+html:not([data-theme="dark"]) .step-row.done .step-name {
+  color: #0a7a52;
 }
 .step-box {
   width: 26px; height: 26px; border-radius: 7px;
