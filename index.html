@@ -433,6 +433,13 @@ html:not([data-theme="dark"]) .step-row.done .step-name {
   flex-shrink: 0; font-size: 13px; transition: all 0.25s;
 }
 .step-row.done .step-box { background: var(--success); border-color: var(--success); color: #fff; font-weight: 900; font-size: 15px; }
+
+.step-row.na { position: relative; overflow: hidden; opacity: 0.55; }
+.step-row.na::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(135deg, transparent, transparent 7px,
+    rgba(239,68,68,0.2) 7px, rgba(239,68,68,0.2) 9px); border-radius: inherit; }
+.step-row.na .step-box { border-color: #ef4444 !important; color: #ef4444; font-size: 9px; font-weight: 700; }
+.step-row.na .step-name { text-decoration: line-through; }
 html:not([data-theme="dark"]) .step-row.done .step-box { box-shadow: 0 0 0 1px var(--success); }
 
 .step-body { flex: 1; }
@@ -2440,21 +2447,18 @@ function renderSteps() {
     var isNA   = _na[s.id] === true;
     var rowCls = isDone ? 'done' : '';
     var boxTxt = isDone ? '✓' : (isNA ? 'N/A' : '');
-    var bxSt   = isNA ? 'opacity:0.35;font-size:9px;letter-spacing:0.5px;' : '';
-    var bdSt   = isNA ? 'opacity:0.35;text-decoration:line-through;' : '';
+    var bxSt   = isNA ? 'font-size:9px;letter-spacing:0.5px;' : '';
+    var bdSt   = '';
     var tgl    = isNA ? '' : 'toggleStep(' + JSON.stringify(s.id) + ')';
     var lpId   = JSON.stringify(s.id);
     return '<div class="step-row ' + rowCls + '" id="sr-' + s.id + '"'
-      +' ontouchstart="window._lpStart(' + lpId + ',event)"'
-      +' ontouchend="window._lpEnd()"'
-      +' ontouchcancel="window._lpEnd()"'
-      +' oncontextmenu="window._lpContext(' + lpId + ',event)">'
+      +'>'
       +'<div class="step-box" style="' + bxSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>' + boxTxt + '</div>'
       +'<div class="step-body" style="' + bdSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>'
       +'<div class="step-name">' + s.name + '</div>'
       +'<div class="step-desc">' + s.desc + '</div>'
       +'</div>'
-      +'<button class="det-btn" onclick="openDetail(' + lpId + ')">' + svg + '</button>'
+      +'<button onclick="showNAMenu(' + lpId + ')" style="background:transparent;border:none;color:var(--text3);font-size:20px;line-height:1;padding:0 6px 2px;cursor:pointer;flex-shrink:0">&#8942;</button> '+'<button class="det-btn" onclick="openDetail(' + lpId + ')">' + svg + '</button>'
       +'</div>';
   }).join('');
 }
@@ -2542,12 +2546,6 @@ function showSongCompleteModal(projectName) {
 
 
 
-var _lpTimer = null;
-window._lpStart = function(stepId, e) {
-  _lpTimer = setTimeout(function(){ _lpTimer = null; showNAMenu(stepId); }, 500);
-};
-window._lpEnd = function(){ if (_lpTimer){ clearTimeout(_lpTimer); _lpTimer = null; } };
-window._lpContext = function(stepId, e){ e.preventDefault(); showNAMenu(stepId); };
 
 function showNAMenu(stepId) {
   var ex = document.getElementById('menu-na');
