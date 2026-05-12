@@ -2445,13 +2445,16 @@ function renderSteps() {
     var tgl    = isNA ? '' : 'toggleStep(' + JSON.stringify(s.id) + ')';
     var lpId   = JSON.stringify(s.id);
     return '<div class="step-row ' + rowCls + '" id="sr-' + s.id + '"'
-      +'>'
+      +' ontouchstart="window._lpStart(' + lpId + ',event)"'
+      +' ontouchend="window._lpEnd()"'
+      +' ontouchcancel="window._lpEnd()"'
+      +' oncontextmenu="window._lpContext(' + lpId + ',event)">'
       +'<div class="step-box" style="' + bxSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>' + boxTxt + '</div>'
       +'<div class="step-body" style="' + bdSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>'
       +'<div class="step-name">' + s.name + '</div>'
       +'<div class="step-desc">' + s.desc + '</div>'
       +'</div>'
-      +'<button onclick="showNAMenu(' + lpId + ')"'  +' style="background:transparent;border:none;color:var(--text3);font-size:20px;line-height:1;padding:0 4px 2px;cursor:pointer;flex-shrink:0">&#8942;</button>'+' '+'<button class="det-btn" onclick="openDetail(' + lpId + ')">' + svg + '</button>'
+      +'<button class="det-btn" onclick="openDetail(' + lpId + ')">' + svg + '</button>'
       +'</div>';
   }).join('');
 }
@@ -2539,6 +2542,12 @@ function showSongCompleteModal(projectName) {
 
 
 
+var _lpTimer = null;
+window._lpStart = function(stepId, e) {
+  _lpTimer = setTimeout(function(){ _lpTimer = null; showNAMenu(stepId); }, 500);
+};
+window._lpEnd = function(){ if (_lpTimer){ clearTimeout(_lpTimer); _lpTimer = null; } };
+window._lpContext = function(stepId, e){ e.preventDefault(); showNAMenu(stepId); };
 
 function showNAMenu(stepId) {
   var ex = document.getElementById('menu-na');
