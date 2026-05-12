@@ -1994,7 +1994,7 @@ function canCreateProject(){
 }
 
 function createProject() {
-  if(!canCreateProject()){closeModal('modal-new-proj');showUpgradeModal();return;}
+  if(!canCreateProject()){closeModal('modal-proj');showUpgradeModal();return;}
   const name = document.getElementById('f-name').value.trim();
   if (!name) { showFormError('proj-error', t('enterName')); return; }
   if (state.projects.some(p => p.name.toLowerCase() === name.toLowerCase())) {
