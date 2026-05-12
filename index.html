@@ -3117,8 +3117,13 @@ function toggleDark(on) {
 // Restore preference
 if (localStorage.getItem('tew_dark')) {
   document.documentElement.setAttribute('data-theme', 'dark');
-  document.getElementById('dark-toggle').checked = true;
 }
+// Sync toggle state after DOM is ready
+(function syncDarkToggle(){
+  var el = document.getElementById('dark-toggle');
+  if (el) { el.checked = !!localStorage.getItem('tew_dark'); return; }
+  setTimeout(syncDarkToggle, 50);
+})();
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  INIT
