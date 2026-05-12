@@ -1132,6 +1132,9 @@ const LANG = {
     stepBackBody:'Mark this step as incomplete?',
     stepBackConfirm:'Yes, undo it',
     stepBackCancel:'Keep it done',
+    markNA:'Mark as N/A',
+    restoreStep:'Restore step',
+    naLabel:'N/A',
     logsHeader:'Progress Log', stepsLabel:'Steps', addNoteLabel:'Add Note',
     resetDone:'All Reset!', cleanDone:'Cleared!', selectFirst:'Please select a project first.',
     clearLogsFor:'Clear logs for', stagesBtn:'Stages',
@@ -1186,6 +1189,9 @@ const LANG = {
     stepBackBody:'¿Marcar este paso como incompleto?',
     stepBackConfirm:'Sí, deshacer',
     stepBackCancel:'Dejarlo hecho',
+    markNA:'Marcar como N/A',
+    restoreStep:'Restaurar paso',
+    naLabel:'N/A',
     logsHeader:'Registros de Progreso', stepsLabel:'Pasos', addNoteLabel:'Agregar Nota',
     resetDone:'¡Todo Reseteado!', cleanDone:'¡Limpiado!', selectFirst:'Por favor selecciona un proyecto primero.',
     clearLogsFor:'Limpiar registros de', stagesBtn:'Etapas',
@@ -1410,11 +1416,12 @@ function getProjectPct(p) {
 }
 
 function getStagePct(p, stage) {
-  const steps = STEPS[stage] || [];
-  const sd = p.stepsDone && typeof p.stepsDone[stage] === 'object' && !Array.isArray(p.stepsDone[stage])
-    ? p.stepsDone[stage] : {};
-  const done = steps.filter(s => sd[s.id] === true).length;
-  return steps.length > 0 ? Math.round((done / steps.length) * 100) : 0;
+  const steps  = STEPS[stage] || [];
+  const sd     = (p.stepsDone && typeof p.stepsDone[stage] === 'object') ? p.stepsDone[stage] : {};
+  const na     = (p.stepsNA   && typeof p.stepsNA[stage]   === 'object') ? p.stepsNA[stage]   : {};
+  const active = steps.filter(s => !na[s.id]);
+  const done   = active.filter(s => sd[s.id] === true).length;
+  return active.length > 0 ? Math.round((done / active.length) * 100) : 0;
 }
 
 
@@ -2417,29 +2424,39 @@ function closeWorkspace() {
 }
 
 function renderSteps() {
-  const p = state.active;
+  var p = state.active;
   if (!p) return;
-  const stage     = p.stage || 'mix';
-  const steps     = STEPS[stage] || [];
-  const _sd       = (p.stepsDone && typeof p.stepsDone[stage] === 'object') ? p.stepsDone[stage] : {};
-  const done      = steps.filter(s => _sd[s.id] === true).length;
-  const pct       = getStagePct(p, stage);
+  var stage = p.stage || 'mix';
+  var steps = STEPS[stage] || [];
+  var _sd   = (p.stepsDone && typeof p.stepsDone[stage] === 'object') ? p.stepsDone[stage] : {};
+  var _na   = (p.stepsNA   && typeof p.stepsNA[stage]   === 'object') ? p.stepsNA[stage]   : {};
+  var svg = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none">'
+    +'<circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.3"/>'
+    +'<line x1="8" y1="7" x2="8" y2="11.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>'
+    +'<circle cx="8" cy="4.5" r="0.8" fill="currentColor"/></svg>';
 
-  document.getElementById('steps-list').innerHTML = steps.map(s => `
-    <div class="step-row ${_sd[s.id] ? 'done' : ''}" id="sr-${s.id}">
-      <div class="step-box" onclick="toggleStep('${s.id}')">${_sd[s.id] ? '✓' : ''}</div>
-      <div class="step-body" onclick="toggleStep('${s.id}')">
-        <div class="step-name">${s.name}</div>
-        <div class="step-desc">${s.desc}</div>
-      </div>
-      <button class="det-btn" onclick="openDetail('${s.id}')">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.3"/>
-          <line x1="8" y1="7" x2="8" y2="11.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-          <circle cx="8" cy="4.5" r="0.8" fill="currentColor"/>
-        </svg>
-      </button>
-    </div>`).join('');
+  document.getElementById('steps-list').innerHTML = steps.map(function(s) {
+    var isDone = _sd[s.id] === true;
+    var isNA   = _na[s.id] === true;
+    var rowCls = isDone ? 'done' : '';
+    var boxTxt = isDone ? '✓' : (isNA ? 'N/A' : '');
+    var bxSt   = isNA ? 'opacity:0.35;font-size:9px;letter-spacing:0.5px;' : '';
+    var bdSt   = isNA ? 'opacity:0.35;text-decoration:line-through;' : '';
+    var tgl    = isNA ? '' : 'toggleStep(' + JSON.stringify(s.id) + ')';
+    var lpId   = JSON.stringify(s.id);
+    return '<div class="step-row ' + rowCls + '" id="sr-' + s.id + '"'
+      +' ontouchstart="window._lpStart(' + lpId + ',event)"'
+      +' ontouchend="window._lpEnd()"'
+      +' ontouchcancel="window._lpEnd()"'
+      +' oncontextmenu="window._lpContext(' + lpId + ',event)">'
+      +'<div class="step-box" style="' + bxSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>' + boxTxt + '</div>'
+      +'<div class="step-body" style="' + bdSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>'
+      +'<div class="step-name">' + s.name + '</div>'
+      +'<div class="step-desc">' + s.desc + '</div>'
+      +'</div>'
+      +'<button class="det-btn" onclick="openDetail(' + lpId + ')">' + svg + '</button>'
+      +'</div>';
+  }).join('');
 }
 
 
@@ -2523,6 +2540,56 @@ function showSongCompleteModal(projectName) {
   );
 }
 
+
+
+var _lpTimer = null;
+window._lpStart = function(stepId, e) {
+  _lpTimer = setTimeout(function(){ _lpTimer = null; showNAMenu(stepId); }, 500);
+};
+window._lpEnd = function(){ if (_lpTimer){ clearTimeout(_lpTimer); _lpTimer = null; } };
+window._lpContext = function(stepId, e){ e.preventDefault(); showNAMenu(stepId); };
+
+function showNAMenu(stepId) {
+  var ex = document.getElementById('menu-na');
+  if (ex) ex.parentNode.removeChild(ex);
+  var p = state.active;
+  if (!p) return;
+  var stage = p.stage;
+  if (!p.stepsNA) p.stepsNA = {};
+  if (!p.stepsNA[stage]) p.stepsNA[stage] = {};
+  var isNA  = p.stepsNA[stage][stepId] === true;
+  var step  = (STEPS[stage] || []).find(function(s){ return s.id === stepId; });
+  var name  = step ? step.name : stepId;
+  var menu  = document.createElement('div');
+  menu.id   = 'menu-na';
+  menu.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0.4)';
+  var sheet = document.createElement('div');
+  sheet.style.cssText = 'width:100%;max-width:480px;background:var(--card-bg);border-radius:20px 20px 0 0;padding:20px 16px;box-sizing:border-box';
+  var lbl   = document.createElement('div');
+  lbl.style.cssText = 'font-size:13px;font-weight:600;color:var(--accent);text-align:center;margin-bottom:16px';
+  lbl.textContent   = name;
+  sheet.appendChild(lbl);
+  var aBtn  = document.createElement('button');
+  aBtn.style.cssText= 'width:100%;padding:14px;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:10px;background:var(--panel3);color:var(--text1)';
+  aBtn.textContent  = isNA ? t('restoreStep') : t('markNA');
+  aBtn.addEventListener('click', function(){
+    if (isNA){ delete p.stepsNA[stage][stepId]; }
+    else {
+      if (p.stepsDone && p.stepsDone[stage]) delete p.stepsDone[stage][stepId];
+      p.stepsNA[stage][stepId] = true;
+    }
+    saveProjects(); renderSteps(); renderProcess(); menu.remove();
+  });
+  sheet.appendChild(aBtn);
+  var cBtn  = document.createElement('button');
+  cBtn.style.cssText= 'width:100%;padding:14px;border:none;border-radius:12px;font-size:15px;cursor:pointer;font-family:inherit;background:transparent;color:var(--text3)';
+  cBtn.textContent  = t('cancel');
+  cBtn.addEventListener('click', function(){ menu.remove(); });
+  sheet.appendChild(cBtn);
+  menu.appendChild(sheet);
+  document.body.appendChild(menu);
+  menu.addEventListener('click', function(e){ if(e.target===menu) menu.remove(); });
+}
 
 function showStepBackModal(stepId) {
   var p = state.active;
