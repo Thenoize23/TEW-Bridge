@@ -1574,9 +1574,15 @@ const state = {
 
 // ── Auth callbacks (called from module script) ────
 // Called by Firebase module when auth state changes
-window._onLogin = async (user, remoteProjects, plan) => {
-  state.plan = plan || 'free';
+window._onLogin = async (user, remoteProjects, planData) => {
+  var pd = (planData && typeof planData === 'object') ? planData : { plan: planData || 'free', projectsCreated: 0 };
+  state.plan = pd.plan || 'free';
   localStorage.setItem('tew_plan', state.plan);
+  // Sync projectsCreated from Firestore (authoritative)
+  var remoteCount = pd.projectsCreated || 0;
+  var localCount  = parseInt(localStorage.getItem('tew_projects_created')||'0',10);
+  var syncCount   = Math.max(remoteCount, localCount);
+  localStorage.setItem('tew_projects_created', syncCount);
   if (window.showDisclaimer) setTimeout(window.showDisclaimer, 700);
   state.uid = user.uid;
   if (remoteProjects && remoteProjects.length > 0) {
