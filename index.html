@@ -2089,6 +2089,7 @@ function saveEditProject() {
 function deleteProject(projectId) {
   if (!confirm('Delete this project?')) return;
   state.projects = state.projects.filter(x => x.id !== projectId);
+  if (window._fbDeleteProject && state.uid) window._fbDeleteProject(state.uid, projectId);
   if (state.active && state.active.id === projectId) {
     state.active = null;
     const ws = document.getElementById('workspace');
