@@ -1834,7 +1834,8 @@ function openNewProject() {
 }
 
 function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
+  var el = document.getElementById(id);
+  if (el) el.classList.remove('open');
 }
 
 
