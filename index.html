@@ -2030,6 +2030,10 @@ function createProject() {
   checked.forEach(s => { project.stepsDone[s] = {}; });
 
   state.projects.unshift(project);
+  // Increment lifetime project counter
+  var _pc = parseInt(localStorage.getItem('tew_projects_created')||'0',10);
+  localStorage.setItem('tew_projects_created', _pc+1);
+  if(window._fbIncrementProjectCount && state.uid) window._fbIncrementProjectCount(state.uid);
   saveProjects();
   closeModal('modal-proj');
   document.getElementById('f-name').value = '';
