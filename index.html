@@ -1412,7 +1412,8 @@ function getProjectPct(p) {
   const stages = Array.isArray(p.stages) && p.stages.length ? p.stages : ['mix'];
   let total = 0, done = 0;
   stages.forEach(s => {
-    const stepsForStage = STEPS[s] || [];
+    const _na2 = (p.stepsNA && p.stepsNA[s]) || {};
+    const stepsForStage = (STEPS[s] || []).filter(st => !_na2[st.id]);
     total += stepsForStage.length;
     // stepsDone must be nested: { mix: {mx1:true} }
     const sd = p.stepsDone && typeof p.stepsDone[s] === 'object' && !Array.isArray(p.stepsDone[s])
@@ -2816,9 +2817,11 @@ function _doRenderProcess(projectId, list, inClass) {
   const stages = p.stages || (p.stage ? [p.stage] : []);
   let totalSteps = 0, doneSteps = 0;
   stages.forEach(s => {
-    totalSteps += (STEPS[s]||[]).length;
+    const na = (p.stepsNA && p.stepsNA[s]) || {};
+    const active = (STEPS[s]||[]).filter(st => !na[st.id]);
+    totalSteps += active.length;
     const sd = (p.stepsDone && p.stepsDone[s]) || {};
-    doneSteps += (STEPS[s]||[]).filter(st => sd[st.id]).length;
+    doneSteps += active.filter(st => sd[st.id]).length;
   });
   const pct = totalSteps > 0 ? Math.round((doneSteps/totalSteps)*100) : 0;
 
