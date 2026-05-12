@@ -2829,10 +2829,12 @@ function _doRenderProcess(projectId, list, inClass) {
 
   const stageAccordions = stages.map((stage, si) => {
     const stageProcess  = (p.sessionProcess||[]).filter(e => e.stage === stage).slice().reverse();
-    const stageSteps = STEPS[stage] || [];
-    const stageDone  = (p.stepsDone && p.stepsDone[stage]) || {};
-    const sDone      = stageSteps.filter(st => stageDone[st.id] === true).length;
-    const sTotal     = stageSteps.length;
+    const stageSteps  = STEPS[stage] || [];
+    const stageNA_    = (p.stepsNA && p.stepsNA[stage]) || {};
+    const activeSteps = stageSteps.filter(st => !stageNA_[st.id]);
+    const stageDone   = (p.stepsDone && p.stepsDone[stage]) || {};
+    const sDone       = activeSteps.filter(st => stageDone[st.id] === true).length;
+    const sTotal      = activeSteps.length;
     const sPct       = getStagePct(p, stage);
     const pill       = PILL_CLASS[stage] || 'pill-mix';
     const accordId   = 'acc-' + p.id + '-' + stage;
