@@ -2450,7 +2450,7 @@ function renderSteps() {
     var bxSt   = isNA ? 'font-size:9px;letter-spacing:0.5px;' : '';
     var bdSt   = '';
     var tgl    = isNA ? '' : 'toggleStep(' + JSON.stringify(s.id) + ')';
-    var lpId   = JSON.stringify(s.id);
+    var lpId   = "'" + s.id + "'";
     return '<div class="step-row ' + rowCls + '" id="sr-' + s.id + '"'
       +'>'
       +'<div class="step-box" style="' + bxSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>' + boxTxt + '</div>'
