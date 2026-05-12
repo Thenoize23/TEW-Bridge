@@ -1888,6 +1888,7 @@ function canCreateProject(){
 }
 
 function createProject() {
+  console.log('[TEW] plan:',state.plan,'projects:',state.projects.length,'limit:',PLAN_LIMITS[state.plan]);
   if(!canCreateProject()){closeModal('modal-new-proj');showUpgradeModal();return;}
   const name = document.getElementById('f-name').value.trim();
   if (!name) { showFormError('proj-error', t('enterName')); return; }
