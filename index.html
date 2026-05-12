@@ -2911,6 +2911,14 @@ const cardViews = {};
 function renderCharts(stage) {
   const grid = document.getElementById('charts-grid');
   if (!state.projects || state.projects.length === 0) {
+    grid.innerHTML = '<div class="empty" style="padding-top:40px"><div class="empty-ico" style="font-size:36px;opacity:0.3;margin-bottom:14px">📊</div><div class="empty-ttl">' + (currentLang==='es'?'Sin proyectos':'No projects') + '</div></div>';
+    return;
+  }
+  if (!state.active) {
+    grid.innerHTML = '<div class="empty" style="padding-top:60px"><div class="empty-ico" style="font-size:48px;opacity:0.2;margin-bottom:16px">📊</div><div class="empty-ttl">' + (currentLang==='es'?'Ningún proyecto seleccionado':'No project selected') + '</div><div class="empty-sub">' + (currentLang==='es'?'Selecciona un proyecto para ver los charts':'Select a project to view its charts') + '</div></div>';
+    return;
+  }
+  if (!state.projects || state.projects.length === 0) {
     grid.innerHTML = `<div class="empty" style="padding-top:40px">
       <div class="empty-ico" style="font-size:36px;opacity:0.3;margin-bottom:14px">📊</div>
       <div class="empty-ttl">No charts to display</div>
