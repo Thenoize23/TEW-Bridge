@@ -2776,9 +2776,11 @@ function _doRenderProcess(projectId, list, inClass) {
           const stages = p.stages || (p.stage ? [p.stage] : []);
           let total = 0, done = 0;
           stages.forEach(s => {
-            total += (STEPS[s]||[]).length;
+            const _na3 = (p.stepsNA && p.stepsNA[s]) || {};
+            const _active3 = (STEPS[s]||[]).filter(st => !_na3[st.id]);
+            total += _active3.length;
             const sd = (p.stepsDone && p.stepsDone[s]) || {};
-            done += (STEPS[s]||[]).filter(st => sd[st.id]).length;
+            done += _active3.filter(st => sd[st.id]).length;
           });
           const pct = total > 0 ? Math.round((done/total)*100) : 0;
           const art = p.artwork
