@@ -2806,6 +2806,7 @@ function _doRenderProcess(projectId, list, inClass) {
                           justify-content:center;font-size:24px">${art}</div>
               <div style="flex:1;min-width:0">
                 <div class="log-proj-name" id="lpn-${p.id}" style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${p.name}</span></div>
+                ${p.artist ? `<div style="font-size:11px;color:var(--text2);margin-top:1px">${p.artist}</div>` : ''}
                 <div style="font-size:11px;color:var(--text2);margin-top:2px">${p.genre} · ${p.key}</div>
                 <div style="margin-top:6px;height:4px;border-radius:2px;background:var(--panel3);overflow:hidden">
                   <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:2px"></div>
@@ -2938,6 +2939,7 @@ function renderCharts(stage) {
   if (projName && stageLabel) {
     header = `<div style="margin-bottom:14px">
       <div id="charts-proj-title" style="font-size:15px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;position:relative"><span class="ws-name-inner">${projName}</span></div>
+      ${state.active && state.active.artist ? `<div style="font-size:11px;color:var(--text2);margin-bottom:2px">${state.active.artist}</div>` : ''}
       <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:600">${stageLabel} · ${t('tapToggle')}</div>
     </div>`;
   } else {
