@@ -3156,6 +3156,13 @@ if (!window._authSignIn) {
   renderProjects();
   renderCharts(null);
 }
+// Initialize lifetime project counter if not set
+(function(){
+  var existing = parseInt(localStorage.getItem('tew_projects_created')||'0',10);
+  if(existing===0 && state.projects.length>0){
+    localStorage.setItem('tew_projects_created', state.projects.length);
+  }
+})();
 // Apply saved language after all scripts load
 setTimeout(function(){
   applyIdioma();
