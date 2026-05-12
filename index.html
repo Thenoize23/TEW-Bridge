@@ -597,6 +597,7 @@ select.form-input option { background: var(--card-bg); color: var(--text); }
 select.form-input option:checked { background: var(--accent); color: #fff; }
 .tab-btn { transition: transform 0.15s ease, filter 0.15s ease; }
 .tab-btn:hover { transform: scale(1.12); filter: brightness(1.25); }
+.has-marquee{-webkit-mask-image:linear-gradient(to right,black 70%,transparent 100%);mask-image:linear-gradient(to right,black 70%,transparent 100%)}
 </style>
 </head>
 <body>
@@ -3298,7 +3299,7 @@ function setMarqueeTitle(container, text) {
   container.style.removeProperty('--marquee-shift');
   container.style.position = 'relative';
   // Remove old fades
-  Array.from(container.querySelectorAll('.marquee-fade')).forEach(function(f){ f.parentNode.removeChild(f); });
+  container.classList.remove('has-marquee');
   // Add right fade immediately so it appears with the text
   var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
   var fadeR = document.createElement('div');
