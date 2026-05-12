@@ -1012,7 +1012,10 @@ window._fbSetPlan = async (uid,plan) => {
 };
 window._fbDeleteProject = async (uid,projectId) => {
   if (!db) return;
-  try { await deleteDoc(doc(db,'users',uid,'projects',projectId)); } catch(e){}
+  try {
+    await deleteDoc(doc(db,'users',uid,'projects',projectId));
+    console.log('[TEW] Deleted from Firestore:', projectId);
+  } catch(e){ console.error('[TEW] Delete failed:', e); }
 };
 window._authSignIn  = async (e,p) => { try { await signInWithEmailAndPassword(auth,e,p); } catch(err) { window._loginErr(err.code); } };
 window._authSignUp  = async (e,p) => { try { await createUserWithEmailAndPassword(auth,e,p); } catch(err) { window._loginErr(err.code); } };
