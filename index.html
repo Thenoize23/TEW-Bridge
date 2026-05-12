@@ -1990,7 +1990,9 @@ function showUpgradeModal() {
 
 function canCreateProject(){
   var limit=PLAN_LIMITS[state.plan]!==undefined?PLAN_LIMITS[state.plan]:1;
-  return state.projects.length<limit;
+  if(limit===Infinity) return true;
+  var created=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
+  return created<limit;
 }
 
 function createProject() {
