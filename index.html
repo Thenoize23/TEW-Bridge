@@ -678,6 +678,30 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <button id="reset-all-btn" onclick="resetAllProjects()" class="btn-danger" data-i18n="resetAll">Resetear Todos los Proyectos</button>
         </div>
       </div>
+      <!-- LEGAL -->
+      <p class="sec-label" data-i18n="legalSection">Legal</p>
+      <div class="set-card">
+        <div class="set-row" onclick="showLegalModal('terms')" style="cursor:pointer">
+          <span class="set-lbl" data-i18n="termsTitle">Terms &amp; Conditions</span>
+          <span style="color:var(--text3);font-size:14px">›</span>
+        </div>
+        <div class="set-row" onclick="showLegalModal('privacy')" style="cursor:pointer;border-top:1px solid var(--border)">
+          <span class="set-lbl" data-i18n="privacyTitle">Privacy Policy</span>
+          <span style="color:var(--text3);font-size:14px">›</span>
+        </div>
+      </div>
+      <!-- CONTACT -->
+      <p class="sec-label" data-i18n="contactSection">Contact</p>
+      <div class="set-card">
+        <div class="set-row" onclick="composeMail('feedback')" style="cursor:pointer">
+          <span class="set-lbl" data-i18n="sendFeedback">Send Feedback</span>
+          <span style="color:var(--text3);font-size:14px">›</span>
+        </div>
+        <div class="set-row" onclick="composeMail('bug')" style="cursor:pointer;border-top:1px solid var(--border)">
+          <span class="set-lbl" data-i18n="reportBug">Report a Bug</span>
+          <span style="color:var(--text3);font-size:14px">›</span>
+        </div>
+      </div>
       <div class="spacer"></div>
     </div>
 
@@ -1094,6 +1118,13 @@ const LANG = {
     resetConfirm:'Reset all project steps? This does not delete projects.',
     panLeft:'Left', panRight:'Right', panWide:'Wide', panCenter:'Center',
     instRanges:'Instrument Ranges',
+    legalSection:'Legal',
+    termsTitle:'Terms & Conditions',
+    privacyTitle:'Privacy Policy',
+    contactSection:'Contact',
+    sendFeedback:'Send Feedback',
+    reportBug:'Report a Bug',
+    close:'Close',
     upgradeTitle:'Upgrade Your Plan',
     upgradeBody:'You\'ve reached the project limit for your current plan.',
     upgradeDismiss:'Maybe later',
@@ -1141,6 +1172,13 @@ const LANG = {
     resetConfirm:'¿Resetear los pasos de todos los proyectos? Esto no borra los proyectos.',
     panLeft:'Izquierda', panRight:'Derecha', panWide:'Amplio', panCenter:'Centro',
     instRanges:'Rangos de Instrumentos',
+    legalSection:'Legal',
+    termsTitle:'Términos y Condiciones',
+    privacyTitle:'Política de Privacidad',
+    contactSection:'Contacto',
+    sendFeedback:'Enviar Comentarios',
+    reportBug:'Reportar un Error',
+    close:'Cerrar',
     upgradeTitle:'Mejora tu Plan',
     upgradeBody:'Alcanzaste el límite de proyectos de tu plan actual.',
     upgradeDismiss:'Quizás después',
@@ -1773,6 +1811,59 @@ function closeModal(id) {
   document.getElementById(id).classList.remove('open');
 }
 
+
+
+function composeMail(type) {
+  var subj = type === 'feedback' ? 'TEW%20Feedback' : 'TEW%20Bug%20Report';
+  var body = type === 'feedback'
+    ? 'Hi%20TEW%20Team%2C%0A%0A'
+    : 'Hi%20TEW%20Team%2C%0A%0ABug%3A%0A%0ASteps%3A%0A1.%20%0A2.%20%0A%0ADevice%3A%20';
+  window.location.href = 'mailto:theengineersworkpad@gmail.com?subject=' + subj + '&body=' + body;
+}
+
+function showLegalModal(type) {
+  var ex = document.getElementById('modal-legal');
+  if (ex) ex.parentNode.removeChild(ex);
+  var isES = currentLang === 'es';
+  var isTerms = type === 'terms';
+  var title = isTerms ? t('termsTitle') : t('privacyTitle');
+  var CONTENT = {
+    terms_en: ['TERMS & CONDITIONS','Last updated: May 2026','SERVICE: TEW is a music production workflow tool. Plans: Free (1 project), Pay Per Project ($4.99), The Learner ($9.99/mo up to 10 projects), The Professional ($19.99/mo unlimited).','PAYMENTS: Processed by Stripe. Subscriptions auto-renew. After payment, email theengineersworkpad@gmail.com to activate your plan.','ACCEPTABLE USE: Do not bypass plan limits or use the app unlawfully.','INTELLECTUAL PROPERTY: TEW interface is our property. Your projects and notes remain yours.','DISCLAIMER: TEW is provided as-is without warranties.','CONTACT: theengineersworkpad@gmail.com'],
+    terms_es: ['TÉRMINOS Y CONDICIONES','Última actualización: Mayo 2026','SERVICIO: TEW es una herramienta para producción musical. Planes: Gratuito (1 proyecto), Pay Per Project ($4.99 único), The Learner ($9.99/mes hasta 10 proyectos), The Professional ($19.99/mes ilimitado).','PAGOS: Procesados por Stripe. Las suscripciones se renuevan automáticamente. Tras el pago, escribe a theengineersworkpad@gmail.com para activar tu plan.','USO ACEPTABLE: No eludes límites del plan ni uses la app ilegalmente.','PROPIEDAD INTELECTUAL: La interfaz de TEW es nuestra propiedad. Tus proyectos y notas son tuyos.','DESCARGO: TEW se proporciona tal cual sin garantías.','CONTACTO: theengineersworkpad@gmail.com'],
+    privacy_en: ['PRIVACY POLICY','Last updated: May 2026','WHAT WE COLLECT: Email address (Google Sign-In), project names, notes, artwork images, session tokens.','HOW WE USE IT: To authenticate, save projects, manage subscriptions, and respond to support. We do not sell your data.','THIRD-PARTY SERVICES: Firebase (Google), Stripe, GitHub Pages.','DATA DELETION: Email theengineersworkpad@gmail.com. Processed within 30 days.','CONTACT: theengineersworkpad@gmail.com'],
+    privacy_es: ['POLÍTICA DE PRIVACIDAD','Última actualización: Mayo 2026','QUÉ RECOPILAMOS: Correo electrónico (Google Sign-In), nombres de proyectos, notas, imágenes de artwork, tokens de sesión.','CÓMO LO USAMOS: Para autenticarte, guardar proyectos, gestionar tu suscripción y responder soporte. No vendemos tus datos.','SERVICIOS DE TERCEROS: Firebase (Google), Stripe, GitHub Pages.','ELIMINACIÓN DE DATOS: Escribe a theengineersworkpad@gmail.com. Se procesa en 30 días.','CONTACTO: theengineersworkpad@gmail.com']
+  };
+  var key = (isTerms ? 'terms' : 'privacy') + '_' + (isES ? 'es' : 'en');
+  var lines = CONTENT[key] || [];
+  var el = document.createElement('div');
+  el.id = 'modal-legal';
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:flex-end;justify-content:center';
+  var sheet = document.createElement('div');
+  sheet.style.cssText = 'width:100%;max-width:480px;max-height:85vh;background:var(--card-bg);border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden';
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0';
+  var ttl = document.createElement('div');
+  ttl.style.cssText = 'font-size:16px;font-weight:700;color:var(--text1)';
+  ttl.textContent = title;
+  var closeBtn = document.createElement('button');
+  closeBtn.style.cssText = 'background:var(--panel3);border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit';
+  closeBtn.textContent = t('close');
+  closeBtn.addEventListener('click', function(){ el.remove(); });
+  hdr.appendChild(ttl); hdr.appendChild(closeBtn);
+  var body = document.createElement('div');
+  body.style.cssText = 'padding:20px;overflow-y:auto;flex:1';
+  lines.forEach(function(line, i) {
+    var p = document.createElement('p');
+    if (i === 0) p.style.cssText = 'font-size:15px;font-weight:800;color:var(--text1);margin-bottom:4px';
+    else if (i === 1) p.style.cssText = 'font-size:11px;color:var(--text3);margin-bottom:16px';
+    else p.style.cssText = 'font-size:13px;line-height:1.7;color:var(--text2);margin-bottom:12px';
+    p.textContent = line;
+    body.appendChild(p);
+  });
+  sheet.appendChild(hdr); sheet.appendChild(body);
+  el.appendChild(sheet); document.body.appendChild(el);
+  el.addEventListener('click', function(e){ if(e.target===el) el.remove(); });
+}
 
 function showUpgradeModal() {
   var ex = document.getElementById('modal-upgrade');
