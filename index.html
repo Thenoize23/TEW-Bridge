@@ -1990,13 +1990,11 @@ function showUpgradeModal() {
 
 function canCreateProject(){
   var limit=PLAN_LIMITS[state.plan]!==undefined?PLAN_LIMITS[state.plan]:1;
-  if(limit===Infinity) return true;
-  var created=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
-  return created<limit;
+  return state.projects.length<limit;
 }
 
 function createProject() {
-  if(!canCreateProject()){closeModal('modal-proj');showUpgradeModal();return;}
+  if(!canCreateProject()){closeModal('modal-new-proj');showUpgradeModal();return;}
   const name = document.getElementById('f-name').value.trim();
   if (!name) { showFormError('proj-error', t('enterName')); return; }
   if (state.projects.some(p => p.name.toLowerCase() === name.toLowerCase())) {
@@ -2030,10 +2028,6 @@ function createProject() {
   checked.forEach(s => { project.stepsDone[s] = {}; });
 
   state.projects.unshift(project);
-  // Increment lifetime project counter
-  var _pc = parseInt(localStorage.getItem('tew_projects_created')||'0',10);
-  localStorage.setItem('tew_projects_created', _pc+1);
-  if(window._fbIncrementProjectCount && state.uid) window._fbIncrementProjectCount(state.uid);
   saveProjects();
   closeModal('modal-proj');
   document.getElementById('f-name').value = '';
@@ -2070,21 +2064,10 @@ function saveEditProject() {
   const id = document.getElementById('ep-id').value;
   const p  = state.projects.find(x => x.id === id);
   if (!p) return;
-  const name  = document.getElementById('ep-name').value.trim();
-  const genre = document.getElementById('ep-genre').value;
+  const name = document.getElementById('ep-name').value.trim();
   if (!name) { alert('Project name is required'); return; }
-  // Detect recycling: name AND genre both changed = new project
-  const nameChanged  = name.trim().toLowerCase() !== (p.name||'').trim().toLowerCase();
-  const genreChanged = genre !== (p.genre||'');
-  if (nameChanged && genreChanged && !canCreateProject()) {
-    closeModal('modal-edit-proj');
-    showUpgradeModal();
-    return;
-  }
-  // If only name changed, store original name for audit trail
-  if (nameChanged && !p.originalName) p.originalName = p.name;
   p.name   = name;
-  p.genre  = genre;
+  p.genre  = document.getElementById('ep-genre').value;
   p.bpm    = document.getElementById('ep-bpm').value || p.bpm || '—';
   p.key    = (document.getElementById('ep-key').value || 'C') + ' ' + (document.getElementById('ep-mode').value || 'Major');
   p.artist  = document.getElementById('ep-artist').value.trim();
@@ -2142,10 +2125,20 @@ function saveEditProject() {
   const id = document.getElementById('ep-id').value;
   const p  = state.projects.find(x => x.id === id);
   if (!p) return;
-  const name = document.getElementById('ep-name').value.trim();
+  const name  = document.getElementById('ep-name').value.trim();
+  const genre = document.getElementById('ep-genre').value;
   if (!name) { alert('Project name is required'); return; }
+  // Anti-recycling: name AND genre both changed = new project
+  const nameChanged  = name.trim().toLowerCase() !== (p.name||'').trim().toLowerCase();
+  const genreChanged = genre !== (p.genre||'');
+  if (nameChanged && genreChanged && !canCreateProject()) {
+    closeModal('modal-edit-proj');
+    showUpgradeModal();
+    return;
+  }
+  if (nameChanged && !p.originalName) p.originalName = p.name;
   p.name   = name;
-  p.genre  = document.getElementById('ep-genre').value;
+  p.genre  = genre;
   p.key    = (document.getElementById('ep-key').value||'C')+' '+(document.getElementById('ep-mode').value||'Major');
   p.artist = document.getElementById('ep-artist').value.trim();
   if (window._editArtworkData !== undefined) p.artwork = window._editArtworkData || p.artwork || '';
@@ -2928,14 +2921,6 @@ const cardViews = {};
 function renderCharts(stage) {
   const grid = document.getElementById('charts-grid');
   if (!state.projects || state.projects.length === 0) {
-    grid.innerHTML = '<div class="empty" style="padding-top:40px"><div class="empty-ico" style="font-size:36px;opacity:0.3;margin-bottom:14px">📊</div><div class="empty-ttl">' + (currentLang==='es'?'Sin proyectos':'No projects') + '</div></div>';
-    return;
-  }
-  if (!state.active) {
-    grid.innerHTML = '<div class="empty" style="padding-top:60px"><div class="empty-ico" style="font-size:48px;opacity:0.2;margin-bottom:16px">📊</div><div class="empty-ttl">' + (currentLang==='es'?'Ningún proyecto seleccionado':'No project selected') + '</div><div class="empty-sub">' + (currentLang==='es'?'Selecciona un proyecto para ver los charts':'Select a project to view its charts') + '</div></div>';
-    return;
-  }
-  if (!state.projects || state.projects.length === 0) {
     grid.innerHTML = `<div class="empty" style="padding-top:40px">
       <div class="empty-ico" style="font-size:36px;opacity:0.3;margin-bottom:14px">📊</div>
       <div class="empty-ttl">No charts to display</div>
@@ -3142,13 +3127,8 @@ function toggleDark(on) {
 // Restore preference
 if (localStorage.getItem('tew_dark')) {
   document.documentElement.setAttribute('data-theme', 'dark');
+  document.getElementById('dark-toggle').checked = true;
 }
-// Sync toggle state after DOM is ready
-(function syncDarkToggle(){
-  var el = document.getElementById('dark-toggle');
-  if (el) { el.checked = !!localStorage.getItem('tew_dark'); return; }
-  setTimeout(syncDarkToggle, 50);
-})();
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  INIT
@@ -3160,13 +3140,6 @@ if (!window._authSignIn) {
   renderProjects();
   renderCharts(null);
 }
-// Initialize lifetime project counter if not set
-(function(){
-  var existing = parseInt(localStorage.getItem('tew_projects_created')||'0',10);
-  if(existing===0 && state.projects.length>0){
-    localStorage.setItem('tew_projects_created', state.projects.length);
-  }
-})();
 // Apply saved language after all scripts load
 setTimeout(function(){
   applyIdioma();
