@@ -598,6 +598,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 .tab-btn { transition: transform 0.15s ease, filter 0.15s ease; }
 .tab-btn:hover { transform: scale(1.12); filter: brightness(1.25); }
 .has-marquee{-webkit-mask-image:linear-gradient(to right,black 70%,transparent 100%);mask-image:linear-gradient(to right,black 70%,transparent 100%)}
+.has-marquee{-webkit-mask-image:linear-gradient(to right,black 72%,transparent 100%);mask-image:linear-gradient(to right,black 72%,transparent 100%)}
 </style>
 </head>
 <body>
@@ -3298,14 +3299,14 @@ function setMarqueeTitle(container, text) {
   container.style.removeProperty('--marquee-dur');
   container.style.removeProperty('--marquee-shift');
   container.style.position = 'relative';
-  // Remove old fades
   container.classList.remove('has-marquee');
-  // Add right fade immediately so it appears with the text
-  var bgVar = container.classList.contains('ws-name') ? 'var(--header-bg,#0f1f3d)' : 'var(--card-bg,#fff)';
-  var fadeR = document.createElement('div');
-  fadeR.className = 'marquee-fade';
-  fadeR.style.cssText = 'position:absolute;right:-3px;top:0;bottom:0;width:64px;pointer-events:none;z-index:2;background:linear-gradient(to right,transparent 0%,transparent 15%,' + bgVar + ' 80%)';
-  container.appendChild(fadeR);
+
+
+
+
+
+
+
   // Measure in next frame — set up scroll if text overflows, remove fade if not
   requestAnimationFrame(function(){ requestAnimationFrame(function(){
     var cw = container.offsetWidth;
@@ -3317,9 +3318,10 @@ function setMarqueeTitle(container, text) {
       container.style.setProperty('--marquee-shift', '-' + halfW + 'px');
       inner.style.animationDelay = '2s';
       inner.classList.add('scrolling');
+      container.classList.add('has-marquee');
     } else {
-      // Text fits — no need for fade
-      if (fadeR.parentNode) fadeR.parentNode.removeChild(fadeR);
+
+
     }
   });});
 }
