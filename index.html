@@ -433,33 +433,6 @@ html:not([data-theme="dark"]) .step-row.done .step-name {
   flex-shrink: 0; font-size: 13px; transition: all 0.25s;
 }
 .step-row.done .step-box { background: var(--success); border-color: var(--success); color: #fff; font-weight: 900; font-size: 15px; }
-
-.step-row.na {
-  position: relative;
-  overflow: hidden;
-  opacity: 0.6;
-}
-.step-row.na::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    135deg,
-    transparent,
-    transparent 8px,
-    rgba(239,68,68,0.18) 8px,
-    rgba(239,68,68,0.18) 10px
-  );
-  pointer-events: none;
-  border-radius: inherit;
-}
-.step-row.na .step-box {
-  border-color: #ef4444;
-  color: #ef4444;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
 html:not([data-theme="dark"]) .step-row.done .step-box { box-shadow: 0 0 0 1px var(--success); }
 
 .step-body { flex: 1; }
@@ -2467,8 +2440,8 @@ function renderSteps() {
     var isNA   = _na[s.id] === true;
     var rowCls = isDone ? 'done' : '';
     var boxTxt = isDone ? '✓' : (isNA ? 'N/A' : '');
-    var bxSt   = isNA ? 'font-size:9px;letter-spacing:0.5px;' : '';
-    var bdSt   = '';
+    var bxSt   = isNA ? 'opacity:0.35;font-size:9px;letter-spacing:0.5px;' : '';
+    var bdSt   = isNA ? 'opacity:0.35;text-decoration:line-through;' : '';
     var tgl    = isNA ? '' : 'toggleStep(' + JSON.stringify(s.id) + ')';
     var lpId   = JSON.stringify(s.id);
     return '<div class="step-row ' + rowCls + '" id="sr-' + s.id + '"'
