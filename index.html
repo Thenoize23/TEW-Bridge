@@ -2449,8 +2449,8 @@ function renderSteps() {
     var boxTxt = isDone ? '✓' : (isNA ? 'N/A' : '');
     var bxSt   = isNA ? 'font-size:9px;letter-spacing:0.5px;' : '';
     var bdSt   = '';
-    var tgl    = isNA ? '' : 'toggleStep(' + lpId + ')';
     var lpId   = "'" + s.id + "'";
+    var tgl    = isNA ? '' : 'toggleStep(' + lpId + ')';
     return '<div class="step-row ' + rowCls + '" id="sr-' + s.id + '"'
       +'>'
       +'<div class="step-box" style="' + bxSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>' + boxTxt + '</div>'
