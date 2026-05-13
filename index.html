@@ -1927,7 +1927,8 @@ function showUpgradeModal() {
 
   var overlay = document.createElement('div');
   overlay.id = 'modal-upgrade';
-  overlay.style.cssText = 'position:fixed;inset:0;background:#0a1628;z-index:9999;display:flex;flex-direction:column;align-items:center;font-family:-apple-system,BlinkMacSystemFont,Inter,sans-serif;overflow-y:auto';
+  overlay.style.cssText = 'position:fixed;inset:0;background:#0a1628;z-index:9999;display:flex;flex-direction:column;align-items:center;font-family:-apple-system,BlinkMacSystemFont,Inter,sans-serif;overflow-y:auto;opacity:0;transition:opacity 0.3s ease';
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ overlay.style.opacity='1'; }); });
 
   var wrap = document.createElement('div');
   wrap.style.cssText = 'width:100%;max-width:420px;min-height:100%;display:flex;flex-direction:column;padding:0 0 40px';
@@ -1939,7 +1940,10 @@ function showUpgradeModal() {
   var closeBtn = document.createElement('button');
   closeBtn.style.cssText = 'background:rgba(255,255,255,0.08);border:none;border-radius:10px;color:rgba(255,255,255,0.5);font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;font-family:inherit';
   closeBtn.textContent = t('upgradeDismiss');
-  closeBtn.addEventListener('click', function(){ overlay.remove(); });
+  closeBtn.addEventListener('click', function(){
+    overlay.style.opacity='0';
+    setTimeout(function(){ if(overlay.parentNode) overlay.remove(); }, 300);
+  });
   hdr.appendChild(closeBtn);
   wrap.appendChild(hdr);
 
