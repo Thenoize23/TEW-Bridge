@@ -599,6 +599,11 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 .tab-btn:hover { transform: scale(1.12); filter: brightness(1.25); }
 .has-marquee{-webkit-mask-image:linear-gradient(to right,black 70%,transparent 100%);mask-image:linear-gradient(to right,black 70%,transparent 100%)}
 .has-marquee{-webkit-mask-image:linear-gradient(to right,black 72%,transparent 100%);mask-image:linear-gradient(to right,black 72%,transparent 100%)}
+
+/* Tab content transitions */
+.inner-tab-content { transition: opacity 0.2s ease, transform 0.2s ease; }
+.inner-tab-content.tab-exit { opacity: 0; transform: translateY(6px); }
+.inner-tab-content.tab-enter { opacity: 0; transform: translateY(-6px); }
 </style>
 </head>
 <body>
@@ -2352,10 +2357,34 @@ function switchInnerTab(tab) {
     showUpgradeModal();
     return;
   }
-  ['steps','ai','notes'].forEach(t => {
-    const el = document.getElementById('inner-' + t);
-    if (el) el.style.display = t === tab ? 'block' : 'none';
+  var current = ['steps','ai','notes'].find(t => {
+    var el = document.getElementById('inner-' + t);
+    return el && el.style.display !== 'none';
   });
+  if (current === tab) return;
+  var outEl = document.getElementById('inner-' + current);
+  var inEl  = document.getElementById('inner-' + tab);
+  if (outEl) {
+    outEl.style.transition = 'opacity 0.15s ease';
+    outEl.style.opacity = '0';
+    setTimeout(function(){
+      outEl.style.display = 'none';
+      outEl.style.opacity = '';
+      if (inEl) {
+        inEl.style.display = 'block';
+        inEl.style.opacity = '0';
+        inEl.style.transition = 'opacity 0.2s ease';
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){
+          inEl.style.opacity = '1';
+        }); });
+      }
+    }, 150);
+  } else {
+    ['steps','ai','notes'].forEach(t => {
+      var el = document.getElementById('inner-' + t);
+      if (el) el.style.display = t === tab ? 'block' : 'none';
+    });
+  }
   ['itab-steps','itab-ai','itab-notes'].forEach(id => {
     const btn = document.getElementById(id);
     if (!btn) return;
@@ -2448,8 +2477,15 @@ function renderStageTabs() {
 }
 
 function switchStage(stage) {
-  const _wb = document.querySelector('.ws-body');
-  if (_wb) _wb.scrollTop = 0;
+  var _wb = document.querySelector('.ws-body');
+  if (_wb) {
+    _wb.style.transition = 'opacity 0.15s ease';
+    _wb.style.opacity = '0';
+    setTimeout(function(){
+      _wb.style.opacity = '1';
+      _wb.scrollTop = 0;
+    }, 150);
+  }
   const p = state.active;
   if (!p) return;
   p.stage = stage;
