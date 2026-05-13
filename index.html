@@ -1234,6 +1234,7 @@ const STEPS_EN = {
     { id:'pr7', name:'Sound Design',         desc:'Shape and refine each sound with processing',               rmsMin:-22, rmsMax:-8  },
     { id:'pr8', name:'Arrangement',          desc:'Structure intro, verse, chorus, bridge and outro',          rmsMin:-20, rmsMax:-6  },
     { id:'pr9', name:'Automation',           desc:'Add movement, dynamics and variation over time',            rmsMin:-20, rmsMax:-6  },
+    { id:'pr10',name:'Arpeggiate the Melody', desc:'Apply arpeggio patterns to melodic elements to add rhythmic movement and harmonic depth', rmsMin:-22, rmsMax:-8  },
   ],
   mix: [
     { id:'mx1',  name:'Base Mix',            desc:'Build a rough static balance with faders and panning before any processing', rmsMin:-24, rmsMax:-14 },
@@ -1273,6 +1274,7 @@ const STEPS_ES = {
     { id:'pr7', name:'Diseno de Sonido',        desc:'Da forma a cada sonido con procesamiento creativo',         rmsMin:-22, rmsMax:-8  },
     { id:'pr8', name:'Arreglos',                desc:'Estructura intro, verso, coro, bridge y outro',            rmsMin:-20, rmsMax:-6  },
     { id:'pr9', name:'Automatizacion',          desc:'Agrega movimiento, dinamica y variacion en el tiempo',     rmsMin:-20, rmsMax:-6  },
+    { id:'pr10',name:'Arpegio de Melodia',     desc:'Aplica patrones de arpegio a elementos melodicos para anadir movimiento ritmico y profundidad armonica', rmsMin:-22, rmsMax:-8  },
   ],
   mix: [
     { id:'mx1',  name:'Mezcla Base',              desc:'Construye un balance estático con faders y paneo antes de cualquier procesamiento', rmsMin:-24, rmsMax:-14 },
@@ -1316,6 +1318,7 @@ const STEP_DETAILS_EN2 = {
   pr6:{icon:'🎤',detail:'The lead melody or vocal hook is what listeners will remember. Write or record the melody with the chord progression playing so it feels harmonically connected. Consider the phrasing — where the melody breathes and rests is just as important as the notes themselves.'},
   pr7:{icon:'🔊',detail:'Sound design is where your track gets its unique character. Use synthesis, sampling, resampling, and processing to sculpt each element. Remove unwanted frequencies at the source before they become problems in the mix.'},
   pr8:{icon:'📐',detail:'Arrangement is the architecture of your track. Map out your sections (intro, verse, chorus, bridge, outro) and make sure each one has a clear purpose. Use element additions and removals, filter sweeps, and volume automation to create natural transitions.'},
+  pr10:{icon:'\U0001f3b9',detail:'Arpeggiation breaks a chord into individual notes played in sequence, creating rhythmic and melodic movement from a single harmonic idea. Apply an arpeggiator to pad chords, bass lines or lead sounds. Experiment with rate (1/8, 1/16, 1/32), direction (up, down, random) and octave range. Sync the arp to the project tempo to keep it locked to the groove.'},
   pr9:{icon:'📈',detail:'Automation transforms a static mix into a living, evolving track. Add volume automation for dynamics, filter automation for tension and release, and effect parameter automation for movement. Focus on macro automation that shapes the energy of entire sections.'},
   mx1:{icon:'🎚️',detail:'Start by setting rough fader levels and panning with no plugins active. The goal is a static balance where every element is audible and placed in the stereo field. A solid base mix makes every subsequent step easier and reveals which tracks need the most attention.'},
   mx2:{icon:'🔀',detail:'Parallel compression blends a heavily compressed duplicate with the dry original. Send a bus to a parallel chain, compress aggressively (ratio 4:1+, fast attack, medium release), then blend it under the dry mix. Adds punch and density while keeping transients intact.'},
@@ -1350,6 +1353,7 @@ const STEP_DETAILS_ES2 = {
   pr6:{icon:'🎤',detail:'La melodia lead o el gancho vocal es lo que los oyentes recordaran. Escribe o graba la melodia con la progresion de acordes sonando para que se sienta conectada armonicamente. El fraseo es tan importante como las notas mismas — donde respira y descansa la melodia define su caracter.'},
   pr7:{icon:'🔊',detail:'El diseno de sonido es donde tu track obtiene su caracter unico. Usa sintesis, sampling, resampling y procesamiento para esculpir cada elemento. Elimina frecuencias no deseadas en la fuente antes de que se conviertan en problemas durante la mezcla.'},
   pr8:{icon:'📐',detail:'El arreglo es la arquitectura de tu track. Mapea tus secciones (intro, verso, coro, bridge, outro) y asegurate de que cada una tenga un proposito claro. Usa adiciones y retiros de elementos, sweeps de filtro y automatizacion de volumen para crear transiciones naturales.'},
+  pr10:{icon:'\U0001f3b9',detail:'Arpeggiation breaks a chord into individual notes played in sequence, creating rhythmic and melodic movement from a single harmonic idea. Apply an arpeggiator to pad chords, bass lines or lead sounds. Experiment with rate (1/8, 1/16, 1/32), direction (up, down, random) and octave range. Sync the arp to the project tempo to keep it locked to the groove.'},
   pr9:{icon:'📈',detail:'La automatizacion transforma una mezcla estatica en un track vivo y en evolucion. Agrega automatizacion de volumen para crear dinamica, de filtros para construir y liberar tension, y de parametros de efectos para agregar movimiento e interes. Enfocate en la automatizacion macro que da forma a la energia de secciones enteras.'},
   mx1:{icon:'👂',detail:'Antes de tocar un solo fader o plugin, sientate y escucha la sesion cruda de principio a fin. Toma notas sobre problemas obvios — niveles, frecuencias que chocan, problemas de timing. Asegurate de que todos los clips esten limpios y que todas las pistas esten nombradas y organizadas correctamente.'},
   mx2:{icon:'🗂️',detail:'La mezcla profesional comienza con una sesion profesional. Colorea tus canales por categoria — bateria, bajo, teclados, guitarras, vocales, FX. Agrupa los canales relacionados en buses para procesarlos juntos de manera eficiente. Una sesion bien organizada ahorra horas y mantiene tus oidos frescos para las decisiones creativas.'},
