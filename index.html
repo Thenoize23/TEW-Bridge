@@ -1899,6 +1899,15 @@ function showLegalModal(type) {
   el.addEventListener('click', function(e){ if(e.target===el) el.remove(); });
 }
 
+
+function showLockedFeature(featureName) {
+  showUpgradeModal();
+}
+
+function isPaidPlan() {
+  return state.plan && state.plan !== 'free';
+}
+
 function showUpgradeModal() {
   var ex = document.getElementById('modal-upgrade');
   if (ex) ex.parentNode.removeChild(ex);
@@ -2335,6 +2344,10 @@ function showWorkspace(project) {
 }
 
 function switchInnerTab(tab) {
+  if ((tab === 'ai' || tab === 'notes') && !isPaidPlan()) {
+    showUpgradeModal();
+    return;
+  }
   ['steps','ai','notes'].forEach(t => {
     const el = document.getElementById('inner-' + t);
     if (el) el.style.display = t === tab ? 'block' : 'none';
@@ -2711,6 +2724,7 @@ function toggleStep(stepId) {
 }
 
 function openDetail(stepId) {
+  if (!isPaidPlan()) { showUpgradeModal(); return; }
   try {
   const det = STEP_DETAILS[stepId];
   console.log('openDetail:', stepId, 'det:', !!det);
@@ -2942,6 +2956,15 @@ const cardViews = {};
 
 function renderCharts(stage) {
   const grid = document.getElementById('charts-grid');
+  if (!isPaidPlan() && state.active) {
+    grid.innerHTML = '<div class="empty" style="padding-top:60px">'
+      + '<div class="empty-ico" style="font-size:40px;opacity:0.3;margin-bottom:14px">🔒</div>'
+      + '<div class="empty-ttl" style="margin-bottom:8px">' + (currentLang==='es'?'Función Premium':'Premium Feature') + '</div>'
+      + '<div class="empty-sub" style="margin-bottom:20px">' + (currentLang==='es'?'Los charts EQ/Pan están disponibles en planes de pago':'EQ/Pan Charts are available on paid plans') + '</div>'
+      + '<button onclick="showUpgradeModal()" style="background:var(--accent);border:none;border-radius:12px;color:#fff;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">'
+      + (currentLang==='es'?'Ver Planes':'See Plans') + '</button></div>';
+    return;
+  }
   if (!state.projects || state.projects.length === 0) {
     grid.innerHTML = `<div class="empty" style="padding-top:40px">
       <div class="empty-ico" style="font-size:36px;opacity:0.3;margin-bottom:14px">📊</div>
