@@ -693,6 +693,17 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         </div>
       </div>
       <!-- LEGAL -->
+      <p class="sec-label" id="plan-section-label">Plan</p>
+      <div class="set-card">
+        <div class="set-row">
+          <span class="set-lbl">Current Plan</span>
+          <span id="settings-plan-badge" style="font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px;background:var(--accent);color:#fff">Free</span>
+        </div>
+        <div class="set-row" onclick="showUpgradeModal()" style="cursor:pointer;border-top:1px solid var(--border)">
+          <span class="set-lbl" style="color:var(--accent);font-weight:600">Upgrade Plan</span>
+          <span style="color:var(--text3);font-size:14px">›</span>
+        </div>
+      </div>
       <p class="sec-label" data-i18n="legalSection">Legal</p>
       <div class="set-card">
         <div class="set-row" onclick="showLegalModal('terms')" style="cursor:pointer">
@@ -1590,6 +1601,16 @@ window._onLogin = async (user, remoteProjects, planData) => {
   var pd = (planData && typeof planData === 'object') ? planData : { plan: planData || 'free', projectsCreated: 0 };
   state.plan = pd.plan || 'free';
   localStorage.setItem('tew_plan', state.plan);
+  // Update plan badge in settings
+  setTimeout(function(){
+    var badge = document.getElementById('settings-plan-badge');
+    if (badge) {
+      var planNames = { free:'Free', perproject:'Pay Per Project', learner:'The Learner', professional:'The Professional' };
+      var planColors = { free:'#64748b', perproject:'#64748b', learner:'#1586ec', professional:'#7c3aed' };
+      badge.textContent = planNames[state.plan] || state.plan;
+      badge.style.background = planColors[state.plan] || 'var(--accent)';
+    }
+  }, 300);
   // Sync projectsCreated from Firestore (authoritative)
   var remoteCount = pd.projectsCreated || 0;
   var localCount  = parseInt(localStorage.getItem('tew_projects_created')||'0',10);
