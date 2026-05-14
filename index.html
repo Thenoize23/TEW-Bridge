@@ -1247,6 +1247,7 @@ const STEPS_EN = {
     { id:'mx9',  name:'Compression',         desc:'Control dynamics and glue elements together',                                rmsMin:-18, rmsMax:-8  },
     { id:'mx10', name:'Delay',               desc:'Add rhythmic space and depth with delay effects',                            rmsMin:-18, rmsMax:-8  },
     { id:'mx11', name:'Saturation',          desc:'Add harmonic warmth if needed - subtle is key',                             rmsMin:-16, rmsMax:-6  },
+    { id:'mx12', name:'Crossfade',             desc:'Smooth transitions between adjacent clips to eliminate abrupt cuts',          rmsMin:-16, rmsMax:-6  },
   ],
   mastering: [
     { id:'ms1', name:'Reference Track',      desc:'Compare against a commercial master at matched loudness',   rmsMin:-16, rmsMax:-10 },
@@ -1318,6 +1319,7 @@ const STEP_DETAILS_EN2 = {
   pr8:{icon:'📐',detail:'Arrangement is the architecture of your track. Map out your sections (intro, verse, chorus, bridge, outro) and make sure each one has a clear purpose. Use element additions and removals, filter sweeps, and volume automation to create natural transitions.'},
   pr9:{icon:'📈',detail:'Automation transforms a static mix into a living, evolving track. Add volume automation for dynamics, filter automation for tension and release, and effect parameter automation for movement. Focus on macro automation that shapes the energy of entire sections.'},
   mx1:{icon:'🎚️',detail:'Start by setting rough fader levels and panning with no plugins active. The goal is a static balance where every element is audible and placed in the stereo field. A solid base mix makes every subsequent step easier and reveals which tracks need the most attention.'},
+  mx12:{icon:'✂️',detail:'When two clips meet on the timeline, an abrupt cut can break the flow of your mix. A crossfade gradually dissolves the end of one clip while fading in the next, creating a clean and professional transition. How to apply: place two clips back to back on the same track, select the junction point, drag the clip edge to create an overlap zone. Use short crossfades (50-100ms) for dynamic cuts, longer ones (500ms+) for smooth dissolves. In electronic music use short linear crossfades. For voice or podcast, prefer S-curves for a more natural feel.'},
   mx2:{icon:'🔀',detail:'Parallel compression blends a heavily compressed duplicate with the dry original. Send a bus to a parallel chain, compress aggressively (ratio 4:1+, fast attack, medium release), then blend it under the dry mix. Adds punch and density while keeping transients intact.'},
   mx3:{icon:'✂️',detail:'Frequency splitting divides the signal into bands (low/mid/high) using crossover filters. Each band is processed independently - compress the lows without affecting the top end, or saturate the mids without muddying the bass. Useful on drums, vocals and full mixes.'},
   mx4:{icon:'🗂️',detail:'Before touching a fader or plugin, do a full session audit. Name every track, color-code by category (drums, bass, keys, guitars, vocals, FX), and group related channels into buses. Organized sessions reduce mental load and speed up every subsequent decision.'},
