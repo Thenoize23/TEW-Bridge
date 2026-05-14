@@ -1628,6 +1628,8 @@ window._onLogout = () => {
   state.projects = [];
   state.active   = null;
   localStorage.removeItem('tew_projects');
+  // Mark onboarding as seen so it never shows again after first logout
+  localStorage.setItem('tew_seen_onboarding','1');
   // Open login modal
   const modal = document.getElementById('login-modal');
   if (modal) modal.classList.add('open');
