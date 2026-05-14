@@ -375,7 +375,13 @@ body {
 .ws-name { font-size: 20px; font-weight: 700; color: #fff; overflow: hidden; white-space: nowrap; position: relative;  }
 .ws-name-inner { display: inline-block; white-space: nowrap; }
 .ws-name-inner.scrolling { animation: ws-marquee var(--marquee-dur,8s) linear infinite; }
-@keyframes ws-marquee { 0% { transform: translateX(0); } 100% { transform: translateX(var(--marquee-shift)); } }
+@keyframes ws-marquee {
+  0%   { transform: translateX(0); }
+  42%  { transform: translateX(var(--marquee-shift)); }
+  52%  { transform: translateX(var(--marquee-shift)); }
+  92%  { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
 .marquee-fade { position: absolute; right: 0; top: 0; bottom: 0; width: 52px; pointer-events: none; z-index: 2; }
 .ws-stage { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
 
