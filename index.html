@@ -693,14 +693,14 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         </div>
       </div>
       <!-- LEGAL -->
-      <p class="sec-label" id="plan-section-label">Plan</p>
+      <p class="sec-label" data-i18n="planSection">Plan</p>
       <div class="set-card">
         <div class="set-row">
-          <span class="set-lbl">Current Plan</span>
+          <span class="set-lbl" data-i18n="currentPlan">Current Plan</span>
           <span id="settings-plan-badge" style="font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px;background:var(--accent);color:#fff">Free</span>
         </div>
         <div class="set-row" onclick="showUpgradeModal()" style="cursor:pointer;border-top:1px solid var(--border)">
-          <span class="set-lbl" style="color:var(--accent);font-weight:600">Upgrade Plan</span>
+          <span class="set-lbl" data-i18n="upgradePlan" style="color:var(--accent);font-weight:600">Upgrade Plan</span>
           <span style="color:var(--text3);font-size:14px">›</span>
         </div>
       </div>
@@ -1146,6 +1146,12 @@ const LANG = {
     resetConfirm:'Reset all project steps? This does not delete projects.',
     panLeft:'Left', panRight:'Right', panWide:'Wide', panCenter:'Center',
     instRanges:'Instrument Ranges',
+    planSection:'Plan',
+    currentPlan:'Current Plan',
+    upgradePlan:'Upgrade Plan',
+    planSection:'Plan',
+    currentPlan:'Plan Actual',
+    upgradePlan:'Mejorar Plan',
     legalSection:'Legal',
     termsTitle:'Terms & Conditions',
     privacyTitle:'Privacy Policy',
@@ -1605,7 +1611,9 @@ window._onLogin = async (user, remoteProjects, planData) => {
   setTimeout(function(){
     var badge = document.getElementById('settings-plan-badge');
     if (badge) {
-      var planNames = { free:'Free', perproject:'Pay Per Project', learner:'The Learner', professional:'The Professional' };
+      var planNames = currentLang==='es'
+        ? { free:'Gratis', perproject:'Por Proyecto', learner:'The Learner', professional:'The Professional' }
+        : { free:'Free', perproject:'Pay Per Project', learner:'The Learner', professional:'The Professional' };
       var planColors = { free:'#64748b', perproject:'#64748b', learner:'#1586ec', professional:'#7c3aed' };
       badge.textContent = planNames[state.plan] || state.plan;
       badge.style.background = planColors[state.plan] || 'var(--accent)';
