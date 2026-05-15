@@ -2503,20 +2503,7 @@ function renderAINotes() {
   });
 }
 
-function renderNotesStepFilter() {
-  var p = state.active;
-  var el = document.getElementById('notes-step-filter');
-  if (!el || !p) return;
-  var steps = (STEPS[p.stage] || []);
-  var html = '';
-  var allActive = !state.activeNoteStep;
-  html += '<button onclick="state.activeNoteStep=null;renderManualNotes()" style="flex-shrink:0;border:none;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;background:' + (allActive ? 'var(--accent)' : 'var(--panel3)') + ';color:' + (allActive ? '#fff' : 'var(--text2)') + ';border:1px solid ' + (allActive ? 'var(--accent)' : 'var(--border)') + '">' + (currentLang === 'es' ? 'Todos' : 'All') + '</button>';
-  steps.forEach(function(s) {
-    var active = state.activeNoteStep === s.id;
-    html += '<button onclick="state.activeNoteStep='' + s.id + '';renderManualNotes()" style="flex-shrink:0;border:none;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;background:' + (active ? 'var(--accent)' : 'var(--panel3)') + ';color:' + (active ? '#fff' : 'var(--text2)') + ';border:1px solid ' + (active ? 'var(--accent)' : 'var(--border)') + '">' + s.name + '</button>';
-  });
-  el.innerHTML = html;
-}
+
 
 function renderNotesStepFilter(){
   var p=state.active,el=document.getElementById('notes-step-filter');
