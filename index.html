@@ -2168,6 +2168,7 @@ function createProject() {
 }
 
 function openEditProject(projectId) {
+  if (!isPaidPlan()) { showUpgradeModal(); return; }
   const p = state.projects.find(x => x.id === projectId);
   if (!p) return;
   const _s = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
