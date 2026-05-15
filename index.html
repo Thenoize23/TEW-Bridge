@@ -794,6 +794,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         <!-- MANUAL NOTES TAB -->
         <div id="inner-notes" style="display:none">
           <div id="notes-step-filter" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;scrollbar-width:none"></div>
+          <div id="notes-step-filter" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;scrollbar-width:none"></div>
           <p class="sec-label">Add Note</p>
           <textarea id="note-input" class="notes-area"
             data-i18n="writeNote" placeholder="Escribe tu nota aquí..."
@@ -2517,36 +2518,54 @@ function renderNotesStepFilter() {
   el.innerHTML = html;
 }
 
-function renderManualNotes() {
-  var p = state.active;
-  var el = document.getElementById('notes-list');
-  if (!el || !p) return;
-  if (!state.activeNoteStep && state.activeNoteStep !== null) state.activeNoteStep = null;
+﻿function renderNotesStepFilter(){
+  var p=state.active,el=document.getElementById('notes-step-filter');
+  if(!el||!p)return;
+  if(state.activeNoteStep===undefined)state.activeNoteStep=null;
+  var steps=STEPS[p.stage]||[];
+  el.innerHTML='';
+  function chip(id,name){
+    var b=document.createElement('button'),active=state.activeNoteStep===id;
+    b.textContent=name;
+    b.style.cssText='flex-shrink:0;border:none;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;'
+      +'background:'+(active?'var(--accent)':'var(--panel3)')
+      +';color:'+(active?'#fff':'var(--text2)')
+      +';border:1px solid '+(active?'var(--accent)':'var(--border)');
+    b.addEventListener('click',(function(sid){return function(){state.activeNoteStep=sid;renderManualNotes();};})(id));
+    el.appendChild(b);
+  }
+  chip(null,currentLang==='es'?'Todos':'All');
+  steps.forEach(function(s){chip(s.id,s.name);});
+}
+
+function renderManualNotes(){
+  var p=state.active,el=document.getElementById('notes-list');
+  if(!el||!p)return;
+  if(state.activeNoteStep===undefined)state.activeNoteStep=null;
   renderNotesStepFilter();
-  var allNotes = (p.manualNotes || []);
-  var filtered = state.activeNoteStep
-    ? allNotes.filter(function(n){ return n.stepId === state.activeNoteStep; })
-    : allNotes;
-  var reversed = filtered.slice().reverse();
-  if (reversed.length === 0) {
-    el.innerHTML = '<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">Sin notas todavía</div>';
+  var all=p.manualNotes||[];
+  var fil=state.activeNoteStep?all.filter(function(n){return n.stepId===state.activeNoteStep;}):all;
+  var rev=fil.slice().reverse();
+  if(rev.length===0){
+    el.innerHTML='<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">Sin notas todav\u00eda</div>';
     return;
   }
-  var html = '';
-  reversed.forEach(function(n) {
-    var realIdx = allNotes.indexOf(n);
-    var stepObj = (!state.activeNoteStep && n.stepId) ? (STEPS[p.stage] || []).find(function(s){ return s.id === n.stepId; }) : null;
-    var stepLabel = stepObj ? '<div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">' + stepObj.name + '</div>' : '';
-    html += '<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px">'
-      + stepLabel
-      + '<div style="font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap">' + n.text + '</div>'
-      + '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">'
-      + '<span style="font-size:10px;color:var(--text3)">' + timeAgo(n.ts) + '</span>'
-      + '<button onclick="deleteNote(' + realIdx + ')" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:11px;font-weight:600">Delete</button>'
-      + '</div></div>';
+  var html='';
+  rev.forEach(function(n){
+    var ri=all.indexOf(n);
+    var so=(!state.activeNoteStep&&n.stepId)?(STEPS[p.stage]||[]).find(function(s){return s.id===n.stepId;}):null;
+    var sl=so?'<div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">'+so.name+'</div>':'';
+    html+='<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px">'
+      +sl
+      +'<div style="font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap">'+n.text+'</div>'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">'
+      +'<span style="font-size:10px;color:var(--text3)">'+timeAgo(n.ts)+'</span>'
+      +'<button onclick="deleteNote('+ri+')" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:11px;font-weight:600">Delete</button>'
+      +'</div></div>';
   });
-  el.innerHTML = html;
+  el.innerHTML=html;
 }
+
 
 function addNote() {
   const p   = state.active;
