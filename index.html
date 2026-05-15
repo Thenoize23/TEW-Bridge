@@ -1617,19 +1617,7 @@ window._onLogin = async (user, remoteProjects, planData) => {
       var planColors = { free:'#64748b', perproject:'#64748b', learner:'#1586ec', professional:'#7c3aed' };
       badge.textContent = planNames[state.plan] || state.plan;
       badge.style.background = planColors[state.plan] || 'var(--accent)';
-      // Gray out upgrade button if on max plan
-      var upgradeRow = document.getElementById('upgrade-plan-row');
-      if (upgradeRow) {
-        if (state.plan === 'professional') {
-          upgradeRow.style.opacity = '0.4';
-          upgradeRow.style.pointerEvents = 'none';
-          upgradeRow.querySelector('[data-i18n="upgradePlan"]').style.color = 'var(--text3)';
-        } else {
-          upgradeRow.style.opacity = '1';
-          upgradeRow.style.pointerEvents = 'auto';
-          upgradeRow.querySelector('[data-i18n="upgradePlan"]').style.color = 'var(--accent)';
-        }
-      }
+      updateUpgradeRow();
     }
   }, 300);
   // Sync projectsCreated from Firestore (authoritative)
@@ -1865,6 +1853,7 @@ function saveProjects() {
 //  TABS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function switchTab(tab) {
+  if (tab === 'settings') setTimeout(updateUpgradeRow, 50);
   // Always hide workspace when switching tabs
   const ws = document.getElementById('workspace');
   if (ws && ws.style.display === 'block') {
@@ -1953,6 +1942,18 @@ function showLockedFeature(featureName) {
 
 function isPaidPlan() {
   return state.plan && state.plan !== 'free';
+}
+
+function updateUpgradeRow() {
+  var upgradeRow = document.getElementById('upgrade-plan-row');
+  if (!upgradeRow) return;
+  if (state.plan === 'professional') {
+    upgradeRow.style.opacity = '0.4';
+    upgradeRow.style.pointerEvents = 'none';
+  } else {
+    upgradeRow.style.opacity = '1';
+    upgradeRow.style.pointerEvents = 'auto';
+  }
 }
 
 function showMaxPlanMsg() {
