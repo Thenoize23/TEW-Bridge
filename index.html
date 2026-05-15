@@ -1983,8 +1983,12 @@ function showMaxPlanMsg() {
   btn.style.cssText = 'width:100%;padding:13px;background:#7c3aed;border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit';
   btn.textContent = isES ? '¡Entendido!' : 'Got it!';
   btn.addEventListener('click', function(){ el.remove(); });
+  var btnDown = document.createElement('button');
+  btnDown.style.cssText = 'width:100%;padding:11px;background:none;border:1px solid rgba(255,255,255,0.2);border-radius:12px;color:rgba(255,255,255,0.5);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:10px';
+  btnDown.textContent = isES ? 'Bajar de Plan' : 'Downgrade Plan';
+  btnDown.addEventListener('click', function(){ el.remove(); showUpgradeModal(); });
   card.appendChild(logo); card.appendChild(trophy); card.appendChild(title);
-  card.appendChild(body); card.appendChild(tag); card.appendChild(btn);
+  card.appendChild(body); card.appendChild(tag); card.appendChild(btn); card.appendChild(btnDown);
   el.appendChild(card); document.body.appendChild(el);
   el.addEventListener('click', function(e){ if(e.target===el) el.remove(); });
 }
