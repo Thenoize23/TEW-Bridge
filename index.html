@@ -1617,7 +1617,7 @@ window._onLogin = async (user, remoteProjects, planData) => {
       var planColors = { free:'#64748b', perproject:'#64748b', learner:'#1586ec', professional:'#7c3aed' };
       badge.textContent = planNames[state.plan] || state.plan;
       badge.style.background = planColors[state.plan] || 'var(--accent)';
-      updateUpgradeRow();
+      setTimeout(updateUpgradeRow, 800);
     }
   }, 300);
   // Sync projectsCreated from Firestore (authoritative)
@@ -3292,6 +3292,10 @@ if (!window._authSignIn) {
   renderProjects();
   renderCharts(null);
 }
+// Apply upgrade row state from cached plan on load
+setTimeout(function(){
+  if (typeof updateUpgradeRow === 'function') updateUpgradeRow();
+}, 1000);
 // Apply saved language after all scripts load
 setTimeout(function(){
   applyIdioma();
