@@ -1617,6 +1617,19 @@ window._onLogin = async (user, remoteProjects, planData) => {
       var planColors = { free:'#64748b', perproject:'#64748b', learner:'#1586ec', professional:'#7c3aed' };
       badge.textContent = planNames[state.plan] || state.plan;
       badge.style.background = planColors[state.plan] || 'var(--accent)';
+      // Gray out upgrade button if on max plan
+      var upgradeRow = document.querySelector('[onclick*="showMaxPlanMsg"]');
+      if (upgradeRow) {
+        if (state.plan === 'professional') {
+          upgradeRow.style.opacity = '0.4';
+          upgradeRow.style.pointerEvents = 'none';
+          upgradeRow.querySelector('[data-i18n="upgradePlan"]').style.color = 'var(--text3)';
+        } else {
+          upgradeRow.style.opacity = '1';
+          upgradeRow.style.pointerEvents = 'auto';
+          upgradeRow.querySelector('[data-i18n="upgradePlan"]').style.color = 'var(--accent)';
+        }
+      }
     }
   }, 300);
   // Sync projectsCreated from Firestore (authoritative)
