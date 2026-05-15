@@ -699,7 +699,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <span class="set-lbl" data-i18n="currentPlan">Current Plan</span>
           <span id="settings-plan-badge" style="font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px;background:var(--accent);color:#fff">Free</span>
         </div>
-        <div class="set-row" onclick="state.plan==='professional'?showMaxPlanMsg():showUpgradeModal()" style="cursor:pointer;border-top:1px solid var(--border)">
+        <div id="upgrade-plan-row" class="set-row" onclick="state.plan==='professional'?showMaxPlanMsg():showUpgradeModal()" style="cursor:pointer;border-top:1px solid var(--border)">
           <span class="set-lbl" data-i18n="upgradePlan" style="color:var(--accent);font-weight:600">Upgrade Plan</span>
           <span style="color:var(--text3);font-size:14px">›</span>
         </div>
@@ -1618,7 +1618,7 @@ window._onLogin = async (user, remoteProjects, planData) => {
       badge.textContent = planNames[state.plan] || state.plan;
       badge.style.background = planColors[state.plan] || 'var(--accent)';
       // Gray out upgrade button if on max plan
-      var upgradeRow = document.querySelector('[onclick*="showMaxPlanMsg"]');
+      var upgradeRow = document.getElementById('upgrade-plan-row');
       if (upgradeRow) {
         if (state.plan === 'professional') {
           upgradeRow.style.opacity = '0.4';
