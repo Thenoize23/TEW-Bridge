@@ -793,6 +793,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
 
         <!-- MANUAL NOTES TAB -->
         <div id="inner-notes" style="display:none">
+          <div id="notes-step-filter" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;scrollbar-width:none"></div>
           <p class="sec-label">Add Note</p>
           <textarea id="note-input" class="notes-area"
             data-i18n="writeNote" placeholder="Escribe tu nota aquí..."
@@ -1596,6 +1597,7 @@ const STAGE_INSTRUMENTS = {
 const PLAN_LIMITS = { free:1, perproject:1, learner:10, professional:Infinity };
 
 const state = {
+  activeNoteStep: null,
   projects: JSON.parse(localStorage.getItem('tew_projects') || '[]'),
   active:   null,
   uid:      null,
@@ -2501,22 +2503,47 @@ function renderAINotes() {
   });
 }
 
+function renderNotesStepFilter() {
+  const p = state.active;
+  const el = document.getElementById('notes-step-filter');
+  if (!el || !p) return;
+  const steps = (window.getSTEPS ? window.getSTEPS() : STEPS)[p.stage] || [];
+  const chips = [{ id: null, name: currentLang === 'es' ? 'Todos' : 'All' }, ...steps];
+  el.innerHTML = chips.map(function(s) {
+    const active = state.activeNoteStep === s.id;
+    return '<button onclick="state.activeNoteStep='' + s.id + '';renderManualNotes()" '
+      + 'style="flex-shrink:0;border:none;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;'
+      + 'background:' + (active ? 'var(--accent)' : 'var(--panel3)') + ';'
+      + 'color:' + (active ? '#fff' : 'var(--text2)') + ';'
+      + 'border:1px solid ' + (active ? 'var(--accent)' : 'var(--border)') + '">'
+      + s.name + '</button>';
+  }).join('');
+}
+
 function renderManualNotes() {
   const p  = state.active;
   const el = document.getElementById('notes-list');
   if (!el || !p) return;
-  const notes = (p.manualNotes || []).slice().reverse();
+  renderNotesStepFilter();
+  const allNotes = (p.manualNotes || []).slice().reverse();
+  const notes = state.activeNoteStep
+    ? allNotes.filter(function(n){ return n.stepId === state.activeNoteStep; })
+    : allNotes;
   el.innerHTML = notes.length === 0
     ? '<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px 0">Sin notas todavía</div>'
-    : notes.map((n,i) => `
-      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative">
-        <div style="font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap">${n.text}</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-          <span style="font-size:10px;color:var(--text3)">${timeAgo(n.ts)}</span>
-          <button onclick="deleteNote(${notes.length-1-i})"
-            style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:11px;font-weight:600">Delete</button>
-        </div>
-      </div>`).join('');
+    : notes.map((n,i) => {
+        const realIdx = (p.manualNotes || []).length - 1 - (p.manualNotes || []).slice().reverse().findIndex(function(x){ return x === allNotes[i] || (x.ts === n.ts && x.text === n.text); });
+        const step = state.activeNoteStep ? null : ((window.getSTEPS ? window.getSTEPS() : STEPS)[p.stage] || []).find(function(s){ return s.id === n.stepId; });
+        return `<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative">
+          ${step ? '<div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">'+step.name+'</div>' : ''}
+          <div style="font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap">${n.text}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+            <span style="font-size:10px;color:var(--text3)">${timeAgo(n.ts)}</span>
+            <button onclick="deleteNote(${realIdx})"
+              style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:11px;font-weight:600">Delete</button>
+          </div>
+        </div>`;
+      }).join('');
 }
 
 function addNote() {
@@ -2524,7 +2551,7 @@ function addNote() {
   const inp = document.getElementById('note-input');
   if (!p || !inp || !inp.value.trim()) return;
   if (!p.manualNotes) p.manualNotes = [];
-  p.manualNotes.push({ text: inp.value.trim(), stage: p.stage, ts: Date.now() });
+  p.manualNotes.push({ text: inp.value.trim(), stage: p.stage, stepId: state.activeNoteStep || null, ts: Date.now() });
   inp.value = '';
   saveProjects();
   renderManualNotes();
@@ -2575,6 +2602,7 @@ function switchStage(stage) {
   const p = state.active;
   if (!p) return;
   p.stage = stage;
+  state.activeNoteStep = null;
   if (!p.stepsDone[stage]) p.stepsDone[stage] = {};
   saveProjects();
   renderStageTabs();
