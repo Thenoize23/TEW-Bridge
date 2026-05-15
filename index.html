@@ -699,7 +699,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <span class="set-lbl" data-i18n="currentPlan">Current Plan</span>
           <span id="settings-plan-badge" style="font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px;background:var(--accent);color:#fff">Free</span>
         </div>
-        <div class="set-row" onclick="showUpgradeModal()" style="cursor:pointer;border-top:1px solid var(--border)">
+        <div class="set-row" onclick="state.plan==='professional'?showMaxPlanMsg():showUpgradeModal()" style="cursor:pointer;border-top:1px solid var(--border)">
           <span class="set-lbl" data-i18n="upgradePlan" style="color:var(--accent);font-weight:600">Upgrade Plan</span>
           <span style="color:var(--text3);font-size:14px">›</span>
         </div>
@@ -1940,6 +1940,29 @@ function showLockedFeature(featureName) {
 
 function isPaidPlan() {
   return state.plan && state.plan !== 'free';
+}
+
+function showMaxPlanMsg() {
+  var ex = document.getElementById('modal-maxplan');
+  if (ex) ex.parentNode.removeChild(ex);
+  var el = document.createElement('div');
+  el.id = 'modal-maxplan';
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
+  var card = document.createElement('div');
+  card.style.cssText = 'width:100%;max-width:340px;background:#0f1f3d;border:1px solid #7c3aed;border-radius:20px;padding:28px 24px;text-align:center';
+  var isES = currentLang === 'es';
+  var close = document.createElement('button');
+  close.style.cssText = 'width:100%;padding:13px;background:#7c3aed;border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:20px';
+  close.textContent = isES ? 'Entendido!' : 'Got it!';
+  close.addEventListener('click', function(){ el.remove(); });
+  card.innerHTML = '<div style="font-size:40px;margin-bottom:14px">🏆</div>'
+    + '<div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:10px">' + (isES ? '¡Estás en el máximo nivel!' : "You're at the top!") + '</div>'
+    + '<div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:8px">' + (isES ? 'El plan Professional te da proyectos ilimitados y acceso completo a todas las funciones.' : 'The Professional plan gives you unlimited projects and full access to every feature.') + '</div>'
+    + '<div style="font-size:12px;color:#7c3aed;font-weight:600">' + (isES ? 'No existe un nivel superior — ya estás ahí. 🚀' : "No higher tier exists — you're already there. 🚀") + '</div>';
+  card.appendChild(close);
+  el.appendChild(card);
+  document.body.appendChild(el);
+  el.addEventListener('click', function(e){ if(e.target===el) el.remove(); });
 }
 
 function showUpgradeModal() {
