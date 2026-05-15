@@ -1607,6 +1607,7 @@ window._onLogin = async (user, remoteProjects, planData) => {
   var pd = (planData && typeof planData === 'object') ? planData : { plan: planData || 'free', projectsCreated: 0 };
   state.plan = pd.plan || 'free';
   localStorage.setItem('tew_plan', state.plan);
+  updateUpgradeRow();
   // Update plan badge in settings
   setTimeout(function(){
     var badge = document.getElementById('settings-plan-badge');
@@ -1617,7 +1618,7 @@ window._onLogin = async (user, remoteProjects, planData) => {
       var planColors = { free:'#64748b', perproject:'#64748b', learner:'#1586ec', professional:'#7c3aed' };
       badge.textContent = planNames[state.plan] || state.plan;
       badge.style.background = planColors[state.plan] || 'var(--accent)';
-      setTimeout(updateUpgradeRow, 800);
+      updateUpgradeRow();
     }
   }, 300);
   // Sync projectsCreated from Firestore (authoritative)
@@ -3293,9 +3294,6 @@ if (!window._authSignIn) {
   renderCharts(null);
 }
 // Apply upgrade row state from cached plan on load
-setTimeout(function(){
-  if (typeof updateUpgradeRow === 'function') updateUpgradeRow();
-}, 1000);
 // Apply saved language after all scripts load
 setTimeout(function(){
   applyIdioma();
