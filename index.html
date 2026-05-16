@@ -2239,7 +2239,9 @@ function saveEditProject() {
 }
 
 function deleteProject(projectId) {
-  if (!confirm('Delete this project?')) return;
+  var isES=currentLang==='es';
+  var msg=(isES?'\u00bfEliminar este proyecto?\n\nEliminar un proyecto no reinicia el contador de proyectos.':'Delete this project?\n\nDeleting this project does not reset the project count.');
+  if(!confirm(msg))return;
   state.projects = state.projects.filter(x => x.id !== projectId);
   if (window._fbDeleteProject && state.uid) window._fbDeleteProject(state.uid, projectId);
   if (state.active && state.active.id === projectId) {
