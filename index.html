@@ -1030,14 +1030,18 @@ window._fbGetPlan = async (uid) => {
   if (!db) return 'free';
   try {
     const snap = await getDoc(doc(db,'users',uid));
-    if (snap.exists()) return snap.data().plan || 'free';
+    if (snap.exists()) return snap.data();
     await setDoc(doc(db,'users',uid),{plan:'free',createdAt:serverTimestamp()},{merge:true});
-    return 'free';
+    return {plan:'free'};
   } catch(e){ return 'free'; }
 };
 window._fbSetPlan = async (uid,plan) => {
   if (!db) return;
   try { await setDoc(doc(db,'users',uid),{plan},{merge:true}); } catch(e){}
+};
+window._fbSaveOnboarding = async (uid) => {
+  if (!db||!uid) return;
+  try { await setDoc(doc(db,'users',uid),{onboardingSeen:true},{merge:true}); } catch(e){}
 };
 window._fbDeleteProject = async (uid,projectId) => {
   if (!db) return;
@@ -1655,6 +1659,7 @@ window._onLogin = async (user, remoteProjects, planData) => {
   var localCount  = parseInt(localStorage.getItem('tew_projects_created')||'0',10);
   var syncCount   = Math.max(remoteCount, localCount);
   localStorage.setItem('tew_projects_created', syncCount);
+  if(pd.onboardingSeen)localStorage.setItem('tew_seen_onboarding','1');
   if (window.showDisclaimer) setTimeout(window.showDisclaimer, 700);
   state.uid = user.uid;
   if (remoteProjects && remoteProjects.length > 0) {
@@ -3688,7 +3693,7 @@ function setMarqueeTitle(container, text) {
   var current=0,selectedPlan="learner",TOTAL=slides.length+1;
 
   function dismiss(){
-    localStorage.setItem("tew_seen_onboarding","1");
+    localStorage.setItem("tew_seen_onboarding","1");if(window._fbSaveOnboarding&&window.state&&window.state.uid)window._fbSaveOnboarding(window.state.uid);
     var el=document.getElementById("tew-ob");
     if(!el)return;
     el.style.transition="opacity 0.4s";el.style.opacity="0";
