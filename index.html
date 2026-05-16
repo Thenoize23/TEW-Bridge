@@ -2334,23 +2334,7 @@ function saveEditProject() {
   }
 }
 
-function deleteProject(projectId) {
-  if (!confirm('Delete this project?')) return;
-  state.projects = state.projects.filter(x => x.id !== projectId);
-  if (window._fbDeleteProject && state.uid) window._fbDeleteProject(state.uid, projectId);
-  if (state.active && state.active.id === projectId) {
-    state.active = null;
-    const ws = document.getElementById('workspace');
-    if (ws) ws.style.display = 'none';
-    const sp = document.getElementById('screen-projects');
-    if (sp) { sp.style.display=''; sp.classList.add('active'); }
-    const fb = document.getElementById('fab');
-    if (fb) fb.style.display = 'flex';
-  }
-  saveProjects();
-  renderProjects();
-  closeModal('modal-edit-proj');
-}
+
 
 function openEditStages() {
   const p = state.active;
