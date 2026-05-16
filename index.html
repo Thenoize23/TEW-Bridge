@@ -2119,6 +2119,26 @@ function showUpgradeModal() {
 }
 
 
+function _incrementProjectsUsed(){
+  var limit=PLAN_LIMITS[state.plan];
+  if(limit===Infinity||state.plan==='professional')return;
+  var count=parseInt(localStorage.getItem('tew_projects_created')||'0',10)+1;
+  localStorage.setItem('tew_projects_created',count);
+  var remaining=limit-count;
+  if(remaining>=0&&remaining<=3){
+    var isES=currentLang==='es';
+    var ex=document.getElementById('modal-warning-limit');
+    if(ex)ex.remove();
+    var el=document.createElement('div');
+    el.id='modal-warning-limit';
+    el.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
+    var msg=isES?'Te quedan <strong>'+remaining+'</strong> proyecto(s). Considera actualizar.':'You have <strong>'+remaining+'</strong> project(s) left. Consider upgrading.';
+    el.innerHTML='<div style="width:100%;max-width:340px;background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:24px;text-align:center"><div style="font-size:28px;margin-bottom:12px">&#9888;</div><div style="font-size:17px;font-weight:700;color:var(--text1);margin-bottom:8px">'+(isES?'Atenci\u00f3n':'Heads up')+'</div><div style="font-size:13px;line-height:1.6;color:var(--text2);margin-bottom:20px">'+msg+'</div><button onclick="document.getElementById(\'modal-warning-limit\').remove()" style="width:100%;padding:13px;background:var(--accent);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit">'+(isES?'Entendido':'Got it')+'</button><button onclick="document.getElementById(\'modal-warning-limit\').remove();showUpgradeModal()" style="width:100%;padding:11px;background:none;border:none;border-radius:12px;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:8px">'+(isES?'Ver planes':'See plans')+'</button></div>';
+    document.body.appendChild(el);
+    el.addEventListener('click',function(e){if(e.target===el)el.remove();});
+  }
+}
+
 function canCreateProject(){
   var limit=PLAN_LIMITS[state.plan]!==undefined?PLAN_LIMITS[state.plan]:1;
   return state.projects.length<limit;
