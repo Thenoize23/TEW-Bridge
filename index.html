@@ -3524,15 +3524,28 @@ function submitAuth() {
   if (authMode === 'signup') { window._authSignUp && window._authSignUp(email, pass); } else { window._authSignIn && window._authSignIn(email, pass); }
 }
 
-function forgotPassword() {
-  const email = document.getElementById('auth-email').value.trim();
-  if (!email) {
-    document.getElementById('login-error').style.color = '#f87171';
-    document.getElementById('login-error').textContent = 'Enter your email first.';
-    return;
-  }
-  document.getElementById('login-error').style.color = 'var(--success, #10b981)';
-  if (window._authReset) window._authReset(email);
+function forgotPassword(){
+  var isES=currentLang==='es';
+  var ex=document.getElementById('modal-forgot-info');if(ex)ex.remove();
+  var el=document.createElement('div');
+  el.id='modal-forgot-info';
+  el.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
+  el.innerHTML='<div style="width:100%;max-width:340px;background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:24px;text-align:center">'
+    +'<div style="font-size:28px;margin-bottom:12px">✉️</div>'
+    +'<div style="font-size:17px;font-weight:700;color:var(--text1);margin-bottom:10px">'+(isES?'Recuperar contrase\u00f1a':'Password Recovery')+'</div>'
+    +'<div style="font-size:13px;line-height:1.7;color:var(--text2);margin-bottom:8px">'+(isES?'Revisa tu carpeta de spam. Si no encuentras el correo, cont\u00e1ctanos directamente:':'Check your spam folder. If you still don\'t see the email, contact us directly:')+'</div>'
+    +'<a href="mailto:theengineersworkpad@gmail.com" style="display:block;font-size:13px;font-weight:700;color:var(--accent);margin-bottom:20px">theengineersworkpad@gmail.com</a>'
+    +'<button onclick="document.getElementById(\'modal-forgot-info\').remove();_doForgotPassword()" style="width:100%;padding:13px;background:var(--accent);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px">'+(isES?'Enviar correo de recuperaci\u00f3n':'Send reset email')+'</button>'
+    +'<button onclick="document.getElementById(\'modal-forgot-info\').remove()" style="width:100%;padding:11px;background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;font-family:inherit">'+(isES?'Cancelar':'Cancel')+'</button>'
+    +'</div>';
+  document.body.appendChild(el);
+  el.addEventListener('click',function(e){if(e.target===el)el.remove();});
+}
+
+function _doForgotPassword(){
+  const email=document.getElementById('auth-email').value.trim();
+  if(!email){document.getElementById('login-error').style.color='var(--danger)';document.getElementById('login-error').textContent='Enter your email first';return;}
+  window._authReset&&window._authReset(email);
 }
 
 // Allow Enter key to submit
