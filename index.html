@@ -678,7 +678,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <span class="set-lbl">Email</span>
           <span class="set-val" id="set-email">—</span>
         </div>
-        <div class="set-row" style="cursor:pointer" onclick="if(window._authSignOut){window._authSignOut();}">
+        <div class="set-row" style="cursor:pointer" onclick="confirmLogout()">
           <span class="set-lbl" style="color:var(--danger)" data-i18n="signOut">Cerrar Sesión</span>
           <span style="color:var(--danger);font-size:16px">→</span>
         </div>
@@ -3524,6 +3524,23 @@ function submitAuth() {
   if (authMode === 'signup') { window._authSignUp && window._authSignUp(email, pass); } else { window._authSignIn && window._authSignIn(email, pass); }
 }
 
+
+function confirmLogout(){
+  var isES=currentLang==='es';
+  var ex=document.getElementById('modal-logout');if(ex)ex.remove();
+  var el=document.createElement('div');
+  el.id='modal-logout';
+  el.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
+  el.innerHTML='<div style="width:100%;max-width:340px;background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:24px;text-align:center">'
+    +'<div style="font-size:28px;margin-bottom:12px">🚪</div>'
+    +'<div style="font-size:17px;font-weight:700;color:var(--text1);margin-bottom:8px">'+(isES?'\u00bfCerrar sesi\u00f3n?':'Log out?')+'</div>'
+    +'<div style="font-size:13px;color:var(--text2);margin-bottom:20px">'+(isES?'\u00bfSeguro que quieres cerrar sesi\u00f3n?':'Are you sure you want to log out?')+'</div>'
+    +'<button onclick="document.getElementById(\'modal-logout\').remove();if(window._authSignOut)window._authSignOut();" style="width:100%;padding:13px;background:var(--danger);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px">'+(isES?'Cerrar sesi\u00f3n':'Log out')+'</button>'
+    +'<button onclick="document.getElementById(\'modal-logout\').remove()" style="width:100%;padding:11px;background:var(--panel3);border:1px solid var(--border);border-radius:12px;color:var(--text1);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit">'+(isES?'Cancelar':'Cancel')+'</button>'
+    +'</div>';
+  document.body.appendChild(el);
+  el.addEventListener('click',function(e){if(e.target===el)el.remove();});
+}
 function forgotPassword(){
   var isES=currentLang==='es';
   var ex=document.getElementById('modal-forgot-info');if(ex)ex.remove();
