@@ -2141,7 +2141,9 @@ function _incrementProjectsUsed(){
 
 function canCreateProject(){
   var limit=PLAN_LIMITS[state.plan]!==undefined?PLAN_LIMITS[state.plan]:1;
-  return state.projects.length<limit;
+  if(limit===Infinity)return true;
+  var used=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
+  return used<limit;
 }
 
 function createProject() {
@@ -2179,6 +2181,7 @@ function createProject() {
   checked.forEach(s => { project.stepsDone[s] = {}; });
 
   state.projects.unshift(project);
+  _incrementProjectsUsed();
   saveProjects();
   closeModal('modal-proj');
   document.getElementById('f-name').value = '';
@@ -2224,6 +2227,7 @@ function saveEditProject() {
   p.key    = (document.getElementById('ep-key').value || 'C') + ' ' + (document.getElementById('ep-mode').value || 'Major');
   p.artist  = document.getElementById('ep-artist').value.trim();
   if (window._editArtworkData !== undefined) p.artwork = window._editArtworkData || p.artwork || '';
+  _incrementProjectsUsed();
   saveProjects();
   renderProjects();
   closeModal('modal-edit-proj');
