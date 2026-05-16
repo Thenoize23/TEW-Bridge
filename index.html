@@ -1619,7 +1619,7 @@ const state = {
 // Called by Firebase module when auth state changes
 window._onLogin = async (user, remoteProjects, planData) => {
   var pd = (planData && typeof planData === 'object') ? planData : { plan: planData || 'free', projectsCreated: 0 };
-  state.plan = pd.plan || 'free';
+  state.plan = (pd.plan || 'free').trim();
   localStorage.setItem('tew_plan', state.plan);
   // Update plan badge in settings
   setTimeout(function(){
