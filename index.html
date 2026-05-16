@@ -3092,7 +3092,7 @@ function _doRenderProcess(projectId, list, inClass) {
 
   list.innerHTML = `
     <div>
-      <button class="logs-back-btn" onclick="if(state.progressFromWorkspace){state.progressFromWorkspace=false;showWorkspace(state.active);}else{renderProcess();}"
+      <button class="logs-back-btn" onclick="if(state.progressFromWorkspace){state.progressFromWorkspace=false;document.querySelectorAll('.screen').forEach(function(s){s.style.display='none';s.classList.remove('active');});showWorkspace(state.active);}else{renderProcess();}"
               style="display:flex;align-items:center;gap:6px;background:none;border:none;
                      color:var(--accent);font-family:var(--sans);font-size:22px;font-weight:600;
                      cursor:pointer;padding:0;margin-bottom:16px">←</button>
