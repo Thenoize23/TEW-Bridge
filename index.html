@@ -2280,40 +2280,7 @@ function openEditProject(projectId) {
   if (modal) modal.classList.add('open');
 }
 
-function saveEditProject() {
-  const id = document.getElementById('ep-id').value;
-  const p  = state.projects.find(x => x.id === id);
-  if (!p) return;
-  const name  = document.getElementById('ep-name').value.trim();
-  const genre = document.getElementById('ep-genre').value;
-  if (!name) { alert('Project name is required'); return; }
-  // Anti-recycling: name AND genre both changed = new project
-  const nameChanged  = name.trim().toLowerCase() !== (p.name||'').trim().toLowerCase();
-  const genreChanged = genre !== (p.genre||'');
-  if (nameChanged && genreChanged && !canCreateProject()) {
-    closeModal('modal-edit-proj');
-    showUpgradeModal();
-    return;
-  }
-  if (nameChanged && !p.originalName) p.originalName = p.name;
-  p.name   = name;
-  p.genre  = genre;
-  p.key    = (document.getElementById('ep-key').value||'C')+' '+(document.getElementById('ep-mode').value||'Major');
-  p.artist = document.getElementById('ep-artist').value.trim();
-  if (window._editArtworkData !== undefined) p.artwork = window._editArtworkData || p.artwork || '';
-  saveProjects();
-  renderProjects();
-  closeModal('modal-edit-proj');
-  if (state.active && state.active.id === id) {
-    const wn = document.getElementById('ws-name');
-    if (wn) wn.textContent = p.name;
-    const wa = document.getElementById('ws-artwork');
-    if (wa) {
-      if (p.artwork) wa.innerHTML = '<img src="'+p.artwork+'" style="width:100%;height:100%;object-fit:cover">';
-      else wa.innerHTML = '🎵';
-    }
-  }
-}
+
 
 function deleteProject(projectId) {
   if (!confirm('Delete this project?')) return;
