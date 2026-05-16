@@ -2301,6 +2301,7 @@ function saveEditProject() {
   p.key    = (document.getElementById('ep-key').value||'C')+' '+(document.getElementById('ep-mode').value||'Major');
   p.artist = document.getElementById('ep-artist').value.trim();
   if (window._editArtworkData !== undefined) p.artwork = window._editArtworkData || p.artwork || '';
+  _incrementProjectsUsed();
   saveProjects();
   renderProjects();
   closeModal('modal-edit-proj');
