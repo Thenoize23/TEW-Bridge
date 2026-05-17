@@ -2652,10 +2652,10 @@ function renderStageTabs() {
 function _updateProgressBtn(stage){
   var pb=document.getElementById('progress-shortcut-btn');
   if(!pb)return;
-  var sc={production:'#b45309',mix:'#1586ec',mastering:'#7c3aed'};
-  pb.style.background=sc[stage]?('rgba(0,0,0,0.15)'):'rgba(0,0,0,0.15)';
-  pb.style.color=sc[stage]||sc.production;
-  var sp=document.getElementById('progress-btn-text');if(sp){sp.style.color=sc[stage]||sc.production;sp.style.transition='color 0.3s ease';}
+  var bg={production:'rgba(245,158,11,0.12)',mix:'rgba(21,134,236,0.1)',mastering:'rgba(139,92,246,0.12)'};
+  var cl={production:'#b45309',mix:'#1586ec',mastering:'#7c3aed'};
+  pb.style.background=bg[stage]||bg.production;
+  var sp=document.getElementById('progress-btn-text');if(sp){sp.style.color=cl[stage]||cl.production;sp.style.transition='color 0.3s ease';}
 }
 
 function switchStage(stage) {
