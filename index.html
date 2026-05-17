@@ -748,7 +748,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0"><button onclick="openEditStages()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:var(--sans)" data-i18n="stagesBtn">Stages</button>
         <div onclick="var ws=document.getElementById('workspace');if(ws)ws.style.display='none';var h=document.getElementById('header');if(h)h.style.display='';var tb=document.getElementById('tab-bar');if(tb)tb.style.display='';state.progressFromWorkspace=true;switchTab('logs');renderProcess(state.active&&state.active.id)" id="progress-shortcut-btn" style="border-radius:8px;padding:6px 10px;cursor:pointer;background:rgba(245,158,11,0.12);display:inline-block">
-          <span style="font-size:11px;font-weight:600;color:#b45309;letter-spacing:0.3px">Progress</span>
+          <span style="font-size:11px;font-weight:600;color:#fff;letter-spacing:0.3px">Progress</span>
         </div>
         </div>
       </div>
@@ -2486,7 +2486,8 @@ function showWorkspace(project) {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       switchInnerTab('steps');
-      renderSteps();
+      _updateProgressBtn(project.stage);
+  renderSteps();
     });
   });
 }
@@ -2646,6 +2647,14 @@ function renderStageTabs() {
       + 'background:' + bg + ';color:' + fg + '">'
       + STAGE_LABELS(s) + '</button>';
   }).join('');
+}
+
+function _updateProgressBtn(stage){
+  var pb=document.getElementById('progress-shortcut-btn');
+  if(!pb)return;
+  var sc={production:{bg:'rgba(245,158,11,0.12)'},mix:{bg:'rgba(21,134,236,0.1)'},mastering:{bg:'rgba(139,92,246,0.12)'}};
+  var s=sc[stage]||sc.production;
+  pb.style.background=s.bg;
 }
 
 function switchStage(stage) {
