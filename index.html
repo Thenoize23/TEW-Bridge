@@ -1665,6 +1665,7 @@ window._onLogin = async (user, remoteProjects, planData) => {
   var localCount  = parseInt(localStorage.getItem('tew_projects_created')||'0',10);
   var syncCount   = Math.max(remoteCount, localCount);
   localStorage.setItem('tew_projects_created', syncCount);
+  if(syncCount>remoteCount&&window._fbSetPlan)window._fbSetPlan(user.uid,(pd.plan||'free'),syncCount);
   if(pd.onboardingSeen)localStorage.setItem('tew_seen_onboarding','1');
   if (window.showDisclaimer) setTimeout(window.showDisclaimer, 700);
   state.uid = user.uid;
