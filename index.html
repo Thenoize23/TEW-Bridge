@@ -2650,6 +2650,7 @@ function renderStageTabs() {
 }
 
 function _updateProgressBtn(stage){
+  console.log('updateProgressBtn called:',stage,document.getElementById('progress-shortcut-btn'));
   var pb=document.getElementById('progress-shortcut-btn');
   if(!pb)return;
   var sc={production:'#b45309',mix:'#1586ec',mastering:'#7c3aed'};
