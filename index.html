@@ -1082,6 +1082,154 @@ if (auth) {
 </script>
 
 <script>
+const STEP_TIPS = {
+  en: {
+    pr1: [
+      { icon:'🎯', tip:'Import your reference at the same loudness as your project (-14 LUFS) to avoid volume bias.' },
+      { icon:'🔊', tip:'Compare in mono first — if it translates well in mono, it will shine in stereo.' },
+      { icon:'⏱️', tip:'Switch between your track and the reference every 30 seconds to avoid ear fatigue.' },
+      { icon:'🎚️', tip:'Focus on one element at a time — first match the low end, then mids, then highs.' },
+      { icon:'📝', tip:'Take notes on what your reference does better than your track — that becomes your to-do list.' }
+    ],
+    pr2: [
+      { icon:'🥁', tip:'Use a tap tempo tool to lock your BPM before placing any elements — changing it later shifts everything.' },
+      { icon:'🎵', tip:'Pick a key that suits the vocalist\'s range if vocals are planned, not just what sounds good on keys.' },
+      { icon:'📐', tip:'Set your DAW grid to the smallest note value you plan to use (1/16 or 1/32) before programming.' },
+      { icon:'🔗', tip:'Tempo and key affect every decision after this — treat this step as the foundation of the whole track.' },
+      { icon:'🎹', tip:'Test your key against a reference in the same genre to confirm it fits the emotional tone you want.' }
+    ],
+    pr3: [
+      { icon:'🥁', tip:'Start with kick and snare only — add hi-hats and cymbals after the core groove feels right.' },
+      { icon:'🎚️', tip:'Humanize velocity by varying hits between 80-110 MIDI velocity instead of fixed values.' },
+      { icon:'🔇', tip:'Leave space in the pattern — silence is as important as the hits themselves.' },
+      { icon:'🔁', tip:'Loop 4 bars and listen for at least 2 minutes — patterns that tire you quickly will tire your listener faster.' },
+      { icon:'🎯', tip:'Program the kick to define the groove before adding any other element.' }
+    ],
+    pr4: [
+      { icon:'🔉', tip:'Lock the bass root notes to the kick drum hits first, then add movement between them.' },
+      { icon:'📻', tip:'Keep the bass mono below 150Hz for better translation on small speakers and club systems.' },
+      { icon:'🎛️', tip:'Leave a notch of space in the 80-120Hz range for the kick to breathe through the bass.' },
+      { icon:'🎵', tip:'The bass and kick together form the rhythmic and harmonic foundation — get these right before anything else.' },
+      { icon:'⚖️', tip:'Check the bass in headphones and on speakers — it should feel consistent on both.' }
+    ],
+    pr5: [
+      { icon:'🎹', tip:'Use no more than 4 chords in the main loop — complexity can come from arrangement, not the progression.' },
+      { icon:'🎼', tip:'Voice your chords in the mid-range (C3-C5) to leave room for bass below and melody above.' },
+      { icon:'🔄', tip:'Try the progression in different inversions — same chords, completely different feel.' },
+      { icon:'🎯', tip:'Play the progression with a simple beat underneath before committing — feel is everything.' },
+      { icon:'🌊', tip:'A 2-chord loop can be more hypnotic than a 4-chord one — simpler often works better in modern production.' }
+    ],
+    pr10: [
+      { icon:'🎹', tip:'Set the arpeggiator rate to a musical subdivision (1/8 or 1/16) synced to your project BPM.' },
+      { icon:'🎵', tip:'Use a simple 3 or 4 note chord — arpeggios get cluttered with more than 5 notes.' },
+      { icon:'🔄', tip:'Try different arp patterns (up, down, up-down) and pick the one that complements the bass line best.' },
+      { icon:'🎚️', tip:'Use velocity variation in the arpeggio to create a sense of groove and movement.' },
+      { icon:'📐', tip:'Lock the arpeggio to the same grid as your drums for rhythmic tightness.' }
+    ],
+    pr6: [
+      { icon:'🎤', tip:'Sing or hum the melody before programming it — if you can\'t hum it, listeners won\'t remember it.' },
+      { icon:'🌊', tip:'Leave rhythmic gaps in the melody for the listener\'s ear to fill in — tension and release.' },
+      { icon:'📏', tip:'Keep the melodic range within an octave and a half for maximum catchiness.' },
+      { icon:'🎯', tip:'The first 4 notes of your melody are the hook — make them the most memorable part.' },
+      { icon:'🔁', tip:'Repeat melodic motifs with small variations — repetition with evolution is the key to a memorable lead.' }
+    ],
+    pr7: [
+      { icon:'🔬', tip:'Process one element at a time — solo it, shape it, then check it in the full mix.' },
+      { icon:'✂️', tip:'Start with subtractive EQ before adding anything — remove what doesn\'t belong before boosting.' },
+      { icon:'💾', tip:'Save your best sound designs as presets immediately — you won\'t recreate them from memory.' },
+      { icon:'🎛️', tip:'Layer 2-3 sounds with different frequency content to create a fuller, more interesting texture.' },
+      { icon:'🔊', tip:'Check your sounds at low volume — if they still cut through, they will work at any level.' }
+    ],
+    pr8: [
+      { icon:'🗺️', tip:'Map your arrangement visually on paper first — intro, verse, chorus, bridge, outro with bar counts.' },
+      { icon:'⚡', tip:'Build energy through addition and subtraction of elements, not just volume automation.' },
+      { icon:'💥', tip:'The drop or chorus should feel earned — strip elements before it to create contrast.' },
+      { icon:'📐', tip:'Most commercial tracks have a first drop or chorus between bars 16-32 — keep the listener engaged early.' },
+      { icon:'🔄', tip:'Use a breakdown to reset listener energy before the final section — it makes the ending hit harder.' }
+    ],
+    pr9: [
+      { icon:'🎚️', tip:'Automate volume before any other parameter — get levels right dynamically first.' },
+      { icon:'📖', tip:'Use automation to tell a story — build, peak, release — not just to fix static problems.' },
+      { icon:'〰️', tip:'Draw automation curves instead of straight lines for more organic, natural movement.' },
+      { icon:'🎯', tip:'Automate filter cutoffs on synths to create movement and interest without adding new elements.' },
+      { icon:'⏱️', tip:'Set automation points 1-2 bars before the change you want — anticipation is everything in music.' }
+    ]
+  },
+  es: {
+    pr1: [
+      { icon:'🎯', tip:'Importa tu referencia al mismo volumen que tu proyecto (-14 LUFS) para evitar sesgo de volumen.' },
+      { icon:'🔊', tip:'Compara en mono primero — si se traduce bien en mono, brillará en estéreo.' },
+      { icon:'⏱️', tip:'Alterna entre tu pista y la referencia cada 30 segundos para evitar la fatiga auditiva.' },
+      { icon:'🎚️', tip:'Enfócate en un elemento a la vez — primero el bajo, luego los medios, luego los agudos.' },
+      { icon:'📝', tip:'Toma notas de lo que tu referencia hace mejor que tu pista — esa es tu lista de tareas.' }
+    ],
+    pr2: [
+      { icon:'🥁', tip:'Usa una herramienta de tap tempo para fijar el BPM antes de colocar cualquier elemento.' },
+      { icon:'🎵', tip:'Elige una tonalidad que se adapte al rango del vocalista si hay voces planeadas.' },
+      { icon:'📐', tip:'Configura la cuadrícula del DAW a la nota más pequeña que planeas usar antes de programar.' },
+      { icon:'🔗', tip:'El tempo y la tonalidad afectan cada decisión posterior — trátalo como el fundamento de todo el track.' },
+      { icon:'🎹', tip:'Prueba tu tonalidad contra una referencia del mismo género para confirmar que encaja con el tono emocional.' }
+    ],
+    pr3: [
+      { icon:'🥁', tip:'Comienza solo con bombo y caja — agrega hi-hats y platillos después de que el groove se sienta correcto.' },
+      { icon:'🎚️', tip:'Humaniza la velocidad variando los golpes entre 80-110 de velocidad MIDI en lugar de valores fijos.' },
+      { icon:'🔇', tip:'Deja espacio en el patrón — el silencio es tan importante como los golpes.' },
+      { icon:'🔁', tip:'Haz un loop de 4 compases y escúchalo al menos 2 minutos — si te cansa, cansará al oyente más rápido.' },
+      { icon:'🎯', tip:'Programa el bombo para definir el groove antes de agregar cualquier otro elemento.' }
+    ],
+    pr4: [
+      { icon:'🔉', tip:'Bloquea las notas raíz del bajo a los golpes de bombo primero, luego agrega movimiento entre ellos.' },
+      { icon:'📻', tip:'Mantén el bajo en mono por debajo de 150Hz para mejor traducción en altavoces pequeños.' },
+      { icon:'🎛️', tip:'Deja espacio en el rango de 80-120Hz para que el bombo respire a través del bajo.' },
+      { icon:'🎵', tip:'El bajo y el bombo juntos forman la base rítmica y armónica — afínalos antes que todo lo demás.' },
+      { icon:'⚖️', tip:'Revisa el bajo en audífonos y en altavoces — debe sentirse consistente en ambos.' }
+    ],
+    pr5: [
+      { icon:'🎹', tip:'Usa no más de 4 acordes en el loop principal — la complejidad puede venir del arreglo.' },
+      { icon:'🎼', tip:'Vocaliza tus acordes en el rango medio (C3-C5) para dejar espacio al bajo y la melodía.' },
+      { icon:'🔄', tip:'Prueba la progresión en diferentes inversiones — los mismos acordes, una sensación completamente diferente.' },
+      { icon:'🎯', tip:'Toca la progresión con un beat simple debajo antes de comprometerte — el feel lo es todo.' },
+      { icon:'🌊', tip:'Un loop de 2 acordes puede ser más hipnótico que uno de 4 — lo más simple suele funcionar mejor.' }
+    ],
+    pr10: [
+      { icon:'🎹', tip:'Configura la velocidad del arpeggiador en una subdivisión musical sincronizada con el BPM.' },
+      { icon:'🎵', tip:'Usa un acorde simple de 3 o 4 notas — los arpegios se saturan con más de 5 notas.' },
+      { icon:'🔄', tip:'Prueba diferentes patrones (arriba, abajo, arriba-abajo) y elige el que mejor complemente el bajo.' },
+      { icon:'🎚️', tip:'Usa variación de velocidad en el arpegio para crear sensación de groove y movimiento.' },
+      { icon:'📐', tip:'Sincroniza el arpegio a la misma cuadrícula que tu batería para mayor solidez rítmica.' }
+    ],
+    pr6: [
+      { icon:'🎤', tip:'Canta o tararea la melodía antes de programarla — si no puedes tararearla, los oyentes no la recordarán.' },
+      { icon:'🌊', tip:'Deja huecos rítmicos en la melodía para que el oído del oyente los llene — tensión y liberación.' },
+      { icon:'📏', tip:'Mantén el rango melódico dentro de una octava y media para máxima pegada.' },
+      { icon:'🎯', tip:'Las primeras 4 notas de tu melodía son el gancho — hazlas las más memorables.' },
+      { icon:'🔁', tip:'Repite motivos melódicos con pequeñas variaciones — la repetición con evolución es clave.' }
+    ],
+    pr7: [
+      { icon:'🔬', tip:'Procesa un elemento a la vez — ponlo en solo, dale forma, luego compruébalo en la mezcla.' },
+      { icon:'✂️', tip:'Comienza con EQ sustractivo — elimina lo que no pertenece antes de realzar.' },
+      { icon:'💾', tip:'Guarda tus mejores diseños de sonido como presets inmediatamente.' },
+      { icon:'🎛️', tip:'Apila 2-3 sonidos con diferente contenido de frecuencia para crear una textura más rica.' },
+      { icon:'🔊', tip:'Revisa tus sonidos a bajo volumen — si se destacan, funcionarán a cualquier nivel.' }
+    ],
+    pr8: [
+      { icon:'🗺️', tip:'Mapea tu arreglo visualmente en papel primero — intro, verso, coro, puente, outro con compases.' },
+      { icon:'⚡', tip:'Construye energía mediante adición y sustracción de elementos, no solo con automatización de volumen.' },
+      { icon:'💥', tip:'El drop o coro debe sentirse ganado — quita elementos antes para crear contraste.' },
+      { icon:'📐', tip:'La mayoría de tracks comerciales tienen el primer drop entre los compases 16-32.' },
+      { icon:'🔄', tip:'Usa un breakdown para resetear la energía del oyente antes de la sección final.' }
+    ],
+    pr9: [
+      { icon:'🎚️', tip:'Automatiza el volumen antes que cualquier otro parámetro.' },
+      { icon:'📖', tip:'Usa la automatización para contar una historia — construcción, pico, liberación.' },
+      { icon:'〰️', tip:'Dibuja curvas de automatización en lugar de líneas rectas para movimiento más orgánico.' },
+      { icon:'🎯', tip:'Automatiza el filtro de los sintetizadores para crear movimiento sin agregar nuevos elementos.' },
+      { icon:'⏱️', tip:'Coloca los puntos de automatización 1-2 compases antes del cambio — la anticipación lo es todo.' }
+    ]
+  }
+};
+
+
 const AI_SUGGESTIONS = {
   production: [
     { tip: "Check your kick drum sits between -6dB and -3dB before any processing.", icon: "🥁" },
@@ -2549,7 +2697,9 @@ function renderAINotes() {
   if (!el || !p) return;
   const wb = document.querySelector('.ws-body');
   if (wb) wb.scrollTop = 0;
-  const tips = AI_SUGGESTIONS[p.stage] || [];
+  var lang=currentLang==='es'?'es':'en';
+  var stepTips=state.activeStepId&&STEP_TIPS[lang]&&STEP_TIPS[lang][state.activeStepId];
+  const tips = stepTips || AI_SUGGESTIONS[p.stage] || [];
   el.innerHTML = tips.map(t => `
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:18px">${t.icon}</span><span style="font-size:13px;line-height:1.6;color:var(--text2)">${t.tip}</span></div>
@@ -2706,6 +2856,17 @@ function closeWorkspace() {
   renderProjects();
 }
 
+function selectStep(stepId){
+  state.activeStepId=stepId;
+  document.querySelectorAll('.step-row').forEach(function(r){r.style.borderLeft='';r.style.borderRadius=''});
+  var stageColors={production:'#b45309',mix:'#1586ec',mastering:'#7c3aed'};
+  var color=stageColors[state.active?state.active.stage:'mix']||'#1586ec';
+  var row=document.getElementById('sr-'+stepId);
+  if(row){row.style.borderLeft='3px solid '+color;row.style.borderRadius='12px';}
+  renderAINotes();
+  switchInnerTab('ai');
+}
+
 function renderSteps() {
   var p = state.active;
   if (!p) return;
@@ -2730,7 +2891,7 @@ function renderSteps() {
     return '<div class="step-row ' + rowCls + '" id="sr-' + s.id + '"'
       +'>'
       +'<div class="step-box" style="' + bxSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>' + boxTxt + '</div>'
-      +'<div class="step-body" style="' + bdSt + '"' + (tgl ? ' onclick="' + tgl + '"' : '') + '>'
+      +'<div class="step-body" style="' + bdSt + '" onclick="selectStep(\'' + s.id + '\')"'+ '>'
       +'<div class="step-name">' + s.name + '</div>'
       +'<div class="step-desc">' + s.desc + '</div>'
       +'</div>'
