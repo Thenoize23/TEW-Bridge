@@ -1036,9 +1036,11 @@ window._fbGetPlan = async (uid) => {
     return {plan:'free'};
   } catch(e){ return 'free'; }
 };
-window._fbSetPlan = async (uid,plan) => {
+window._fbSetPlan = async (uid,plan,projectsCreated) => {
   if (!db) return;
-  try { await setDoc(doc(db,'users',uid),{plan},{merge:true}); } catch(e){}
+  var data={plan};
+  if(projectsCreated!==undefined)data.projectsCreated=projectsCreated;
+  try { await setDoc(doc(db,'users',uid),data,{merge:true}); } catch(e){}
 };
 window._fbSaveOnboarding = async (uid) => {
   if (!db||!uid) return;
