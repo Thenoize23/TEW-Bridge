@@ -747,8 +747,8 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
           <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px" id="ws-stage"></div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0"><button onclick="openEditStages()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:var(--sans)" data-i18n="stagesBtn">Stages</button>
-        <div onclick="var ws=document.getElementById('workspace');if(ws)ws.style.display='none';var h=document.getElementById('header');if(h)h.style.display='';var tb=document.getElementById('tab-bar');if(tb)tb.style.display='';state.progressFromWorkspace=true;switchTab('logs');renderProcess(state.active&&state.active.id)" id="progress-shortcut-btn" style="border-radius:8px;padding:6px 10px;cursor:pointer;background:rgba(245,158,11,0.12);display:inline-block">
-          <span style="font-size:11px;font-weight:600;color:#fff;letter-spacing:0.3px">Progress</span>
+        <div onclick="var ws=document.getElementById('workspace');if(ws)ws.style.display='none';var h=document.getElementById('header');if(h)h.style.display='';var tb=document.getElementById('tab-bar');if(tb)tb.style.display='';state.progressFromWorkspace=true;switchTab('logs');renderProcess(state.active&&state.active.id)" id="progress-shortcut-btn" style="transition:background 0.3s ease,color 0.3s ease;border-radius:8px;padding:6px 10px;cursor:pointer;background:rgba(245,158,11,0.12);display:inline-block">
+          <span id="progress-btn-text" style="font-size:11px;font-weight:600;color:#b45309;letter-spacing:0.3px">Progress</span>
         </div>
         </div>
       </div>
@@ -2653,9 +2653,9 @@ function _updateProgressBtn(stage){
   var pb=document.getElementById('progress-shortcut-btn');
   if(!pb)return;
   var sc={production:'#b45309',mix:'#1586ec',mastering:'#7c3aed'};
-  pb.style.background=sc[stage]||sc.production;
-  pb.style.color='#fff';
-  var sp=pb.querySelector('span');if(sp)sp.style.color='#fff';
+  pb.style.background=sc[stage]?('rgba(0,0,0,0.15)'):'rgba(0,0,0,0.15)';
+  pb.style.color=sc[stage]||sc.production;
+  var sp=document.getElementById('progress-btn-text');if(sp){sp.style.color=sc[stage]||sc.production;sp.style.transition='color 0.3s ease';}
 }
 
 function switchStage(stage) {
