@@ -627,6 +627,10 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
     <!-- PROJECTS -->
     <div id="screen-projects" class="screen active">
       <p class="sec-label" data-i18n="projects">My Projects</p>
+      <div id="trial-banner" style="display:none;background:linear-gradient(135deg,var(--accent),#0ea5e9);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+        <span id="trial-banner-text" style="font-size:13px;font-weight:600;color:#fff"></span>
+        <button onclick="showUpgradeModal()" style="background:rgba(255,255,255,0.2);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;padding:4px 10px;cursor:pointer;font-family:inherit">Upgrade</button>
+      </div>
       <div id="proj-counter" style="font-size:11px;color:var(--text3);margin-bottom:8px;padding:0 2px"></div>
       <div id="proj-list"></div>
       <div class="spacer"></div>
@@ -1032,8 +1036,8 @@ window._fbGetPlan = async (uid) => {
   try {
     const snap = await getDoc(doc(db,'users',uid));
     if (snap.exists()) return snap.data();
-    await setDoc(doc(db,'users',uid),{plan:'free',createdAt:serverTimestamp()},{merge:true});
-    return {plan:'free'};
+    await setDoc(doc(db,'users',uid),{plan:'free',createdAt:serverTimestamp(),trialStartDate:serverTimestamp()},{merge:true});
+    return {plan:'free',trialStartDate:new Date()};
   } catch(e){ return 'free'; }
 };
 window._fbSetPlan = async (uid,plan,projectsCreated) => {
@@ -1817,6 +1821,13 @@ window._onLogin = async (user, remoteProjects, planData) => {
   localStorage.setItem('tew_projects_created', syncCount);
   if(syncCount>remoteCount&&window._fbSetPlan)window._fbSetPlan(user.uid,(pd.plan||'free'),syncCount);
   if(pd.onboardingSeen)localStorage.setItem('tew_seen_onboarding','1');
+  if(pd.trialStartDate){
+    var trialStart=pd.trialStartDate.toDate?pd.trialStartDate.toDate():new Date(pd.trialStartDate);
+    var daysUsed=Math.floor((Date.now()-trialStart.getTime())/(1000*60*60*24));
+    state.trialDaysLeft=Math.max(0,7-daysUsed);
+  }else{
+    state.trialDaysLeft=null;
+  }
   if (window.showDisclaimer) setTimeout(window.showDisclaimer, 700);
   state.uid = user.uid;
   if (remoteProjects && remoteProjects.length > 0) {
@@ -2132,7 +2143,9 @@ function showLockedFeature(featureName) {
 }
 
 function isPaidPlan() {
-  return state.plan && state.plan !== 'free';
+  if(state.plan && state.plan !== 'free') return true;
+  if(state.trialDaysLeft !== null && state.trialDaysLeft > 0) return true;
+  return false;
 }
 
 function showMaxPlanMsg() {
@@ -2502,7 +2515,19 @@ function saveEditStages() {
   closeModal('modal-edit-stages');
 }
 
+function renderTrialBanner(){
+  var banner=document.getElementById('trial-banner');
+  var txt=document.getElementById('trial-banner-text');
+  if(!banner||!txt)return;
+  if(state.trialDaysLeft===null||state.plan!=='free'){banner.style.display='none';return;}
+  if(state.trialDaysLeft<=0){banner.style.display='none';showUpgradeModal();return;}
+  var isES=currentLang==='es';
+  txt.textContent=isES?state.trialDaysLeft+' días restantes en tu prueba gratuita':state.trialDaysLeft+' days left in your free trial';
+  banner.style.display='flex';
+}
+
 function renderProjects() {
+  renderTrialBanner();
   var counter=document.getElementById('proj-counter');
   if(counter&&state.plan!=='professional'){
     var limit=PLAN_LIMITS[state.plan]||1;
