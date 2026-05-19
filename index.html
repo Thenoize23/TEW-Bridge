@@ -2392,7 +2392,8 @@ function saveEditProject() {
   p.key    = (document.getElementById('ep-key').value || 'C') + ' ' + (document.getElementById('ep-mode').value || 'Major');
   p.artist  = document.getElementById('ep-artist').value.trim();
   if (window._editArtworkData !== undefined) p.artwork = window._editArtworkData || p.artwork || '';
-  console.log('increment called');_incrementProjectsUsed();
+  console.log('increment called');if(!canCreateProject()){closeModal('modal-edit-proj');showUpgradeModal();return;}
+  _incrementProjectsUsed();
   saveProjects();
   renderProjects();
   closeModal('modal-edit-proj');
