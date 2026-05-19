@@ -627,7 +627,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
     <!-- PROJECTS -->
     <div id="screen-projects" class="screen active">
       <p class="sec-label" data-i18n="projects">My Projects</p>
-      <div id="trial-banner" style="display:none;background:linear-gradient(135deg,var(--accent),#0ea5e9);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+      <div id="trial-banner" style="display:none;background:linear-gradient(135deg,var(--accent),#0ea5e9);border-radius:12px;padding:10px 14px;margin-bottom:12px;align-items:center;justify-content:space-between">
         <span id="trial-banner-text" style="font-size:13px;font-weight:600;color:#fff"></span>
         <button onclick="showUpgradeModal()" style="background:rgba(255,255,255,0.2);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;padding:4px 10px;cursor:pointer;font-family:inherit">Upgrade</button>
       </div>
@@ -1036,7 +1036,7 @@ window._fbGetPlan = async (uid) => {
   try {
     const snap = await getDoc(doc(db,'users',uid));
     if (snap.exists()) return snap.data();
-    await setDoc(doc(db,'users',uid),{plan:'free',createdAt:serverTimestamp(),trialStartDate:serverTimestamp()},{merge:true});
+    await setDoc(doc(db,'users',uid),{plan:'free',createdAt:serverTimestamp(),trialStartDate:serverTimestamp(),projectsCreated:0},{merge:true});
     return {plan:'free',trialStartDate:new Date()};
   } catch(e){ return 'free'; }
 };
