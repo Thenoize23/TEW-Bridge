@@ -1809,9 +1809,9 @@ window._onLogin = async (user, remoteProjects, planData) => {
     }
   }, 300);
   // Sync projectsCreated from Firestore (authoritative)
-  var remoteCount = pd.projectsCreated || 0;
+  var remoteCount = pd.projectsCreated !== undefined ? pd.projectsCreated : null;
   var localCount  = parseInt(localStorage.getItem('tew_projects_created')||'0',10);
-  var syncCount   = remoteCount > 0 ? Math.max(remoteCount, localCount) : localCount;
+  var syncCount   = remoteCount !== null ? remoteCount : localCount;
   localStorage.setItem('tew_projects_created', syncCount);
   if(syncCount>remoteCount&&window._fbSetPlan)window._fbSetPlan(user.uid,(pd.plan||'free'),syncCount);
   if(pd.onboardingSeen)localStorage.setItem('tew_seen_onboarding','1');
