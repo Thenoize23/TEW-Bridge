@@ -1035,7 +1035,16 @@ window._fbGetPlan = async (uid) => {
   if (!db) return 'free';
   try {
     const snap = await getDoc(doc(db,'users',uid));
-    if (snap.exists()) return snap.data();
+    if (snap.exists()) {
+      var data=snap.data();
+      var updates={};
+      if(data.projectsCreated===undefined)updates.projectsCreated=0;
+      if(data.trialStartDate===undefined)updates.trialStartDate=serverTimestamp();
+      if(Object.keys(updates).length>0)await setDoc(doc(db,'users',uid),updates,{merge:true});
+      if(data.projectsCreated===undefined)data.projectsCreated=0;
+      if(data.trialStartDate===undefined)data.trialStartDate=new Date();
+      return data;
+    }
     await setDoc(doc(db,'users',uid),{plan:'free',createdAt:serverTimestamp(),trialStartDate:serverTimestamp(),projectsCreated:0},{merge:true});
     return {plan:'free',trialStartDate:new Date(),projectsCreated:0};
   } catch(e){ return 'free'; }
