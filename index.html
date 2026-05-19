@@ -2380,28 +2380,7 @@ function openEditProject(projectId) {
   if (modal) modal.classList.add('open');
 }
 
-function saveEditProject() {
-  const id = document.getElementById('ep-id').value;
-  const p  = state.projects.find(x => x.id === id);
-  if (!p) return;
-  const name = document.getElementById('ep-name').value.trim();
-  if (!name) { alert('Project name is required'); return; }
-  p.name   = name;
-  p.genre  = document.getElementById('ep-genre').value;
-  p.bpm    = document.getElementById('ep-bpm').value || p.bpm || '—';
-  p.key    = (document.getElementById('ep-key').value || 'C') + ' ' + (document.getElementById('ep-mode').value || 'Major');
-  p.artist  = document.getElementById('ep-artist').value.trim();
-  if (window._editArtworkData !== undefined) p.artwork = window._editArtworkData || p.artwork || '';
-  console.log('increment called');if(!canCreateProject()){closeModal('modal-edit-proj');showUpgradeModal();return;}
-  _incrementProjectsUsed();
-  saveProjects();
-  renderProjects();
-  closeModal('modal-edit-proj');
-  if (state.active && state.active.id === id) {
-    const _wn = document.getElementById('ws-name');
-    if (_wn) _wn.textContent = p.name;
-  }
-}
+
 
 function deleteProject(projectId) {
   var isES=currentLang==='es';
