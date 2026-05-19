@@ -1292,6 +1292,7 @@ const LANG = {
     noProcess:'No logs yet', noProcessSub:'Check off steps to start logging',
     addNote:'+ Add Note', writeNote:'Write your note here...', noNotes:'No notes yet',
     noSteps:'No steps completed yet',
+    usedProjects:'Used',
     logsTitle:'Progress Log',
     appearance:'Appearance', darkMode:'Dark Mode', language:'Language', theme:'Theme',
     vst:'Plugin VST3', vstBridge:'WebSocket Bridge', vstPort:'UDP Port',
@@ -1353,6 +1354,7 @@ const LANG = {
     noProcess:'Sin registros todavía', noProcessSub:'Marca pasos para comenzar',
     addNote:'+ Agregar Nota', writeNote:'Escribe tu nota aquí...', noNotes:'Sin notas todavía',
     noSteps:'Ningún paso completado todavía',
+    usedProjects:'Usado',
     logsTitle:'Registros de Progreso',
     appearance:'Apariencia', darkMode:'Modo Oscuro', language:'Idioma', theme:'Tema',
     vst:'Plugin VST3', vstBridge:'Puente WebSocket', vstPort:'Puerto UDP',
@@ -2505,7 +2507,7 @@ function renderProjects() {
   if(counter&&state.plan!=='professional'){
     var limit=PLAN_LIMITS[state.plan]||1;
     var used=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
-    counter.textContent='Used: '+used+' / '+limit;
+    counter.textContent=t('usedProjects')+': '+used+' / '+limit;
   }
   const list = document.getElementById('proj-list');
   if (!state.projects.length) {
