@@ -2538,10 +2538,15 @@ function renderTrialBanner(){
 function renderProjects() {
   renderTrialBanner();
   var counter=document.getElementById('proj-counter');
-  if(counter&&state.plan!=='professional'){
-    var limit=PLAN_LIMITS[state.plan]||1;
-    var used=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
-    counter.textContent=t('usedProjects')+': '+used+' / '+limit;
+  if(counter){
+    if(state.plan==='professional'||(state.trialDaysLeft!==null&&state.trialDaysLeft>0)){
+      counter.style.display='none';
+    }else{
+      counter.style.display='';
+      var limit=PLAN_LIMITS[state.plan]||1;
+      var used=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
+      counter.textContent=t('usedProjects')+': '+used+' / '+limit;
+    }
   }
   const list = document.getElementById('proj-list');
   if (!state.projects.length) {
