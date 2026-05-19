@@ -1037,7 +1037,7 @@ window._fbGetPlan = async (uid) => {
     const snap = await getDoc(doc(db,'users',uid));
     if (snap.exists()) return snap.data();
     await setDoc(doc(db,'users',uid),{plan:'free',createdAt:serverTimestamp(),trialStartDate:serverTimestamp(),projectsCreated:0},{merge:true});
-    return {plan:'free',trialStartDate:new Date()};
+    return {plan:'free',trialStartDate:new Date(),projectsCreated:0};
   } catch(e){ return 'free'; }
 };
 window._fbSetPlan = async (uid,plan,projectsCreated) => {
