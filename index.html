@@ -2540,7 +2540,8 @@ function renderProjects() {
   var counter=document.getElementById('proj-counter');
   if(counter){
     var used=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
-    if((state.trialDaysLeft!==null&&state.trialDaysLeft>0)||state.plan==='professional'){
+    var trialActive=state.plan==='free'&&state.trialDaysLeft!==null&&state.trialDaysLeft>0;
+    if(trialActive||state.plan==='professional'){
       counter.style.display='block';
       counter.textContent=t('usedProjects')+': '+used+' / ∞';
     }else{
