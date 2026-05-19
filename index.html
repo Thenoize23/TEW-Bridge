@@ -2329,6 +2329,7 @@ function _incrementProjectsUsed(){
 }
 
 function canCreateProject(){
+  if(state.plan==='free'&&state.trialDaysLeft!==null&&state.trialDaysLeft>0)return true;
   var limit=PLAN_LIMITS[state.plan]!==undefined?PLAN_LIMITS[state.plan]:1;
   if(limit===Infinity)return true;
   var used=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
