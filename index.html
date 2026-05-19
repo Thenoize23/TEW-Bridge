@@ -2539,11 +2539,9 @@ function renderProjects() {
   renderTrialBanner();
   var counter=document.getElementById('proj-counter');
   if(counter){
-    if(state.trialDaysLeft!==null&&state.trialDaysLeft>0){
-      counter.style.display='none';
-    }else if(state.plan==='professional'){
+    var used=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
+    if((state.trialDaysLeft!==null&&state.trialDaysLeft>0)||state.plan==='professional'){
       counter.style.display='';
-      var used=parseInt(localStorage.getItem('tew_projects_created')||'0',10);
       counter.textContent=t('usedProjects')+': '+used+' / ∞';
     }else{
       counter.style.display='';
