@@ -627,6 +627,7 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
     <!-- PROJECTS -->
     <div id="screen-projects" class="screen active">
       <p class="sec-label" data-i18n="projects">My Projects</p>
+  <p style="font-size:11px;color:var(--text3);margin:-8px 0 12px 0">* <span data-i18n="optionalFields">Project name required. All other fields optional.</span></p>
       <div id="trial-banner" style="display:none;background:linear-gradient(135deg,var(--accent),#0ea5e9);border-radius:12px;padding:10px 14px;margin-bottom:12px;align-items:center;justify-content:space-between">
         <span id="trial-banner-text" style="font-size:13px;font-weight:600;color:#fff"></span>
         <button onclick="showUpgradeModal()" style="background:rgba(255,255,255,0.2);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;padding:4px 10px;cursor:pointer;font-family:inherit">Upgrade</button>
@@ -1296,7 +1297,8 @@ const LANG = {
     projects:'Projects', charts:'Charts', logs:'Progress', settings:'Settings',
     steps:'Steps', aiNotes:'AI Notes', otherNotes:'Custom Notes',
     production:'Production', mix:'Mix', mastering:'Mastering',
-    newProject:'New Project', projectName:'Project Name',
+    newProject:'New Project',
+    optionalFields:'Project name required. All other fields optional.', projectName:'Project Name',
     genre:'Genre', subgenre:'Subgenre', bpm:'BPM', key:'Key', mode:'Mode',
     artist:'Artist / Composer', create:'Create Project', cancel:'Cancel',
     save:'Save Changes', delete:'Delete Project', editProject:'Edit Project',
@@ -1358,7 +1360,8 @@ const LANG = {
     projects:'Proyectos', charts:'Charts', logs:'Registros', settings:'Ajustes',
     steps:'Pasos', aiNotes:'Notas IA', otherNotes:'Otras Notas',
     production:'Producción', mix:'Mezcla', mastering:'Mastering',
-    newProject:'Nuevo Proyecto', projectName:'Nombre del Proyecto',
+    newProject:'Nuevo Proyecto',
+    optionalFields:'Nombre del proyecto requerido. Los demás campos son opcionales.', projectName:'Nombre del Proyecto',
     genre:'Género', subgenre:'Subgénero', bpm:'BPM', key:'Tonalidad', mode:'Modo',
     artist:'Artista / Compositor', create:'Crear Proyecto', cancel:'Cancelar',
     save:'Guardar Cambios', delete:'Eliminar Proyecto', editProject:'Editar Proyecto',
