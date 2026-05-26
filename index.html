@@ -1071,6 +1071,21 @@ window._fbDeleteProject = async (uid,projectId) => {
 window._authSignIn  = async (e,p) => { try { await signInWithEmailAndPassword(auth,e,p); } catch(err) { window._loginErr(err.code); } };
 window._authSignUp  = async (e,p) => { try { await createUserWithEmailAndPassword(auth,e,p); } catch(err) { window._loginErr(err.code); } };
 window._authReset   = async (e)   => { try { await sendPasswordResetEmail(auth,e); window._loginOk('Reset email sent!'); } catch(err) { window._loginErr('reset_fail'); } };
+window._authMagicLink = async (email) => {
+  try {
+    const actionCodeSettings = { url: window.location.href, handleCodeInApp: true };
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    localStorage.setItem('emailForSignIn', email);
+    window._loginOk && window._loginOk(t('magicLinkSent')||'Magic link sent! Check your email.');
+  } catch(err) { window._loginErr && window._loginErr(err.code); }
+};
+if (isSignInWithEmailLink(auth, window.location.href)) {
+  let email = localStorage.getItem('emailForSignIn');
+  if (!email) email = window.prompt('Please provide your email for confirmation');
+  signInWithEmailLink(auth, email, window.location.href)
+    .then(() => { localStorage.removeItem('emailForSignIn'); })
+    .catch(err => console.error('Magic link error:', err));
+}
 window._authSignOut = async () => { await signOut(auth); };
 
 window._authGoogle = async () => {
@@ -1318,7 +1333,10 @@ const LANG = {
     clearProcess:'Clear Process & Reset Steps', resetAll:'Reset All Projects',
     selectProject:'— Select project —', connection:'VST Connection',
     signIn:'Sign In', signUp:'Sign Up', continueGoogle:'Continue with Google',
-    forgotPassword:'Forgot password?', email:'Email', password:'Password',
+    forgotPassword:'Forgot password?',
+    magicLink:'Send Magic Link',
+    magicLinkSent:'Magic link sent! Check your email.',
+    orText:'or', email:'Email', password:'Password',
     vstConnected:'Connected', vstDisconnected:'Disconnected',
     vstLive:'VST LIVE', vstOffline:'VST OFFLINE', noConnection:'No connection',
     duplicateName:'A project with that name already exists.',
@@ -1382,7 +1400,10 @@ const LANG = {
     clearProcess:'Limpiar Registros y Resetear', resetAll:'Resetear Todos los Proyectos',
     selectProject:'— Selecciona proyecto —', connection:'Conexión VST',
     signIn:'Iniciar Sesión', signUp:'Registrarse', continueGoogle:'Continuar con Google',
-    forgotPassword:'¿Olvidaste tu contraseña?', email:'Correo', password:'Contraseña',
+    forgotPassword:'¿Olvidaste tu contraseña?',
+    magicLink:'Enviar Magic Link',
+    magicLinkSent:'¡Link enviado! Revisa tu correo.',
+    orText:'o', email:'Correo', password:'Contraseña',
     vstConnected:'Conectado', vstDisconnected:'Desconectado',
     vstLive:'VST EN VIVO', vstOffline:'VST SIN CONEXIÓN', noConnection:'Sin conexión',
     duplicateName:'Ya existe un proyecto con ese nombre.',
@@ -3696,6 +3717,15 @@ connectWS();
     <div id="login-error" style="font-size:12px;min-height:16px;margin-bottom:10px;text-align:center;color:var(--danger)"></div>
 
     <button id="auth-submit" onclick="submitAuth()" class="btn-primary">Sign In</button>
+    <div style="display:flex;align-items:center;gap:8px;margin:12px 0">
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+      <span style="font-size:11px;color:var(--text3)" data-i18n="orText">or</span>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+    <button onclick="sendMagicLink()" class="btn-ghost" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px">
+      <span>&#9993;</span>
+      <span data-i18n="magicLink">Send Magic Link</span>
+    </button>
   </div>
 </div>
 
@@ -3750,6 +3780,12 @@ function confirmLogout(){
   document.body.appendChild(el);
   el.addEventListener('click',function(e){if(e.target===el)el.remove();});
 }
+function sendMagicLink(){
+  var email=document.getElementById('auth-email').value.trim();
+  if(!email){document.getElementById('login-error').style.color='var(--danger)';document.getElementById('login-error').textContent='Enter your email first';return;}
+  if(window._authMagicLink){window._authMagicLink(email);}
+}
+
 function forgotPassword(){
   var isES=currentLang==='es';
   var ex=document.getElementById('modal-forgot-info');if(ex)ex.remove();
