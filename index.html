@@ -979,7 +979,8 @@ select.form-input option:checked { background: var(--accent); color: #fff; }
     <div class="modal-title"><span data-i18n="stageQuestion">¿En qué etapa trabajas hoy?</span></div>
     <div class="stage-opt" onclick="selectStage('production')">
       <div class="stage-ico ico-prod">🎹</div>
-      <div class="stage-info"><h3 data-i18n="production">Production</h3><p data-i18n="prodDesc">Beat structure, arrangements, sound design</p></div>
+      <div class="stage-info"><h3 data-i18n="production">Production</h3><p data-i18n="prodDesc">Beat structure, arrangements, sound design</p>
+  <p style="font-size:11px;color:var(--text3);margin:4px 0 16px" data-i18n="optionalFields">All fields are optional except the project name.</p></div>
     </div>
     <div class="stage-opt" onclick="selectStage('mix')">
       <div class="stage-ico ico-mix">🎚</div>
@@ -3922,7 +3923,6 @@ function setMarqueeTitle(container, text) {
     <div class="modal-handle"></div>
     <div class="modal-title" data-i18n="editStages">Edit Stages</div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:16px" data-i18n="selectStages">Select the stages for this project.</p>
-  <p style="font-size:11px;color:var(--text3);margin:4px 0 16px" data-i18n="optionalFields">All fields are optional except the project name.</p>
     <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px">
       <label style="display:flex;align-items:center;gap:12px;font-size:15px;color:var(--text);cursor:pointer">
         <input type="checkbox" id="es-production" style="width:18px;height:18px;accent-color:var(--accent)">
